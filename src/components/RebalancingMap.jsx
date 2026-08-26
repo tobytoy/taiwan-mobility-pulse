@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Truck, Bike, AlertCircle, CheckCircle2, RotateCcw, Sliders, Zap } from 'lucide-react';
-
+import { esc } from '../utils/sanitize';
 export const REBALANCING_HUBS_CONFIG = {
   '陽光舊宗路口 (內科)': {
     name: '內湖科技園區 (陽光舊宗路口生活圈)',
@@ -127,6 +127,7 @@ export default function RebalancingMap({
     mapRef.current = map;
 
     return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -176,8 +177,7 @@ export default function RebalancingMap({
     `;
     L.marker(hubConfig.depot.coords, {
       icon: L.divIcon({ html: depotHtml, className: '', iconSize: [32, 32], iconAnchor: [16, 16] })
-    }).addTo(lg).bindPopup(`<b>${hubConfig.depot.name}</b><br/>調度車隊即時發車基準點`);
-
+    }).addTo(lg).bindPopup(`<b>${esc(hubConfig.depot.name)}</b><br/>調度車隊即時發車基準點`);
     // 3. Target Deficit Station (Pulsing Red)
     const target = hubConfig.targetStation;
     const targetDeficitActual = Math.round(target.deficit * (1 + demandSurge / 100));
@@ -203,7 +203,7 @@ export default function RebalancingMap({
       icon: L.divIcon({ html: targetHtml, className: '', iconSize: [38, 38], iconAnchor: [19, 19] })
     }).addTo(lg).bindPopup(`
       <div style="color: #0f172a; font-size: 12px;">
-        <strong style="color: #dc2626;">🚨 重點缺車站：${target.name}</strong><br/>
+        <strong style="color: #dc2626;">🚨 重點缺車站：${esc(target.name)}</strong><br/>
         當前在庫: ${target.currentBikes} / 柱數 ${target.capacity}<br/>
         尖峰預警缺口: <b style="color: #dc2626;">-${targetDeficitActual} 台</b><br/>
         <em>AI 優先指派調度車補車 25 台</em>
@@ -229,7 +229,7 @@ export default function RebalancingMap({
         icon: L.divIcon({ html: stHtml, className: '', iconSize: [28, 28], iconAnchor: [14, 14] })
       }).addTo(lg).bindPopup(`
         <div style="color: #0f172a; font-size: 12px;">
-          <strong>${st.name}</strong><br/>
+          <strong>${esc(st.name)}</strong><br/>
           狀態: ${isOver ? '🟡 溢車滿位 (可收車)' : (st.status === 'deficit' ? '🔴 缺車預警' : '🟢 正常')}<br/>
           現有車數: ${st.bikes} / 容量: ${st.cap}
         </div>
@@ -283,8 +283,12 @@ export default function RebalancingMap({
   const sla = Math.min(99, Math.max(40, Math.round((truckReplenish / (totalDeficitActual * 2)) * 100)));
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '420px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+    <div 
+      role="region"
+      aria-label="YouBike 潮汐再平衡 GIS 模擬地圖"
+      tabIndex={0}
+      style={{ position: 'relative', width: '100%', height: 'clamp(360px, 48vh, 560px)', minHeight: '360px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}
+    >
 
       {/* Top Left KPI HUD */}
       <div style={{

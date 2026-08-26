@@ -7,16 +7,16 @@ export default defineConfig({
   plugins: [react()],
   server: {
     port: 5173,
-    host: true
+    host: process.env.VITE_HOST || 'localhost'
   },
   build: {
-    chunkSizeWarningLimit: 800,
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       output: {
         manualChunks: {
-          vendor: ['react', 'react-dom'],
-          leaflet: ['leaflet'],
-          icons: ['lucide-react']
+          'vendor-react': ['react', 'react-dom'],
+          'vendor-leaflet': ['leaflet'],
+          'vendor-icons': ['lucide-react']
         }
       }
     }

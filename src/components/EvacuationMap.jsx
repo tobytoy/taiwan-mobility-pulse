@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { ShieldAlert, AlertOctagon, Bus, Users, Clock, Flame } from 'lucide-react';
+import { esc } from '../utils/sanitize';
 
 export const INCIDENT_SCENARIOS_CONFIG = {
   '台北車站 <-> 西門 (北捷核心走廊)': {
@@ -108,6 +109,7 @@ export default function EvacuationMap({
     mapRef.current = map;
 
     return () => {
+      if (animRef.current) cancelAnimationFrame(animRef.current);
       if (mapRef.current) {
         mapRef.current.remove();
         mapRef.current = null;
@@ -137,7 +139,7 @@ export default function EvacuationMap({
 
     closedLine.bindPopup(`
       <div style="color: #dc2626; font-size: 12px; font-weight: 800;">
-        ⛔ [中斷路段] ${scenario.name}<br/>
+        ⛔ [中斷路段] ${esc(scenario.name)}<br/>
         <span style="color: #475569; font-weight: normal;">預估搶修時長: <strong>${incidentDuration} 分鐘</strong></span>
       </div>
     `);
@@ -156,8 +158,7 @@ export default function EvacuationMap({
         fillColor: '#EF4444',
         fillOpacity: 0.22,
         dashArray: '4, 4'
-      }).addTo(lg).bindTooltip(`<b>${st.name}</b><br/>人潮滯留擴散警戒半徑: ${crowdRadius}m`);
-
+      }).addTo(lg).bindTooltip(`<b>${esc(st.name)}</b><br/>人潮滯留擴散警戒半徑: ${crowdRadius}m`);
       // Pulsing Incident Hazard Marker
       const hazardHtml = `
         <div style="position: relative; width: 36px; height: 36px;">
@@ -181,8 +182,8 @@ export default function EvacuationMap({
         icon: L.divIcon({ html: hazardHtml, className: '', iconSize: [36, 36], iconAnchor: [18, 18] })
       }).addTo(lg).bindPopup(`
         <div style="color: #0f172a; font-size: 12px;">
-          <strong style="color: #dc2626; font-size: 13px;">🚨 事故站點：${st.name}</strong><br/>
-          常態流量: ${st.normalFlow}<br/>
+          <strong style="color: #dc2626; font-size: 13px;">🚨 事故站點：${esc(st.name)}</strong><br/>
+          常態流量: ${esc(st.normalFlow)}<br/>
           預估滯留: <b style="color: #dc2626;">${Math.round(strandedPax / 2).toLocaleString()} 人次</b><br/>
           <em>AI 啟動緊急疏運專線中</em>
         </div>
@@ -224,7 +225,7 @@ export default function EvacuationMap({
       }).addTo(lg).bindPopup(`
         <div style="color: #0f172a; font-size: 12px;">
           <strong style="color: #059669;">✓ 推薦安全分流轉乘節點</strong><br/>
-          ${hub.name}
+          ${esc(hub.name)}
         </div>
       `);
     });
@@ -277,8 +278,12 @@ export default function EvacuationMap({
   const clearTimeMins = Math.round(incidentDuration * 1.25);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '420px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+    <div 
+      role="region"
+      aria-label="軌道突發中斷事件動態應變與替代接駁 GIS 地圖"
+      tabIndex={0}
+      style={{ position: 'relative', width: '100%', height: 'clamp(360px, 48vh, 560px)', minHeight: '360px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}
+    >
 
       {/* Top Left HUD */}
       <div style={{

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import FlowMap from './components/FlowMap';
-import ComparisonDashboard from './components/ComparisonDashboard';
-import TPASSDashboard from './components/TPASSDashboard';
-import ODStationView from './components/ODStationView';
-import RDSimulationLab from './components/RDSimulationLab';
-import PipelineMonitor from './components/PipelineMonitor';
 import ErrorBoundary from './components/ErrorBoundary';
+
+const ComparisonDashboard = lazy(() => import('./components/ComparisonDashboard'));
+const TPASSDashboard = lazy(() => import('./components/TPASSDashboard'));
+const ODStationView = lazy(() => import('./components/ODStationView'));
+const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
+const PipelineMonitor = lazy(() => import('./components/PipelineMonitor'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
@@ -38,8 +39,8 @@ const PAX_OPTIONS = [
 export default function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState('map'); // 'map', 'comparison', 'od', 'rd_labs', 'pipeline'
-
+  const [fetchError, setFetchError] = useState(null);
+  const [activeTab, setActiveTab] = useState('map'); // 'map', 'comparison', 'tpass', 'od', 'rd_labs', 'pipeline'
   // Map Controls State
   const [currentHour, setCurrentHour] = useState(8);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -65,15 +66,19 @@ export default function App() {
         setLoading(false);
       })
       .catch(err => {
-        console.warn('Primary study data fetch failed, falling back to mobility_data.json:', err);
+        console.warn('Primary study data fetch failed, trying fallback:', err);
         fetch(`${cleanBase}mobility_data.json`)
-          .then(res => res.json())
+          .then(res => {
+            if (!res.ok) throw new Error(`Fallback HTTP ${res.status}: ${res.statusText}`);
+            return res.json();
+          })
           .then(jsonData => {
             setData(jsonData);
             setLoading(false);
           })
           .catch(e => {
-            console.error('All data sources failed:', e);
+            console.error('All data fetches failed:', e);
+            setFetchError('資料載入失敗，請確認網路連線或重新整理頁面。');
             setLoading(false);
           });
       });
@@ -111,9 +116,51 @@ export default function App() {
           animation: 'spin 1s linear infinite',
           marginBottom: '16px'
         }} />
-        <p style={{ fontFamily: 'monospace', letterSpacing: '2px', fontSize: '15px' }}>載入台灣多模態大數據平台中...</p>
-        <span style={{ fontSize: '12px', color: '#64748b', marginTop: '6px' }}>Loading 448M+ Records National Mesh & Analytics</span>
-        <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }`}</style>
+        <div style={{ fontSize: '18px', fontWeight: '600', letterSpacing: '0.5px' }}>
+          正在載入全台多模態動態人流資料庫...
+        </div>
+        <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
+          TICP 4.48 億筆票證分析與 111 條動態人流走廊
+        </div>
+      </div>
+    );
+  }
+
+  if (fetchError && !data) {
+    return (
+      <div style={{
+        width: '100vw',
+        height: '100vh',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#07090E',
+        color: '#EF4444',
+        fontFamily: 'Outfit, sans-serif',
+        padding: '24px',
+        textAlign: 'center'
+      }}>
+        <div style={{ fontSize: '48px', marginBottom: '16px' }}>⚠️</div>
+        <div style={{ fontSize: '20px', fontWeight: '700', marginBottom: '8px' }}>
+          {fetchError}
+        </div>
+        <button
+          onClick={() => window.location.reload()}
+          style={{
+            marginTop: '16px',
+            padding: '10px 24px',
+            borderRadius: '8px',
+            background: '#38BDF8',
+            color: '#0F172A',
+            border: 'none',
+            fontSize: '14px',
+            fontWeight: '700',
+            cursor: 'pointer'
+          }}
+        >
+          重新載入
+        </button>
       </div>
     );
   }
@@ -613,51 +660,57 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 2: Comparison Dashboard */}
-        {activeTab === 'comparison' && (
-          <div style={{ height: '100%', overflowY: 'auto' }}>
-            <ErrorBoundary>
-              <ComparisonDashboard studyData={studyData} modesMeta={modesMeta} />
-            </ErrorBoundary>
+        {/* Suspense Wrapper for Lazy Loaded Views */}
+        <Suspense fallback={
+          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+            ⚡ 模組載入中...
           </div>
-        )}
+        }>
+          {/* VIEW 2: Comparison Dashboard */}
+          {activeTab === 'comparison' && (
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              <ErrorBoundary>
+                <ComparisonDashboard studyData={studyData} modesMeta={modesMeta} />
+              </ErrorBoundary>
+            </div>
+          )}
 
-        {/* VIEW 3: TPASS Policy Analytics Dashboard */}
-        {activeTab === 'tpass' && (
-          <div style={{ height: '100%', overflowY: 'auto' }}>
-            <ErrorBoundary>
-              <TPASSDashboard />
-            </ErrorBoundary>
-          </div>
-        )}
+          {/* VIEW 3: TPASS Policy Analytics Dashboard */}
+          {activeTab === 'tpass' && (
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              <ErrorBoundary>
+                <TPASSDashboard />
+              </ErrorBoundary>
+            </div>
+          )}
 
-        {/* VIEW 4: OD & Station Diagnosis */}
-        {activeTab === 'od' && (
-          <div style={{ height: '100%', overflowY: 'auto' }}>
-            <ErrorBoundary>
-              <ODStationView studyData={studyData} modesMeta={modesMeta} />
-            </ErrorBoundary>
-          </div>
-        )}
+          {/* VIEW 4: OD & Station Diagnosis */}
+          {activeTab === 'od' && (
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              <ErrorBoundary>
+                <ODStationView studyData={studyData} modesMeta={modesMeta} />
+              </ErrorBoundary>
+            </div>
+          )}
 
-        {/* VIEW 4: 5 R&D Simulation Labs */}
-        {activeTab === 'rd_labs' && (
-          <div style={{ height: '100%', overflowY: 'auto' }}>
-            <ErrorBoundary>
-              <RDSimulationLab rdProposals={rdProposals} />
-            </ErrorBoundary>
-          </div>
-        )}
+          {/* VIEW 5: 5 R&D Simulation Labs */}
+          {activeTab === 'rd_labs' && (
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              <ErrorBoundary>
+                <RDSimulationLab rdProposals={rdProposals} />
+              </ErrorBoundary>
+            </div>
+          )}
 
-        {/* VIEW 5: Pipeline & Resource Monitor */}
-        {activeTab === 'pipeline' && (
-          <div style={{ height: '100%', overflowY: 'auto' }}>
-            <ErrorBoundary>
-              <PipelineMonitor progressData={progressData} />
-            </ErrorBoundary>
-          </div>
-        )}
-
+          {/* VIEW 6: Pipeline & Resource Monitor */}
+          {activeTab === 'pipeline' && (
+            <div style={{ height: '100%', overflowY: 'auto' }}>
+              <ErrorBoundary>
+                <PipelineMonitor progressData={progressData} />
+              </ErrorBoundary>
+            </div>
+          )}
+        </Suspense>
       </main>
     </div>
   );

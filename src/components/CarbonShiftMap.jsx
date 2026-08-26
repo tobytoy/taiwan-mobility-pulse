@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Leaf, DollarSign, TrendingUp, Trees, Zap, Globe } from 'lucide-react';
-
+import { esc } from '../utils/sanitize';
 export const TPASS_ZONES_CONFIG = {
   'mega_taipei': {
     name: '基北北桃都會生活圈 (TPASS 1200)',
@@ -117,7 +117,7 @@ export default function CarbonShiftMap({
 
       poly.bindPopup(`
         <div style="color: #0f172a; font-size: 12px;">
-          <strong>🚗 私有運具減量廊帶：${hc.name}</strong><br/>
+          <strong>🚗 私有運具減量廊帶：${esc(hc.name)}</strong><br/>
           預估尖峰車流減少: <span style="color: #059669; font-weight: 700;">-${(modeShiftRate * 0.85).toFixed(1)}%</span><br/>
           每日減少約 ${Math.round(modeShiftRate * 420)} 輛汽車行駛
         </div>
@@ -137,13 +137,13 @@ export default function CarbonShiftMap({
       const addedTrips = Math.round(tc.baseVol * (modeShiftRate / 100));
       const savedCO2 = Math.round((addedTrips * 12.5 * (0.170 - 0.045)) / 1000 * 300);
 
-      poly.bindPopup(`
-        <div style="color: #0f172a; font-size: 12px; min-width: 180px;">
-          <strong style="color: #059669; font-size: 13px;">🌿 綠色轉移廊帶：${tc.name}</strong><br/>
-          TPASS 帶動日均增量: <span style="color: #059669; font-weight: 700;">+${addedTrips.toLocaleString()} 旅次</span><br/>
-          年化減碳貢獻: <span style="color: #0284c7; font-weight: 800;">${savedCO2.toLocaleString()} 噸 CO₂e</span>
-        </div>
-      `);
+        poly.bindPopup(`
+          <div style="color: #0f172a; font-size: 12px; min-width: 180px;">
+            <strong style="color: #059669; font-size: 13px;">🌿 綠色轉移廊帶：${esc(tc.name)}</strong><br/>
+            TPASS 帶動日均增量: <span style="color: #059669; font-weight: 700;">+${addedTrips.toLocaleString()} 旅次</span><br/>
+            年化減碳貢獻: <span style="color: #0284c7; font-weight: 800;">${savedCO2.toLocaleString()} 噸 CO₂e</span>
+          </div>
+        `);
     });
 
     // 3. Eco Nodes (Tree and Forest Carbon Sinks)
@@ -162,8 +162,8 @@ export default function CarbonShiftMap({
         icon: L.divIcon({ html: ecoHtml, className: '', iconSize: [32, 32], iconAnchor: [16, 16] })
       }).addTo(lg).bindPopup(`
         <div style="color: #0f172a; font-size: 12px;">
-          <strong>🌲 都市生態碳匯節點：${en.name}</strong><br/>
-          自然碳匯能力: ${en.capacity}<br/>
+          <strong>🌲 都市生態碳匯節點：${esc(en.name)}</strong><br/>
+          自然碳匯能力: ${esc(en.capacity)}<br/>
           <em>與 TPASS 減碳效益相輔相成</em>
         </div>
       `);
@@ -177,8 +177,12 @@ export default function CarbonShiftMap({
   const netCO2SavedTons = Math.round((annualShiftedTrips * 12.5 * (0.170 - 0.045)) / 1000);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '420px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
+    <div 
+      role="region"
+      aria-label="TPASS 政策成效模擬與 ESG 減碳量化歸因地圖"
+      tabIndex={0}
+      style={{ position: 'relative', width: '100%', height: 'clamp(360px, 48vh, 560px)', minHeight: '360px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}
+    >
 
       {/* Top Left HUD */}
       <div style={{

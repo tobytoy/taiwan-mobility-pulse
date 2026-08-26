@@ -4,6 +4,7 @@ import {
   MapPin, AlertTriangle, ShieldCheck, Layers, 
   Sparkles, Navigation, Globe, Moon, Eye, Bus, Bike
 } from 'lucide-react';
+import { esc } from '../utils/sanitize';
 
 // Comprehensive GIS Area Database with Real WGS84 Station & Gap Coordinates
 export const GAP_AREAS_CONFIG = {
@@ -344,7 +345,7 @@ export default function TransitGapMap({
           dashArray: '4, 4'
         }).addTo(lg);
 
-        circle.bindTooltip(`<b>${st.name}</b><br/>接駁半徑: ${bufferRadius}m 涵蓋範圍`, {
+        circle.bindTooltip(`<b>${esc(st.name)}</b><br/>接駁半徑: ${bufferRadius}m 涵蓋範圍`, {
           className: 'custom-leaflet-tooltip'
         });
 
@@ -366,10 +367,10 @@ export default function TransitGapMap({
 
         marker.bindPopup(`
           <div style="color: #0f172a; font-family: sans-serif; font-size: 12px; min-width: 180px;">
-            <div style="font-weight: 800; font-size: 14px; color: #0f172a; margin-bottom: 4px;">${st.name}</div>
-            <div style="color: #64748b; margin-bottom: 4px;">類型: ${st.type.toUpperCase()} 運輸核心站</div>
+            <div style="font-weight: 800; font-size: 14px; color: #0f172a; margin-bottom: 4px;">${esc(st.name)}</div>
+            <div style="color: #64748b; margin-bottom: 4px;">類型: ${esc(st.type.toUpperCase())} 運輸核心站</div>
             <div style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-weight: 700; color: #0369a1;">
-              ${st.volume}
+              ${esc(st.volume)}
             </div>
             <div style="margin-top: 6px; font-size: 11px; color: #059669;">
               ✓ 當前半徑 ${bufferRadius}m 服務圈正常
@@ -414,15 +415,15 @@ export default function TransitGapMap({
         marker.bindPopup(`
           <div style="color: #0f172a; font-family: sans-serif; font-size: 12px; min-width: 220px;">
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
-              <span style="font-weight: 800; font-size: 13px; color: #dc2626;">🚨 [冷區斷點] ${cs.id}</span>
-              <span style="background: #fee2e2; color: #dc2626; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;">嚴重度: ${cs.severity.toUpperCase()}</span>
+              <span style="font-weight: 800; font-size: 13px; color: #dc2626;">🚨 [冷區斷點] ${esc(cs.id)}</span>
+              <span style="background: #fee2e2; color: #dc2626; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 700;">嚴重度: ${esc(cs.severity.toUpperCase())}</span>
             </div>
-            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">${cs.name}</div>
-            <div style="color: #64748b; margin-bottom: 4px;">📍 距最近站: ${cs.nearestStation}</div>
+            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">${esc(cs.name)}</div>
+            <div style="color: #64748b; margin-bottom: 4px;">📍 距最近站: ${esc(cs.nearestStation)}</div>
             <div style="background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; padding: 6px; border-radius: 6px; font-size: 11px; margin-bottom: 6px;">
-              📉 <strong>${cs.deficitTrips}</strong>
+              📉 <strong>${esc(cs.deficitTrips)}</strong>
             </div>
-            <p style="font-size: 11px; color: #475569; margin: 0; line-height: 1.4;">${cs.reason}</p>
+            <p style="font-size: 11px; color: #475569; margin: 0; line-height: 1.4;">${esc(cs.reason)}</p>
           </div>
         `);
       });
@@ -442,10 +443,10 @@ export default function TransitGapMap({
 
         poly.bindPopup(`
           <div style="color: #0f172a; font-family: sans-serif; font-size: 12px; min-width: 200px;">
-            <div style="font-weight: 800; font-size: 13px; color: ${fr.color}; margin-bottom: 4px;">✨ ${fr.name}</div>
-            <div style="color: #475569; margin-bottom: 4px;">🚌 規劃班距: <strong>${fr.headway}</strong></div>
+            <div style="font-weight: 800; font-size: 13px; color: ${fr.color}; margin-bottom: 4px;">✨ ${esc(fr.name)}</div>
+            <div style="color: #475569; margin-bottom: 4px;">🚌 規劃班距: <strong>${esc(fr.headway)}</strong></div>
             <div style="background: #f0fdf4; border: 1px solid #bbf7d0; color: #166534; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: 700;">
-              📈 預期效益: ${fr.benefit}
+              📈 預期效益: ${esc(fr.benefit)}
             </div>
           </div>
         `);
@@ -471,8 +472,8 @@ export default function TransitGapMap({
         marker.bindPopup(`
           <div style="color: #0f172a; font-family: sans-serif; font-size: 12px; min-width: 180px;">
             <div style="font-weight: 800; font-size: 13px; color: #d97706; margin-bottom: 4px;">🌟 AI 建議增設站點</div>
-            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">${ns.name}</div>
-            <div style="color: #059669; font-size: 11px; font-weight: 600;">✓ ${ns.impact}</div>
+            <div style="font-weight: 700; color: #1e293b; margin-bottom: 4px;">${esc(ns.name)}</div>
+            <div style="color: #059669; font-size: 11px; font-weight: 600;">✓ ${esc(ns.impact)}</div>
           </div>
         `);
       });
@@ -488,8 +489,12 @@ export default function TransitGapMap({
   const activeGaps = Math.max(1, totalSpots - resolvedCount);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '460px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-      
+    <div 
+      role="region"
+      aria-label="路網斷點與接駁缺口診斷地圖"
+      tabIndex={0}
+      style={{ position: 'relative', width: '100%', height: 'clamp(360px, 50vh, 600px)', minHeight: '360px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}
+    >
       {/* Real-time Map Container */}
       <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
 

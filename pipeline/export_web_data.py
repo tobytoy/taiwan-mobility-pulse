@@ -441,6 +441,30 @@ def main():
 
     print(f"📊 總計生成 {len(corridors)} 條全台雙向多模態動態人流走廊！")
 
+    def sanitize_progress(data: dict) -> dict:
+        if not isinstance(data, dict):
+            return {}
+        clean = {
+            "start_time": data.get("start_time"),
+            "updated_at": data.get("updated_at"),
+            "overall_status": data.get("overall_status"),
+            "total_datasets": data.get("total_datasets"),
+            "completed_datasets": data.get("completed_datasets"),
+            "datasets": {}
+        }
+        for k, v in data.get("datasets", {}).items():
+            if isinstance(v, dict):
+                clean["datasets"][k] = {
+                    "status": v.get("status"),
+                    "zip_size_mb": v.get("zip_size_mb"),
+                    "parquet_size_mb": v.get("parquet_size_mb"),
+                    "total_rows": v.get("total_rows"),
+                    "convert_time_s": v.get("convert_time_s"),
+                    "analysis_time_s": v.get("analysis_time_s"),
+                    "metrics": v.get("metrics")
+                }
+        return clean
+
     # Compile Full Output
     web_payload = {
         "metadata": {
@@ -454,7 +478,7 @@ def main():
         },
         "modes_meta": modes_meta,
         "study_data": study_data,
-        "progress_data": progress_data,
+        "progress_data": sanitize_progress(progress_data),
         "map_corridors": corridors,
         "stations_geo": STATIONS_GEO,
         "rd_proposals": [

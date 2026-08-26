@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
-
+import { esc } from '../utils/sanitize';
 const BASEMAP_TILES = {
   dark: {
     name: '賽博深色',
@@ -175,7 +175,7 @@ export default function FlowMap({
 
       marker.bindTooltip(`
         <div style="font-family: Outfit, sans-serif; font-size: 12px; font-weight: 600; padding: 2px 4px;">
-          <span style="color: #38BDF8;">●</span> ${name}
+          <span style="color: #38BDF8;">●</span> ${esc(name)}
         </div>
       `, { className: 'custom-leaflet-tooltip', direction: 'top', offset: [0, -6] });
 
@@ -321,8 +321,14 @@ export default function FlowMap({
   }, [corridors, selectedMode, selectedRegion, selectedPaxType, selectedDayType, currentHour, selectedCorridor]);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', overflow: 'hidden' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', background: '#07090E' }} />
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '380px', overflow: 'hidden' }}>
+      <div 
+        ref={mapContainerRef} 
+        role="region"
+        aria-label="全台多模態動態人流走廊地圖"
+        tabIndex={0}
+        style={{ width: '100%', height: '100%', minHeight: '380px', background: '#07090E' }} 
+      />
     </div>
   );
 }

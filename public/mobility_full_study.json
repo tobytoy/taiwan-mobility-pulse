@@ -3744,19 +3744,13 @@
     "overall_status": "completed",
     "total_datasets": 10,
     "completed_datasets": 0,
-    "system_resource": {
-      "cpu_count": 12,
-      "total_memory_gb": 23.47
-    },
     "datasets": {
       "thsr_od": {
-        "zip_size_mb": 1.47,
         "status": "success",
-        "start_time": "2026-08-25T14:38:48.326509",
+        "zip_size_mb": 1.47,
         "parquet_size_mb": 0.87,
         "total_rows": 293896,
         "convert_time_s": 0.28,
-        "peak_mem_mb": 190.5,
         "analysis_time_s": 0.16,
         "metrics": {
           "total_volume": 1158103.0,
@@ -4085,17 +4079,14 @@
               "commuter_ratio": 0.565818005760608
             }
           ]
-        },
-        "analyze_time_s": 0.17
+        }
       },
       "tra_od": {
-        "zip_size_mb": 196.52,
         "status": "success",
-        "start_time": "2026-08-25T14:38:48.945496",
+        "zip_size_mb": 196.52,
         "parquet_size_mb": 127.26,
         "total_rows": 24446078,
         "convert_time_s": 23.98,
-        "peak_mem_mb": 619.1,
         "analysis_time_s": 2.96,
         "metrics": {
           "total_volume": 118283915.0,
@@ -4438,15 +4429,15 @@
               "commuter_ratio": 0.4672379176369386
             }
           ]
-        },
-        "analyze_time_s": 4.04
+        }
       },
       "ntmc_od": {
+        "status": "success",
         "zip_size_mb": 34.34,
         "parquet_size_mb": 20.99,
-        "status": "success",
+        "total_rows": 4814433,
+        "convert_time_s": 5.1,
         "analysis_time_s": 0.6,
-        "peak_mem_mb": 483.3,
         "metrics": {
           "total_volume": 16413171.0,
           "unique_dates": 181,
@@ -4788,19 +4779,14 @@
               "commuter_ratio": 0.8952213636212316
             }
           ]
-        },
-        "total_rows": 4814433,
-        "convert_time_s": 5.1,
-        "analyze_time_s": 0.87
+        }
       },
       "krtc_od": {
-        "zip_size_mb": 81.26,
         "status": "success",
-        "start_time": "2026-08-25T14:39:28.541739",
+        "zip_size_mb": 81.26,
         "parquet_size_mb": 53.66,
         "total_rows": 11941640,
         "convert_time_s": 12.62,
-        "peak_mem_mb": 522.4,
         "analysis_time_s": 1.53,
         "metrics": {
           "total_volume": 36343428.0,
@@ -5143,17 +5129,14 @@
               "commuter_ratio": 0.7437537474476174
             }
           ]
-        },
-        "analyze_time_s": 2.33
+        }
       },
       "trtc_od": {
-        "zip_size_mb": 647.23,
         "status": "success",
-        "start_time": "2026-08-25T14:39:48.366768",
+        "zip_size_mb": 647.23,
         "parquet_size_mb": 420.12,
         "total_rows": 81873999,
         "convert_time_s": 88.64,
-        "peak_mem_mb": 483.6,
         "analysis_time_s": 12.5,
         "metrics": {
           "total_volume": 380960398.0,
@@ -5494,15 +5477,15 @@
               "commuter_ratio": 1.0572592645363235
             }
           ]
-        },
-        "analyze_time_s": 17.79
+        }
       },
       "taoyuan_bike": {
+        "status": "success",
         "zip_size_mb": 474.99,
         "parquet_size_mb": 286.19,
-        "status": "success",
+        "total_rows": 7946008,
+        "convert_time_s": 40.5,
         "analysis_time_s": 1.51,
-        "peak_mem_mb": 438.3,
         "metrics": {
           "total_trips": 7946008,
           "unique_dates": 181,
@@ -5844,17 +5827,15 @@
               "commuter_ratio": 0.3638173440638522
             }
           ]
-        },
-        "total_rows": 7946008,
-        "convert_time_s": 40.5,
-        "analyze_time_s": 1.92
+        }
       },
       "thb_bus": {
+        "status": "success",
         "zip_size_mb": 1955.63,
         "parquet_size_mb": 1348.39,
-        "status": "success",
+        "total_rows": 26618799,
+        "convert_time_s": 188.7,
         "analysis_time_s": 4.6,
-        "peak_mem_mb": 388.1,
         "metrics": {
           "total_trips": 26618799,
           "unique_dates": 181,
@@ -6268,19 +6249,14 @@
               "commuter_ratio": 1.2224090006522121
             }
           ]
-        },
-        "total_rows": 26618799,
-        "convert_time_s": 188.7,
-        "analyze_time_s": 6.09
+        }
       },
       "taipei_bike": {
-        "zip_size_mb": 2576.99,
         "status": "success",
-        "start_time": "2026-08-25T14:42:12.594309",
+        "zip_size_mb": 2576.99,
         "parquet_size_mb": 1525.86,
         "total_rows": 40470797,
         "convert_time_s": 178.51,
-        "peak_mem_mb": 828.5,
         "analysis_time_s": 9.49,
         "metrics": {
           "total_trips": 40470797,
@@ -6623,14 +6599,15 @@
               "commuter_ratio": 0.46686870445879525
             }
           ]
-        },
-        "analyze_time_s": 11.61
+        }
       },
       "nwt_bus": {
+        "status": "success",
         "zip_size_mb": 7370.6,
         "parquet_size_mb": 4740.68,
         "total_rows": 91993562,
-        "status": "success",
+        "convert_time_s": null,
+        "analysis_time_s": 17.98,
         "metrics": {
           "total_trips": 91993562,
           "unique_dates": 176,
@@ -7042,16 +7019,15 @@
               "commuter_ratio": 1.295389138514729
             }
           ]
-        },
-        "analysis_time_s": 17.98,
-        "peak_mem_mb": 324.8,
-        "analyze_time_s": 23.1
+        }
       },
       "tpe_bus": {
+        "status": "success",
         "zip_size_mb": 12634.87,
         "parquet_size_mb": 7904.89,
         "total_rows": 158289493,
-        "status": "success",
+        "convert_time_s": null,
+        "analysis_time_s": 32.71,
         "metrics": {
           "total_trips": 158289493,
           "unique_dates": 181,
@@ -7463,10 +7439,7 @@
               "commuter_ratio": 1.3296906134277275
             }
           ]
-        },
-        "analysis_time_s": 32.71,
-        "peak_mem_mb": 233.9,
-        "analyze_time_s": 42.42
+        }
       }
     }
   },

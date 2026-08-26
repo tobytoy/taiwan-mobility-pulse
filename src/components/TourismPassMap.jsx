@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Sparkles, Compass, MapPin, Tag, TrendingUp, Sun, Ticket } from 'lucide-react';
-
+import { esc } from '../utils/sanitize';
 export const TOURISM_CORRIDORS_CONFIG = {
   '市府轉運站 <-> 宜蘭/羅東 (國道客運)': {
     name: '蘭陽經典遊：市府轉運站 ⟷ 宜蘭 / 羅東 (綠活暢遊套票)',
@@ -122,8 +122,8 @@ export default function TourismPassMap({
 
       poly.bindPopup(`
         <div style="color: #0f172a; font-size: 12px; min-width: 180px;">
-          <strong style="color: ${leg.color}; font-size: 13px;">✨ 觀光綠動脈：${leg.name}</strong><br/>
-          運具類型: <strong>${leg.mode}</strong><br/>
+          <strong style="color: ${leg.color}; font-size: 13px;">✨ 觀光綠動脈：${esc(leg.name)}</strong><br/>
+          運具類型: <strong>${esc(leg.mode)}</strong><br/>
           <em>套票享有 ${bundleDiscount}% 彈性聯運折扣</em>
         </div>
       `);
@@ -154,10 +154,10 @@ export default function TourismPassMap({
         icon: L.divIcon({ html: poiHtml, className: '', iconSize: [34, 34], iconAnchor: [17, 17] })
       }).addTo(lg).bindPopup(`
         <div style="color: #0f172a; font-size: 12px; min-width: 200px;">
-          <div style="font-weight: 800; font-size: 14px; color: #b45309; margin-bottom: 4px;">${att.name}</div>
-          <p style="color: #475569; margin: 0 0 6px 0; font-size: 11px; line-height: 1.4;">${att.desc}</p>
+          <div style="font-weight: 800; font-size: 14px; color: #b45309; margin-bottom: 4px;">${esc(att.name)}</div>
+          <p style="color: #475569; margin: 0 0 6px 0; font-size: 11px; line-height: 1.4;">${esc(att.desc)}</p>
           <div style="background: #fffbeb; border: 1px solid #fde68a; color: #92400e; padding: 4px 8px; border-radius: 4px; font-size: 10px; font-weight: 700;">
-            ✓ 包含於「${corridor.passProduct.name}」專屬優惠圈
+            ✓ 包含於「${esc(corridor.passProduct.name)}」專屬優惠圈
           </div>
         </div>
       `);
@@ -170,9 +170,12 @@ export default function TourismPassMap({
   const monthlyRevenue = Math.round(bundleDiscount * 125);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '420px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}>
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%' }} />
-
+    <div 
+      role="region"
+      aria-label="觀光動態走廊與景點聯票 GIS 地圖"
+      tabIndex={0}
+      style={{ position: 'relative', width: '100%', height: 'clamp(360px, 48vh, 560px)', minHeight: '360px', borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(255,255,255,0.1)' }}
+    >
       {/* Top Left HUD */}
       <div style={{
         position: 'absolute', top: '12px', left: '12px', zIndex: 500,
