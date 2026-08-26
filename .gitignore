@@ -1,3 +1,18 @@
+# Node & Vite Dependencies & Builds
+node_modules/
+dist/
+dist-ssr/
+*.local
+.DS_Store
+
+# Raw Big Data (Multi-Gigabyte datasets)
+raw_datas/
+history-datas/
+processed_parquets/
+*.parquet
+*.zip
+*.csv
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
