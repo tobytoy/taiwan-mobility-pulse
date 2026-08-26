@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import FlowMap from './components/FlowMap';
 import ComparisonDashboard from './components/ComparisonDashboard';
+import TPASSDashboard from './components/TPASSDashboard';
 import ODStationView from './components/ODStationView';
 import RDSimulationLab from './components/RDSimulationLab';
 import PipelineMonitor from './components/PipelineMonitor';
@@ -9,7 +10,7 @@ import {
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
-  BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation,
+  BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
   Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar
 } from 'lucide-react';
 
@@ -180,6 +181,7 @@ export default function App() {
           {[
             { id: 'map', label: '全台流向地圖', icon: Navigation },
             { id: 'comparison', label: '10大運具綜合對比', icon: BarChart3 },
+            { id: 'tpass', label: 'TPASS 政策效益分析', icon: CreditCard },
             { id: 'od', label: 'OD 走廊與站點診斷', icon: Compass },
             { id: 'rd_labs', label: '五大 AI 研發實驗室', icon: FlaskConical },
             { id: 'pipeline', label: '管線效能與監控', icon: Zap }
@@ -620,7 +622,16 @@ export default function App() {
           </div>
         )}
 
-        {/* VIEW 3: OD & Station Diagnosis */}
+        {/* VIEW 3: TPASS Policy Analytics Dashboard */}
+        {activeTab === 'tpass' && (
+          <div style={{ height: '100%', overflowY: 'auto' }}>
+            <ErrorBoundary>
+              <TPASSDashboard />
+            </ErrorBoundary>
+          </div>
+        )}
+
+        {/* VIEW 4: OD & Station Diagnosis */}
         {activeTab === 'od' && (
           <div style={{ height: '100%', overflowY: 'auto' }}>
             <ErrorBoundary>
