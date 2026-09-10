@@ -5,6 +5,7 @@ import {
   Sparkles, Navigation, Globe, Moon, Eye, Bus, Bike
 } from 'lucide-react';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 
 // Comprehensive GIS Area Database with Real WGS84 Station & Gap Coordinates
 export const GAP_AREAS_CONFIG = {
@@ -300,9 +301,10 @@ export default function TransitGapMap({
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
     // Dark Matter tile layer
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer(CARTO_TILES.dark, {
       maxZoom: 19,
-      subdomains: 'abcd'
+      subdomains: 'abcd',
+      attribution: CARTO_ATTRIBUTION
     }).addTo(map);
 
     layerGroupRef.current = L.layerGroup().addTo(map);

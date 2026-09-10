@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Leaf, DollarSign, TrendingUp, Trees, Zap, Globe } from 'lucide-react';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 export const TPASS_ZONES_CONFIG = {
   'mega_taipei': {
     name: '基北北桃都會生活圈 (TPASS 1200)',
@@ -78,9 +79,10 @@ export default function CarbonShiftMap({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer(CARTO_TILES.dark, {
       maxZoom: 19,
-      subdomains: 'abcd'
+      subdomains: 'abcd',
+      attribution: CARTO_ATTRIBUTION
     }).addTo(map);
 
     layerGroupRef.current = L.layerGroup().addTo(map);

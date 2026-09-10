@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Truck, Bike, AlertCircle, CheckCircle2, RotateCcw, Sliders, Zap } from 'lucide-react';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 export const REBALANCING_HUBS_CONFIG = {
   '陽光舊宗路口 (內科)': {
     name: '內湖科技園區 (陽光舊宗路口生活圈)',
@@ -118,9 +119,10 @@ export default function RebalancingMap({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer(CARTO_TILES.dark, {
       maxZoom: 19,
-      subdomains: 'abcd'
+      subdomains: 'abcd',
+      attribution: CARTO_ATTRIBUTION
     }).addTo(map);
 
     layerGroupRef.current = L.layerGroup().addTo(map);

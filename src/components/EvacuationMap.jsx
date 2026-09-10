@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { ShieldAlert, AlertOctagon, Bus, Users, Clock, Flame } from 'lucide-react';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 
 export const INCIDENT_SCENARIOS_CONFIG = {
   '台北車站 <-> 西門 (北捷核心走廊)': {
@@ -100,9 +101,10 @@ export default function EvacuationMap({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer(CARTO_TILES.dark, {
       maxZoom: 19,
-      subdomains: 'abcd'
+      subdomains: 'abcd',
+      attribution: CARTO_ATTRIBUTION
     }).addTo(map);
 
     layerGroupRef.current = L.layerGroup().addTo(map);

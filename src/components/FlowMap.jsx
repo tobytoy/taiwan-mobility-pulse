@@ -1,12 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 const BASEMAP_TILES = {
   dark: {
     name: '賽博深色',
     desc: 'Dark Matter',
-    url: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; CartoDB &copy; OpenStreetMap',
+    url: CARTO_TILES.dark,
+    attribution: CARTO_ATTRIBUTION,
     subdomains: 'abcd',
     maxZoom: 19
   },
@@ -27,8 +28,8 @@ const BASEMAP_TILES = {
   light: {
     name: '極簡淺色',
     desc: 'Positron',
-    url: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
-    attribution: '&copy; CartoDB',
+    url: CARTO_TILES.light,
+    attribution: CARTO_ATTRIBUTION,
     subdomains: 'abcd',
     maxZoom: 19
   }

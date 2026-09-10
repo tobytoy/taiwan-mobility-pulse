@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import L from 'leaflet';
 import { Sparkles, Compass, MapPin, Tag, TrendingUp, Sun, Ticket } from 'lucide-react';
 import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 export const TOURISM_CORRIDORS_CONFIG = {
   '市府轉運站 <-> 宜蘭/羅東 (國道客運)': {
     name: '蘭陽經典遊：市府轉運站 ⟷ 宜蘭 / 羅東 (綠活暢遊套票)',
@@ -83,9 +84,10 @@ export default function TourismPassMap({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    L.tileLayer(CARTO_TILES.dark, {
       maxZoom: 19,
-      subdomains: 'abcd'
+      subdomains: 'abcd',
+      attribution: CARTO_ATTRIBUTION
     }).addTo(map);
 
     layerGroupRef.current = L.layerGroup().addTo(map);
