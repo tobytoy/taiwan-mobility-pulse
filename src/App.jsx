@@ -3,6 +3,7 @@ import FlowMap from './components/FlowMap';
 import ErrorBoundary from './components/ErrorBoundary';
 
 const ComparisonDashboard = lazy(() => import('./components/ComparisonDashboard'));
+const HeatmapView = lazy(() => import('./components/HeatmapView'));
 const TPASSDashboard = lazy(() => import('./components/TPASSDashboard'));
 const ODStationView = lazy(() => import('./components/ODStationView'));
 const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
@@ -12,7 +13,7 @@ import {
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame
 } from 'lucide-react';
 
 const BASEMAP_OPTIONS = [
@@ -227,6 +228,7 @@ export default function App() {
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'map', label: '全台流向地圖', icon: Navigation },
+            { id: 'heatmap', label: '🔥 時空熱點圖 (通勤 vs 旅客)', icon: Flame },
             { id: 'comparison', label: '10大運具綜合對比', icon: BarChart3 },
             { id: 'tpass', label: 'TPASS 政策效益分析', icon: CreditCard },
             { id: 'od', label: 'OD 走廊與站點診斷', icon: Compass },
@@ -671,6 +673,15 @@ export default function App() {
             <div style={{ height: '100%', overflowY: 'auto' }}>
               <ErrorBoundary>
                 <ComparisonDashboard studyData={studyData} modesMeta={modesMeta} />
+              </ErrorBoundary>
+            </div>
+          )}
+
+          {/* VIEW: Spatio-Temporal Heatmap (Commuter vs Tourist) */}
+          {activeTab === 'heatmap' && (
+            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+              <ErrorBoundary>
+                <HeatmapView basemap={basemap} />
               </ErrorBoundary>
             </div>
           )}

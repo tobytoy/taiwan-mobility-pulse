@@ -1,0 +1,722 @@
+import React, { useState, useEffect, useRef } from 'react';
+import L from 'leaflet';
+import { esc } from '../utils/sanitize';
+import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
+import { 
+  Flame, ArrowDownRight, ArrowUpRight, Waves, 
+  Users, Briefcase, Compass, Play, Pause, RotateCcw, 
+  Calendar, Clock, MapPin, Zap, ChevronRight, TrendingUp, Info
+} from 'lucide-react';
+
+const BASEMAP_TILES = {
+  dark: {
+    url: CARTO_TILES.dark,
+    attribution: CARTO_ATTRIBUTION,
+    subdomains: 'abcd',
+    maxZoom: 19
+  },
+  satellite: {
+    url: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+    attribution: 'Tiles &copy; Esri',
+    maxZoom: 18
+  },
+  osm: {
+    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 19
+  },
+  light: {
+    url: CARTO_TILES.light,
+    attribution: CARTO_ATTRIBUTION,
+    subdomains: 'abcd',
+    maxZoom: 19
+  }
+};
+
+const REGION_BOUNDS = {
+  all: { center: [23.9, 120.9], zoom: 8 },
+  North: { center: [25.05, 121.50], zoom: 10 },
+  Central: { center: [24.15, 120.65], zoom: 10 },
+  South: { center: [22.65, 120.32], zoom: 10 },
+  East: { center: [24.30, 121.70], zoom: 9 }
+};
+
+export default function HeatmapView({ basemap = 'dark' }) {
+  const [heatmapData, setHeatmapData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  
+  // 核心控制狀態
+  const [flowMode, setFlowMode] = useState('activity'); // 'activity' (預設), 'inflow', 'outflow', 'net'
+  const [paxType, setPaxType] = useState('all'); // 'all', 'commuter', 'tourist'
+  const [timeScope, setTimeScope] = useState('wednesday'); // 'wednesday', 'weekday', 'weekend'
+  const [currentHour, setCurrentHour] = useState(9); // 預設週三 09:00 - 10:00 (使用者指定範例)
+  const [selectedRegion, setSelectedRegion] = useState('all');
+  const [selectedStation, setSelectedStation] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [showInsightPanel, setShowInsightPanel] = useState(true);
+
+  const mapContainerRef = useRef(null);
+  const mapRef = useRef(null);
+  const tileLayerRef = useRef(null);
+  const markersRef = useRef([]);
+
+  // 1. 載入熱點 JSON 資料
+  useEffect(() => {
+    const baseUrl = import.meta.env.BASE_URL || '/';
+    const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
+    fetch(`${cleanBase}heatmap_data.json`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(data => {
+        setHeatmapData(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('載入熱點資料失敗:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 2. 初始化 Leaflet 地圖
+  useEffect(() => {
+    if (!mapContainerRef.current || mapRef.current) return;
+
+    const map = L.map(mapContainerRef.current, {
+      center: [23.9, 120.9],
+      zoom: 8,
+      minZoom: 7,
+      maxZoom: 16,
+      zoomControl: false,
+      attributionControl: false
+    });
+
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
+      attribution: BASEMAP_TILES[basemap].attribution,
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      maxZoom: BASEMAP_TILES[basemap].maxZoom
+    }).addTo(map);
+
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+    mapRef.current = map;
+
+    return () => {
+      map.remove();
+      mapRef.current = null;
+    };
+  }, []);
+
+  // 3. 底圖更換
+  useEffect(() => {
+    if (!mapRef.current || !tileLayerRef.current) return;
+    mapRef.current.removeLayer(tileLayerRef.current);
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
+      attribution: BASEMAP_TILES[basemap].attribution,
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      maxZoom: BASEMAP_TILES[basemap].maxZoom
+    }).addTo(mapRef.current);
+  }, [basemap]);
+
+  // 4. 區域視角平移
+  useEffect(() => {
+    if (!mapRef.current) return;
+    const target = REGION_BOUNDS[selectedRegion] || REGION_BOUNDS.all;
+    mapRef.current.flyTo(target.center, target.zoom, { duration: 1.0 });
+  }, [selectedRegion]);
+
+  // 5. 時間軸自動播放
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setCurrentHour(prev => (prev >= 23 ? 0 : prev + 1));
+    }, 1200);
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  // 6. 依據模式與客群計算熱點數值與樣式
+  const getStationValue = (st) => {
+    if (flowMode === 'activity') {
+      if (paxType === 'commuter') return st.act_c;
+      if (paxType === 'tourist') return st.act_t;
+      return st.act_tot;
+    } else if (flowMode === 'inflow') {
+      if (paxType === 'commuter') return st.in_c;
+      if (paxType === 'tourist') return st.in_t;
+      return st.in_tot;
+    } else if (flowMode === 'outflow') {
+      if (paxType === 'commuter') return st.out_c;
+      if (paxType === 'tourist') return st.out_t;
+      return st.out_tot;
+    } else if (flowMode === 'net') {
+      return st.net_tot;
+    }
+    return st.act_tot;
+  };
+
+  const getMarkerStyle = (st, val) => {
+    // 依數值決定半徑 (對數縮放)
+    const baseVal = Math.abs(val);
+    const radius = Math.min(36, Math.max(6, Math.round(Math.sqrt(baseVal) * 0.42)));
+
+    let color = '#38BDF8';
+    let fillColor = '#0284C7';
+    let fillOpacity = 0.65;
+
+    if (flowMode === 'net') {
+      if (val >= 0) {
+        color = '#10B981'; // 淨聚集 (綠)
+        fillColor = '#059669';
+      } else {
+        color = '#F59E0B'; // 淨發散 (橘)
+        fillColor = '#D97706';
+      }
+    } else if (paxType === 'commuter') {
+      color = '#38BDF8'; // 藍/青 (通勤)
+      fillColor = '#0284C7';
+    } else if (paxType === 'tourist') {
+      color = '#EC4899'; // 桃紅 (觀光)
+      fillColor = '#DB2777';
+    } else {
+      // 全體人流模式：依通勤比決定色系
+      const cp = st.commuter_pct || 50;
+      if (cp >= 75) {
+        color = '#38BDF8'; // 高通勤 (藍)
+        fillColor = '#0284C7';
+      } else if (cp <= 45) {
+        color = '#EC4899'; // 高觀光 (粉)
+        fillColor = '#DB2777';
+      } else {
+        color = '#A855F7'; // 綜合平衡 (紫)
+        fillColor = '#7E22CE';
+      }
+    }
+
+    return { radius, color, fillColor, fillOpacity };
+  };
+
+  // 7. 繪製熱點圓盤與 Tooltip
+  useEffect(() => {
+    if (!mapRef.current || !heatmapData) return;
+
+    // 清空既有標記
+    markersRef.current.forEach(m => mapRef.current.removeLayer(m));
+    markersRef.current = [];
+
+    const hourData = heatmapData?.time_scopes?.[timeScope]?.hours?.[String(currentHour)] || [];
+    const filteredStations = hourData.filter(st => {
+      if (selectedRegion !== 'all' && st.region !== selectedRegion) return false;
+      return true;
+    });
+
+    filteredStations.forEach(st => {
+      const val = getStationValue(st);
+      if (Math.abs(val) < 2) return;
+
+      const style = getMarkerStyle(st, val);
+      const isSelected = selectedStation === st.name;
+
+      const circle = L.circleMarker([st.lat, st.lng], {
+        radius: isSelected ? style.radius + 5 : style.radius,
+        color: isSelected ? '#FFFFFF' : style.color,
+        weight: isSelected ? 3 : 1.5,
+        fillColor: style.fillColor,
+        fillOpacity: isSelected ? 0.9 : style.fillOpacity,
+        className: 'heatmap-pulsing-disc'
+      });
+
+      // 產生精緻 Tooltip
+      const flowModeLabel = {
+        activity: '🔥 活動人流 (進入+離開)',
+        inflow: '📍 目的地湧入 (下車/還車)',
+        outflow: '🛫 出發流出 (上車/借車)',
+        net: '🌊 淨流入量 (進入-離開)'
+      }[flowMode];
+
+      const tooltipHtml = `
+        <div style="font-family: Inter, sans-serif; min-width: 200px; padding: 6px 8px; color: #f8fafc;">
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 5px; margin-bottom: 6px;">
+            <div style="font-weight: 800; font-size: 14px; color: #38BDF8;">${esc(st.name)}</div>
+            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 5px; borderRadius: 4px;">${esc(st.region)}</span>
+          </div>
+          <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">
+            時段: <strong style="color: #fff;">${currentHour}:00 - ${currentHour + 1}:00</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 2px;">
+            <span>${flowModeLabel}:</span>
+            <strong style="color: ${style.color}; font-size: 13px;">${Math.round(val).toLocaleString()} 人次/h</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 2px;">
+            <span>💼 通勤/通學:</span>
+            <span>${Math.round(st.act_c).toLocaleString()} (${st.commuter_pct}%)</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 6px;">
+            <span>🧳 觀光/旅客:</span>
+            <span>${Math.round(st.act_t).toLocaleString()} (${Math.round(100 - st.commuter_pct)}%)</span>
+          </div>
+          <!-- 進度條 -->
+          <div style="width: 100%; height: 5px; background: #EC4899; border-radius: 3px; overflow: hidden; display: flex;">
+            <div style="width: ${st.commuter_pct}%; height: 100%; background: #38BDF8;"></div>
+          </div>
+        </div>
+      `;
+
+      circle.bindTooltip(tooltipHtml, {
+        className: 'custom-leaflet-tooltip',
+        direction: 'top',
+        offset: [0, -style.radius]
+      });
+
+      circle.on('click', () => {
+        setSelectedStation(st.name);
+      });
+
+      circle.addTo(mapRef.current);
+      markersRef.current.push(circle);
+    });
+  }, [heatmapData, timeScope, currentHour, flowMode, paxType, selectedRegion, selectedStation]);
+
+  const highlightWed = heatmapData?.highlight_wednesday_09;
+
+  return (
+    <div style={{ width: '100%', height: '100%', position: 'relative', background: '#07090E' }}>
+      {/* Leaflet 地圖容器 */}
+      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', zIndex: 1 }} />
+
+      {/* 左上方浮動控制面板：模式切換 + 客群 + 時空情境 */}
+      <div style={{
+        position: 'absolute',
+        top: '16px',
+        left: '16px',
+        zIndex: 400,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '10px',
+        maxWidth: '560px'
+      }}>
+        {/* ROW 1: 預設模式與切換模式 (活動人流 vs 湧入 vs 流出 vs 淨流入) */}
+        <div style={{
+          background: 'rgba(15, 23, 42, 0.92)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid rgba(255, 255, 255, 0.12)',
+          borderRadius: '12px',
+          padding: '8px 12px',
+          boxShadow: '0 8px 32px rgba(0,0,0,0.5)'
+        }}>
+          <div style={{ fontSize: '11px', color: '#94a3b8', marginBottom: '6px', fontWeight: '600', display: 'flex', alignItems: 'center', gap: '5px' }}>
+            <Flame size={13} color="#F97316" />
+            <span>熱點圖模式切換（預設：活動人流總熱點）：</span>
+          </div>
+          <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+            {[
+              { id: 'activity', label: '🔥 活動人流熱點 (進入+離開)', desc: '預設標準', icon: Flame },
+              { id: 'inflow', label: '📍 目的地湧入 (下車/還車)', desc: '工作/景點', icon: ArrowDownRight },
+              { id: 'outflow', label: '🛫 出發流出 (上車/借車)', desc: '住宅/出發', icon: ArrowUpRight },
+              { id: 'net', label: '🌊 淨流入量 (進-出)', desc: '潮汐聚集', icon: Waves }
+            ].map(m => {
+              const isSel = flowMode === m.id;
+              const Icon = m.icon;
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => setFlowMode(m.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '6px 11px',
+                    borderRadius: '8px',
+                    fontSize: '12px',
+                    fontWeight: isSel ? '700' : '500',
+                    border: isSel ? '1px solid #38BDF8' : '1px solid rgba(255,255,255,0.08)',
+                    background: isSel ? 'rgba(56, 189, 248, 0.25)' : 'rgba(255,255,255,0.04)',
+                    color: isSel ? '#F8FAFC' : '#94A3B8',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <Icon size={14} color={isSel ? '#38BDF8' : '#94a3b8'} />
+                  <span>{m.label}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ROW 2: 客群切換 (全體 vs 通勤族 vs 觀光客) + 時空情境 */}
+        <div style={{
+          display: 'flex',
+          gap: '8px',
+          flexWrap: 'wrap'
+        }}>
+          {/* 客群身分 */}
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.92)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            borderRadius: '10px',
+            padding: '6px 10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+          }}>
+            <span style={{ fontSize: '11px', color: '#64748b', marginRight: '3px' }}>客群:</span>
+            {[
+              { id: 'all', label: '🔘 全體', icon: Users, color: '#F8FAFC' },
+              { id: 'commuter', label: '💼 通勤族 (TPASS/常客)', icon: Briefcase, color: '#38BDF8' },
+              { id: 'tourist', label: '🧳 旅客 (單程票/休閒)', icon: Compass, color: '#EC4899' }
+            ].map(p => {
+              const isSel = paxType === p.id;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setPaxType(p.id)}
+                  style={{
+                    padding: '4px 8px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: isSel ? '700' : '500',
+                    border: isSel ? `1px solid ${p.color}` : '1px solid transparent',
+                    background: isSel ? `${p.color}33` : 'rgba(255,255,255,0.03)',
+                    color: isSel ? p.color : '#94a3b8',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {p.label}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* 時空情境 (週三專題 vs 平日 vs 週末) */}
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.92)',
+            backdropFilter: 'blur(12px)',
+            border: '1px solid rgba(255, 255, 255, 0.12)',
+            borderRadius: '10px',
+            padding: '6px 10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '5px'
+          }}>
+            <Calendar size={13} color="#FBBF24" />
+            {[
+              { id: 'wednesday', label: '⚡ 週三專題', badge: '精準' },
+              { id: 'weekday', label: '💼 平日平均 (1-5)' },
+              { id: 'weekend', label: '🏖️ 週末平均 (六日)' }
+            ].map(ts => {
+              const isSel = timeScope === ts.id;
+              return (
+                <button
+                  key={ts.id}
+                  onClick={() => setTimeScope(ts.id)}
+                  style={{
+                    padding: '4px 8px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: isSel ? '700' : '500',
+                    border: isSel ? '1px solid #F59E0B' : '1px solid transparent',
+                    background: isSel ? 'rgba(245, 158, 11, 0.25)' : 'rgba(255,255,255,0.03)',
+                    color: isSel ? '#FBBF24' : '#94a3b8',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {ts.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ROW 3: 週三 09:00 - 10:00 快速直達錨點按鈕 */}
+        {timeScope === 'wednesday' && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px'
+          }}>
+            <button
+              onClick={() => {
+                setCurrentHour(9);
+                setFlowMode('activity');
+              }}
+              style={{
+                background: currentHour === 9 && flowMode === 'activity' ? 'linear-gradient(135deg, #0284C7, #06B6D4)' : 'rgba(15, 23, 42, 0.85)',
+                border: '1px solid rgba(56, 189, 248, 0.4)',
+                borderRadius: '8px',
+                padding: '5px 12px',
+                color: '#fff',
+                fontSize: '11px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                boxShadow: '0 4px 12px rgba(2, 132, 199, 0.3)'
+              }}
+            >
+              <Zap size={13} color="#FBBF24" />
+              <span>快速聚焦：週三 09:00 - 10:00 早尖峰熱點</span>
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* 右側：週三 09:00 - 10:00 專題人流診斷側欄 (可收合) */}
+      <div style={{
+        position: 'absolute',
+        top: '16px',
+        right: '16px',
+        width: showInsightPanel ? '320px' : '44px',
+        background: 'rgba(15, 23, 42, 0.94)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '14px',
+        zIndex: 400,
+        boxShadow: '0 12px 40px rgba(0,0,0,0.6)',
+        display: 'flex',
+        flexDirection: 'column',
+        maxHeight: 'calc(100vh - 120px)',
+        transition: 'width 0.25s ease',
+        overflow: 'hidden'
+      }}>
+        {/* 標題欄 */}
+        <div style={{
+          padding: '12px 14px',
+          borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          {showInsightPanel ? (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <TrendingUp size={16} color="#38BDF8" />
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC' }}>
+                {timeScope === 'wednesday' && currentHour === 9 ? '週三 09:00 人流診斷速報' : `${currentHour}:00 時段熱點分析`}
+              </div>
+            </div>
+          ) : (
+            <TrendingUp size={18} color="#38BDF8" style={{ margin: 'auto' }} />
+          )}
+          <button
+            onClick={() => setShowInsightPanel(!showInsightPanel)}
+            style={{
+              background: 'transparent',
+              border: 'none',
+              color: '#94a3b8',
+              cursor: 'pointer',
+              padding: '2px'
+            }}
+          >
+            {showInsightPanel ? '✕' : '◀'}
+          </button>
+        </div>
+
+        {/* 內容區塊 */}
+        {showInsightPanel && (
+          <div style={{ padding: '12px 14px', overflowY: 'auto', display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            
+            {/* 1. 通勤就業吸引地 (流入量 Top 站點) */}
+            <div>
+              <div style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <ArrowDownRight size={13} />
+                <span>Top 通勤匯聚地 (上班族湧入/下車)：</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {(highlightWed?.top_commuter_attractors || []).slice(0, 5).map((st, idx) => (
+                  <div
+                    key={st.name}
+                    onClick={() => setSelectedStation(st.name)}
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      padding: '5px 8px',
+                      borderRadius: '6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      borderLeft: idx === 0 ? '3px solid #38BDF8' : '3px solid transparent'
+                    }}
+                  >
+                    <div style={{ fontSize: '12px', fontWeight: '600', color: '#f1f5f9' }}>
+                      <span style={{ color: '#64748b', marginRight: '4px' }}>#{idx+1}</span>
+                      {st.name}
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700' }}>
+                      +{Math.round(st.commuter_inflow).toLocaleString()}
+                      <span style={{ fontSize: '9px', color: '#64748b', marginLeft: '3px' }}>({st.pct}%)</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 2. 通勤居住出發地 (流出量 Top 站點) */}
+            <div>
+              <div style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <ArrowUpRight size={13} />
+                <span>Top 住宅流出地 (通勤族離開/出發)：</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {(highlightWed?.top_commuter_generators || []).slice(0, 5).map((st, idx) => (
+                  <div
+                    key={st.name}
+                    onClick={() => setSelectedStation(st.name)}
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      padding: '5px 8px',
+                      borderRadius: '6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer',
+                      borderLeft: idx === 0 ? '3px solid #F59E0B' : '3px solid transparent'
+                    }}
+                  >
+                    <div style={{ fontSize: '12px', fontWeight: '600', color: '#f1f5f9' }}>
+                      <span style={{ color: '#64748b', marginRight: '4px' }}>#{idx+1}</span>
+                      {st.name}
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700' }}>
+                      -{Math.round(st.commuter_outflow).toLocaleString()}
+                      <span style={{ fontSize: '9px', color: '#64748b', marginLeft: '3px' }}>({st.pct}%)</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 3. 觀光旅客熱門站點 */}
+            <div>
+              <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Compass size={13} />
+                <span>Top 觀光遊客熱點 (偶發/遊憩旅次)：</span>
+              </div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                {(highlightWed?.top_tourist_spots || []).slice(0, 4).map((st, idx) => (
+                  <div
+                    key={st.name}
+                    onClick={() => setSelectedStation(st.name)}
+                    style={{
+                      background: 'rgba(255,255,255,0.04)',
+                      padding: '5px 8px',
+                      borderRadius: '6px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <div style={{ fontSize: '12px', fontWeight: '600', color: '#f1f5f9' }}>
+                      <span style={{ color: '#64748b', marginRight: '4px' }}>#{idx+1}</span>
+                      {st.name}
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700' }}>
+                      {Math.round(st.tourist_activity).toLocaleString()}
+                      <span style={{ fontSize: '9px', color: '#64748b', marginLeft: '3px' }}>遊客佔{st.tourist_pct}%</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 階層判定說明卡片 */}
+            <div style={{
+              background: 'rgba(30, 41, 59, 0.4)',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              borderRadius: '8px',
+              padding: '8px 10px',
+              fontSize: '11px',
+              color: '#94a3b8',
+              lineHeight: '1.4'
+            }}>
+              <div style={{ fontWeight: '700', color: '#38BDF8', marginBottom: '3px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Info size={12} /> 階層混合判定演算法 (Hybrid)
+              </div>
+              <div>• <strong>TPASS定期票</strong> (TicketType=4) 鎖定為通勤</div>
+              <div>• <strong>單程票/Token</strong> (N-IC) 鎖定為旅客</div>
+              <div>• <strong>一般卡</strong> 依尖峰與重複度行為權重拆分</div>
+            </div>
+
+          </div>
+        )}
+      </div>
+
+      {/* 底部時間控制軸 (24 Hours Slider with Play/Pause) */}
+      <div style={{
+        position: 'absolute',
+        bottom: '24px',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 400,
+        background: 'rgba(15, 23, 42, 0.94)',
+        backdropFilter: 'blur(16px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '16px',
+        padding: '10px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '16px',
+        boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
+        minWidth: '580px',
+        maxWidth: '850px',
+        width: '55%'
+      }}>
+        {/* 播放/暫停按鈕 */}
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          style={{
+            width: '36px',
+            height: '36px',
+            borderRadius: '50%',
+            background: isPlaying ? '#EF4444' : '#38BDF8',
+            border: 'none',
+            color: '#0F172A',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            flexShrink: 0
+          }}
+        >
+          {isPlaying ? <Pause size={17} /> : <Play size={17} style={{ marginLeft: '2px' }} />}
+        </button>
+
+        {/* 時段資訊 */}
+        <div style={{ minWidth: '95px' }}>
+          <div style={{ fontSize: '10px', color: '#64748b', fontWeight: '600' }}>當前分析時段</div>
+          <div style={{ fontSize: '15px', fontWeight: '800', color: '#F8FAFC', fontFamily: 'JetBrains Mono, monospace' }}>
+            {String(currentHour).padStart(2, '0')}:00 - {String(currentHour + 1).padStart(2, '0')}:00
+          </div>
+        </div>
+
+        {/* 時間滑桿 */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '4px' }}>
+          <input
+            type="range"
+            min="0"
+            max="23"
+            value={currentHour}
+            onChange={(e) => setCurrentHour(parseInt(e.target.value))}
+            style={{
+              width: '100%',
+              accentColor: '#38BDF8',
+              cursor: 'pointer'
+            }}
+          />
+          <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748b' }}>
+            <span>00:00 (清晨)</span>
+            <span style={{ color: currentHour >= 7 && currentHour <= 9 ? '#38BDF8' : '#64748b', fontWeight: currentHour >= 7 && currentHour <= 9 ? '700' : 'normal' }}>
+              08:00 (早尖峰)
+            </span>
+            <span>12:00 (午間)</span>
+            <span style={{ color: currentHour >= 17 && currentHour <= 19 ? '#F43F5E' : '#64748b', fontWeight: currentHour >= 17 && currentHour <= 19 ? '700' : 'normal' }}>
+              18:00 (晚尖峰)
+            </span>
+            <span>23:00 (末班)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
