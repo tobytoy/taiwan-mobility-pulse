@@ -5,7 +5,7 @@ import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 import { 
   Flame, ArrowDownRight, ArrowUpRight, Waves, 
   Users, Briefcase, Compass, Play, Pause, RotateCcw, 
-  Calendar, Clock, MapPin, Zap, ChevronRight, TrendingUp, Info
+  Calendar, Clock, MapPin, Zap, ChevronRight, TrendingUp, Info, Sparkles
 } from 'lucide-react';
 
 const BASEMAP_TILES = {
@@ -943,6 +943,78 @@ export default function HeatmapView({ basemap = 'dark' }) {
             </span>
             <span>23:00 (末班)</span>
           </div>
+        </div>
+      </div>
+
+      {/* 左下角：色彩圖例卡片 (Color Legend) */}
+      <div style={{
+        position: 'absolute',
+        bottom: '24px',
+        left: '20px',
+        zIndex: 400,
+        background: 'rgba(15, 23, 42, 0.94)',
+        backdropFilter: 'blur(14px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '12px',
+        padding: '10px 14px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+        minWidth: '220px'
+      }}>
+        <div style={{ fontSize: '11px', fontWeight: '800', color: '#94A3B8', letterSpacing: '0.5px' }}>
+          🎨 熱點色彩圖例
+        </div>
+
+        {paxType === 'personas' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#0284C7', border: '1px solid #38BDF8', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>藍色：剛需通勤族為主</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#9333EA', border: '1px solid #C084FC', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>紫色：週末 TPASS 探索者</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#D97706', border: '1px solid #F59E0B', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>橘金：彈性商務/跨區洽公</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#DB2777', border: '1px solid #EC4899', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>粉紅：純外地/國際觀光</span>
+            </div>
+          </div>
+        ) : flowMode === 'net' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#059669', border: '1px solid #10B981', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>綠色：人流淨聚集 (進 &gt; 出)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#D97706', border: '1px solid #F59E0B', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>橘色：人流淨發散 (出 &gt; 進)</span>
+            </div>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#0284C7', border: '1px solid #38BDF8', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>藍色：高通勤樞紐 (&ge;75%)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#7E22CE', border: '1px solid #A855F7', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>紫色：綜合平衡型 (45-75%)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#DB2777', border: '1px solid #EC4899', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>粉紅：觀光休閒偏向 (&le;45%)</span>
+            </div>
+          </div>
+        )}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '10px', color: '#64748B' }}>
+          ⭕ 圓圈大小代表時段流量規模
         </div>
       </div>
     </div>
