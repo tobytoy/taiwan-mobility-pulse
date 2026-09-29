@@ -47,13 +47,23 @@ export default function HeatmapView({ basemap = 'dark' }) {
   
   // 核心控制狀態
   const [flowMode, setFlowMode] = useState('activity'); // 'activity' (預設), 'inflow', 'outflow', 'net'
-  const [paxType, setPaxType] = useState('all'); // 'all', 'commuter', 'tourist'
+  const [paxType, setPaxType] = useState('all'); // 'all', 'commuter', 'tourist', 'personas'
   const [timeScope, setTimeScope] = useState('wednesday'); // 'wednesday', 'weekday', 'weekend'
   const [currentHour, setCurrentHour] = useState(9); // 預設週三 09:00 - 10:00 (使用者指定範例)
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedStation, setSelectedStation] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [showInsightPanel, setShowInsightPanel] = useState(true);
+
+  // 專家動態調校參數 (開關與拉桿)
+  const DEFAULT_PARAMS = {
+    peakCommuterRate: 88,    // 平日尖峰基準通勤率 (70 ~ 98%)
+    offpeakBusinessRate: 45, // 平日離峰商務折算率 (20 ~ 70%)
+    weekendLeisureRate: 75,  // 週末 TPASS 休閒轉化率 (40 ~ 95%)
+    stationSensitivity: 1.0  // 站點特性敏感度乘數 (0.5 ~ 2.0x)
+  };
+  const [expertParams, setExpertParams] = useState(DEFAULT_PARAMS);
+  const [showExpertPanel, setShowExpertPanel] = useState(false);
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -134,8 +144,75 @@ export default function HeatmapView({ basemap = 'dark' }) {
     return () => clearInterval(timer);
   }, [isPlaying]);
 
-  // 6. 依據模式與客群計算熱點數值與樣式
+  // 6. 依專家拉桿參數與四維人群像動態重算站點
+  const calcStationWithParams = (st) => {
+    const isPeak = [7, 8, 9, 17, 18, 19].includes(currentHour);
+    const isOffPeak = currentHour >= 10 && currentHour <= 16;
+    
+    let baseRate = 0.5;
+    if (timeScope === 'weekend') {
+      baseRate = Math.max(0.05, (100 - expertParams.weekendLeisureRate) / 100);
+    } else {
+      if (isPeak) baseRate = expertParams.peakCommuterRate / 100;
+      else if (isOffPeak) baseRate = expertParams.offpeakBusinessRate / 100;
+      else baseRate = 0.60;
+    }
+
+    // 站點特性敏感度縮放
+    const stRatio = (st.commuter_pct || 50) / 75;
+    const adjustedRate = Math.max(0.04, Math.min(0.96, baseRate * Math.pow(stRatio, expertParams.stationSensitivity)));
+    const commuterPct = Math.round(adjustedRate * 100);
+    const touristPct = 100 - commuterPct;
+
+    const actTot = st.act_tot || 0;
+    const actC = actTot * adjustedRate;
+    const actT = actTot * (1 - adjustedRate);
+    
+    // 四維時空人群像 (4 Personas) 分解計算
+    let pCore = 0, pExplorer = 0, pBusiness = 0, pTourist = 0;
+    if (timeScope === 'weekend') {
+      pExplorer = Math.round(actTot * (expertParams.weekendLeisureRate / 100) * 0.72);
+      pTourist = Math.round(actT * 0.75);
+      pCore = Math.round(actC * 0.85);
+      pBusiness = Math.max(0, actTot - pExplorer - pTourist - pCore);
+    } else {
+      if (isPeak) {
+        pCore = Math.round(actC * 0.88);
+        pBusiness = Math.round(actC * 0.12);
+        pTourist = Math.round(actT);
+        pExplorer = 0;
+      } else {
+        pCore = Math.round(actC * 0.35);
+        pBusiness = Math.round(actC * 0.65);
+        pTourist = Math.round(actT * 0.85);
+        pExplorer = Math.max(0, actTot - pCore - pBusiness - pTourist);
+      }
+    }
+
+    return {
+      ...st,
+      act_c: actC,
+      act_t: actT,
+      in_c: (st.in_tot || 0) * adjustedRate,
+      in_t: (st.in_tot || 0) * (1 - adjustedRate),
+      out_c: (st.out_tot || 0) * adjustedRate,
+      out_t: (st.out_tot || 0) * (1 - adjustedRate),
+      commuter_pct: commuterPct,
+      tourist_pct: touristPct,
+      personas: {
+        core: pCore,
+        explorer: pExplorer,
+        business: pBusiness,
+        tourist: pTourist
+      }
+    };
+  };
+
   const getStationValue = (st) => {
+    if (paxType === 'personas') {
+      const { core, explorer, business, tourist } = st.personas;
+      return Math.max(core, explorer, business, tourist) || st.act_tot;
+    }
     if (flowMode === 'activity') {
       if (paxType === 'commuter') return st.act_c;
       if (paxType === 'tourist') return st.act_t;
@@ -155,7 +232,6 @@ export default function HeatmapView({ basemap = 'dark' }) {
   };
 
   const getMarkerStyle = (st, val) => {
-    // 依數值決定半徑 (對數縮放)
     const baseVal = Math.abs(val);
     const radius = Math.min(36, Math.max(6, Math.round(Math.sqrt(baseVal) * 0.42)));
 
@@ -163,7 +239,22 @@ export default function HeatmapView({ basemap = 'dark' }) {
     let fillColor = '#0284C7';
     let fillOpacity = 0.65;
 
-    if (flowMode === 'net') {
+    if (paxType === 'personas') {
+      const { core, explorer, business, tourist } = st.personas;
+      if (core >= explorer && core >= business && core >= tourist) {
+        color = '#38BDF8'; // 剛需通勤 (藍)
+        fillColor = '#0284C7';
+      } else if (explorer >= core && explorer >= business && explorer >= tourist) {
+        color = '#C084FC'; // 週末月票探索 (紫)
+        fillColor = '#9333EA';
+      } else if (business >= core && business >= explorer && business >= tourist) {
+        color = '#F59E0B'; // 彈性商務 (橘金)
+        fillColor = '#D97706';
+      } else {
+        color = '#EC4899'; // 純外地觀光 (粉紅)
+        fillColor = '#DB2777';
+      }
+    } else if (flowMode === 'net') {
       if (val >= 0) {
         color = '#10B981'; // 淨聚集 (綠)
         fillColor = '#059669';
@@ -178,7 +269,6 @@ export default function HeatmapView({ basemap = 'dark' }) {
       color = '#EC4899'; // 桃紅 (觀光)
       fillColor = '#DB2777';
     } else {
-      // 全體人流模式：依通勤比決定色系
       const cp = st.commuter_pct || 50;
       if (cp >= 75) {
         color = '#38BDF8'; // 高通勤 (藍)
@@ -199,7 +289,6 @@ export default function HeatmapView({ basemap = 'dark' }) {
   useEffect(() => {
     if (!mapRef.current || !heatmapData) return;
 
-    // 清空既有標記
     markersRef.current.forEach(m => mapRef.current.removeLayer(m));
     markersRef.current = [];
 
@@ -209,7 +298,9 @@ export default function HeatmapView({ basemap = 'dark' }) {
       return true;
     });
 
-    filteredStations.forEach(st => {
+    filteredStations.forEach(rawSt => {
+      // 套用專家參數與人群像運算
+      const st = calcStationWithParams(rawSt);
       const val = getStationValue(st);
       if (Math.abs(val) < 2) return;
 
@@ -225,7 +316,6 @@ export default function HeatmapView({ basemap = 'dark' }) {
         className: 'heatmap-pulsing-disc'
       });
 
-      // 產生精緻 Tooltip
       const flowModeLabel = {
         activity: '🔥 活動人流 (進入+離開)',
         inflow: '📍 目的地湧入 (下車/還車)',
@@ -234,29 +324,37 @@ export default function HeatmapView({ basemap = 'dark' }) {
       }[flowMode];
 
       const tooltipHtml = `
-        <div style="font-family: Inter, sans-serif; min-width: 200px; padding: 6px 8px; color: #f8fafc;">
+        <div style="font-family: Inter, sans-serif; min-width: 220px; padding: 6px 8px; color: #f8fafc;">
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 5px; margin-bottom: 6px;">
             <div style="font-weight: 800; font-size: 14px; color: #38BDF8;">${esc(st.name)}</div>
-            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 5px; borderRadius: 4px;">${esc(st.region)}</span>
+            <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 5px; border-radius: 4px;">${esc(st.region)}</span>
           </div>
           <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">
             時段: <strong style="color: #fff;">${currentHour}:00 - ${currentHour + 1}:00</strong>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 2px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
             <span>${flowModeLabel}:</span>
             <strong style="color: ${style.color}; font-size: 13px;">${Math.round(val).toLocaleString()} 人次/h</strong>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 2px;">
-            <span>💼 通勤/通學:</span>
+            <span>💼 動態通勤推估:</span>
             <span>${Math.round(st.act_c).toLocaleString()} (${st.commuter_pct}%)</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 6px;">
-            <span>🧳 觀光/旅客:</span>
-            <span>${Math.round(st.act_t).toLocaleString()} (${Math.round(100 - st.commuter_pct)}%)</span>
+            <span>🧳 動態旅客推估:</span>
+            <span>${Math.round(st.act_t).toLocaleString()} (${st.tourist_pct}%)</span>
           </div>
           <!-- 進度條 -->
-          <div style="width: 100%; height: 5px; background: #EC4899; border-radius: 3px; overflow: hidden; display: flex;">
+          <div style="width: 100%; height: 5px; background: #EC4899; border-radius: 3px; overflow: hidden; display: flex; margin-bottom: 8px;">
             <div style="width: ${st.commuter_pct}%; height: 100%; background: #38BDF8;"></div>
+          </div>
+          <!-- 四維人群像 -->
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; font-size: 10px; display: flex; flex-direction: column; gap: 2px;">
+            <div style="font-weight: 700; color: #94a3b8; margin-bottom: 2px;">🧬 四維時空人群像分解：</div>
+            <div style="display: flex; justify-content: space-between; color: #7DD3FC;"><span>🍙 鋼鐵剛需通勤:</span> <strong>${st.personas.core.toLocaleString()}</strong></div>
+            <div style="display: flex; justify-content: space-between; color: #D8B4FE;"><span>📸 週末月票探索:</span> <strong>${st.personas.explorer.toLocaleString()}</strong></div>
+            <div style="display: flex; justify-content: space-between; color: #FCD34D;"><span>💼 彈性商務洽公:</span> <strong>${st.personas.business.toLocaleString()}</strong></div>
+            <div style="display: flex; justify-content: space-between; color: #F472B6;"><span>🧳 純外地觀光客:</span> <strong>${st.personas.tourist.toLocaleString()}</strong></div>
           </div>
         </div>
       `;
@@ -274,7 +372,7 @@ export default function HeatmapView({ basemap = 'dark' }) {
       circle.addTo(mapRef.current);
       markersRef.current.push(circle);
     });
-  }, [heatmapData, timeScope, currentHour, flowMode, paxType, selectedRegion, selectedStation]);
+  }, [heatmapData, timeScope, currentHour, flowMode, paxType, selectedRegion, selectedStation, expertParams]);
 
   const highlightWed = heatmapData?.highlight_wednesday_09;
 
@@ -363,8 +461,9 @@ export default function HeatmapView({ basemap = 'dark' }) {
             <span style={{ fontSize: '11px', color: '#64748b', marginRight: '3px' }}>客群:</span>
             {[
               { id: 'all', label: '🔘 全體', icon: Users, color: '#F8FAFC' },
-              { id: 'commuter', label: '💼 通勤族 (TPASS/常客)', icon: Briefcase, color: '#38BDF8' },
-              { id: 'tourist', label: '🧳 旅客 (單程票/休閒)', icon: Compass, color: '#EC4899' }
+              { id: 'commuter', label: '💼 通勤剛需', icon: Briefcase, color: '#38BDF8' },
+              { id: 'tourist', label: '🧳 觀光旅客', icon: Compass, color: '#EC4899' },
+              { id: 'personas', label: '🧬 四維時空人群像', icon: Sparkles, color: '#C084FC' }
             ].map(p => {
               const isSel = paxType === p.id;
               return (
@@ -379,7 +478,8 @@ export default function HeatmapView({ basemap = 'dark' }) {
                     border: isSel ? `1px solid ${p.color}` : '1px solid transparent',
                     background: isSel ? `${p.color}33` : 'rgba(255,255,255,0.03)',
                     color: isSel ? p.color : '#94a3b8',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
                   }}
                 >
                   {p.label}
@@ -426,7 +526,135 @@ export default function HeatmapView({ basemap = 'dark' }) {
               );
             })}
           </div>
+
+          {/* 專家動態參數調校開關 */}
+          <button
+            onClick={() => setShowExpertPanel(!showExpertPanel)}
+            style={{
+              background: showExpertPanel ? 'rgba(56, 189, 248, 0.25)' : 'rgba(15, 23, 42, 0.92)',
+              border: showExpertPanel ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '10px',
+              padding: '6px 11px',
+              fontSize: '11px',
+              fontWeight: '700',
+              color: showExpertPanel ? '#38BDF8' : '#94a3b8',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '5px',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <span>⚙️ 專家動態拉桿</span>
+            <span style={{ fontSize: '9px', background: showExpertPanel ? '#38BDF8' : 'rgba(255,255,255,0.1)', color: showExpertPanel ? '#0F172A' : '#94a3b8', padding: '1px 5px', borderRadius: '4px' }}>
+              {showExpertPanel ? '展開中' : '可微調'}
+            </span>
+          </button>
         </div>
+
+        {/* 專家參數調校展開卡片 (Sliders Panel) */}
+        {showExpertPanel && (
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.96)',
+            backdropFilter: 'blur(16px)',
+            border: '1px solid rgba(56, 189, 248, 0.35)',
+            borderRadius: '12px',
+            padding: '14px 16px',
+            boxShadow: '0 12px 36px rgba(0,0,0,0.7)',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '6px' }}>
+              <div style={{ fontSize: '12px', fontWeight: '800', color: '#38BDF8', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span>⚙️ 專家時空演算法動態調校 (即時重算)</span>
+              </div>
+              <button
+                onClick={() => setExpertParams(DEFAULT_PARAMS)}
+                style={{
+                  background: 'rgba(255,255,255,0.06)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: '#94a3b8',
+                  fontSize: '10px',
+                  borderRadius: '5px',
+                  padding: '2px 8px',
+                  cursor: 'pointer'
+                }}
+              >
+                🔄 重置基準推薦值
+              </button>
+            </div>
+
+            {/* Slider 1: 平日尖峰基準通勤率 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '2px' }}>
+                <span style={{ color: '#cbd5e1' }}>1. 平日尖峰基準通勤率 (Peak Commuter):</span>
+                <span style={{ color: '#38BDF8', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace' }}>{expertParams.peakCommuterRate}%</span>
+              </div>
+              <input
+                type="range"
+                min="70"
+                max="98"
+                value={expertParams.peakCommuterRate}
+                onChange={e => setExpertParams({ ...expertParams, peakCommuterRate: Number(e.target.value) })}
+                style={{ width: '100%', accentColor: '#38BDF8', cursor: 'pointer' }}
+              />
+              <div style={{ fontSize: '9px', color: '#64748b' }}>預設 88% (早晚尖峰 07-09, 17-19 軌道/公車 IC 卡通勤折算基準)</div>
+            </div>
+
+            {/* Slider 2: 平日離峰商務折算率 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '2px' }}>
+                <span style={{ color: '#cbd5e1' }}>2. 平日離峰商務折算率 (Off-Peak Business):</span>
+                <span style={{ color: '#F59E0B', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace' }}>{expertParams.offpeakBusinessRate}%</span>
+              </div>
+              <input
+                type="range"
+                min="20"
+                max="70"
+                value={expertParams.offpeakBusinessRate}
+                onChange={e => setExpertParams({ ...expertParams, offpeakBusinessRate: Number(e.target.value) })}
+                style={{ width: '100%', accentColor: '#F59E0B', cursor: 'pointer' }}
+              />
+              <div style={{ fontSize: '9px', color: '#64748b' }}>預設 45% (平日日間 10:00-16:00 歸屬為公務/商務洽公之比例)</div>
+            </div>
+
+            {/* Slider 3: 週末 TPASS 休閒轉化率 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '2px' }}>
+                <span style={{ color: '#cbd5e1' }}>3. 週末 TPASS 休閒轉化率 (Weekend Leisure):</span>
+                <span style={{ color: '#C084FC', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace' }}>{expertParams.weekendLeisureRate}%</span>
+              </div>
+              <input
+                type="range"
+                min="40"
+                max="95"
+                value={expertParams.weekendLeisureRate}
+                onChange={e => setExpertParams({ ...expertParams, weekendLeisureRate: Number(e.target.value) })}
+                style={{ width: '100%', accentColor: '#C084FC', cursor: 'pointer' }}
+              />
+              <div style={{ fontSize: '9px', color: '#64748b' }}>預設 75% (月票持有者週末出門被歸納為「城市探索/在地休閒」比例)</div>
+            </div>
+
+            {/* Slider 4: 站點特性敏感度乘數 */}
+            <div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', marginBottom: '2px' }}>
+                <span style={{ color: '#cbd5e1' }}>4. 站點特性敏感度 (Station Sensitivity):</span>
+                <span style={{ color: '#10B981', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace' }}>{expertParams.stationSensitivity}x</span>
+              </div>
+              <input
+                type="range"
+                min="0.5"
+                max="2.0"
+                step="0.1"
+                value={expertParams.stationSensitivity}
+                onChange={e => setExpertParams({ ...expertParams, stationSensitivity: Number(e.target.value) })}
+                style={{ width: '100%', accentColor: '#10B981', cursor: 'pointer' }}
+              />
+              <div style={{ fontSize: '9px', color: '#64748b' }}>預設 1.0x (依各站平日/假日比進行非線性放大，內科高拉升/淡水高壓制)</div>
+            </div>
+          </div>
+        )}
 
         {/* ROW 3: 週三 09:00 - 10:00 快速直達錨點按鈕 */}
         {timeScope === 'wednesday' && (

@@ -379,7 +379,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
             </div>
 
             {/* Bottom: Hybrid Pipeline Solution */}
-            <div style={{ background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(16, 185, 129, 0.15))', border: '1px solid rgba(56, 189, 248, 0.4)', borderRadius: '12px', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.15), rgba(16, 185, 129, 0.15))', border: '1px solid rgba(56, 189, 248, 0.4)', borderRadius: '12px', padding: '14px 18px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '14px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <ShieldCheck size={24} color="#38BDF8" />
                 <div>
@@ -389,6 +389,37 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                   <div style={{ fontSize: '12px', color: '#94a3b8', marginTop: '2px' }}>
                     第一層以 <strong>TPASS (TicketType=4)</strong> 鎖定 100% 通勤；第一層以 <strong>N-IC (單程票/Token)</strong> 鎖定 100% 旅客；第二層一般卡依尖峰/離峰加權；第三層軌道 OD 依統計機率拆分，兼顧 100% 覆蓋率與微觀精準度。
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 4 Mobility Personas Card */}
+            <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(192, 132, 252, 0.3)', borderRadius: '12px', padding: '16px 20px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '10px' }}>
+                <Users size={18} color="#C084FC" />
+                <div style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC' }}>
+                  🧬 進階演化：告別二元一刀切，走向【四維時空人群畫像 (4 Mobility Personas)】
+                </div>
+              </div>
+              <p style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                在最新架構中，通勤與觀光並非生硬的 0 與 1。我們將「頻率重複度」與「時空探索彈性」交叉矩陣化，解構出具備實戰商業價值的四大人群像：
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px' }}>
+                <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                  <div style={{ fontWeight: '800', color: '#38BDF8', fontSize: '12px', marginBottom: '3px' }}>🍙 1. 鋼鐵剛需通勤族</div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8' }}>持 TPASS，平日早晚尖峰對稱出勤。<strong>速度與效率至上</strong>，對車站閘口早餐、便利自提具絕對剛需。</div>
+                </div>
+                <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(192, 132, 252, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                  <div style={{ fontWeight: '800', color: '#C084FC', fontSize: '12px', marginBottom: '3px' }}>📸 2. 週末 TPASS 城市探索者</div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8' }}>平日買月票，週末拿 TPASS 進行邊際交通零成本探索。<strong>在地區域商圈與打卡景點最活躍的消費主力</strong>。</div>
+                </div>
+                <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                  <div style={{ fontWeight: '800', color: '#F59E0B', fontSize: '12px', marginBottom: '3px' }}>💼 3. 彈性商務/跨區洽公族</div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8' }}>持一般卡，平日離峰 10:00~16:00 移動。跨城際高鐵/轉乘站核心客群，需求為共享空間、商務餐飲。</div>
+                </div>
+                <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                  <div style={{ fontWeight: '800', color: '#EC4899', fontSize: '12px', marginBottom: '3px' }}>🧳 4. 純外地/國際觀光旅客</div>
+                  <div style={{ fontSize: '11px', color: '#94a3b8' }}>現場買單程 Token、紙票或 Taiwan Pass。<strong>高客單價、重體驗</strong>，伴手禮、行李寄放與包車首要對象。</div>
                 </div>
               </div>
             </div>
@@ -468,12 +499,12 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
             </div>
 
             {/* Persona Selector Buttons */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '8px', marginBottom: '16px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '10px', marginBottom: '16px' }}>
               {[
-                { id: 'breakfast', label: '🍙 日常早餐/便當快銷', sub: '民生剛需、依賴高頻與速度', color: '#38BDF8' },
-                { id: 'cafe', label: '📸 潮流網紅打卡甜點店', sub: '重體驗、高溢價、需逗留時間', color: '#EC4899' },
-                { id: 'vending', label: '🔋 拍貼機/自販/共享充電', sub: '非餐飲、等人碎片時間變現', color: '#10B981' },
-                { id: 'fitness', label: '💼 24h 智能健身/生活服務', sub: '鎖定早出晚歸雙峰白領', color: '#F59E0B' }
+                { id: 'breakfast', label: '🍙 日常早餐/便當快銷店', sub: '鎖定【鋼鐵剛需通勤族】・高頻剛需、30秒快銷', color: '#38BDF8' },
+                { id: 'cafe', label: '📸 週末文創咖啡/網紅打卡店', sub: '鎖定【週末 TPASS 城市探索者】・重體驗與社群高溢價', color: '#C084FC' },
+                { id: 'fitness', label: '💼 共享商務辦公/生活服務', sub: '鎖定【彈性商務/跨區洽公族】・日間離峰與高鐵轉乘', color: '#F59E0B' },
+                { id: 'vending', label: '🧳 伴手禮旗艦/自販與行李寄存', sub: '鎖定【純外地/國際觀光旅客】・單程Token現場購票客', color: '#EC4899' }
               ].map(p => {
                 const isSel = selectedPersona === p.id;
                 return (
@@ -484,7 +515,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                       background: isSel ? `${p.color}25` : 'rgba(30, 41, 59, 0.4)',
                       border: isSel ? `2px solid ${p.color}` : '1px solid rgba(255,255,255,0.08)',
                       borderRadius: '10px',
-                      padding: '10px 12px',
+                      padding: '12px 14px',
                       textAlign: 'left',
                       cursor: 'pointer',
                       transition: 'all 0.15s ease'
@@ -493,7 +524,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                     <div style={{ fontSize: '13px', fontWeight: '800', color: isSel ? '#F8FAFC' : '#cbd5e1' }}>
                       {p.label}
                     </div>
-                    <div style={{ fontSize: '10px', color: isSel ? p.color : '#64748b', marginTop: '2px' }}>
+                    <div style={{ fontSize: '11px', color: isSel ? p.color : '#64748b', marginTop: '3px' }}>
                       {p.sub}
                     </div>
                   </button>
@@ -509,7 +540,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                     <Utensils size={20} color="#38BDF8" /> 角色一：日常食品攤商（飯糰、三明治早點 / 上班族外帶便當）
                   </div>
                   <span style={{ background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
-                    鎖定客群：通勤通勤族 (Commuter Ratio &gt; 85%)
+                    鎖定客群：【鋼鐵剛需通勤族】(Commuter Ratio &gt; 85%)
                   </span>
                 </div>
 
@@ -538,27 +569,27 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
             )}
 
             {selectedPersona === 'cafe' && (
-              <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '14px', padding: '20px' }}>
+              <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(192, 132, 252, 0.3)', borderRadius: '14px', padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
-                  <div style={{ fontSize: '16px', fontWeight: '800', color: '#EC4899', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Camera size={20} color="#EC4899" /> 角色二：潮流網紅咖啡館、打卡甜點店、文創選品店
+                  <div style={{ fontSize: '16px', fontWeight: '800', color: '#C084FC', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Camera size={20} color="#C084FC" /> 角色二：週末特色咖啡館、文創打卡甜點店、風格選品店
                   </div>
-                  <span style={{ background: 'rgba(236, 72, 153, 0.2)', color: '#EC4899', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
-                    鎖定客群：觀光旅客 (Tourist Ratio &gt; 55%)
+                  <span style={{ background: 'rgba(192, 132, 252, 0.2)', color: '#C084FC', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
+                    鎖定客群：【週末 TPASS 城市探索者】(在地休閒佔比 &gt; 70%)
                   </span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', fontSize: '12px', lineHeight: '1.6' }}>
-                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #EC4899' }}>
-                    <div style={{ fontWeight: '700', color: '#EC4899', marginBottom: '6px' }}>🎯 最佳選址與落點時段：</div>
-                    <p>• <strong>首選落點</strong>：<strong>西門町、淡水老街、高捷駁二大義 (遊客佔比 &gt; 70%)、台南赤崁商圈 (遊客 58%)、高捷巨蛋商圈</strong>。</p>
-                    <p>• <strong>熱門時段</strong>：平日午後 13:00-17:00，週五傍晚至週末全天 (客流單峰平緩且高額延續)。</p>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #C084FC' }}>
+                    <div style={{ fontWeight: '700', color: '#C084FC', marginBottom: '6px' }}>🎯 最佳選址與落點時段：</div>
+                    <p>• <strong>首選落點</strong>：<strong>淡水老街、新北投、高捷駁二大義 (週末休閒佔比 &gt; 75%)、台南安平商圈、宜蘭轉運站周邊</strong>。</p>
+                    <p>• <strong>熱門時段</strong>：週五傍晚至週末全天 (11:00-18:00)，尤其是持 TPASS 月票乘客週末「邊際交通成本為 0」進行跨區散策探索。</p>
                   </div>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #A855F7' }}>
                     <div style={{ fontWeight: '700', color: '#A855F7', marginBottom: '6px' }}>💬 老闆體感心聲與數據背書：</div>
                     <p style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
-                      「旅客出遊求的是『體驗、放鬆與社群炫耀感』！他們願意排隊 40 分鐘，為一杯拉花咖啡加千層蛋糕支付 <strong>350-450 元的高額溢價</strong>。在店裡逗留 90 分鐘拍照打卡，每一位客人都在社群自發傳播，替我們帶來全台灣的外地新客！」
+                      「TPASS 月票族週末出門玩是不用算車資的！這群都會客最愛在週末搭捷運到端點站喝下午茶，願意排隊 40 分鐘，為一杯手沖加戚風蛋糕支付 <strong>350-450 元的高額溢價</strong>。在店裡逗留 90 分鐘拍照打卡，每週都是在地回流客！」
                     </p>
                   </div>
                 </div>
@@ -566,42 +597,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                 <div style={{ marginTop: '12px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#FCA5A5', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
                   <div>
-                    <strong>❌ 致命選址禁區</strong>：千萬別開在汐科站、新北產業園區、南港軟體園區等純通勤站！上班族步履匆匆急著打卡，店面弄得再唯美，通勤族連抬頭看一眼的閒情逸致都沒有。
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {selectedPersona === 'vending' && (
-              <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '14px', padding: '20px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
-                  <div style={{ fontSize: '16px', fontWeight: '800', color: '#10B981', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <BatteryCharging size={20} color="#10B981" /> 角色三：快閃拍貼機、共享行動電源、扭蛋潮玩、智能自販機（非餐飲零售）
-                  </div>
-                  <span style={{ background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
-                    鎖定客群：活動總熱點 (Activity Volume &gt; 5,000/h)
-                  </span>
-                </div>
-
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', fontSize: '12px', lineHeight: '1.6' }}>
-                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #10B981' }}>
-                    <div style={{ fontWeight: '700', color: '#10B981', marginBottom: '6px' }}>🎯 最佳選址與落點時段：</div>
-                    <p>• <strong>首選落點</strong>：<strong>台北車站 (總活動 10,986/h)、板橋車站 (6,648/h)、市府轉運站、高鐵左營站</strong>。</p>
-                    <p>• <strong>核心特徵</strong>：多運具轉乘動線、長途候車月台口、具有 <strong>5 至 15 分鐘無聊空檔</strong> 的交會處。</p>
-                  </div>
-
-                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #38BDF8' }}>
-                    <div style={{ fontWeight: '700', color: '#38BDF8', marginBottom: '6px' }}>💬 老闆體感心聲與數據背書：</div>
-                    <p style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
-                      「我們賣的不是商品，是『<strong>解急與填補空檔的即興娛樂</strong>』！遊客手機拍照到沒電急著借行動電源；情侶等火車還有 12 分鐘，看到韓式拍貼機順手花 200 元拍一張；學生等客運隨手扭個扭蛋。在這種總活動人流破萬的樞紐，機台佔地不到 1 坪，坪效卻高得驚人！」
-                    </p>
-                  </div>
-                </div>
-
-                <div style={{ marginTop: '12px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#FCA5A5', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
-                  <div>
-                    <strong>❌ 致命選址禁區</strong>：避免擺在單一直通型通道（大家快步通行無停留）或缺乏轉乘等待的小站。人潮如果沒有『停下來等車』的空檔，再便宜的租金也是無人問津。
+                    <strong>❌ 致命選址禁區</strong>：千萬別開在汐科站、新北產業園區等純通勤站！上班族步履匆匆急著打卡，店面弄得再唯美，平日通勤族也沒空停留，週末更直接變成空城。
                   </div>
                 </div>
               </div>
@@ -611,24 +607,24 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
               <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '14px', padding: '20px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
                   <div style={{ fontSize: '16px', fontWeight: '800', color: '#F59E0B', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Store size={20} color="#F59E0B" /> 角色四：24h 智能健身房、乾洗自提櫃、共享商務會議室（都會白領生活服務）
+                    <Store size={20} color="#F59E0B" /> 角色三：共享商務空間、臨時會議室、24h 智能健身房（都會白領生活服務）
                   </div>
                   <span style={{ background: 'rgba(245, 158, 11, 0.2)', color: '#F59E0B', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
-                    鎖定客群：雙峰高頻白領 (高規律性行程鏈)
+                    鎖定客群：【彈性商務/跨區洽公族】(平日離峰 10-16 點 & 雙峰白領)
                   </span>
                 </div>
 
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', fontSize: '12px', lineHeight: '1.6' }}>
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #F59E0B' }}>
                     <div style={{ fontWeight: '700', color: '#F59E0B', marginBottom: '6px' }}>🎯 最佳雙端選址策略：</div>
-                    <p>• <strong>工作端 (Inflow 目的地)</strong>：<strong>松江南京、南京復興、南港軟體園區</strong> ── 瞄準中午 12:00-13:30 午休 45 分鐘高效率重訓，以及出差白領的臨時會議室。</p>
-                    <p>• <strong>居住端 (Outflow 出發地)</strong>：<strong>中和景安、永和頂溪、板橋府中</strong> ── 瞄準晚上 19:30-22:30 返家出閘後，下樓運動或取乾洗西裝。</p>
+                    <p>• <strong>樞紐與商辦端</strong>：<strong>高鐵台北站、南港車站、松江南京、南京復興</strong> ── 瞄準日間 10:00-16:00 跨區出差白領的臨時會議與高效率辦公。</p>
+                    <p>• <strong>居住端 (Outflow 出發地)</strong>：<strong>中和景安、永和頂溪、板橋府中</strong> ── 瞄準晚上 19:30-22:30 返家出閘後，下樓運動或生活服務。</p>
                   </div>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #38BDF8' }}>
                     <div style={{ fontWeight: '700', color: '#38BDF8', marginBottom: '6px' }}>💬 營運長體感心聲與數據背書：</div>
                     <p style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
-                      「都會上班族的動線高度被捷運站綁定！只要掌握『<strong>週三早上 9 點高達 86% 的通勤集中度</strong>』，在居住端提供下班回家路徑上的乾洗自提與深夜健身，在工作端提供午休沖澡與商務辦公，就能完美嵌進白領日常習慣，形成極度穩固的月費訂閱制！」
+                      「都會洽公族與白領的動線高度被交通樞紐綁定！日間離峰時段有 <strong>45% 是商務拜訪與跨區差旅</strong>，在轉乘節點提供隨到隨辦的共享空間與淋浴健身，客單價高且能形成極度穩固的企業月約訂閱制！」
                     </p>
                   </div>
                 </div>
@@ -636,7 +632,42 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                 <div style={{ marginTop: '12px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#FCA5A5', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
                   <div>
-                    <strong>❌ 致命選址禁區</strong>：千萬不要把會員制健身房或乾洗店開在週末型的風景觀光區！觀光客不會去九份或駁二洗西裝做重訓，沒有在地固定出勤居民作為基本盤，店面完全撐不住固定租金成本。
+                    <strong>❌ 致命選址禁區</strong>：千萬不要把商務共享空間開在純住宅末端或缺乏軌道接駁的死胡同，缺乏流動洽公客源必面臨長時間空置。
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {selectedPersona === 'vending' && (
+              <div style={{ background: 'rgba(30, 41, 59, 0.6)', border: '1px solid rgba(236, 72, 153, 0.3)', borderRadius: '14px', padding: '20px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
+                  <div style={{ fontSize: '16px', fontWeight: '800', color: '#EC4899', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <BatteryCharging size={20} color="#EC4899" /> 角色四：伴手禮旗艦店、行李寄存配送、韓式拍貼機、智能自販機
+                  </div>
+                  <span style={{ background: 'rgba(236, 72, 153, 0.2)', color: '#EC4899', padding: '3px 10px', borderRadius: '6px', fontSize: '11px', fontWeight: '700' }}>
+                    鎖定客群：【純外地/國際觀光旅客】(Token/N-IC 現場購票客 &gt; 4,000/h)
+                  </span>
+                </div>
+
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px', fontSize: '12px', lineHeight: '1.6' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #EC4899' }}>
+                    <div style={{ fontWeight: '700', color: '#EC4899', marginBottom: '6px' }}>🎯 最佳選址與落點時段：</div>
+                    <p>• <strong>首選落點</strong>：<strong>台北車站大廳 (Token人潮破萬/h)、西門站、板橋車站、高鐵左營站、機場捷運A1站</strong>。</p>
+                    <p>• <strong>核心特徵</strong>：外國與外縣市旅客出站必經動線，具有 <strong>10 至 30 分鐘行李寄放、買鳳梨酥伴手禮或等人碎片空檔</strong>。</p>
+                  </div>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #10B981' }}>
+                    <div style={{ fontWeight: '700', color: '#10B981', marginBottom: '6px' }}>💬 老闆體感心聲與數據背書：</div>
+                    <p style={{ fontStyle: 'italic', color: '#e2e8f0' }}>
+                      「純外地旅客在票證上最明顯的特徵就是 <strong>Token/紙票 (N-IC)</strong>！他們剛下火車或飛機，手裡拉著行李箱，對寄放行李、買特產伴手禮願付價格最高，只要在閘口出口 50 公尺黃金動線上設店，客單價輕鬆破千元！」
+                    </p>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '12px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#FCA5A5', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
+                  <div>
+                    <strong>❌ 致命選址禁區</strong>：避免擺在單一直通型通道（大家快步通行無停留）或缺乏轉乘等待的小站。人潮如果沒有『停下來等車』的空檔，再便宜的租金也是無人問津。
                   </div>
                 </div>
               </div>

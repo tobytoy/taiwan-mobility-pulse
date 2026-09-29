@@ -8,12 +8,13 @@ const TPASSDashboard = lazy(() => import('./components/TPASSDashboard'));
 const ODStationView = lazy(() => import('./components/ODStationView'));
 const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
 const PipelineMonitor = lazy(() => import('./components/PipelineMonitor'));
+const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonView'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio
 } from 'lucide-react';
 
 const BASEMAP_OPTIONS = [
@@ -41,7 +42,12 @@ export default function App() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
-  const [activeTab, setActiveTab] = useState('map'); // 'map', 'comparison', 'tpass', 'od', 'rd_labs', 'pipeline'
+  // 整併後的 5 大頂級導航模組
+  const [activeTab, setActiveTab] = useState('gis_map'); // 'gis_map', 'analytics', 'telecom', 'policy_labs', 'pipeline'
+  const [mapViewType, setMapViewType] = useState('flows'); // 'flows' (動態走廊流向), 'heatmap' (時空熱點圖)
+  const [analyticsSubView, setAnalyticsSubView] = useState('comparison'); // 'comparison', 'od'
+  const [policySubView, setPolicySubView] = useState('tpass'); // 'tpass', 'rd_labs'
+
   // Map Controls State
   const [currentHour, setCurrentHour] = useState(8);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -87,13 +93,13 @@ export default function App() {
 
   // Time playback loop
   useEffect(() => {
-    if (!isPlaying || activeTab !== 'map') return;
+    if (!isPlaying || activeTab !== 'gis_map' || mapViewType !== 'flows') return;
     const intervalMs = Math.max(140, 1400 / playSpeed);
     const timer = setInterval(() => {
       setCurrentHour(prev => (prev >= 23 ? 0 : prev + 1));
     }, intervalMs);
     return () => clearInterval(timer);
-  }, [isPlaying, playSpeed, activeTab]);
+  }, [isPlaying, playSpeed, activeTab, mapViewType]);
 
   if (loading) {
     return (
@@ -224,16 +230,14 @@ export default function App() {
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Navigation Tabs (整併為 5 大頂級核心模組) */}
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
-            { id: 'map', label: '全台流向地圖', icon: Navigation },
-            { id: 'heatmap', label: '🔥 時空熱點圖 (通勤 vs 旅客)', icon: Flame },
-            { id: 'comparison', label: '10大運具綜合對比', icon: BarChart3 },
-            { id: 'tpass', label: 'TPASS 政策效益分析', icon: CreditCard },
-            { id: 'od', label: 'OD 走廊與站點診斷', icon: Compass },
-            { id: 'rd_labs', label: '五大 AI 研發實驗室', icon: FlaskConical },
-            { id: 'pipeline', label: '管線效能與監控', icon: Zap }
+            { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
+            { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
+            { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
+            { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard },
+            { id: 'pipeline', label: '⚡ 管線效能與監控', icon: Zap }
           ].map(tab => {
             const isSelected = activeTab === tab.id;
             const Icon = tab.icon;
@@ -284,23 +288,85 @@ export default function App() {
       {/* Main Body View Switching */}
       <main style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
         
-        {/* VIEW 1: Interactive Flow Map */}
-        {activeTab === 'map' && (
+        {/* VIEW 1: Interactive GIS Map Center */}
+        {activeTab === 'gis_map' && (
           <div style={{ width: '100%', height: '100%', position: 'relative' }}>
-            <FlowMap
-              corridors={corridors}
-              stationsGeo={stationsGeo}
-              selectedMode={selectedMode}
-              selectedRegion={selectedRegion}
-              selectedPaxType={selectedPaxType}
-              selectedDayType={selectedDayType}
-              basemap={basemap}
-              currentHour={currentHour}
-              onSelectStation={setSelectedStation}
-              selectedStation={selectedStation}
-              onSelectCorridor={setSelectedCorridor}
-              selectedCorridor={selectedCorridor}
-            />
+            {/* Top Center GIS Mode Switcher Floating Badge */}
+            <div style={{
+              position: 'absolute',
+              top: '16px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 450,
+              background: 'rgba(15, 23, 42, 0.94)',
+              backdropFilter: 'blur(14px)',
+              border: '1px solid rgba(56, 189, 248, 0.4)',
+              borderRadius: '30px',
+              padding: '4px 6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              boxShadow: '0 8px 30px rgba(0,0,0,0.6)'
+            }}>
+              <button
+                onClick={() => setMapViewType('flows')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: mapViewType === 'flows' ? '#38BDF8' : 'transparent',
+                  color: mapViewType === 'flows' ? '#0F172A' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: mapViewType === 'flows' ? '800' : '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Navigation size={14} />
+                <span>🌊 動態走廊流向圖</span>
+              </button>
+              <button
+                onClick={() => setMapViewType('heatmap')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: mapViewType === 'heatmap' ? '#EC4899' : 'transparent',
+                  color: mapViewType === 'heatmap' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: mapViewType === 'heatmap' ? '800' : '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Flame size={14} />
+                <span>🔥 時空熱點與四維人群像</span>
+              </button>
+            </div>
+
+            {/* Sub-view 1A: Flow Map */}
+            {mapViewType === 'flows' && (
+              <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+                <FlowMap
+                  corridors={corridors}
+                  stationsGeo={stationsGeo}
+                  selectedMode={selectedMode}
+                  selectedRegion={selectedRegion}
+                  selectedPaxType={selectedPaxType}
+                  selectedDayType={selectedDayType}
+                  basemap={basemap}
+                  currentHour={currentHour}
+                  onSelectStation={setSelectedStation}
+                  selectedStation={selectedStation}
+                  onSelectCorridor={setSelectedCorridor}
+                  selectedCorridor={selectedCorridor}
+                />
 
             {/* Floating Top Left Controls: Modes + Regions + Pax Type + Day Type */}
             <div style={{
@@ -662,66 +728,165 @@ export default function App() {
           </div>
         )}
 
-        {/* Suspense Wrapper for Lazy Loaded Views */}
-        <Suspense fallback={
-          <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
-            ⚡ 模組載入中...
-          </div>
-        }>
-          {/* VIEW 2: Comparison Dashboard */}
-          {activeTab === 'comparison' && (
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              <ErrorBoundary>
-                <ComparisonDashboard studyData={studyData} modesMeta={modesMeta} />
-              </ErrorBoundary>
-            </div>
-          )}
-
-          {/* VIEW: Spatio-Temporal Heatmap (Commuter vs Tourist) */}
-          {activeTab === 'heatmap' && (
-            <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+        {/* Sub-view 1B: Heatmap View & 4-Personas */}
+        {activeTab === 'gis_map' && mapViewType === 'heatmap' && (
+          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <Suspense fallback={
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+                🔥 熱點與人群像模組載入中...
+              </div>
+            }>
               <ErrorBoundary>
                 <HeatmapView basemap={basemap} />
               </ErrorBoundary>
-            </div>
-          )}
+            </Suspense>
+          </div>
+        )}
+      </div>
+    )}
 
-          {/* VIEW 3: TPASS Policy Analytics Dashboard */}
-          {activeTab === 'tpass' && (
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              <ErrorBoundary>
-                <TPASSDashboard />
-              </ErrorBoundary>
-            </div>
-          )}
+    {/* Suspense Wrapper for Lazy Loaded Views (Analytics, Telecom, Policy Labs, Pipeline) */}
+    <Suspense fallback={
+      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+        ⚡ 模組載入中...
+      </div>
+    }>
+      {/* VIEW 2: Analytics & Comparison + OD Diagnosis */}
+      {activeTab === 'analytics' && (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          {/* Secondary Sub-view Switcher Bar */}
+          <div style={{
+            background: '#0B0F17',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '10px 24px',
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'center'
+          }}>
+            <span style={{ fontSize: '12px', color: '#64748B', marginRight: '4px' }}>分析視圖：</span>
+            <button
+              onClick={() => setAnalyticsSubView('comparison')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: analyticsSubView === 'comparison' ? '700' : '500',
+                border: analyticsSubView === 'comparison' ? '1px solid #38BDF8' : '1px solid rgba(255,255,255,0.08)',
+                background: analyticsSubView === 'comparison' ? 'rgba(56, 189, 248, 0.2)' : 'rgba(255,255,255,0.03)',
+                color: analyticsSubView === 'comparison' ? '#38BDF8' : '#94A3B8',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              📊 10大運具綜合對比與四維人群商家選址模擬
+            </button>
+            <button
+              onClick={() => setAnalyticsSubView('od')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: analyticsSubView === 'od' ? '700' : '500',
+                border: analyticsSubView === 'od' ? '1px solid #10B981' : '1px solid rgba(255,255,255,0.08)',
+                background: analyticsSubView === 'od' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255,255,255,0.03)',
+                color: analyticsSubView === 'od' ? '#34D399' : '#94A3B8',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              🎯 OD 核心樞紐與車站微觀診斷
+            </button>
+          </div>
 
-          {/* VIEW 4: OD & Station Diagnosis */}
-          {activeTab === 'od' && (
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              <ErrorBoundary>
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            <ErrorBoundary>
+              {analyticsSubView === 'comparison' ? (
+                <ComparisonDashboard studyData={studyData} modesMeta={modesMeta} />
+              ) : (
                 <ODStationView studyData={studyData} modesMeta={modesMeta} />
-              </ErrorBoundary>
-            </div>
-          )}
+              )}
+            </ErrorBoundary>
+          </div>
+        </div>
+      )}
 
-          {/* VIEW 5: 5 R&D Simulation Labs */}
-          {activeTab === 'rd_labs' && (
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              <ErrorBoundary>
+      {/* VIEW 3: Telecom vs Smart Card Strategy View */}
+      {activeTab === 'telecom' && (
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <ErrorBoundary>
+            <TelecomComparisonView />
+          </ErrorBoundary>
+        </div>
+      )}
+
+      {/* VIEW 4: TPASS Policy & AI Labs */}
+      {activeTab === 'policy_labs' && (
+        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+          {/* Secondary Sub-view Switcher Bar */}
+          <div style={{
+            background: '#0B0F17',
+            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+            padding: '10px 24px',
+            display: 'flex',
+            gap: '10px',
+            alignItems: 'center'
+          }}>
+            <span style={{ fontSize: '12px', color: '#64748B', marginRight: '4px' }}>政策模組：</span>
+            <button
+              onClick={() => setPolicySubView('tpass')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: policySubView === 'tpass' ? '700' : '500',
+                border: policySubView === 'tpass' ? '1px solid #F59E0B' : '1px solid rgba(255,255,255,0.08)',
+                background: policySubView === 'tpass' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255,255,255,0.03)',
+                color: policySubView === 'tpass' ? '#FBBF24' : '#94A3B8',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              💳 TPASS 行政院通勤月票效益監測
+            </button>
+            <button
+              onClick={() => setPolicySubView('rd_labs')}
+              style={{
+                padding: '6px 16px',
+                borderRadius: '6px',
+                fontSize: '12px',
+                fontWeight: policySubView === 'rd_labs' ? '700' : '500',
+                border: policySubView === 'rd_labs' ? '1px solid #A855F7' : '1px solid rgba(255,255,255,0.08)',
+                background: policySubView === 'rd_labs' ? 'rgba(168, 85, 247, 0.2)' : 'rgba(255,255,255,0.03)',
+                color: policySubView === 'rd_labs' ? '#C084FC' : '#94A3B8',
+                cursor: 'pointer',
+                transition: 'all 0.15s ease'
+              }}
+            >
+              🧪 5 大前瞻政策與 AI 韌性模擬實驗室
+            </button>
+          </div>
+
+          <div style={{ flex: 1, overflowY: 'auto' }}>
+            <ErrorBoundary>
+              {policySubView === 'tpass' ? (
+                <TPASSDashboard />
+              ) : (
                 <RDSimulationLab rdProposals={rdProposals} />
-              </ErrorBoundary>
-            </div>
-          )}
+              )}
+            </ErrorBoundary>
+          </div>
+        </div>
+      )}
 
-          {/* VIEW 6: Pipeline & Resource Monitor */}
-          {activeTab === 'pipeline' && (
-            <div style={{ height: '100%', overflowY: 'auto' }}>
-              <ErrorBoundary>
-                <PipelineMonitor progressData={progressData} />
-              </ErrorBoundary>
-            </div>
-          )}
-        </Suspense>
+      {/* VIEW 5: Pipeline & Resource Monitor */}
+      {activeTab === 'pipeline' && (
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <ErrorBoundary>
+            <PipelineMonitor progressData={progressData} />
+          </ErrorBoundary>
+        </div>
+      )}
+    </Suspense>
       </main>
     </div>
   );
