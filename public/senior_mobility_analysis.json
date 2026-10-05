@@ -1,0 +1,369 @@
+{
+  "metadata": {
+    "title": "台灣都會區銀髮長者與愛心卡動態分析報告",
+    "total_analyzed_samples": 614125,
+    "senior_share_in_bus_trips": 30.7,
+    "data_source": "雙北市區公車電子票證大數據 (TO3A 敬老愛心卡)",
+    "generated_at": "2026-10-05 12:22:14"
+  },
+  "metrics": {
+    "total_senior_trips": 614125,
+    "senior_share_pct": 30.7,
+    "avg_stops": 9.5,
+    "median_stops": 7.0,
+    "peak_hour": "10:00 (上午 09:00 - 11:30 避峰黃金高原)",
+    "night_drop_pct": "19:00 後搭乘量銳減 75% 以上",
+    "subsidized_point_utilization": "全額由政府愛心點數扣抵 (實付 0 元率 > 92%)"
+  },
+  "hourly_distribution": [
+    {
+      "hour": 0,
+      "count": 438,
+      "senior_pct": 0.07,
+      "adult_pct": 0.27
+    },
+    {
+      "hour": 1,
+      "count": 120,
+      "senior_pct": 0.02,
+      "adult_pct": 0.08
+    },
+    {
+      "hour": 2,
+      "count": 4,
+      "senior_pct": 0.0,
+      "adult_pct": 0.0
+    },
+    {
+      "hour": 3,
+      "count": 0,
+      "senior_pct": 0.0,
+      "adult_pct": 0.0
+    },
+    {
+      "hour": 4,
+      "count": 220,
+      "senior_pct": 0.04,
+      "adult_pct": 0.01
+    },
+    {
+      "hour": 5,
+      "count": 6550,
+      "senior_pct": 1.07,
+      "adult_pct": 0.53
+    },
+    {
+      "hour": 6,
+      "count": 15194,
+      "senior_pct": 2.47,
+      "adult_pct": 2.3
+    },
+    {
+      "hour": 7,
+      "count": 26524,
+      "senior_pct": 4.32,
+      "adult_pct": 5.64
+    },
+    {
+      "hour": 8,
+      "count": 38243,
+      "senior_pct": 6.23,
+      "adult_pct": 6.75
+    },
+    {
+      "hour": 9,
+      "count": 49571,
+      "senior_pct": 8.07,
+      "adult_pct": 5.36
+    },
+    {
+      "hour": 10,
+      "count": 57040,
+      "senior_pct": 9.29,
+      "adult_pct": 5.4
+    },
+    {
+      "hour": 11,
+      "count": 55670,
+      "senior_pct": 9.06,
+      "adult_pct": 5.82
+    },
+    {
+      "hour": 12,
+      "count": 47804,
+      "senior_pct": 7.78,
+      "adult_pct": 6.0
+    },
+    {
+      "hour": 13,
+      "count": 45355,
+      "senior_pct": 7.39,
+      "adult_pct": 6.0
+    },
+    {
+      "hour": 14,
+      "count": 44816,
+      "senior_pct": 7.3,
+      "adult_pct": 5.98
+    },
+    {
+      "hour": 15,
+      "count": 44495,
+      "senior_pct": 7.25,
+      "adult_pct": 5.99
+    },
+    {
+      "hour": 16,
+      "count": 48508,
+      "senior_pct": 7.9,
+      "adult_pct": 7.16
+    },
+    {
+      "hour": 17,
+      "count": 44200,
+      "senior_pct": 7.2,
+      "adult_pct": 9.2
+    },
+    {
+      "hour": 18,
+      "count": 31544,
+      "senior_pct": 5.14,
+      "adult_pct": 8.78
+    },
+    {
+      "hour": 19,
+      "count": 21505,
+      "senior_pct": 3.5,
+      "adult_pct": 6.05
+    },
+    {
+      "hour": 20,
+      "count": 15947,
+      "senior_pct": 2.6,
+      "adult_pct": 4.74
+    },
+    {
+      "hour": 21,
+      "count": 12445,
+      "senior_pct": 2.03,
+      "adult_pct": 4.21
+    },
+    {
+      "hour": 22,
+      "count": 6190,
+      "senior_pct": 1.01,
+      "adult_pct": 2.79
+    },
+    {
+      "hour": 23,
+      "count": 1742,
+      "senior_pct": 0.28,
+      "adult_pct": 0.93
+    }
+  ],
+  "radius_distribution": [
+    {
+      "range": "在地生活微循環 (1-4 站)",
+      "approx_km": "< 1.5 km",
+      "purpose": "鄰里採買、近處訪友",
+      "count": 184392,
+      "percentage": 30.3
+    },
+    {
+      "range": "生活圈中程移動 (5-9 站)",
+      "approx_km": "1.5 - 4.0 km",
+      "purpose": "常規就醫、活動中心、市集",
+      "count": 203671,
+      "percentage": 33.5
+    },
+    {
+      "range": "跨行政區中長程 (10-16 站)",
+      "approx_km": "4.0 - 8.0 km",
+      "purpose": "跨區大型醫院、森林公園綠地",
+      "count": 126590,
+      "percentage": 20.8
+    },
+    {
+      "range": "長途健走漫遊 (> 16 站)",
+      "approx_km": "> 8.0 km",
+      "purpose": "一日健行遊憩 (陽明山/淡水/碧潭)",
+      "count": 93143,
+      "percentage": 15.3
+    }
+  ],
+  "hotspot_categories": {
+    "hospitals": [
+      {
+        "name": "捷運萬芳醫院站",
+        "trips": 3339,
+        "category": "醫療就醫動脈"
+      },
+      {
+        "name": "榮總",
+        "trips": 2077,
+        "category": "醫療就醫動脈"
+      },
+      {
+        "name": "馬偕醫院",
+        "trips": 1751,
+        "category": "醫療就醫動脈"
+      },
+      {
+        "name": "聯合醫院和平院區",
+        "trips": 1242,
+        "category": "醫療就醫動脈"
+      }
+    ],
+    "parks": [
+      {
+        "name": "捷運象山站",
+        "trips": 1200,
+        "category": "休閒綠地樂活"
+      },
+      {
+        "name": "國父紀念館",
+        "trips": 1176,
+        "category": "休閒綠地樂活"
+      }
+    ],
+    "markets": [
+      {
+        "name": "捷運龍山寺站",
+        "trips": 4566,
+        "category": "傳統市集民生"
+      },
+      {
+        "name": "湖光市場",
+        "trips": 2824,
+        "category": "傳統市集民生"
+      },
+      {
+        "name": "果菜市場",
+        "trips": 2716,
+        "category": "傳統市集民生"
+      },
+      {
+        "name": "士林國中",
+        "trips": 2496,
+        "category": "傳統市集民生"
+      },
+      {
+        "name": "木柵市場",
+        "trips": 1679,
+        "category": "傳統市集民生"
+      },
+      {
+        "name": "綜合市場(捷運石牌站)",
+        "trips": 1638,
+        "category": "傳統市集民生"
+      }
+    ]
+  },
+  "age_friendly_routes": [
+    {
+      "route": "302區",
+      "total_trips": 1860,
+      "senior_trips": 1021,
+      "senior_pct": 54.9,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "小2區",
+      "total_trips": 1569,
+      "senior_trips": 781,
+      "senior_pct": 49.8,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "小6",
+      "total_trips": 2042,
+      "senior_trips": 988,
+      "senior_pct": 48.4,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "216",
+      "total_trips": 1935,
+      "senior_trips": 932,
+      "senior_pct": 48.2,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "682",
+      "total_trips": 1722,
+      "senior_trips": 828,
+      "senior_pct": 48.1,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "9",
+      "total_trips": 5909,
+      "senior_trips": 2707,
+      "senior_pct": 45.8,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "536區",
+      "total_trips": 1618,
+      "senior_trips": 721,
+      "senior_pct": 44.6,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "670",
+      "total_trips": 6897,
+      "senior_trips": 2999,
+      "senior_pct": 43.5,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "小9(台灣好行-北投竹子湖)",
+      "total_trips": 2176,
+      "senior_trips": 938,
+      "senior_pct": 43.1,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "小23",
+      "total_trips": 2168,
+      "senior_trips": 922,
+      "senior_pct": 42.5,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "302",
+      "total_trips": 3828,
+      "senior_trips": 1620,
+      "senior_pct": 42.3,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "206",
+      "total_trips": 6028,
+      "senior_trips": 2513,
+      "senior_pct": 41.7,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "644",
+      "total_trips": 4949,
+      "senior_trips": 2057,
+      "senior_pct": 41.6,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "紅15",
+      "total_trips": 5128,
+      "senior_trips": 2076,
+      "senior_pct": 40.5,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    },
+    {
+      "route": "小8",
+      "total_trips": 1919,
+      "senior_trips": 772,
+      "senior_pct": 40.2,
+      "recommendation": "極高長者密度，建議 100% 配備低地板公車與延長語音進站播報"
+    }
+  ]
+}

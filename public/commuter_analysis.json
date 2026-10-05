@@ -1,0 +1,295 @@
+{
+  "metadata": {
+    "title": "台灣都會區上班通勤族資料分析報告",
+    "total_analyzed_samples": 1210829,
+    "data_source": "雙北市區公車電子票證大數據 (TO3A)",
+    "generated_at": "2026-10-05 12:22:14"
+  },
+  "metrics": {
+    "total_adult_trips": 1210829,
+    "peak_concentration_pct": 30.4,
+    "avg_commute_stops": 9.3,
+    "median_commute_stops": 7.0,
+    "avg_commute_mins": 20.5,
+    "tpass_adoption_pct": 26.2,
+    "avg_standard_fare": 16.1,
+    "avg_actual_paid_fare": 9.7,
+    "avg_subsidy_discount": 6.4
+  },
+  "hourly_distribution": [
+    {
+      "hour": 0,
+      "count": 3243,
+      "percentage": 0.27
+    },
+    {
+      "hour": 1,
+      "count": 1001,
+      "percentage": 0.08
+    },
+    {
+      "hour": 2,
+      "count": 40,
+      "percentage": 0.0
+    },
+    {
+      "hour": 3,
+      "count": 0,
+      "percentage": 0.0
+    },
+    {
+      "hour": 4,
+      "count": 102,
+      "percentage": 0.01
+    },
+    {
+      "hour": 5,
+      "count": 6451,
+      "percentage": 0.53
+    },
+    {
+      "hour": 6,
+      "count": 27890,
+      "percentage": 2.3
+    },
+    {
+      "hour": 7,
+      "count": 68296,
+      "percentage": 5.64
+    },
+    {
+      "hour": 8,
+      "count": 81706,
+      "percentage": 6.75
+    },
+    {
+      "hour": 9,
+      "count": 64873,
+      "percentage": 5.36
+    },
+    {
+      "hour": 10,
+      "count": 65341,
+      "percentage": 5.4
+    },
+    {
+      "hour": 11,
+      "count": 70429,
+      "percentage": 5.82
+    },
+    {
+      "hour": 12,
+      "count": 72697,
+      "percentage": 6.0
+    },
+    {
+      "hour": 13,
+      "count": 72629,
+      "percentage": 6.0
+    },
+    {
+      "hour": 14,
+      "count": 72408,
+      "percentage": 5.98
+    },
+    {
+      "hour": 15,
+      "count": 72553,
+      "percentage": 5.99
+    },
+    {
+      "hour": 16,
+      "count": 86749,
+      "percentage": 7.16
+    },
+    {
+      "hour": 17,
+      "count": 111390,
+      "percentage": 9.2
+    },
+    {
+      "hour": 18,
+      "count": 106320,
+      "percentage": 8.78
+    },
+    {
+      "hour": 19,
+      "count": 73250,
+      "percentage": 6.05
+    },
+    {
+      "hour": 20,
+      "count": 57447,
+      "percentage": 4.74
+    },
+    {
+      "hour": 21,
+      "count": 50972,
+      "percentage": 4.21
+    },
+    {
+      "hour": 22,
+      "count": 33830,
+      "percentage": 2.79
+    },
+    {
+      "hour": 23,
+      "count": 11212,
+      "percentage": 0.93
+    }
+  ],
+  "duration_distribution": [
+    {
+      "range": "< 15 分鐘 (極短程/微接駁)",
+      "stops": "1-6 站",
+      "count": 553251,
+      "percentage": 46.2
+    },
+    {
+      "range": "15 - 30 分鐘 (市區主流通勤)",
+      "stops": "7-13 站",
+      "count": 397510,
+      "percentage": 33.2
+    },
+    {
+      "range": "30 - 45 分鐘 (中長程跨區)",
+      "stops": "14-20 站",
+      "count": 142885,
+      "percentage": 11.9
+    },
+    {
+      "range": "45 - 60 分鐘 (長程向心幹線)",
+      "stops": "21-27 站",
+      "count": 60880,
+      "percentage": 5.1
+    },
+    {
+      "range": "> 60 分鐘 (遠距跨城通勤)",
+      "stops": "> 27 站",
+      "count": 43392,
+      "percentage": 3.6
+    }
+  ],
+  "top_commuter_corridors": [
+    {
+      "route": "內科快線2",
+      "origin": "捷運市政府站",
+      "destination": "陽光抽水站",
+      "trips": 467,
+      "tpass_pct": 58.5,
+      "category": "內湖科技園區專線"
+    },
+    {
+      "route": "內科快線1",
+      "origin": "捷運圓山站",
+      "destination": "仁寶大樓",
+      "trips": 358,
+      "tpass_pct": 54.2,
+      "category": "內湖科技園區專線"
+    },
+    {
+      "route": "內科快線1",
+      "origin": "捷運圓山站",
+      "destination": "基湖站",
+      "trips": 294,
+      "tpass_pct": 55.8,
+      "category": "內湖科技園區專線"
+    },
+    {
+      "route": "內科快線1",
+      "origin": "捷運圓山站",
+      "destination": "瑞光路",
+      "trips": 292,
+      "tpass_pct": 53.1,
+      "category": "內湖科技園區專線"
+    },
+    {
+      "route": "557",
+      "origin": "捷運士林站(中正)",
+      "destination": "東吳大學(錢穆故居)",
+      "trips": 283,
+      "tpass_pct": 80.6,
+      "category": "通學校園走廊"
+    },
+    {
+      "route": "內科快線1",
+      "origin": "捷運圓山站",
+      "destination": "瑞光港墘路口",
+      "trips": 270,
+      "tpass_pct": 53.0,
+      "category": "內湖科技園區專線"
+    },
+    {
+      "route": "299",
+      "origin": "新北大道中華路口",
+      "destination": "臺北車站(忠孝)",
+      "trips": 266,
+      "tpass_pct": 0.0,
+      "category": "跨城際樞紐向心"
+    },
+    {
+      "route": "紅5",
+      "origin": "捷運劍潭站(中山)",
+      "destination": "文化大學一",
+      "trips": 231,
+      "tpass_pct": 0.0,
+      "category": "通學校園走廊"
+    },
+    {
+      "route": "235",
+      "origin": "重新大橋",
+      "destination": "西門市場(漢中)",
+      "trips": 217,
+      "tpass_pct": 49.8,
+      "category": "市區接駁"
+    },
+    {
+      "route": "藍36",
+      "origin": "南港高中",
+      "destination": "南港分局(向陽)",
+      "trips": 201,
+      "tpass_pct": 71.6,
+      "category": "通學校園走廊"
+    },
+    {
+      "route": "39",
+      "origin": "重安街口",
+      "destination": "臺北車站(忠孝)",
+      "trips": 175,
+      "tpass_pct": 32.0,
+      "category": "跨城際樞紐向心"
+    },
+    {
+      "route": "承德幹線",
+      "origin": "松仁路",
+      "destination": "捷運市政府站",
+      "trips": 169,
+      "tpass_pct": 42.6,
+      "category": "第一哩軌道接駁"
+    },
+    {
+      "route": "307",
+      "origin": "港尾福德宮",
+      "destination": "捷運府中站(府中路)",
+      "trips": 162,
+      "tpass_pct": 66.0,
+      "category": "第一哩軌道接駁"
+    },
+    {
+      "route": "14",
+      "origin": "重安街口",
+      "destination": "臺北車站(鄭州)",
+      "trips": 158,
+      "tpass_pct": 0.0,
+      "category": "跨城際樞紐向心"
+    },
+    {
+      "route": "307",
+      "origin": "大庭新村",
+      "destination": "捷運府中站(府中路)",
+      "trips": 156,
+      "tpass_pct": 69.2,
+      "category": "第一哩軌道接駁"
+    }
+  ]
+}

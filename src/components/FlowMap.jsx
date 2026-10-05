@@ -208,6 +208,7 @@ export default function FlowMap({
       if (selectedDayType === 'Weekend' || selectedDayType === 'Holiday') {
         if (corr.pax_type === 'commuter') hourFactor *= 0.35; // 假日通勤線量大減
         if (corr.pax_type === 'tourist') hourFactor *= 1.45;  // 假日觀光線大增
+        if (corr.pax_type === 'senior') hourFactor *= 0.80;   // 假日長者長途略降，以近郊休憩為主
       } else {
         if (corr.pax_type === 'tourist') hourFactor *= 0.55;  // 平日觀光線略降
       }
@@ -248,6 +249,7 @@ export default function FlowMap({
         if (selectedDayType === 'Weekend' || selectedDayType === 'Holiday') {
           if (corr.pax_type === 'commuter') hourFactor *= 0.35;
           if (corr.pax_type === 'tourist') hourFactor *= 1.45;
+          if (corr.pax_type === 'senior') hourFactor *= 0.80;
         }
         if (hourFactor < 0.02) return;
 

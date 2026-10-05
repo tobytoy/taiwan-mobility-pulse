@@ -9,6 +9,7 @@ const ODStationView = lazy(() => import('./components/ODStationView'));
 const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
 const PipelineMonitor = lazy(() => import('./components/PipelineMonitor'));
 const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonView'));
+const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsView'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
@@ -35,7 +36,8 @@ const REGION_OPTIONS = [
 const PAX_OPTIONS = [
   { id: 'all', label: '全體人流', icon: '🔘' },
   { id: 'commuter', label: '💼 通勤族走廊', icon: '💼' },
-  { id: 'tourist', label: '🧳 觀光旅客走廊', icon: '🧳' }
+  { id: 'tourist', label: '🧳 觀光旅客走廊', icon: '🧳' },
+  { id: 'senior', label: '👵 銀髮長者走廊', icon: '👵' }
 ];
 
 export default function App() {
@@ -234,6 +236,7 @@ export default function App() {
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
+            { id: 'personas', label: '👥 客群畫像：通勤 vs 銀髮', icon: Users },
             { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
             { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
             { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard },
@@ -751,6 +754,13 @@ export default function App() {
         ⚡ 模組載入中...
       </div>
     }>
+      {/* VIEW: Persona Deep Analytics (Commuters & Seniors) */}
+      {activeTab === 'personas' && (
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <PersonaAnalyticsView />
+        </div>
+      )}
+
       {/* VIEW 2: Analytics & Comparison + OD Diagnosis */}
       {activeTab === 'analytics' && (
         <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>

@@ -5,7 +5,7 @@ import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
 import { 
   Flame, ArrowDownRight, ArrowUpRight, Waves, 
   Users, Briefcase, Compass, Play, Pause, RotateCcw, 
-  Calendar, Clock, MapPin, Zap, ChevronRight, TrendingUp, Info, Sparkles
+  Calendar, Clock, MapPin, Zap, ChevronRight, TrendingUp, Info, Sparkles, Heart
 } from 'lucide-react';
 
 const BASEMAP_TILES = {
@@ -189,14 +189,52 @@ export default function HeatmapView({ basemap = 'dark' }) {
       }
     }
 
+    // 計算長者專屬佔比與動態流量 (Senior Mobility Decomposition)
+    const stName = st.name || '';
+    let seniorBaseRate = 0.28;
+    let seniorCategory = '一般都會生活圈';
+    if (/醫院|榮總|長庚|臺大|台大|振興|新光|三總|馬偕|慈濟|雙和|亞東/.test(stName)) {
+      seniorBaseRate = 0.52;
+      seniorCategory = '🏥 醫療健康動脈 (高齡高密度)';
+    } else if (/公園|森林公園|龍山寺|中正紀念堂|市場|南門|環南|濱江|植物園|淡水/.test(stName)) {
+      seniorBaseRate = 0.40;
+      seniorCategory = '🌳 綠地休閒與傳統市集';
+    } else if (/科技園區|軟體園區|經貿|世貿|內科/.test(stName)) {
+      seniorBaseRate = 0.08;
+      seniorCategory = '🏢 科技商務圈 (高齡極低)';
+    }
+
+    // 長者生活時鐘避峰係數：09:00~11:30 為最高峰 (1.45x)，19:00 後快速退潮 (0.20x)
+    let seniorHourFactor = 1.0;
+    if (currentHour >= 9 && currentHour <= 11) {
+      seniorHourFactor = 1.45;
+    } else if (currentHour >= 7 && currentHour <= 8) {
+      seniorHourFactor = 0.65;
+    } else if (currentHour >= 17 && currentHour <= 18) {
+      seniorHourFactor = 0.60;
+    } else if (currentHour >= 19 || currentHour <= 5) {
+      seniorHourFactor = 0.20;
+    }
+
+    const seniorRate = Math.min(0.85, Math.max(0.04, seniorBaseRate * seniorHourFactor));
+    const actSenior = Math.round(actTot * seniorRate);
+    const inSenior = Math.round((st.in_tot || 0) * seniorRate);
+    const outSenior = Math.round((st.out_tot || 0) * seniorRate);
+
     return {
       ...st,
       act_c: actC,
       act_t: actT,
+      act_senior: actSenior,
       in_c: (st.in_tot || 0) * adjustedRate,
       in_t: (st.in_tot || 0) * (1 - adjustedRate),
+      in_senior: inSenior,
       out_c: (st.out_tot || 0) * adjustedRate,
       out_t: (st.out_tot || 0) * (1 - adjustedRate),
+      out_senior: outSenior,
+      senior_rate: seniorRate,
+      senior_pct: Math.round(seniorRate * 100),
+      senior_category: seniorCategory,
       commuter_pct: commuterPct,
       tourist_pct: touristPct,
       personas: {
@@ -212,6 +250,12 @@ export default function HeatmapView({ basemap = 'dark' }) {
     if (paxType === 'personas') {
       const { core, explorer, business, tourist } = st.personas;
       return Math.max(core, explorer, business, tourist) || st.act_tot;
+    }
+    if (paxType === 'senior') {
+      if (flowMode === 'inflow') return st.in_senior;
+      if (flowMode === 'outflow') return st.out_senior;
+      if (flowMode === 'net') return Math.round(st.in_senior - st.out_senior);
+      return st.act_senior;
     }
     if (flowMode === 'activity') {
       if (paxType === 'commuter') return st.act_c;
@@ -268,6 +312,10 @@ export default function HeatmapView({ basemap = 'dark' }) {
     } else if (paxType === 'tourist') {
       color = '#EC4899'; // 桃紅 (觀光)
       fillColor = '#DB2777';
+    } else if (paxType === 'senior') {
+      color = '#F43F5E'; // 珊瑚粉/玫瑰紅 (銀髮長者)
+      fillColor = '#E11D48';
+      fillOpacity = 0.75;
     } else {
       const cp = st.commuter_pct || 50;
       if (cp >= 75) {
@@ -340,10 +388,20 @@ export default function HeatmapView({ basemap = 'dark' }) {
             <span>💼 動態通勤推估:</span>
             <span>${Math.round(st.act_c).toLocaleString()} (${st.commuter_pct}%)</span>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 6px;">
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #cbd5e1; margin-bottom: 2px;">
             <span>🧳 動態旅客推估:</span>
             <span>${Math.round(st.act_t).toLocaleString()} (${st.tourist_pct}%)</span>
           </div>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #F43F5E; margin-bottom: 6px; font-weight: 700;">
+            <span>👵 銀髮長者推估:</span>
+            <span>${Math.round(st.act_senior).toLocaleString()} (${st.senior_pct}%)</span>
+          </div>
+          ${paxType === 'senior' ? `
+            <div style="background: rgba(244, 63, 94, 0.15); border: 1px solid rgba(244, 63, 94, 0.3); border-radius: 4px; padding: 4px 6px; margin-bottom: 6px; font-size: 10px; color: #fecdd3;">
+              ${st.senior_category}<br/>
+              ${st.senior_pct >= 35 ? '🚨 建議 100% 配額低地板公車' : 'ℹ️ 長者常規生活動態'}
+            </div>
+          ` : ''}
           <!-- 進度條 -->
           <div style="width: 100%; height: 5px; background: #EC4899; border-radius: 3px; overflow: hidden; display: flex; margin-bottom: 8px;">
             <div style="width: ${st.commuter_pct}%; height: 100%; background: #38BDF8;"></div>
@@ -463,6 +521,7 @@ export default function HeatmapView({ basemap = 'dark' }) {
               { id: 'all', label: '🔘 全體', icon: Users, color: '#F8FAFC' },
               { id: 'commuter', label: '💼 通勤剛需', icon: Briefcase, color: '#38BDF8' },
               { id: 'tourist', label: '🧳 觀光旅客', icon: Compass, color: '#EC4899' },
+              { id: 'senior', label: '👵 銀髮長者', icon: Heart, color: '#F43F5E' },
               { id: 'personas', label: '🧬 四維時空人群像', icon: Sparkles, color: '#C084FC' }
             ].map(p => {
               const isSel = paxType === p.id;
@@ -814,39 +873,74 @@ export default function HeatmapView({ basemap = 'dark' }) {
               </div>
             </div>
 
-            {/* 3. 觀光旅客熱門站點 */}
-            <div>
-              <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <Compass size={13} />
-                <span>Top 觀光遊客熱點 (偶發/遊憩旅次)：</span>
-              </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                {(highlightWed?.top_tourist_spots || []).slice(0, 4).map((st, idx) => (
-                  <div
-                    key={st.name}
-                    onClick={() => setSelectedStation(st.name)}
-                    style={{
-                      background: 'rgba(255,255,255,0.04)',
-                      padding: '5px 8px',
-                      borderRadius: '6px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    <div style={{ fontSize: '12px', fontWeight: '600', color: '#f1f5f9' }}>
-                      <span style={{ color: '#64748b', marginRight: '4px' }}>#{idx+1}</span>
-                      {st.name}
+            {/* 3. 觀光旅客熱門站點 或 銀髮長者就醫休閒站點 */}
+            {paxType === 'senior' ? (
+              <div>
+                <div style={{ fontSize: '11px', color: '#F43F5E', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Heart size={13} />
+                  <span>Top 銀髮就醫與高齡活動熱點：</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {(highlightWed?.top_tourist_spots || []).slice(0, 4).map((st, idx) => (
+                    <div
+                      key={st.name}
+                      onClick={() => setSelectedStation(st.name)}
+                      style={{
+                        background: 'rgba(244, 63, 94, 0.08)',
+                        border: '1px solid rgba(244, 63, 94, 0.2)',
+                        padding: '5px 8px',
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{ fontSize: '12px', fontWeight: '600', color: '#fecdd3' }}>
+                        <span style={{ color: '#fda4af', marginRight: '4px' }}>#{idx+1}</span>
+                        {st.name}
+                      </div>
+                      <div style={{ fontSize: '11px', color: '#F43F5E', fontWeight: '700' }}>
+                        長者指標高
+                      </div>
                     </div>
-                    <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700' }}>
-                      {Math.round(st.tourist_activity).toLocaleString()}
-                      <span style={{ fontSize: '9px', color: '#64748b', marginLeft: '3px' }}>遊客佔{st.tourist_pct}%</span>
-                    </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div>
+                <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <Compass size={13} />
+                  <span>Top 觀光遊客熱點 (偶發/遊憩旅次)：</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {(highlightWed?.top_tourist_spots || []).slice(0, 4).map((st, idx) => (
+                    <div
+                      key={st.name}
+                      onClick={() => setSelectedStation(st.name)}
+                      style={{
+                        background: 'rgba(255,255,255,0.04)',
+                        padding: '5px 8px',
+                        borderRadius: '6px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{ fontSize: '12px', fontWeight: '600', color: '#f1f5f9' }}>
+                        <span style={{ color: '#64748b', marginRight: '4px' }}>#{idx+1}</span>
+                        {st.name}
+                      </div>
+                      <div style={{ fontSize: '11px', color: '#EC4899', fontWeight: '700' }}>
+                        {Math.round(st.tourist_activity).toLocaleString()}
+                        <span style={{ fontSize: '9px', color: '#64748b', marginLeft: '3px' }}>遊客佔{st.tourist_pct}%</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* 階層判定說明卡片 */}
             <div style={{
@@ -967,7 +1061,17 @@ export default function HeatmapView({ basemap = 'dark' }) {
           🎨 熱點色彩圖例
         </div>
 
-        {paxType === 'personas' ? (
+        {paxType === 'senior' ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#E11D48', border: '1px solid #F43F5E', flexShrink: 0 }} />
+              <span style={{ color: '#E2E8F0', fontWeight: '600' }}>玫瑰粉：銀髮長者高密度活動熱點</span>
+            </div>
+            <div style={{ color: '#FECDD3', fontSize: '10px', lineHeight: '1.4' }}>
+              🏥 醫療院所(榮總/台大/長庚)與🌳傳統市集(南門/龍山寺)集中，上午 09-11 點達全天最高峰
+            </div>
+          </div>
+        ) : paxType === 'personas' ? (
           <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
               <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#0284C7', border: '1px solid #38BDF8', flexShrink: 0 }} />
