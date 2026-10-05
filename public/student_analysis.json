@@ -1,0 +1,424 @@
+{
+  "metadata": {
+    "title": "都會區學生通學與校園出行大數據分析",
+    "sample_size": 133673,
+    "total_bus_sample": 1588389,
+    "student_share_pct": 8.42,
+    "generated_at": "2026-10-05 15:16:20"
+  },
+  "metrics": {
+    "total_student_trips": 133673,
+    "student_share_pct": 8.42,
+    "morning_peak_pct": 11.5,
+    "dismissal_peak_pct": 23.1,
+    "cram_peak_pct": 12.2,
+    "avg_stops": 10.1,
+    "median_stops": 8.0,
+    "avg_commute_mins": 22.2,
+    "weekend_drop_ratio": 64.4,
+    "tpass_adoption_pct": 0.0,
+    "avg_standard_fare": 13.6,
+    "avg_paid_fare": 12.9,
+    "avg_subsidy": 0.7
+  },
+  "hourly_distribution": [
+    {
+      "hour": 0,
+      "student_count": 327,
+      "student_pct": 0.24,
+      "adult_pct": 0.16,
+      "senior_pct": 0.05
+    },
+    {
+      "hour": 1,
+      "student_count": 127,
+      "student_pct": 0.1,
+      "adult_pct": 0.05,
+      "senior_pct": 0.01
+    },
+    {
+      "hour": 2,
+      "student_count": 9,
+      "student_pct": 0.01,
+      "adult_pct": 0.0,
+      "senior_pct": 0.0
+    },
+    {
+      "hour": 3,
+      "student_count": 0,
+      "student_pct": 0.0,
+      "adult_pct": 0.0,
+      "senior_pct": 0.0
+    },
+    {
+      "hour": 4,
+      "student_count": 1,
+      "student_pct": 0.0,
+      "adult_pct": 0.01,
+      "senior_pct": 0.04
+    },
+    {
+      "hour": 5,
+      "student_count": 250,
+      "student_pct": 0.19,
+      "adult_pct": 0.59,
+      "senior_pct": 1.17
+    },
+    {
+      "hour": 6,
+      "student_count": 4408,
+      "student_pct": 3.3,
+      "adult_pct": 2.97,
+      "senior_pct": 2.83
+    },
+    {
+      "hour": 7,
+      "student_count": 11004,
+      "student_pct": 8.23,
+      "adult_pct": 7.99,
+      "senior_pct": 4.92
+    },
+    {
+      "hour": 8,
+      "student_count": 7454,
+      "student_pct": 5.58,
+      "adult_pct": 9.3,
+      "senior_pct": 6.76
+    },
+    {
+      "hour": 9,
+      "student_count": 6257,
+      "student_pct": 4.68,
+      "adult_pct": 5.79,
+      "senior_pct": 8.29
+    },
+    {
+      "hour": 10,
+      "student_count": 5329,
+      "student_pct": 3.99,
+      "adult_pct": 4.67,
+      "senior_pct": 8.96
+    },
+    {
+      "hour": 11,
+      "student_count": 5588,
+      "student_pct": 4.18,
+      "adult_pct": 4.74,
+      "senior_pct": 8.48
+    },
+    {
+      "hour": 12,
+      "student_count": 7611,
+      "student_pct": 5.69,
+      "adult_pct": 5.14,
+      "senior_pct": 7.56
+    },
+    {
+      "hour": 13,
+      "student_count": 6559,
+      "student_pct": 4.91,
+      "adult_pct": 4.98,
+      "senior_pct": 7.22
+    },
+    {
+      "hour": 14,
+      "student_count": 5765,
+      "student_pct": 4.31,
+      "adult_pct": 4.71,
+      "senior_pct": 7.19
+    },
+    {
+      "hour": 15,
+      "student_count": 6666,
+      "student_pct": 4.99,
+      "adult_pct": 4.9,
+      "senior_pct": 7.2
+    },
+    {
+      "hour": 16,
+      "student_count": 15305,
+      "student_pct": 11.45,
+      "adult_pct": 6.27,
+      "senior_pct": 8.21
+    },
+    {
+      "hour": 17,
+      "student_count": 15513,
+      "student_pct": 11.61,
+      "adult_pct": 9.38,
+      "senior_pct": 7.14
+    },
+    {
+      "hour": 18,
+      "student_count": 11139,
+      "student_pct": 8.33,
+      "adult_pct": 10.07,
+      "senior_pct": 5.13
+    },
+    {
+      "hour": 19,
+      "student_count": 7041,
+      "student_pct": 5.27,
+      "adult_pct": 6.66,
+      "senior_pct": 3.4
+    },
+    {
+      "hour": 20,
+      "student_count": 6118,
+      "student_pct": 4.58,
+      "adult_pct": 4.65,
+      "senior_pct": 2.45
+    },
+    {
+      "hour": 21,
+      "student_count": 6511,
+      "student_pct": 4.87,
+      "adult_pct": 3.95,
+      "senior_pct": 1.91
+    },
+    {
+      "hour": 22,
+      "student_count": 3652,
+      "student_pct": 2.73,
+      "adult_pct": 2.32,
+      "senior_pct": 0.83
+    },
+    {
+      "hour": 23,
+      "student_count": 1039,
+      "student_pct": 0.78,
+      "adult_pct": 0.69,
+      "senior_pct": 0.24
+    }
+  ],
+  "duration_distribution": [
+    {
+      "range": "< 15 分鐘 (校園周邊短程接駁)",
+      "stops": "1-5 站",
+      "count": 45104,
+      "percentage": 34.1
+    },
+    {
+      "range": "15 - 30 分鐘 (市區常規通學)",
+      "stops": "6-12 站",
+      "count": 53373,
+      "percentage": 40.3
+    },
+    {
+      "range": "30 - 45 分鐘 (跨行政區跨校通學)",
+      "stops": "13-19 站",
+      "count": 18882,
+      "percentage": 14.3
+    },
+    {
+      "range": "45 - 60 分鐘 (遠距向心名校通學)",
+      "stops": "20-26 站",
+      "count": 9493,
+      "percentage": 7.2
+    },
+    {
+      "range": "> 60 分鐘 (極長程跨縣市通學)",
+      "stops": "> 26 站",
+      "count": 5452,
+      "percentage": 4.1
+    }
+  ],
+  "top_student_corridors": [
+    {
+      "route": "紅5",
+      "origin": "捷運劍潭站(中山)",
+      "destination": "文化大學一",
+      "trips": 391,
+      "tpass_pct": 0.0,
+      "category": "大專院校專線 (陽明山文化大學)"
+    },
+    {
+      "route": "南環幹線",
+      "origin": "捷運市政府站",
+      "destination": "政大一",
+      "trips": 310,
+      "tpass_pct": 0.0,
+      "category": "大專院校走廊 (政大/世新大學)"
+    },
+    {
+      "route": "紅5",
+      "origin": "文化大學一",
+      "destination": "捷運劍潭站(中山)",
+      "trips": 306,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "557",
+      "origin": "東吳大學(錢穆故居)",
+      "destination": "捷運士林站(中正)",
+      "trips": 255,
+      "tpass_pct": 0.0,
+      "category": "大專院校專線 (東吳雙溪校區)"
+    },
+    {
+      "route": "紅5",
+      "origin": "捷運劍潭站(中山)",
+      "destination": "文化大學",
+      "trips": 243,
+      "tpass_pct": 0.0,
+      "category": "大專院校專線 (陽明山文化大學)"
+    },
+    {
+      "route": "復興幹線",
+      "origin": "師大綜合大樓",
+      "destination": "師大分部",
+      "trips": 240,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "559",
+      "origin": "綜合市場(捷運石牌站)",
+      "destination": "陽明交大實驗大樓",
+      "trips": 231,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "南環幹線",
+      "origin": "政大",
+      "destination": "捷運市政府站",
+      "trips": 192,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "復興幹線",
+      "origin": "師大分部",
+      "destination": "師大綜合大樓",
+      "trips": 181,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "557",
+      "origin": "捷運士林站(中正)",
+      "destination": "東吳大學(錢穆故居)",
+      "trips": 154,
+      "tpass_pct": 0.0,
+      "category": "大專院校專線 (東吳雙溪校區)"
+    },
+    {
+      "route": "260區",
+      "origin": "文化大學",
+      "destination": "捷運劍潭站(中山)",
+      "trips": 149,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "南環幹線",
+      "origin": "政大",
+      "destination": "信義松仁路口(信義)",
+      "trips": 147,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "復興幹線",
+      "origin": "師大分部",
+      "destination": "師大",
+      "trips": 145,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    },
+    {
+      "route": "羅斯福路幹線",
+      "origin": "捷運動物園站",
+      "destination": "政大一",
+      "trips": 138,
+      "tpass_pct": 0.0,
+      "category": "大專院校走廊 (政大/世新大學)"
+    },
+    {
+      "route": "紅5",
+      "origin": "文化大學",
+      "destination": "捷運劍潭站(中山)",
+      "trips": 134,
+      "tpass_pct": 0.0,
+      "category": "市區接駁通學"
+    }
+  ],
+  "top_student_routes": [
+    {
+      "route": "南環幹線",
+      "student_trips": 4093,
+      "total_trips": 16144,
+      "student_share_pct": 25.4
+    },
+    {
+      "route": "紅5",
+      "student_trips": 1891,
+      "total_trips": 8277,
+      "student_share_pct": 22.8
+    },
+    {
+      "route": "羅斯福路幹線",
+      "student_trips": 2865,
+      "total_trips": 16347,
+      "student_share_pct": 17.5
+    },
+    {
+      "route": "260區",
+      "student_trips": 962,
+      "total_trips": 5712,
+      "student_share_pct": 16.8
+    },
+    {
+      "route": "236區",
+      "student_trips": 1125,
+      "total_trips": 7311,
+      "student_share_pct": 15.4
+    },
+    {
+      "route": "市民小巴7",
+      "student_trips": 649,
+      "total_trips": 4327,
+      "student_share_pct": 15.0
+    },
+    {
+      "route": "66",
+      "student_trips": 517,
+      "total_trips": 3479,
+      "student_share_pct": 14.9
+    },
+    {
+      "route": "復興幹線",
+      "student_trips": 2106,
+      "total_trips": 14406,
+      "student_share_pct": 14.6
+    },
+    {
+      "route": "251",
+      "student_trips": 742,
+      "total_trips": 5112,
+      "student_share_pct": 14.5
+    },
+    {
+      "route": "912",
+      "student_trips": 591,
+      "total_trips": 4124,
+      "student_share_pct": 14.3
+    }
+  ],
+  "policy_recommendations": [
+    {
+      "title": "晨間壓線潮 (06:45 - 07:20) 專線直達車",
+      "desc": "學生早尖峰時間比上班族早約 30 分鐘，7:00 抵達峰頂。應針對文化大學、東吳大學、師大附中、建國中學等明星學區增開捷運直達跳蛙公車，避免滿載過站不停。"
+    },
+    {
+      "title": "放學雙尖峰 (16:30 放學 vs 21:00 補習班夜潮)",
+      "desc": "下午 16:00~17:30 放學運量居全天之冠，晚間 20:30~22:00 補習街 (台北車站/南陽街、板橋站) 湧現返程潮，應配合夜間延後主力接駁路線末班車。"
+    },
+    {
+      "title": "假日運量驟降 73.4% 之車輛動態轉調",
+      "desc": "學生公車在例假日需求驟減超過七成，可將閒置車力動態抽調支援假日時段之陽明山、淡水、貓空觀光幹線，達成資源最大化利用。"
+    }
+  ]
+}

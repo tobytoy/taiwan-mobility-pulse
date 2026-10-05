@@ -37,7 +37,8 @@ const PAX_OPTIONS = [
   { id: 'all', label: '全體人流', icon: '🔘' },
   { id: 'commuter', label: '💼 通勤族走廊', icon: '💼' },
   { id: 'tourist', label: '🧳 觀光旅客走廊', icon: '🧳' },
-  { id: 'senior', label: '👵 銀髮長者走廊', icon: '👵' }
+  { id: 'senior', label: '👵 銀髮長者走廊', icon: '👵' },
+  { id: 'student', label: '🎓 學生通學走廊', icon: '🎓' }
 ];
 
 export default function App() {
@@ -129,7 +130,7 @@ export default function App() {
           正在載入全台多模態動態人流資料庫...
         </div>
         <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
-          TICP 4.48 億筆票證分析與 111 條動態人流走廊
+          TICP 4.48 億筆票證分析與 157 條多模態動態人流走廊
         </div>
       </div>
     );
@@ -236,7 +237,7 @@ export default function App() {
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
-            { id: 'personas', label: '👥 客群畫像：通勤 vs 銀髮', icon: Users },
+            { id: 'personas', label: '👥 三大客群畫像 (通勤/銀髮/學生)', icon: Users },
             { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
             { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
             { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard },
@@ -340,7 +341,7 @@ export default function App() {
                   padding: '6px 14px',
                   borderRadius: '20px',
                   border: 'none',
-                  background: mapViewType === 'heatmap' ? '#EC4899' : 'transparent',
+                  background: mapViewType === 'heatmap' ? 'linear-gradient(135deg, #F97316, #EF4444)' : 'transparent',
                   color: mapViewType === 'heatmap' ? '#FFFFFF' : '#94A3B8',
                   fontSize: '12px',
                   fontWeight: mapViewType === 'heatmap' ? '800' : '600',
@@ -476,7 +477,7 @@ export default function App() {
                   })}
                 </div>
 
-                {/* Pax Type Selector (通勤 vs 觀光) */}
+                {/* Pax Type Selector (通勤 / 觀光 / 銀髮 / 學生) */}
                 <div style={{
                   background: 'rgba(15, 23, 42, 0.88)',
                   backdropFilter: 'blur(10px)',
@@ -490,6 +491,11 @@ export default function App() {
                   <span style={{ fontSize: '11px', color: '#64748b', marginRight: '2px' }}>客群:</span>
                   {PAX_OPTIONS.map(p => {
                     const isSel = selectedPaxType === p.id;
+                    const pColor = p.id === 'commuter' ? '#38BDF8'
+                                 : p.id === 'tourist' ? '#F97316'
+                                 : p.id === 'senior' ? '#F43F5E'
+                                 : p.id === 'student' ? '#10B981'
+                                 : '#A855F7';
                     return (
                       <button
                         key={p.id}
@@ -499,10 +505,11 @@ export default function App() {
                           borderRadius: '5px',
                           fontSize: '11px',
                           fontWeight: isSel ? '700' : '500',
-                          border: isSel ? '1px solid #EC4899' : '1px solid transparent',
-                          background: isSel ? 'rgba(236, 72, 153, 0.25)' : 'rgba(255,255,255,0.04)',
-                          color: isSel ? '#F472B6' : '#94a3b8',
-                          cursor: 'pointer'
+                          border: isSel ? `1px solid ${pColor}` : '1px solid transparent',
+                          background: isSel ? `${pColor}33` : 'rgba(255,255,255,0.04)',
+                          color: isSel ? pColor : '#94a3b8',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
                         }}
                       >
                         {p.label}
@@ -740,7 +747,7 @@ export default function App() {
               </div>
             }>
               <ErrorBoundary>
-                <HeatmapView basemap={basemap} />
+                <HeatmapView basemap={basemap} initialPaxType={selectedPaxType} />
               </ErrorBoundary>
             </Suspense>
           </div>
@@ -754,7 +761,7 @@ export default function App() {
         ⚡ 模組載入中...
       </div>
     }>
-      {/* VIEW: Persona Deep Analytics (Commuters & Seniors) */}
+      {/* VIEW: Persona Deep Analytics (Commuters, Seniors & Students) */}
       {activeTab === 'personas' && (
         <div style={{ height: '100%', overflowY: 'auto' }}>
           <PersonaAnalyticsView />

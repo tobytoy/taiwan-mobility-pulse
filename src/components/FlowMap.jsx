@@ -209,6 +209,7 @@ export default function FlowMap({
         if (corr.pax_type === 'commuter') hourFactor *= 0.35; // 假日通勤線量大減
         if (corr.pax_type === 'tourist') hourFactor *= 1.45;  // 假日觀光線大增
         if (corr.pax_type === 'senior') hourFactor *= 0.80;   // 假日長者長途略降，以近郊休憩為主
+        if (corr.pax_type === 'student') hourFactor *= 0.20;  // 假日學校停課，通學量大減
       } else {
         if (corr.pax_type === 'tourist') hourFactor *= 0.55;  // 平日觀光線略降
       }
@@ -250,6 +251,7 @@ export default function FlowMap({
           if (corr.pax_type === 'commuter') hourFactor *= 0.35;
           if (corr.pax_type === 'tourist') hourFactor *= 1.45;
           if (corr.pax_type === 'senior') hourFactor *= 0.80;
+          if (corr.pax_type === 'student') hourFactor *= 0.20;
         }
         if (hourFactor < 0.02) return;
 
@@ -332,6 +334,45 @@ export default function FlowMap({
         tabIndex={0}
         style={{ width: '100%', height: '100%', minHeight: '380px', background: '#07090E' }} 
       />
+
+      {/* Floating Bottom-Right Corridor Legend Badge */}
+      <div style={{
+        position: 'absolute',
+        bottom: '24px',
+        right: '16px',
+        zIndex: 400,
+        background: 'rgba(15, 23, 42, 0.90)',
+        backdropFilter: 'blur(10px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '10px',
+        padding: '10px 14px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+        fontSize: '11px',
+        pointerEvents: 'none'
+      }}>
+        <div style={{ fontWeight: '700', color: '#94A3B8', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '5px' }}>
+          <span>🌊 人流走廊身分圖例</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#38BDF8' }} />
+          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>💼 通勤剛需走廊</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#F97316' }} />
+          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>🧳 觀光休閒走廊</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#F43F5E' }} />
+          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>👵 銀髮樂齡走廊</span>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#10B981' }} />
+          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>🎓 學生通學走廊</span>
+        </div>
+      </div>
     </div>
   );
 }

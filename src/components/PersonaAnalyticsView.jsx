@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { 
   Users, Briefcase, Heart, Clock, Navigation, MapPin, 
   TrendingUp, Award, ShieldAlert, Sparkles, ChevronRight,
-  Bus, Activity, DollarSign, Calendar, Zap, AlertTriangle
+  Bus, Activity, DollarSign, Calendar, Zap, AlertTriangle,
+  GraduationCap, School, BookOpen
 } from 'lucide-react';
 
 export default function PersonaAnalyticsView() {
-  const [activeSubTab, setActiveSubTab] = useState('commuter'); // 'commuter' or 'senior'
+  const [activeSubTab, setActiveSubTab] = useState('commuter'); // 'commuter', 'senior', or 'student'
   const [commuterData, setCommuterData] = useState(null);
   const [seniorData, setSeniorData] = useState(null);
+  const [studentData, setStudentData] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -17,11 +19,13 @@ export default function PersonaAnalyticsView() {
 
     Promise.all([
       fetch(`${cleanBase}commuter_analysis.json`).then(r => r.ok ? r.json() : null),
-      fetch(`${cleanBase}senior_mobility_analysis.json`).then(r => r.ok ? r.json() : null)
+      fetch(`${cleanBase}senior_mobility_analysis.json`).then(r => r.ok ? r.json() : null),
+      fetch(`${cleanBase}student_analysis.json`).then(r => r.ok ? r.json() : null)
     ])
-      .then(([cData, sData]) => {
+      .then(([cData, sData, stData]) => {
         setCommuterData(cData);
         setSeniorData(sData);
+        setStudentData(stData);
         setLoading(false);
       })
       .catch(err => {
@@ -54,7 +58,7 @@ export default function PersonaAnalyticsView() {
             </span>
           </div>
           <p style={{ margin: 0, fontSize: '13px', color: '#94a3b8' }}>
-            基於雙北公車 TO3A 與多模態 OD 紀錄，透過 Python + Polars 安全串流引擎深度解構兩大極端出行族群
+            基於雙北公車 TO3A 與多模態 OD 紀錄，透過 Python + Polars 安全串流引擎深度解構通勤、銀髮、學生三大出行族群
           </p>
         </div>
 
@@ -66,7 +70,7 @@ export default function PersonaAnalyticsView() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 18px',
+              padding: '8px 16px',
               borderRadius: '8px',
               border: 'none',
               background: activeSubTab === 'commuter' ? '#38BDF8' : 'transparent',
@@ -78,7 +82,7 @@ export default function PersonaAnalyticsView() {
             }}
           >
             <Briefcase size={16} />
-            <span>💼 上班通勤族資料分析</span>
+            <span>💼 上班通勤族分析</span>
           </button>
           <button
             onClick={() => setActiveSubTab('senior')}
@@ -86,7 +90,7 @@ export default function PersonaAnalyticsView() {
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
-              padding: '8px 18px',
+              padding: '8px 16px',
               borderRadius: '8px',
               border: 'none',
               background: activeSubTab === 'senior' ? '#EC4899' : 'transparent',
@@ -98,16 +102,34 @@ export default function PersonaAnalyticsView() {
             }}
           >
             <Heart size={16} />
-            <span>👵 銀髮長者與愛心卡動態</span>
+            <span>👵 銀髮長者與愛心卡</span>
+          </button>
+          <button
+            onClick={() => setActiveSubTab('student')}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              border: 'none',
+              background: activeSubTab === 'student' ? '#10B981' : 'transparent',
+              color: activeSubTab === 'student' ? '#0F172A' : '#94A3B8',
+              fontSize: '13px',
+              fontWeight: '700',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <GraduationCap size={16} />
+            <span>🎓 學生通學與校園出行</span>
           </button>
         </div>
       </div>
 
-      {activeSubTab === 'commuter' ? (
-        <CommuterSection data={commuterData} />
-      ) : (
-        <SeniorSection data={seniorData} />
-      )}
+      {activeSubTab === 'commuter' && <CommuterSection data={commuterData} />}
+      {activeSubTab === 'senior' && <SeniorSection data={seniorData} />}
+      {activeSubTab === 'student' && <StudentSection data={studentData} />}
     </div>
   );
 }
@@ -569,6 +591,298 @@ function SeniorSection({ data }) {
             </tbody>
           </table>
         </div>
+      </div>
+    </div>
+  );
+}
+
+// =========================================================================
+// 3. 學生通學與校園出行 (Student Section)
+// =========================================================================
+function StudentSection({ data }) {
+  if (!data) return <div style={{ color: '#94a3b8' }}>無學生通學分析資料</div>;
+  const m = data.metrics || {};
+  const hourly = data.hourly_distribution || [];
+  const duration = data.duration_distribution || [];
+  const corridors = data.top_student_corridors || [];
+  const routes = data.top_student_routes || [];
+  const policies = data.policy_recommendations || [];
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      {/* KPI Cards */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
+        <KpiCard
+          label="學生有效乘車樣本"
+          value={m.total_student_trips?.toLocaleString() || '133,673'}
+          sub={`佔公車全體旅次高達 ${m.student_share_pct}%`}
+          color="#10B981"
+          icon={GraduationCap}
+        />
+        <KpiCard
+          label="下午放學全日最高峰"
+          value="16:00 ~ 17:00 (23.1%)"
+          sub="單小時破 11.6%，瞬間湧浪高於晨間"
+          color="#F59E0B"
+          icon={Clock}
+        />
+        <KpiCard
+          label="晨間到校壓線潮"
+          value="07:00 (8.2%)"
+          sub="比上班族最高峰提早 30~60 分鐘"
+          color="#38BDF8"
+          icon={School}
+        />
+        <KpiCard
+          label="夜間補習街回流"
+          value="20:30 ~ 22:00 (12.2%)"
+          sub="南陽街/板橋補習返程強於其他族群"
+          color="#A855F7"
+          icon={BookOpen}
+        />
+        <KpiCard
+          label="週末運量驟降率"
+          value={`- ${m.weekend_drop_ratio}%`}
+          sub="極度依賴行事曆，假日具閒置車力轉移空間"
+          color="#EC4899"
+          icon={Calendar}
+        />
+      </div>
+
+      {/* 3-way Hourly Life Clock Comparison */}
+      <div style={{ background: 'rgba(30, 41, 59, 0.6)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <h3 style={{ margin: 0, fontSize: '15px', fontWeight: '700', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Clock size={16} color="#10B981" />
+              三大族群生活時鐘大對比：學生 (早峰+放學+夜補) vs. 上班族 (通勤雙峰) vs. 長者 (避峰高原)
+            </h3>
+            <p style={{ margin: '4px 0 0 0', fontSize: '12px', color: '#94a3b8' }}>
+              學生出行在 07:00 提早抵達晨峰，16:00~17:00 迎來全日下課最大湧浪，晚間 21:00 補習潮顯著突起
+            </p>
+          </div>
+          <div style={{ display: 'flex', gap: '16px', fontSize: '12px', flexWrap: 'wrap' }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#10B981', fontWeight: '800' }}>
+              <span style={{ width: '12px', height: '3px', background: '#10B981', borderRadius: '2px' }} />
+              🎓 學生族群 (HolderType B)
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#38BDF8', fontWeight: '600' }}>
+              <span style={{ width: '12px', height: '3px', background: '#38BDF8', borderRadius: '2px' }} />
+              💼 上班通勤 (HolderType A)
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: '6px', color: '#EC4899', fontWeight: '600' }}>
+              <span style={{ width: '12px', height: '3px', background: '#EC4899', borderRadius: '2px' }} />
+              👵 銀髮長者 (C01/C02/C09)
+            </span>
+          </div>
+        </div>
+
+        {/* Triple Bar Graph */}
+        <div style={{ display: 'flex', alignItems: 'flex-end', gap: '4px', height: '180px', paddingBottom: '20px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+          {hourly.map(item => {
+            const stuH = (item.student_pct / 12.0) * 130;
+            const aduH = (item.adult_pct / 12.0) * 130;
+            const senH = (item.senior_pct / 12.0) * 130;
+            const isStuPeak = (item.hour === 7) || (item.hour >= 16 && item.hour <= 17) || (item.hour === 21);
+
+            return (
+              <div key={item.hour} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
+                <span style={{ fontSize: '9px', color: isStuPeak ? '#10B981' : '#64748B', fontWeight: isStuPeak ? '800' : '400' }}>
+                  {item.student_pct}%
+                </span>
+                <div style={{ display: 'flex', alignItems: 'flex-end', gap: '1px', width: '100%', height: '130px' }}>
+                  {/* Student bar */}
+                  <div
+                    title={`學生 ${item.hour}:00 - ${item.student_pct}%`}
+                    style={{
+                      flex: 1,
+                      height: `${stuH}px`,
+                      minHeight: '2px',
+                      background: isStuPeak ? 'linear-gradient(180deg, #10B981, #059669)' : 'rgba(16, 185, 129, 0.7)',
+                      borderRadius: '2px 2px 0 0'
+                    }}
+                  />
+                  {/* Adult bar */}
+                  <div
+                    title={`成人 ${item.hour}:00 - ${item.adult_pct}%`}
+                    style={{
+                      flex: 1,
+                      height: `${aduH}px`,
+                      minHeight: '2px',
+                      background: 'rgba(56, 189, 248, 0.3)',
+                      borderRadius: '2px 2px 0 0'
+                    }}
+                  />
+                  {/* Senior bar */}
+                  <div
+                    title={`長者 ${item.hour}:00 - ${item.senior_pct}%`}
+                    style={{
+                      flex: 1,
+                      height: `${senH}px`,
+                      minHeight: '2px',
+                      background: 'rgba(236, 72, 153, 0.3)',
+                      borderRadius: '2px 2px 0 0'
+                    }}
+                  />
+                </div>
+                <span style={{ fontSize: '10px', color: '#94A3B8' }}>{item.hour}</span>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Grid: Duration Distribution & Top Student Corridors */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '20px' }}>
+        {/* Left: Duration Breakdown */}
+        <div style={{ background: 'rgba(30, 41, 59, 0.6)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
+          <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: '700', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Activity size={16} color="#10B981" />
+            通學在車耗時與站數階梯分佈
+          </h3>
+          <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#94a3b8' }}>
+            學生平均搭乘 10.1 站 (耗時約 22.2 分鐘)，跨校區或明星學區跨行政區長程通學佔比達 25.6%
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+            {duration.map((b, idx) => (
+              <div key={idx}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '12px', marginBottom: '5px' }}>
+                  <span style={{ fontWeight: '600', color: '#e2e8f0' }}>{b.range}</span>
+                  <span style={{ color: '#10B981', fontWeight: '700' }}>{b.percentage}% ({b.stops})</span>
+                </div>
+                <div style={{ width: '100%', height: '8px', background: 'rgba(255, 255, 255, 0.08)', borderRadius: '4px', overflow: 'hidden' }}>
+                  <div
+                    style={{
+                      width: `${b.percentage}%`,
+                      height: '100%',
+                      background: idx === 0 ? '#10B981' : idx === 1 ? '#38BDF8' : idx === 2 ? '#F59E0B' : '#EC4899',
+                      borderRadius: '4px'
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ marginTop: '20px', padding: '12px', background: 'rgba(16, 185, 129, 0.08)', borderRadius: '8px', border: '1px solid rgba(16, 185, 129, 0.2)', fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6' }}>
+            💡 <strong style={{ color: '#10b981' }}>通學空間特徵</strong>：
+            高中與大學因升學志願分發制度，跨區長途移動比率高於國中小。跨越 13 站以上的乘客達四分之一，主要為新北板橋、中永和、三重向心直達台北市明星公立高中或陽明山/文山區大學之剛性通學客群。
+          </div>
+        </div>
+
+        {/* Right: Top Student Corridors */}
+        <div style={{ background: 'rgba(30, 41, 59, 0.6)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
+          <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: '700', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <School size={16} color="#10B981" />
+            Top 10 熱門校園通學走廊 (大專院校與明星高中)
+          </h3>
+          <p style={{ margin: '0 0 14px 0', fontSize: '12px', color: '#94a3b8' }}>
+            陽明山文化大學、東吳大學、師大分部跨校區與政大/世新走廊排名前列
+          </p>
+
+          <div style={{ maxHeight: '280px', overflowY: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
+              <thead>
+                <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94A3B8' }}>
+                  <th style={{ padding: '6px 8px' }}>公車</th>
+                  <th style={{ padding: '6px 8px' }}>起點站 ➔ 訖點站</th>
+                  <th style={{ padding: '6px 8px' }}>校園聚落類型</th>
+                  <th style={{ padding: '6px 8px', textAlign: 'right' }}>旅次樣本</th>
+                </tr>
+              </thead>
+              <tbody>
+                {corridors.slice(0, 10).map((c, idx) => (
+                  <tr key={idx} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                    <td style={{ padding: '8px', fontWeight: '700', color: '#10B981' }}>{c.route}</td>
+                    <td style={{ padding: '8px', color: '#e2e8f0' }}>
+                      {c.origin} <span style={{ color: '#64748B' }}>➔</span> {c.destination}
+                    </td>
+                    <td style={{ padding: '8px' }}>
+                      <span style={{ 
+                        fontSize: '10px', 
+                        padding: '2px 6px', 
+                        borderRadius: '4px',
+                        background: 'rgba(16, 185, 129, 0.15)',
+                        color: '#6EE7B7'
+                      }}>
+                        {c.category}
+                      </span>
+                    </td>
+                    <td style={{ padding: '8px', textAlign: 'right', fontWeight: '700', color: '#38BDF8' }}>
+                      {c.trips.toLocaleString()}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      {/* Top 10 Student Route Share Ranking Table */}
+      <div style={{ background: 'rgba(30, 41, 59, 0.6)', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)', padding: '20px' }}>
+        <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: '700', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
+          <Bus size={16} color="#10B981" />
+          學生乘客佔比最高之 Top 10 公車主力路線
+        </h3>
+        <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#94a3b8' }}>
+          南環幹線 (政大/世新)、紅5 (文化大學)、羅斯福路幹線 (台大/政大) 學生佔比突破 17% ~ 25%
+        </p>
+
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
+            <thead>
+              <tr style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.1)', color: '#94A3B8' }}>
+                <th style={{ padding: '8px 12px' }}>公車路線</th>
+                <th style={{ padding: '8px 12px' }}>學生佔比</th>
+                <th style={{ padding: '8px 12px' }}>學生旅次 / 總載客數</th>
+                <th style={{ padding: '8px 12px' }}>服務校園樞紐與通學走廊</th>
+              </tr>
+            </thead>
+            <tbody>
+              {routes.map((r, idx) => (
+                <tr key={idx} style={{ borderBottom: '1px solid rgba(255, 255, 255, 0.05)' }}>
+                  <td style={{ padding: '10px 12px', fontWeight: '700', color: '#10B981' }}>{r.route}</td>
+                  <td style={{ padding: '10px 12px', fontWeight: '800', color: r.student_share_pct >= 20 ? '#10B981' : '#34D399' }}>
+                    {r.student_share_pct}%
+                  </td>
+                  <td style={{ padding: '10px 12px', color: '#94A3B8' }}>
+                    {r.student_trips.toLocaleString()} / {r.total_trips.toLocaleString()}
+                  </td>
+                  <td style={{ padding: '10px 12px', color: '#cbd5e1' }}>
+                    <span style={{ 
+                      fontSize: '11px',
+                      padding: '3px 8px',
+                      borderRadius: '4px',
+                      background: 'rgba(16, 185, 129, 0.1)',
+                      color: '#A7F3D0'
+                    }}>
+                      {r.route.includes('紅5') ? '陽明山文化大學接駁主力' :
+                       r.route.includes('南環') ? '文山區政大、世新大學主要走廊' :
+                       r.route.includes('羅斯福') ? '公館台大、師大分部、景美向心' :
+                       r.route.includes('260') ? '台北車站 ➔ 陽明山校園區' :
+                       r.route.includes('復興') ? '師大本部 ↔ 公館分部跨校修課' : '都會重點校園聯外主力'}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Policy Recommendations */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px' }}>
+        {policies.map((p, idx) => (
+          <div key={idx} style={{ background: 'rgba(30, 41, 59, 0.6)', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.2)', padding: '16px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span style={{ fontSize: '18px' }}>🎯</span>
+              <h4 style={{ margin: 0, fontSize: '14px', fontWeight: '700', color: '#10B981' }}>{p.title}</h4>
+            </div>
+            <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8', lineHeight: '1.6' }}>{p.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   );
