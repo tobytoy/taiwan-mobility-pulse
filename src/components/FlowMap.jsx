@@ -372,6 +372,9 @@ export default function FlowMap({
           <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#10B981' }} />
           <span style={{ color: '#E2E8F0', fontWeight: '600' }}>🎓 學生通學走廊</span>
         </div>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5px', fontSize: '9px', color: '#64748B', lineHeight: '1.3' }}>
+          ℹ️ 公車微觀走廊採臺北市公車票證；軌道走廊涵蓋全台高鐵、臺鐵、北捷與高捷。
+        </div>
       </div>
     </div>
   );

@@ -614,36 +614,36 @@ function StudentSection({ data }) {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px' }}>
         <KpiCard
           label="學生有效乘車樣本"
-          value={m.total_student_trips?.toLocaleString() || '133,673'}
-          sub={`佔公車全體旅次高達 ${m.student_share_pct}%`}
+          value={m.total_student_trips?.toLocaleString() || '591,727'}
+          sub={`佔公車全體旅次達 ${m.student_share_pct || 8.89}%`}
           color="#10B981"
           icon={GraduationCap}
         />
         <KpiCard
           label="下午放學全日最高峰"
-          value="16:00 ~ 17:00 (23.1%)"
-          sub="單小時破 11.6%，瞬間湧浪高於晨間"
+          value={`16:00 ~ 17:00 (${m.dismissal_peak_pct || 25.2}%)`}
+          sub="單小時破 12.6%，瞬間湧浪高於晨間"
           color="#F59E0B"
           icon={Clock}
         />
         <KpiCard
           label="晨間到校壓線潮"
-          value="07:00 (8.2%)"
+          value="07:00 (9.9%)"
           sub="比上班族最高峰提早 30~60 分鐘"
           color="#38BDF8"
           icon={School}
         />
         <KpiCard
           label="夜間補習街回流"
-          value="20:30 ~ 22:00 (12.2%)"
-          sub="南陽街/板橋補習返程強於其他族群"
+          value={`20:30 ~ 22:00 (${m.cram_peak_pct || 12.4}%)`}
+          sub="南陽街/公館補習返程強於其他族群"
           color="#A855F7"
           icon={BookOpen}
         />
         <KpiCard
-          label="週末運量驟降率"
-          value={`- ${m.weekend_drop_ratio}%`}
-          sub="極度依賴行事曆，假日具閒置車力轉移空間"
+          label="週末運量降低率"
+          value={`- ${m.weekend_drop_ratio || 37.8}%`}
+          sub="受學校行事曆調節，假日具閒置車力轉移空間"
           color="#EC4899"
           icon={Calendar}
         />
@@ -741,7 +741,7 @@ function StudentSection({ data }) {
             通學在車耗時與站數階梯分佈
           </h3>
           <p style={{ margin: '0 0 16px 0', fontSize: '12px', color: '#94a3b8' }}>
-            學生平均搭乘 10.1 站 (耗時約 22.2 分鐘)，跨校區或明星學區跨行政區長程通學佔比達 25.6%
+            學生平均搭乘 {m.avg_stops || 10.5} 站 (推估在車耗時約 {m.avg_commute_mins || 23.1} 分鐘，以每站 2.2 分鐘估算)，中長程通學佔比達 27.5%
           </p>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>

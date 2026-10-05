@@ -3,7 +3,7 @@
 # 🚆 Taiwan Mobility Pulse (臺灣多模態交通脈動)
 
 ### 台灣全域多模態公共運輸大數據動態人流與 AI 決策平台
-**448M+ Records · 843M+ Passenger Trips · 10 Transit Modes · 197 Dynamic Flow Corridors · 3 Core Personas · 5 AI Decision Labs**
+**448M+ Records · 843M+ Passenger Trips · 10 Transit Modes · 157 Dynamic Flow Corridors · 3 Core Personas · 5 AI Decision Labs**
 
 [![GitHub Pages Deployment](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-10B981?style=for-the-badge&logo=github)](https://tobytoy.github.io/taiwan-mobility-pulse/)
 [![React](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
@@ -22,7 +22,7 @@
 
 **Taiwan Mobility Pulse (臺灣多模態交通脈動)** 是一個國家級的大眾運輸大數據分析、動態流向視覺化與 AI 政策模擬平台。
 
-本專案深入挖掘交通部 **TICP (交通數據匯流平臺)** 涵蓋全台灣共 **4.48 億筆真實票證紀錄（8.43 億跨月旅次）**，橫跨 **10 大多模態運具**（高鐵、臺鐵、北捷、新北捷、高捷、雙北市區公車、公路客運、雙北與桃園 YouBike），構建出全台 **197 條雙向動態人流走廊（覆蓋北中南東四大生活圈）**、**三大客群畫像深度解構（通勤 / 銀髮 / 學生）** 與 **五大 AI 政策決策實驗室**。
+本專案深入挖掘交通部 **TICP (交通數據匯流平臺)** 涵蓋全台灣共 **4.48 億筆真實票證紀錄（8.43 億跨月旅次）**，橫跨 **10 大多模態運具**（高鐵、臺鐵、北捷、新北捷、高捷、雙北市區公車、公路客運、雙北與桃園 YouBike），構建出全台 **157 條雙向動態人流走廊**、**三大客群畫像深度解構（通勤 / 敬老愛心 / 學生）** 與 **五大 AI 政策決策實驗室**。
 
 ```
                                     ┌───────────────────────┐
@@ -46,7 +46,7 @@
                         ▼                                               ▼
             ┌───────────────────────┐                       ┌───────────────────────┐
             │   全台 24H 動態流向地圖  │                       │   五大 AI 政策模擬實驗室  │
-            │ (197 條多模態雙向光廊) │                       │  (GIS 即時空間決策地圖)  │
+            │ (157 條多模態雙向光廊) │                       │  (GIS 即時空間決策地圖)  │
             └───────────────────────┘                       └───────────────────────┘
 ```
 

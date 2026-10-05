@@ -401,33 +401,34 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
       fillOpacity = 0.75;
       categoryName = '🎓 學生通學校園圈';
     } else {
-      // paxType === 'all' 全體模式：智慧判斷站點主導族群型態，讓全台地圖同時呈現各大客群分佈！
+      // paxType === 'all' 全體模式：依據站點機能屬性與主力服務場域分類
+      // 避免依據隨時段浮動的絕對比例導致整片地圖在特定時段翻色
       const stName = st.name || '';
-      const isStudentHub = /文化大學|東吳|師大|政大|政治大學|銘傳|致理|輔大|輔仁|台大|臺灣大學|建中|北一女|附中|成功高中/.test(stName) || (st.student_pct >= 23);
-      const isSeniorHub = /醫院|榮總|長庚|臺大醫院|台大醫院|振興|新光|三總|馬偕|亞東|雙和|龍山寺/.test(stName) || (st.senior_pct >= 34);
-      const isTouristHub = /淡水|西門|新北投|動物園|平溪|九份|左營|駁二|安平|花蓮|宜蘭|礁溪/.test(stName) || (st.tourist_pct >= 45);
-      const isMetroHub = /台北車站|板橋|市政府|台中|高雄|左營/.test(stName) && (st.act_tot > 15000);
+      const isMetroHub = /台北車站|臺北車站|臺北$|板橋|市政府|市府轉運站|南港(?!軟體)|左營|新左營|高雄|高雄車站|臺中|桃園|新竹|臺南/.test(stName);
+      const isSeniorHub = /醫院|榮總|長庚|振興|新光|三總|馬偕|亞東|雙和|龍山寺|石牌|萬華|大安森林公園|果菜市場|中山市場|永安市場/.test(stName);
+      const isStudentHub = /公館|劍潭|士林|忠孝新生|古亭|景美|文化大學|東吳|師大|政大|政治大學|銘傳|致理|輔大|輔仁|臺灣大學|台大(?!醫院)|建中|北一女|附中|成功高中|松山高中|逢甲|中興大學|東海大學|成大|中山大學|東華大學|宜蘭大學/.test(stName) && !isSeniorHub;
+      const isTouristHub = /淡水|新北投|紅樹林|西門|美麗島|101|巨蛋|三多商圈|凹子底|花蓮|臺東|平溪|九份|安平|礁溪/.test(stName);
 
-      if (isStudentHub) {
-        color = '#10B981'; // 翡翠綠
-        fillColor = '#059669';
+      if (isMetroHub) {
+        color = '#A855F7'; // 羅蘭紫
+        fillColor = '#7E22CE';
         fillOpacity = 0.80;
-        categoryName = '🎓 學生通學聚落';
+        categoryName = '🧬 多元都會大樞紐';
       } else if (isSeniorHub) {
         color = '#F43F5E'; // 薔薇紅
         fillColor = '#E11D48';
         fillOpacity = 0.80;
-        categoryName = '👵 銀髮就醫生活';
+        categoryName = '👵 銀髮醫療生活';
+      } else if (isStudentHub) {
+        color = '#10B981'; // 翡翠綠
+        fillColor = '#059669';
+        fillOpacity = 0.80;
+        categoryName = '🎓 學生通學聚落';
       } else if (isTouristHub) {
         color = '#F97316'; // 暖陽橘
         fillColor = '#EA580C';
         fillOpacity = 0.75;
         categoryName = '🧳 觀光休閒商圈';
-      } else if (isMetroHub) {
-        color = '#A855F7'; // 羅蘭紫
-        fillColor = '#7E22CE';
-        fillOpacity = 0.75;
-        categoryName = '🧬 多元都會大樞紐';
       } else {
         color = '#38BDF8'; // 晴空藍
         fillColor = '#0284C7';
@@ -543,6 +544,9 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
             <div style="display: flex; justify-content: space-between; color: #D8B4FE;"><span>📸 週末月票探索:</span> <strong>${st.personas.explorer.toLocaleString()}</strong></div>
             <div style="display: flex; justify-content: space-between; color: #FCD34D;"><span>💼 彈性商務洽公:</span> <strong>${st.personas.business.toLocaleString()}</strong></div>
             <div style="display: flex; justify-content: space-between; color: #FB923C;"><span>🧳 純外地觀光客:</span> <strong>${st.personas.tourist.toLocaleString()}</strong></div>
+          </div>
+          <div style="font-size: 9px; color: #64748b; margin-top: 5px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 4px; line-height: 1.3;">
+            * 站點長者與學生人次係依都會區票證時空行為特徵建立之統計模型推估值。
           </div>
         </div>
       `;
@@ -1025,7 +1029,7 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
               <div>
                 <div style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <GraduationCap size={13} />
-                  <span>Top 學生通學與校園活動熱點：</span>
+                  <span>Top 學生通學與校園活動熱點 (模型推估)：</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   {topStudentSpots.map((st, idx) => (
@@ -1064,7 +1068,7 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
               <div>
                 <div style={{ fontSize: '11px', color: '#F43F5E', fontWeight: '700', marginBottom: '6px', display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <Heart size={13} />
-                  <span>Top 銀髮就醫與高齡活動熱點：</span>
+                  <span>Top 銀髮就醫與高齡活動熱點 (模型推估)：</span>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                   {topSeniorSpots.map((st, idx) => (
@@ -1421,6 +1425,9 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
             </div>
             <div style={{ color: '#64748B' }}>
               2. <strong>地圖層級自適應 (Zoom: {currentZoom || 8})</strong>：縮小時自動收斂避免重疊；放大時展開細節。
+            </div>
+            <div style={{ color: '#FCD34D', marginTop: '3px' }}>
+              3. <strong>族群數據註記</strong>：長者與學生人次為都會區票種時空分佈模型之推估值。
             </div>
           </div>
         </div>
