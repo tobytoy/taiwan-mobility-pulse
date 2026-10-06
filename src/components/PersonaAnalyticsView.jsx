@@ -7,7 +7,7 @@ import {
   CheckCircle2, Store, ArrowUpRight, Search, Train
 } from 'lucide-react';
 
-export default function PersonaAnalyticsView({ onSwitchToTransferMap }) {
+export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchToAiLab }) {
   const [activeSubTab, setActiveSubTab] = useState('transfer'); // 'transfer', 'commuter', 'senior', or 'student'
   const [commuterData, setCommuterData] = useState(null);
   const [seniorData, setSeniorData] = useState(null);
@@ -71,6 +71,31 @@ export default function PersonaAnalyticsView({ onSwitchToTransferMap }) {
 
         {/* Tab Buttons */}
         <div style={{ display: 'flex', background: 'rgba(30, 41, 59, 0.7)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.1)', flexWrap: 'wrap', gap: '4px' }}>
+          {onSwitchToAiLab && (
+            <button
+              id="btn-goto-ai-lab"
+              onClick={onSwitchToAiLab}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '8px 16px',
+                borderRadius: '8px',
+                border: 'none',
+                background: 'linear-gradient(135deg, #7C3AED, #9333EA)',
+                color: '#FFFFFF',
+                fontSize: '13px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                boxShadow: '0 4px 15px rgba(124, 58, 237, 0.4)'
+              }}
+            >
+              <Sparkles size={16} />
+              <span>🤖 AI 6大非監督畫像與軌道決策</span>
+              <ArrowUpRight size={14} />
+            </button>
+          )}
           <button
             onClick={() => setActiveSubTab('transfer')}
             style={{

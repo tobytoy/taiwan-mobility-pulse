@@ -1,0 +1,189 @@
+{
+  "metadata": {
+    "generated_at": "2026-10-06 11:36:54",
+    "sources_analyzed": [
+      "高鐵 (THSR) 電子票證刷卡資料庫 (thsr_od.parquet)",
+      "台鐵 (TRA) 全台城際與區間車 OD (tra_od.parquet)",
+      "國道公路客運 (THB) 跨城廊帶大數據 (thb_bus_to3a.parquet)",
+      "台北捷運 (TRTC) 科技園區與外環站點 OD (trtc_od.parquet)"
+    ],
+    "total_corridors_evaluated": 7
+  },
+  "corridors": [
+    {
+      "id": "corridor-01",
+      "title": "內科科技走廊 ↔ 新北第一環：捷運環狀線東環段",
+      "category": "都會核心捷運環線",
+      "urgency": "極急迫 (最高評級)",
+      "priority_score": 98,
+      "origin": "新北第一環 (板橋/中和/新店) & 信義計畫區",
+      "destination": "內湖科技園區 (港墘/西湖) & 南港軟體園區",
+      "big_data_evidence": {
+        "period_trips": 25811013,
+        "period_trips_label": "內科五大樞紐站旅次逾 25.8M 次",
+        "current_bottleneck": "文湖線車廂容量已達極限 (尖峰承載率 115%)；新北通勤族需於忠孝復興或大安擠上文湖線，轉乘換線步行需 5~8 分鐘。",
+        "bus_congestion": "跨市快速公車 (918, 935, 982, 內科通勤專車) 於堤頂交流道與環東大道尖峰時段回堵 20~35 分鐘。"
+      },
+      "proposed_solution": {
+        "system_type": "高/中運量地下捷運系統",
+        "recommended_project": "台北捷運環狀線東環段 (劍南路 - 松山 - 永春 - 象山 - 動物園)",
+        "peak_headway": "2~3 分鐘高頻發車",
+        "travel_time_before": "45~60 分鐘 (捷運需轉乘 2 次或走國道塞車)",
+        "travel_time_after": "20~25 分鐘 (一車直達)",
+        "time_saved_minutes": 25,
+        "projected_modal_shift": "移轉國道一號與內湖聯外平面道路 28% 私人運具"
+      },
+      "strategic_impact": "徹底解鎖內科「只有文湖線」的孤島瓶頸，讓中和、新店、象山、松山直通內湖，完成大台北首都圈環狀捷運最後一塊拼圖。"
+    },
+    {
+      "id": "corridor-02",
+      "title": "基隆 ↔ 台北首都生活圈：基隆捷運與汐東線直通",
+      "category": "跨縣市城際捷運",
+      "urgency": "極急迫",
+      "priority_score": 95,
+      "origin": "基隆市區 / 八斗子 / 百福 / 汐止",
+      "destination": "台北南港轉運樞紐 (三鐵共構) / 內湖東湖",
+      "big_data_evidence": {
+        "period_trips": 4691280,
+        "period_trips_label": "國道客運 (1815/1579/1813/2088 等) 高達 4.69M 旅次",
+        "current_bottleneck": "每日清晨基隆民眾於市區大排長龍候車，國道一號八堵至汐止段常態性車速低於 30 km/h；台鐵八堵至南港路段容量已近飽和。",
+        "bus_congestion": "國道客運單趟通勤時間常因事故由 35 分鐘驟增至 75 分鐘，時間可靠度極低。"
+      },
+      "proposed_solution": {
+        "system_type": "中運量捷運 (LRRT/捷運直通)",
+        "recommended_project": "基隆捷運全線 (基隆-八堵-汐止-南港) 銜接汐止東湖線",
+        "peak_headway": "4~6 分鐘",
+        "travel_time_before": "45~70 分鐘 (受天候與國道塞車劇烈波動)",
+        "travel_time_after": "25 分鐘 (南港車站準點直達)",
+        "time_saved_minutes": 30,
+        "projected_modal_shift": "移轉國道客運 35% 客流至軌道，紓解台鐵汐止瓶頸段"
+      },
+      "strategic_impact": "實現基隆市民「進台北捷運化」之世紀願景，於南港轉運站無縫對接高鐵、台鐵與板南線。"
+    },
+    {
+      "id": "corridor-03",
+      "title": "北竹科技走廊：高鐵科技通勤直達區間車 (台北 ↔ 新竹)",
+      "category": "高速鐵路捷運化",
+      "urgency": "高急迫性",
+      "priority_score": 93,
+      "origin": "南港 / 台北車站 / 板橋 / 桃園青埔",
+      "destination": "新竹高鐵站 ↔ 新竹科學園區 (竹科)",
+      "big_data_evidence": {
+        "period_trips": 158370,
+        "period_trips_label": "高鐵電子票證第一名走廊，累計 158,370 筆自由座刷卡",
+        "current_bottleneck": "週一晨峰與週五傍晚，新竹高鐵自由座月台擠滿竹科工程師與商務旅客，每班車自由座車廂幾乎無法擠入。",
+        "bus_congestion": "國道一號湖口至竹科段晨峰時速僅 20~30 km/h，自駕車程耗時 70~100 分鐘。"
+      },
+      "proposed_solution": {
+        "system_type": "高鐵尖峰特定區間快車 (Commuter Shuttle)",
+        "recommended_project": "高鐵尖峰增開「南港-台北-板橋-桃園-新竹」科技通勤直達區間列車；自由座車廂擴充至 8 節",
+        "peak_headway": "晨昏尖峰每 15 分鐘一班區間直達車",
+        "travel_time_before": "70~90 分鐘 (國道自駕/客運遇塞車)",
+        "travel_time_after": "28 分鐘 (台北-新竹高鐵直達)",
+        "time_saved_minutes": 45,
+        "projected_modal_shift": "有效抑制國道一號新竹段自駕小客車，提供跨城半導體工程師精準準點通勤"
+      },
+      "strategic_impact": "加速「北竹半小時生活圈」，並建議新竹縣市加速興建新竹輕軌直達竹科園區，解決出站後最後一哩路塞車。"
+    },
+    {
+      "id": "corridor-04",
+      "title": "首都 ↔ 蘭陽平原：北宜高鐵繞過雪山隧道瓶頸",
+      "category": "高速鐵路新闢幹線",
+      "urgency": "高急迫性",
+      "priority_score": 90,
+      "origin": "台北南港樞紐",
+      "destination": "宜蘭市 / 羅東 / 礁溪 (高鐵宜蘭站)",
+      "big_data_evidence": {
+        "period_trips": 2197308,
+        "period_trips_label": "國五雪隧國道客運主力線累計逾 2.20M 旅次",
+        "current_bottleneck": "每逢週五傍晚至週日晚間，國道五號雪山隧道回堵 8~15 公里，單程耗時由 45 分鐘暴增至 120~180 分鐘；台鐵宜蘭線繞經東北角耗時 75~105 分鐘。",
+        "bus_congestion": "大眾客運與小客車一同受困於雪隧入口前交流道，完全喪失公車專用道效益。"
+      },
+      "proposed_solution": {
+        "system_type": "高速鐵路專用軌道",
+        "recommended_project": "北宜高鐵 (南港 ↔ 宜蘭縣政中心)",
+        "peak_headway": "假日每 20~30 分鐘一班",
+        "travel_time_before": "90~150 分鐘 (假日雪隧壅塞情況)",
+        "travel_time_after": "18~20 分鐘 (南港直達宜蘭)",
+        "time_saved_minutes": 70,
+        "projected_modal_shift": "移轉國五雪隧 40% 跨城出遊與返鄉車流，徹底根治宜蘭塞車惡夢"
+      },
+      "strategic_impact": "將宜蘭納入大台北 20 分鐘軌道圈，作為東台灣高速軌道之樞紐門戶，解構雪隧長期過載困局。"
+    },
+    {
+      "id": "corridor-05",
+      "title": "中彰核心生活圈：台中捷運綠線跨烏溪延伸彰化",
+      "category": "跨縣市都會捷運延伸",
+      "urgency": "高度推薦",
+      "priority_score": 88,
+      "origin": "台中市區 (七期重劃區/文心路廊帶) & 台中高鐵新烏日",
+      "destination": "彰化市區 (金馬路/中山路)",
+      "big_data_evidence": {
+        "period_trips": 2296013,
+        "period_trips_label": "台鐵台中-新烏日-彰化走廊高達 2.30M 旅次",
+        "current_bottleneck": "跨越烏溪之省道台一線台一乙線尖峰嚴重壅塞，台鐵區間車逢通勤尖峰擁擠，且無法直達台中市七期新市政中心與文心地區。",
+        "bus_congestion": "中彰客運公車受限平面號誌，尖峰旅行時間超過 45 分鐘。"
+      },
+      "proposed_solution": {
+        "system_type": "中運量鋼輪鋼軌捷運系統",
+        "recommended_project": "台中捷運綠線向南延伸彰化 (高鐵台中站 - 烏日榮泉 - 彰化金馬路)",
+        "peak_headway": "5~6 分鐘",
+        "travel_time_before": "40~50 分鐘 (公車轉乘或台鐵轉乘市區公車)",
+        "travel_time_after": "18 分鐘 (彰化直通高鐵站與台中核心)",
+        "time_saved_minutes": 25,
+        "projected_modal_shift": "構建中彰 20 分鐘一體化生活圈，移轉烏溪大橋 22% 機車與自駕車流"
+      },
+      "strategic_impact": "打破縣市行政藩籬，將彰化百萬人口無縫對接台中高鐵特區與捷運路網，落實中部區域共同治理。"
+    },
+    {
+      "id": "corridor-06",
+      "title": "南台灣半導體S廊帶：台南捷運紅線直通高雄捷運紅線",
+      "category": "南部科技雙城直通軌道",
+      "urgency": "高度推薦",
+      "priority_score": 86,
+      "origin": "台南市區 ↔ 奇美博物館 ↔ 仁德 ↔ 南科",
+      "destination": "高雄路竹科學園區 ↔ 橋頭科學園區 ↔ 楠梓台積電園區 ↔ 左營",
+      "big_data_evidence": {
+        "period_trips": 2314314,
+        "period_trips_label": "台鐵南高城際與科技廠區往返逾 2.31M 旅次",
+        "current_bottleneck": "國道一號仁德至楠梓路段因半導體科技園區進駐，貨車與通勤小客車交織，車流劇增；台鐵路竹、橋頭站班距無法滿足即時高頻出差需求。",
+        "bus_congestion": "南高跨城客運缺乏專用路權，國道一號易受連環事故干擾。"
+      },
+      "proposed_solution": {
+        "system_type": "捷運延伸與台鐵科技區間快車",
+        "recommended_project": "高雄捷運紅線北延 (路竹/湖內) 直通串聯「台南捷運紅線」，台鐵增開南科-左營科技通勤直達列車",
+        "peak_headway": "6~8 分鐘",
+        "travel_time_before": "50~70 分鐘 (公路塞車與多重轉乘)",
+        "travel_time_after": "30 分鐘 (科技園區無縫直達)",
+        "time_saved_minutes": 25,
+        "projected_modal_shift": "串聯南科、路科、橋科與高楠園區，構築半導體廊帶高可靠通勤走廊"
+      },
+      "strategic_impact": "打造南台灣半導體巨型聚落（Megacluster）的骨幹運輸，實現台南-高雄雙城一小時高科技研發廊帶。"
+    },
+    {
+      "id": "corridor-07",
+      "title": "新北西南延伸桃園：三鶯線延伸八德銜接桃捷綠線",
+      "category": "都會外環城際延伸",
+      "urgency": "積極推動",
+      "priority_score": 84,
+      "origin": "新北樹林 / 三峽 / 鶯歌",
+      "destination": "桃園八德 ↔ 桃園市區 (銜接桃園綠線與台鐵地下化)",
+      "big_data_evidence": {
+        "period_trips": 7661522,
+        "period_trips_label": "台鐵桃園/鶯歌/樹林至雙北高達 7.66M 旅次",
+        "current_bottleneck": "台鐵樹林至鶯歌段逢尖峰車廂飽和度達 120%，鶯歌與八德交界自駕車流仰賴三鶯大橋與國道二號，晨峰大排長龍。",
+        "bus_congestion": "跨市公車 (如 981, 702) 行車時間長，深受平面號誌干擾。"
+      },
+      "proposed_solution": {
+        "system_type": "中運量高架捷運系統",
+        "recommended_project": "新北捷運三鶯線延伸桃園八德段 (銜接桃園捷運綠線 G04 站)",
+        "peak_headway": "4~5 分鐘",
+        "travel_time_before": "45~60 分鐘",
+        "travel_time_after": "25 分鐘 (八德直達頂埔無縫轉乘板南線)",
+        "time_saved_minutes": 25,
+        "projected_modal_shift": "分流台鐵樹林-桃園段擁擠人流，串聯三鶯與桃園八德大生活圈"
+      },
+      "strategic_impact": "使雙北捷運網絡與桃園捷運網絡首次實現跨直轄市實體軌道銜接，達成北北桃一小時生活圈願景。"
+    }
+  ]
+}
