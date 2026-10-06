@@ -4,10 +4,10 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 const ComparisonDashboard = lazy(() => import('./components/ComparisonDashboard'));
 const HeatmapView = lazy(() => import('./components/HeatmapView'));
+const TransferMapView = lazy(() => import('./components/TransferMapView'));
 const TPASSDashboard = lazy(() => import('./components/TPASSDashboard'));
 const ODStationView = lazy(() => import('./components/ODStationView'));
 const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
-const PipelineMonitor = lazy(() => import('./components/PipelineMonitor'));
 const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonView'));
 const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsView'));
 import { 
@@ -15,7 +15,7 @@ import {
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle
 } from 'lucide-react';
 
 const BASEMAP_OPTIONS = [
@@ -130,7 +130,7 @@ export default function App() {
           正在載入全台多模態動態人流資料庫...
         </div>
         <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
-          TICP 4.48 億筆票證分析與 157 條多模態動態人流走廊
+          TICP 4.48 億筆票證分析、157 條動態走廊與全台 76 大跨運具轉乘樞紐
         </div>
       </div>
     );
@@ -237,11 +237,10 @@ export default function App() {
         <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
-            { id: 'personas', label: '👥 三大客群畫像 (通勤/銀髮/學生)', icon: Users },
+            { id: 'personas', label: '👥 客群畫像與轉乘應用 (通勤/銀髮/學生/轉乘)', icon: Users },
             { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
             { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
-            { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard },
-            { id: 'pipeline', label: '⚡ 管線效能與監控', icon: Zap }
+            { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard }
           ].map(tab => {
             const isSelected = activeTab === tab.id;
             const Icon = tab.icon;
@@ -351,6 +350,26 @@ export default function App() {
               >
                 <Flame size={14} />
                 <span>🔥 時空熱點與四維人群像</span>
+              </button>
+              <button
+                onClick={() => setMapViewType('transfers')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: mapViewType === 'transfers' ? 'linear-gradient(135deg, #0284C7, #A855F7)' : 'transparent',
+                  color: mapViewType === 'transfers' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: mapViewType === 'transfers' ? '800' : '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Shuffle size={14} />
+                <span>🔀 跨運具轉乘脈衝 (身分接駁)</span>
               </button>
             </div>
 
@@ -752,6 +771,21 @@ export default function App() {
             </Suspense>
           </div>
         )}
+
+        {/* Sub-view 1C: Multi-modal Transfer Map View (Golden Combination) */}
+        {activeTab === 'gis_map' && mapViewType === 'transfers' && (
+          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <Suspense fallback={
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+                🔀 跨運具轉乘脈衝模組載入中...
+              </div>
+            }>
+              <ErrorBoundary>
+                <TransferMapView basemap={basemap} />
+              </ErrorBoundary>
+            </Suspense>
+          </div>
+        )}
       </div>
     )}
 
@@ -761,10 +795,13 @@ export default function App() {
         ⚡ 模組載入中...
       </div>
     }>
-      {/* VIEW: Persona Deep Analytics (Commuters, Seniors & Students) */}
+      {/* VIEW: Persona Deep Analytics (Commuters, Seniors & Students & Transfers) */}
       {activeTab === 'personas' && (
         <div style={{ height: '100%', overflowY: 'auto' }}>
-          <PersonaAnalyticsView />
+          <PersonaAnalyticsView onSwitchToTransferMap={() => {
+            setActiveTab('gis_map');
+            setMapViewType('transfers');
+          }} />
         </div>
       )}
 
@@ -895,14 +932,7 @@ export default function App() {
         </div>
       )}
 
-      {/* VIEW 5: Pipeline & Resource Monitor */}
-      {activeTab === 'pipeline' && (
-        <div style={{ height: '100%', overflowY: 'auto' }}>
-          <ErrorBoundary>
-            <PipelineMonitor progressData={progressData} />
-          </ErrorBoundary>
-        </div>
-      )}
+
     </Suspense>
       </main>
     </div>

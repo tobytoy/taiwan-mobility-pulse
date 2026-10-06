@@ -198,24 +198,24 @@ export default function TelecomComparisonView() {
               </div>
             </div>
 
-            {/* 5. 跨運具轉乘鏈結 */}
+            {/* 5. 跨運具轉乘鏈結與政策身分核銷 */}
             <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
                 <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC' }}>
-                  5. 多模態轉乘鏈結 (Multimodal Transfer)
+                  5. 多模態轉乘與連續搭乘優惠碼 (Transfer Code & Identity)
                 </span>
                 <span style={{ fontSize: '11px', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>
-                  票證獨特優勢
+                  票證不可替代之護城河
                 </span>
               </div>
               <div style={{ fontSize: '12px', lineHeight: '1.6', color: '#cbd5e1' }}>
                 <div style={{ padding: '8px 10px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: '8px', marginBottom: '8px', borderLeft: '3px solid #38BDF8' }}>
-                  <strong style={{ color: '#38BDF8' }}>🚆 交通票證：精確還原「最後一哩路 (Last-mile)」</strong><br />
-                  具備公車轉捷運、捷運轉 YouBike 之轉乘折扣與時間差紀錄，清楚掌握綠運輸接駁關係。
+                  <strong style={{ color: '#38BDF8' }}>🚆 交通票證：精準還原行程鏈與法定核銷代碼 (TransferCode)</strong><br />
+                  票證帶有精確物理扣款代碼，能判讀「捷運轉公車 (代碼 102)」、「台鐵轉公路客運 (代碼 403)」、「幹線公車轉乘 (代碼 9902)」以及長者愛心卡、學生卡身分。交通部與地方政府每週發放的 <strong>NT$ 5,503 萬元轉乘補貼</strong>，票證是<strong>唯一具備法律效力的物理交易核銷憑證</strong>！
                 </div>
                 <div style={{ padding: '8px 10px', background: 'rgba(15, 23, 42, 0.6)', borderRadius: '8px', borderLeft: '3px solid #C084FC' }}>
-                  <strong style={{ color: '#C084FC' }}>📡 電信信令：難以精確辨識運具接駁關係</strong><br />
-                  若沒有結合速度模型，常將騎 YouBike 與慢速步行混淆，無法判定是否享有轉乘政策優惠。
+                  <strong style={{ color: '#C084FC' }}>📡 電信信令：僅有空間位移，無身分與票價折扣資訊</strong><br />
+                  電信基地台只知道手機在移動，完全無法判定是否享有政策轉乘減免、愛心卡 480 點扣減或 TPASS 月票，在財政預算補貼撥付與運具轉移歸因上完全無法作為審計憑證。
                 </div>
               </div>
             </div>

@@ -273,13 +273,16 @@ export default function TPASSDashboard() {
               <CreditCard size={26} color="#38BDF8" /> 行政院 TPASS 通勤月票政策效益全域大數據儀表板
             </h2>
             <p style={{ fontSize: '13px', color: '#94a3b8', marginTop: '6px', maxWidth: '850px', lineHeight: '1.6' }}>
-              透過分析全台公車、客運、軌道與公共自行車之去識別化卡號行程鏈，全面量化 <strong>8,226 萬筆 TPASS 旅次</strong> 在「財務補貼槓桿」、「民眾實質減負」、「運具轉移」與「ESG 減碳」之真實政策成效。
+              透過分析全台公車、公路客運、軌道與公共自行車之去識別化卡號行程鏈，全面量化 <strong>8,226 萬筆 TPASS 旅次</strong> 與 <strong>每週 676.7 萬筆跨運具連續轉乘</strong>。TPASS 徹底打破跨運具連續搭乘之付費壁壘，政府單週投入 <strong>NT$ 5,503 萬元轉乘補貼</strong>，實現「軌道骨幹 ➔ 幹線客運 ➔ 微循環接駁」之無縫綠運輸鏈。
             </p>
           </div>
 
           <div style={{ display: 'flex', gap: '10px' }}>
             <span style={{ padding: '6px 14px', borderRadius: '8px', background: 'rgba(16, 185, 129, 0.15)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#34D399', fontSize: '12px', fontWeight: '700' }}>
               ✓ 涵蓋全台 10 款月票方案
+            </span>
+            <span style={{ padding: '6px 14px', borderRadius: '8px', background: 'rgba(56, 189, 248, 0.15)', border: '1px solid rgba(56, 189, 248, 0.3)', color: '#38BDF8', fontSize: '12px', fontWeight: '700' }}>
+              ✓ 每週轉乘補貼 NT$ 55M
             </span>
           </div>
         </div>

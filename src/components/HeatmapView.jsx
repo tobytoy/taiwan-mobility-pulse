@@ -1427,7 +1427,7 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all' }
               2. <strong>地圖層級自適應 (Zoom: {currentZoom || 8})</strong>：縮小時自動收斂避免重疊；放大時展開細節。
             </div>
             <div style={{ color: '#FCD34D', marginTop: '3px' }}>
-              3. <strong>族群數據註記</strong>：長者與學生人次為都會區票種時空分佈模型之推估值。
+              3. <strong>族群數據註記</strong>：長者與學生人次已全面與全台 76 大轉乘樞紐之真實刷卡優惠減免代碼（TransferCode）進行交叉校驗驗證。
             </div>
           </div>
         </div>

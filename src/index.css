@@ -299,3 +299,41 @@ input[type=range]::-webkit-slider-thumb {
 ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
 ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.15); border-radius: 3px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* Transfer Pulse Animations & Markers */
+.transfer-hub-div-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+@keyframes rayFlow {
+  from {
+    stroke-dashoffset: 32;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.transfer-animated-ray {
+  animation: rayFlow 1.2s linear infinite;
+}
+
+.cyber-dark-tooltip {
+  background: rgba(13, 18, 30, 0.94) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.6) !important;
+  color: #f8fafc !important;
+}
+
+.cyber-dark-tooltip .leaflet-tooltip-pane {
+  background: transparent !important;
+}
+
+.cyber-dark-tooltip::before {
+  border-top-color: rgba(13, 18, 30, 0.94) !important;
+}
+

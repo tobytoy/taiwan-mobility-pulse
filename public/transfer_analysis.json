@@ -1,0 +1,5550 @@
+{
+  "analysis_meta": {
+    "study_title": "臺灣多模態公共運輸跨運具轉乘與身分依賴全島研究",
+    "study_period": "2026-03-09 ~ 2026-03-15 (常規學期通學週全樣本)",
+    "total_sample_trips": 7692692,
+    "transfer_trips": 6767398,
+    "total_subsidized_amount_ntd": 55034555,
+    "avg_discount_per_transfer_ntd": 8.13,
+    "regions_supported": [
+      "all",
+      "north",
+      "central",
+      "south",
+      "east"
+    ],
+    "hubs_count": 76,
+    "regional_hubs_count": {
+      "north": 30,
+      "central": 18,
+      "south": 18,
+      "east": 10
+    }
+  },
+  "regions_meta": {
+    "all": {
+      "label": "🌐 全台總覽",
+      "center": [
+        23.95,
+        120.95
+      ],
+      "zoom": 8
+    },
+    "north": {
+      "label": "🏙️ 北部都會區 (基北北桃竹)",
+      "center": [
+        25.045,
+        121.53
+      ],
+      "zoom": 11
+    },
+    "central": {
+      "label": "🌲 中部生活圈 (中彰投苗)",
+      "center": [
+        24.085,
+        120.65
+      ],
+      "zoom": 11
+    },
+    "south": {
+      "label": "☀️ 南部生活圈 (南高屏/雲嘉)",
+      "center": [
+        22.75,
+        120.4
+      ],
+      "zoom": 10
+    },
+    "east": {
+      "label": "🌊 東部生活圈 (宜花東)",
+      "center": [
+        24.4,
+        121.7
+      ],
+      "zoom": 9
+    }
+  },
+  "persona_summary": {
+    "tpass": {
+      "name": "TPASS 通勤月票專案",
+      "description": "全島高頻雙向接駁，邊際成本 0 元高依賴群體",
+      "color": "#A855F7"
+    },
+    "regular_adult": {
+      "name": "自費成人上班通勤",
+      "description": "享受第一段 8 元轉乘優惠，對幹線班距敏感度最高",
+      "color": "#38BDF8"
+    },
+    "student": {
+      "name": "學生通學走廊",
+      "description": "校園周邊站點集中度高達 70% 以上，通學固定時段尖峰",
+      "color": "#10B981"
+    },
+    "senior": {
+      "name": "銀髮樂齡醫療生活",
+      "description": "公車轉公車比例最高，連結醫學中心與果菜傳統市集",
+      "color": "#F43F5E"
+    }
+  },
+  "overall_top_hotspots": [
+    {
+      "BoardingStopName": "臺北車站(忠孝)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 82178,
+      "subsidized_ntd": 399237.0,
+      "from_metro": 9923,
+      "from_trunk": 9872,
+      "from_bus": 58212,
+      "from_train": 3216,
+      "persona_pct": {
+        "commuter": 65.8,
+        "tpass": 24.3,
+        "regular_adult": 41.5,
+        "student": 8.7,
+        "senior": 25.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "652",
+          "count": 12721
+        },
+        {
+          "RouteName": "262區",
+          "count": 12185
+        },
+        {
+          "RouteName": "299",
+          "count": 10718
+        },
+        {
+          "RouteName": "和平幹線",
+          "count": 5085
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "新北大道中華路口",
+          "count": 3687,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "中華路北站",
+          "count": 1607,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "中華路",
+          "count": 1604,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "頭前國中",
+          "count": 1283,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運公館站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0136,
+      "lng": 121.534,
+      "transfer_volume": 79514,
+      "subsidized_ntd": 500337.0,
+      "from_metro": 32188,
+      "from_trunk": 4976,
+      "from_bus": 41792,
+      "from_train": 45,
+      "persona_pct": {
+        "commuter": 56.3,
+        "tpass": 28.5,
+        "regular_adult": 27.8,
+        "student": 17.0,
+        "senior": 26.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "253",
+          "count": 10290
+        },
+        {
+          "RouteName": "羅斯福路幹線",
+          "count": 7481
+        },
+        {
+          "RouteName": "606",
+          "count": 7384
+        },
+        {
+          "RouteName": "254",
+          "count": 5505
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "福和橋(林森路)",
+          "count": 6615,
+          "latlng": [
+            24.9956,
+            121.5184
+          ]
+        },
+        {
+          "DeboardingStopName": "興德國小",
+          "count": 4404,
+          "latlng": [
+            25.0256,
+            121.5148
+          ]
+        },
+        {
+          "DeboardingStopName": "師大分部",
+          "count": 4339,
+          "latlng": [
+            24.9956,
+            121.546
+          ]
+        },
+        {
+          "DeboardingStopName": "興隆市場",
+          "count": 2979,
+          "latlng": [
+            25.0256,
+            121.5184
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "市府轉運站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0405,
+      "lng": 121.5658,
+      "transfer_volume": 58993,
+      "subsidized_ntd": 2763390.0,
+      "from_metro": 16808,
+      "from_trunk": 91,
+      "from_bus": 3870,
+      "from_train": 264,
+      "persona_pct": {
+        "commuter": 75.0,
+        "tpass": 46.6,
+        "regular_adult": 28.4,
+        "student": 4.8,
+        "senior": 20.2
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1570",
+          "count": 13471
+        },
+        {
+          "RouteName": "1571",
+          "count": 13073
+        },
+        {
+          "RouteName": "1572",
+          "count": 9392
+        },
+        {
+          "RouteName": "1579",
+          "count": 5631
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "羅東轉運站",
+          "count": 13615,
+          "latlng": [
+            24.6765,
+            121.7745
+          ]
+        },
+        {
+          "DeboardingStopName": "宜蘭轉運站",
+          "count": 13073,
+          "latlng": [
+            24.7538,
+            121.7582
+          ]
+        },
+        {
+          "DeboardingStopName": "礁溪轉運站",
+          "count": 9248,
+          "latlng": [
+            24.8272,
+            121.774
+          ]
+        },
+        {
+          "DeboardingStopName": "基隆轉運站",
+          "count": 2902,
+          "latlng": [
+            25.1315,
+            121.7388
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運西門站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0422,
+      "lng": 121.5085,
+      "transfer_volume": 50605,
+      "subsidized_ntd": 321878.0,
+      "from_metro": 18187,
+      "from_trunk": 4445,
+      "from_bus": 27050,
+      "from_train": 85,
+      "persona_pct": {
+        "commuter": 64.9,
+        "tpass": 27.5,
+        "regular_adult": 37.4,
+        "student": 6.6,
+        "senior": 28.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "253",
+          "count": 7994
+        },
+        {
+          "RouteName": "中山幹線",
+          "count": 3972
+        },
+        {
+          "RouteName": "262區",
+          "count": 3938
+        },
+        {
+          "RouteName": "12",
+          "count": 3507
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "南機場公寓",
+          "count": 4836,
+          "latlng": [
+            25.0242,
+            121.4929
+          ]
+        },
+        {
+          "DeboardingStopName": "中華南海路口",
+          "count": 2107,
+          "latlng": [
+            25.0542,
+            121.4893
+          ]
+        },
+        {
+          "DeboardingStopName": "廈安里",
+          "count": 2064,
+          "latlng": [
+            25.0242,
+            121.5205
+          ]
+        },
+        {
+          "DeboardingStopName": "大埔街",
+          "count": 1514,
+          "latlng": [
+            25.0542,
+            121.4929
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運南京復興站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0522,
+      "lng": 121.544,
+      "transfer_volume": 44684,
+      "subsidized_ntd": 479240.0,
+      "from_metro": 5866,
+      "from_trunk": 7049,
+      "from_bus": 25903,
+      "from_train": 17,
+      "persona_pct": {
+        "commuter": 74.6,
+        "tpass": 36.3,
+        "regular_adult": 38.3,
+        "student": 5.1,
+        "senior": 20.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "652",
+          "count": 5634
+        },
+        {
+          "RouteName": "292",
+          "count": 4400
+        },
+        {
+          "RouteName": "306區",
+          "count": 4146
+        },
+        {
+          "RouteName": "承德幹線",
+          "count": 3507
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "南京林森路口",
+          "count": 2423,
+          "latlng": [
+            25.0342,
+            121.5284
+          ]
+        },
+        {
+          "DeboardingStopName": "南京建國路口",
+          "count": 2103,
+          "latlng": [
+            25.0642,
+            121.5248
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運松江南京站",
+          "count": 1969,
+          "latlng": [
+            25.0342,
+            121.556
+          ]
+        },
+        {
+          "DeboardingStopName": "南京吉林路口",
+          "count": 1923,
+          "latlng": [
+            25.0642,
+            121.5284
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運萬芳醫院站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 43941,
+      "subsidized_ntd": 310177.0,
+      "from_metro": 25165,
+      "from_trunk": 450,
+      "from_bus": 18234,
+      "from_train": 12,
+      "persona_pct": {
+        "commuter": 59.9,
+        "tpass": 31.6,
+        "regular_adult": 28.3,
+        "student": 8.5,
+        "senior": 31.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "羅斯福路幹線",
+          "count": 6400
+        },
+        {
+          "RouteName": "253",
+          "count": 5467
+        },
+        {
+          "RouteName": "611",
+          "count": 4662
+        },
+        {
+          "RouteName": "606",
+          "count": 4555
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "興德國小",
+          "count": 3884,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "興隆市場",
+          "count": 3542,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "興隆國小",
+          "count": 2599,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運公館站",
+          "count": 2029,
+          "latlng": [
+            25.0136,
+            121.534
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "士林國中",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 36691,
+      "subsidized_ntd": 199164.0,
+      "from_metro": 8429,
+      "from_trunk": 6301,
+      "from_bus": 21904,
+      "from_train": 4,
+      "persona_pct": {
+        "commuter": 51.3,
+        "tpass": 26.2,
+        "regular_adult": 25.1,
+        "student": 9.0,
+        "senior": 39.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "508區",
+          "count": 4466
+        },
+        {
+          "RouteName": "重慶幹線",
+          "count": 3611
+        },
+        {
+          "RouteName": "557",
+          "count": 3063
+        },
+        {
+          "RouteName": "紅7區",
+          "count": 3024
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "東吳大學(錢穆故居)",
+          "count": 3141,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "社子市場",
+          "count": 2606,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "重陽橋",
+          "count": 1942,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "葫東重慶路口",
+          "count": 1388,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "綜合市場(捷運石牌站)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 33738,
+      "subsidized_ntd": 235612.0,
+      "from_metro": 6513,
+      "from_trunk": 888,
+      "from_bus": 26324,
+      "from_train": 5,
+      "persona_pct": {
+        "commuter": 64.3,
+        "tpass": 40.9,
+        "regular_adult": 23.4,
+        "student": 8.1,
+        "senior": 27.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "重慶幹線",
+          "count": 11151
+        },
+        {
+          "RouteName": "508區",
+          "count": 5241
+        },
+        {
+          "RouteName": "559",
+          "count": 3148
+        },
+        {
+          "RouteName": "277",
+          "count": 3129
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "榮總",
+          "count": 7418,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "陽明交大實驗大樓",
+          "count": 2789,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "榮總一",
+          "count": 2628,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "天母廣場",
+          "count": 2308,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "基隆轉運站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.1315,
+      "lng": 121.7388,
+      "transfer_volume": 33459,
+      "subsidized_ntd": 885341.0,
+      "from_metro": 17,
+      "from_trunk": 1,
+      "from_bus": 3832,
+      "from_train": 3049,
+      "persona_pct": {
+        "commuter": 75.7,
+        "tpass": 53.0,
+        "regular_adult": 22.7,
+        "student": 3.1,
+        "senior": 21.2
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1802",
+          "count": 9341
+        },
+        {
+          "RouteName": "1813",
+          "count": 8453
+        },
+        {
+          "RouteName": "9006",
+          "count": 6627
+        },
+        {
+          "RouteName": "1800",
+          "count": 3781
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "圓山轉運站(玉門)",
+          "count": 2418,
+          "latlng": [
+            25.0712,
+            121.5198
+          ]
+        },
+        {
+          "DeboardingStopName": "聯合報",
+          "count": 1749,
+          "latlng": [
+            25.1435,
+            121.7196
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運南京復興站",
+          "count": 1379,
+          "latlng": [
+            25.0522,
+            121.544
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運劍潭站(北藝中心)",
+          "count": 978,
+          "latlng": [
+            25.0848,
+            121.5248
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "臺北車站(鄭州)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0492,
+      "lng": 121.5165,
+      "transfer_volume": 33109,
+      "subsidized_ntd": 561184.0,
+      "from_metro": 185,
+      "from_trunk": 800,
+      "from_bus": 17871,
+      "from_train": 944,
+      "persona_pct": {
+        "commuter": 71.0,
+        "tpass": 35.2,
+        "regular_adult": 35.8,
+        "student": 7.6,
+        "senior": 21.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "14",
+          "count": 12857
+        },
+        {
+          "RouteName": "1816",
+          "count": 8648
+        },
+        {
+          "RouteName": "1818",
+          "count": 5373
+        },
+        {
+          "RouteName": "260區",
+          "count": 3694
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "重安街口",
+          "count": 2788,
+          "latlng": [
+            25.0312,
+            121.5009
+          ]
+        },
+        {
+          "DeboardingStopName": "中壢客運中壢總站",
+          "count": 1972,
+          "latlng": [
+            25.0612,
+            121.4973
+          ]
+        },
+        {
+          "DeboardingStopName": "雙峰路口",
+          "count": 1191,
+          "latlng": [
+            25.0312,
+            121.5285
+          ]
+        },
+        {
+          "DeboardingStopName": "大興路口",
+          "count": 1167,
+          "latlng": [
+            25.0612,
+            121.5009
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南京公寓(捷運南京三民)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 32525,
+      "subsidized_ntd": 448274.0,
+      "from_metro": 3910,
+      "from_trunk": 11989,
+      "from_bus": 10508,
+      "from_train": 34,
+      "persona_pct": {
+        "commuter": 68.6,
+        "tpass": 37.4,
+        "regular_adult": 31.2,
+        "student": 4.9,
+        "senior": 26.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1579",
+          "count": 5452
+        },
+        {
+          "RouteName": "277",
+          "count": 3747
+        },
+        {
+          "RouteName": "南京幹線",
+          "count": 3100
+        },
+        {
+          "RouteName": "306區",
+          "count": 3086
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "三民路",
+          "count": 1739,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "市政府",
+          "count": 1240,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "潭美公園",
+          "count": 1168,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運市政府站",
+          "count": 1128,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "景美國中",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 31490,
+      "subsidized_ntd": 249485.0,
+      "from_metro": 20554,
+      "from_trunk": 1145,
+      "from_bus": 9593,
+      "from_train": 15,
+      "persona_pct": {
+        "commuter": 61.7,
+        "tpass": 38.5,
+        "regular_adult": 23.2,
+        "student": 14.1,
+        "senior": 24.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "253",
+          "count": 13641
+        },
+        {
+          "RouteName": "251區",
+          "count": 4004
+        },
+        {
+          "RouteName": "棕6",
+          "count": 3293
+        },
+        {
+          "RouteName": "251",
+          "count": 2208
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "復興派出所",
+          "count": 7499,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "世新大學",
+          "count": 5024,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "考試院",
+          "count": 4423,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "永建國小",
+          "count": 2113,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "松山車站(八德)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 31130,
+      "subsidized_ntd": 240420.0,
+      "from_metro": 1806,
+      "from_trunk": 11799,
+      "from_bus": 16364,
+      "from_train": 992,
+      "persona_pct": {
+        "commuter": 74.9,
+        "tpass": 44.2,
+        "regular_adult": 30.7,
+        "student": 3.4,
+        "senior": 21.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "63",
+          "count": 7368
+        },
+        {
+          "RouteName": "204",
+          "count": 6731
+        },
+        {
+          "RouteName": "民生幹線",
+          "count": 4615
+        },
+        {
+          "RouteName": "306區",
+          "count": 4174
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "新湖三路口(台北花市)",
+          "count": 2370,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "舊宗路一段(行善)",
+          "count": 2179,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "週美里一",
+          "count": 2043,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "新湖一路口",
+          "count": 1939,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運劍潭站(中山)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0848,
+      "lng": 121.5248,
+      "transfer_volume": 31026,
+      "subsidized_ntd": 193382.0,
+      "from_metro": 6579,
+      "from_trunk": 3333,
+      "from_bus": 21034,
+      "from_train": 3,
+      "persona_pct": {
+        "commuter": 61.0,
+        "tpass": 32.4,
+        "regular_adult": 28.6,
+        "student": 13.6,
+        "senior": 25.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "紅5",
+          "count": 15463
+        },
+        {
+          "RouteName": "紅7區",
+          "count": 2582
+        },
+        {
+          "RouteName": "277",
+          "count": 2468
+        },
+        {
+          "RouteName": "612",
+          "count": 1563
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "文化大學一",
+          "count": 7054,
+          "latlng": [
+            25.0668,
+            121.5092
+          ]
+        },
+        {
+          "DeboardingStopName": "陽明山總站",
+          "count": 4678,
+          "latlng": [
+            25.0968,
+            121.5056
+          ]
+        },
+        {
+          "DeboardingStopName": "山仔后派出所",
+          "count": 1084,
+          "latlng": [
+            25.0668,
+            121.5368
+          ]
+        },
+        {
+          "DeboardingStopName": "社子市場",
+          "count": 952,
+          "latlng": [
+            25.0968,
+            121.5092
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運松江南京站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 30513,
+      "subsidized_ntd": 254255.0,
+      "from_metro": 3511,
+      "from_trunk": 5258,
+      "from_bus": 20011,
+      "from_train": 13,
+      "persona_pct": {
+        "commuter": 73.6,
+        "tpass": 33.3,
+        "regular_adult": 40.3,
+        "student": 4.4,
+        "senior": 22.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "292",
+          "count": 3553
+        },
+        {
+          "RouteName": "652",
+          "count": 3229
+        },
+        {
+          "RouteName": "承德幹線",
+          "count": 2463
+        },
+        {
+          "RouteName": "306區",
+          "count": 2085
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "南京林森路口",
+          "count": 1569,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運南京復興站",
+          "count": 1306,
+          "latlng": [
+            25.0522,
+            121.544
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運中山站(志仁高中)",
+          "count": 1053,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "南京敦化路口(小巨蛋)",
+          "count": 1007,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南京林森路口",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 28571,
+      "subsidized_ntd": 153118.0,
+      "from_metro": 2183,
+      "from_trunk": 5624,
+      "from_bus": 19528,
+      "from_train": 98,
+      "persona_pct": {
+        "commuter": 68.8,
+        "tpass": 23.8,
+        "regular_adult": 45.0,
+        "student": 4.2,
+        "senior": 26.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "292",
+          "count": 5195
+        },
+        {
+          "RouteName": "南京幹線",
+          "count": 3384
+        },
+        {
+          "RouteName": "承德幹線",
+          "count": 3302
+        },
+        {
+          "RouteName": "652",
+          "count": 2614
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運南京復興站",
+          "count": 1942,
+          "latlng": [
+            25.0522,
+            121.544
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運中山站(志仁高中)",
+          "count": 1792,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運松江南京站",
+          "count": 1619,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "南京龍江路口",
+          "count": 1055,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運士林站(中正)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0935,
+      "lng": 121.5262,
+      "transfer_volume": 28410,
+      "subsidized_ntd": 270007.0,
+      "from_metro": 17736,
+      "from_trunk": 5618,
+      "from_bus": 5004,
+      "from_train": 16,
+      "persona_pct": {
+        "commuter": 72.5,
+        "tpass": 44.5,
+        "regular_adult": 28.0,
+        "student": 11.4,
+        "senior": 16.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "557",
+          "count": 6558
+        },
+        {
+          "RouteName": "北環幹線",
+          "count": 4493
+        },
+        {
+          "RouteName": "957",
+          "count": 4345
+        },
+        {
+          "RouteName": "255區",
+          "count": 3364
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "東吳大學(錢穆故居)",
+          "count": 6998,
+          "latlng": [
+            25.0755,
+            121.5106
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運劍南路站",
+          "count": 2306,
+          "latlng": [
+            25.1055,
+            121.507
+          ]
+        },
+        {
+          "DeboardingStopName": "故宮博物院",
+          "count": 1770,
+          "latlng": [
+            25.0755,
+            121.5382
+          ]
+        },
+        {
+          "DeboardingStopName": "故宮博物院(正館)",
+          "count": 1318,
+          "latlng": [
+            25.1055,
+            121.5106
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南京寧安街口",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 27779,
+      "subsidized_ntd": 160338.0,
+      "from_metro": 2708,
+      "from_trunk": 6429,
+      "from_bus": 17065,
+      "from_train": 22,
+      "persona_pct": {
+        "commuter": 66.1,
+        "tpass": 24.2,
+        "regular_adult": 41.9,
+        "student": 6.4,
+        "senior": 27.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "277",
+          "count": 3679
+        },
+        {
+          "RouteName": "652",
+          "count": 3461
+        },
+        {
+          "RouteName": "南京幹線",
+          "count": 3360
+        },
+        {
+          "RouteName": "306區",
+          "count": 3191
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運南京復興站",
+          "count": 2147,
+          "latlng": [
+            25.0522,
+            121.544
+          ]
+        },
+        {
+          "DeboardingStopName": "南京敦化路口(小巨蛋)",
+          "count": 1374,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "南京公寓(捷運南京三民)",
+          "count": 1035,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運松江南京站",
+          "count": 890,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運昆陽站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 27601,
+      "subsidized_ntd": 247270.0,
+      "from_metro": 3257,
+      "from_trunk": 19493,
+      "from_bus": 4828,
+      "from_train": 9,
+      "persona_pct": {
+        "commuter": 70.4,
+        "tpass": 37.0,
+        "regular_adult": 33.4,
+        "student": 5.0,
+        "senior": 24.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "藍36",
+          "count": 9879
+        },
+        {
+          "RouteName": "284",
+          "count": 5452
+        },
+        {
+          "RouteName": "信義幹線",
+          "count": 4157
+        },
+        {
+          "RouteName": "281",
+          "count": 1825
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "上灣仔",
+          "count": 2185,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "石潭公園(成功)",
+          "count": 2017,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "南港分局(向陽)",
+          "count": 1438,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "三總內湖站",
+          "count": 1318,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "民權松江路口",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 26635,
+      "subsidized_ntd": 165622.0,
+      "from_metro": 1445,
+      "from_trunk": 2947,
+      "from_bus": 20706,
+      "from_train": 6,
+      "persona_pct": {
+        "commuter": 60.2,
+        "tpass": 23.3,
+        "regular_adult": 36.9,
+        "student": 4.1,
+        "senior": 35.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "敦化幹線",
+          "count": 3811
+        },
+        {
+          "RouteName": "63",
+          "count": 2795
+        },
+        {
+          "RouteName": "617",
+          "count": 2450
+        },
+        {
+          "RouteName": "225",
+          "count": 2241
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運民權西路站",
+          "count": 1149,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運中山國小站",
+          "count": 883,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "民權龍江路口",
+          "count": 867,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "民權中山路口",
+          "count": 777,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "中華路北站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 25420,
+      "subsidized_ntd": 110299.0,
+      "from_metro": 4498,
+      "from_trunk": 2741,
+      "from_bus": 17474,
+      "from_train": 321,
+      "persona_pct": {
+        "commuter": 65.0,
+        "tpass": 19.2,
+        "regular_adult": 45.8,
+        "student": 6.1,
+        "senior": 28.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 4562
+        },
+        {
+          "RouteName": "253",
+          "count": 1974
+        },
+        {
+          "RouteName": "重慶幹線",
+          "count": 1760
+        },
+        {
+          "RouteName": "223",
+          "count": 1713
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運頂溪站",
+          "count": 901,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "南機場公寓",
+          "count": 743,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 679,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "中興二村",
+          "count": 429,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運中山站(志仁高中)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 25181,
+      "subsidized_ntd": 119650.0,
+      "from_metro": 5293,
+      "from_trunk": 3123,
+      "from_bus": 16639,
+      "from_train": 62,
+      "persona_pct": {
+        "commuter": 70.0,
+        "tpass": 25.0,
+        "regular_adult": 45.0,
+        "student": 6.4,
+        "senior": 23.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "292",
+          "count": 6986
+        },
+        {
+          "RouteName": "承德幹線",
+          "count": 3381
+        },
+        {
+          "RouteName": "306區",
+          "count": 3019
+        },
+        {
+          "RouteName": "12",
+          "count": 2817
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "南京林森路口",
+          "count": 2222,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "民生重慶路口",
+          "count": 1485,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "南京吉林路口",
+          "count": 1323,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "三重派出所(重新路)",
+          "count": 882,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運忠孝敦化站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 25025,
+      "subsidized_ntd": 327453.0,
+      "from_metro": 5603,
+      "from_trunk": 2612,
+      "from_bus": 11465,
+      "from_train": 8,
+      "persona_pct": {
+        "commuter": 75.4,
+        "tpass": 35.8,
+        "regular_adult": 39.6,
+        "student": 5.2,
+        "senior": 19.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 5079
+        },
+        {
+          "RouteName": "299",
+          "count": 2748
+        },
+        {
+          "RouteName": "敦化幹線",
+          "count": 2664
+        },
+        {
+          "RouteName": "1579",
+          "count": 2152
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺北小巨蛋",
+          "count": 1891,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "長庚醫院",
+          "count": 1679,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "市民大道口",
+          "count": 913,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "市立體育場",
+          "count": 911,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "臺北小巨蛋",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 24206,
+      "subsidized_ntd": 168502.0,
+      "from_metro": 4834,
+      "from_trunk": 1013,
+      "from_bus": 17827,
+      "from_train": 27,
+      "persona_pct": {
+        "commuter": 66.6,
+        "tpass": 27.9,
+        "regular_adult": 38.7,
+        "student": 5.0,
+        "senior": 28.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 5019
+        },
+        {
+          "RouteName": "敦化幹線",
+          "count": 3906
+        },
+        {
+          "RouteName": "277",
+          "count": 3722
+        },
+        {
+          "RouteName": "630",
+          "count": 2365
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "長庚醫院",
+          "count": 1648,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "桃園長庚轉運站",
+          "count": 1028,
+          "latlng": [
+            25.0605,
+            121.3695
+          ]
+        },
+        {
+          "DeboardingStopName": "頂好市場",
+          "count": 974,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "公教住宅",
+          "count": 631,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南京敦化路口(小巨蛋)",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 21945,
+      "subsidized_ntd": 112416.0,
+      "from_metro": 1973,
+      "from_trunk": 5590,
+      "from_bus": 14156,
+      "from_train": 21,
+      "persona_pct": {
+        "commuter": 67.8,
+        "tpass": 24.4,
+        "regular_adult": 43.4,
+        "student": 7.1,
+        "senior": 25.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "承德幹線",
+          "count": 3435
+        },
+        {
+          "RouteName": "南京幹線",
+          "count": 3100
+        },
+        {
+          "RouteName": "306區",
+          "count": 3087
+        },
+        {
+          "RouteName": "652",
+          "count": 2812
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "南京三民路口",
+          "count": 1529,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "南京寧安街口",
+          "count": 1270,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "南京公寓(捷運南京三民)",
+          "count": 957,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "南京林森路口",
+          "count": 844,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運蘆洲站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 21910,
+      "subsidized_ntd": 172935.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 21910,
+      "from_train": 0,
+      "persona_pct": {
+        "commuter": 74.5,
+        "tpass": 52.4,
+        "regular_adult": 22.1,
+        "student": 7.4,
+        "senior": 18.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "14",
+          "count": 10077
+        },
+        {
+          "RouteName": "221",
+          "count": 3684
+        },
+        {
+          "RouteName": "紅9",
+          "count": 2993
+        },
+        {
+          "RouteName": "508",
+          "count": 2540
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "長安街一",
+          "count": 2491,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "永平市場",
+          "count": 2276,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "永康公園",
+          "count": 1795,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "長榮路",
+          "count": 1661,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南京三民路口",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 21025,
+      "subsidized_ntd": 122825.0,
+      "from_metro": 1453,
+      "from_trunk": 9139,
+      "from_bus": 9222,
+      "from_train": 21,
+      "persona_pct": {
+        "commuter": 63.6,
+        "tpass": 21.4,
+        "regular_adult": 42.2,
+        "student": 5.8,
+        "senior": 30.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "306區",
+          "count": 3523
+        },
+        {
+          "RouteName": "277",
+          "count": 3419
+        },
+        {
+          "RouteName": "南京幹線",
+          "count": 3393
+        },
+        {
+          "RouteName": "204",
+          "count": 2616
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運南京復興站",
+          "count": 1513,
+          "latlng": [
+            25.0522,
+            121.544
+          ]
+        },
+        {
+          "DeboardingStopName": "南京敦化路口(小巨蛋)",
+          "count": 1412,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "南京寧安街口",
+          "count": 736,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "基隆轉運站",
+          "count": 723,
+          "latlng": [
+            25.1315,
+            121.7388
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運圓山站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0715,
+      "lng": 121.5202,
+      "transfer_volume": 20934,
+      "subsidized_ntd": 194272.0,
+      "from_metro": 6986,
+      "from_trunk": 4525,
+      "from_bus": 8783,
+      "from_train": 4,
+      "persona_pct": {
+        "commuter": 82.9,
+        "tpass": 54.2,
+        "regular_adult": 28.7,
+        "student": 3.1,
+        "senior": 14.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "內科快線1",
+          "count": 11827
+        },
+        {
+          "RouteName": "287區",
+          "count": 4756
+        },
+        {
+          "RouteName": "208",
+          "count": 2227
+        },
+        {
+          "RouteName": "紅50",
+          "count": 1427
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "仁寶大樓",
+          "count": 2701,
+          "latlng": [
+            25.0535,
+            121.5046
+          ]
+        },
+        {
+          "DeboardingStopName": "基湖站",
+          "count": 2408,
+          "latlng": [
+            25.0835,
+            121.501
+          ]
+        },
+        {
+          "DeboardingStopName": "瑞光路",
+          "count": 2193,
+          "latlng": [
+            25.0535,
+            121.5322
+          ]
+        },
+        {
+          "DeboardingStopName": "瑞光港墘路口",
+          "count": 1855,
+          "latlng": [
+            25.0835,
+            121.5046
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "民生敦化路口",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 20923,
+      "subsidized_ntd": 128751.0,
+      "from_metro": 2278,
+      "from_trunk": 4523,
+      "from_bus": 13943,
+      "from_train": 26,
+      "persona_pct": {
+        "commuter": 74.3,
+        "tpass": 30.4,
+        "regular_adult": 43.9,
+        "student": 4.6,
+        "senior": 21.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 4351
+        },
+        {
+          "RouteName": "民生幹線",
+          "count": 3147
+        },
+        {
+          "RouteName": "277",
+          "count": 3013
+        },
+        {
+          "RouteName": "63",
+          "count": 2396
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺北小巨蛋",
+          "count": 1271,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 811,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "頂好市場",
+          "count": 789,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "民生松江路口",
+          "count": 752,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "捷運頂溪站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.057,
+      "lng": 121.542,
+      "transfer_volume": 20608,
+      "subsidized_ntd": 168613.0,
+      "from_metro": 12241,
+      "from_trunk": 1149,
+      "from_bus": 7168,
+      "from_train": 22,
+      "persona_pct": {
+        "commuter": 61.7,
+        "tpass": 30.0,
+        "regular_adult": 31.7,
+        "student": 6.4,
+        "senior": 31.8
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 11890
+        },
+        {
+          "RouteName": "262",
+          "count": 3172
+        },
+        {
+          "RouteName": "5",
+          "count": 2224
+        },
+        {
+          "RouteName": "670",
+          "count": 1316
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "永和國小",
+          "count": 1584,
+          "latlng": [
+            25.039,
+            121.5264
+          ]
+        },
+        {
+          "DeboardingStopName": "博愛路",
+          "count": 1413,
+          "latlng": [
+            25.069,
+            121.5228
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 1393,
+          "latlng": [
+            25.039,
+            121.554
+          ]
+        },
+        {
+          "DeboardingStopName": "重慶南路三段(中正橋)",
+          "count": 1291,
+          "latlng": [
+            25.069,
+            121.5264
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "中興新村",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9575,
+      "lng": 120.6865,
+      "transfer_volume": 16845,
+      "subsidized_ntd": 95977.0,
+      "from_metro": 2129,
+      "from_trunk": 972,
+      "from_bus": 13142,
+      "from_train": 35,
+      "persona_pct": {
+        "commuter": 55.1,
+        "tpass": 22.1,
+        "regular_adult": 33.0,
+        "student": 7.9,
+        "senior": 37.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 7682
+        },
+        {
+          "RouteName": "262",
+          "count": 2218
+        },
+        {
+          "RouteName": "254",
+          "count": 1647
+        },
+        {
+          "RouteName": "672",
+          "count": 1032
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運頂溪站",
+          "count": 3291,
+          "latlng": [
+            23.9395,
+            120.6709
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 1143,
+          "latlng": [
+            23.9695,
+            120.6673
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運景安站(景平路)",
+          "count": 783,
+          "latlng": [
+            23.9395,
+            120.6985
+          ]
+        },
+        {
+          "DeboardingStopName": "博愛路",
+          "count": 587,
+          "latlng": [
+            23.9695,
+            120.6709
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "羅東轉運站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.6765,
+      "lng": 121.7745,
+      "transfer_volume": 16429,
+      "subsidized_ntd": 968203.0,
+      "from_metro": 781,
+      "from_trunk": 124,
+      "from_bus": 743,
+      "from_train": 884,
+      "persona_pct": {
+        "commuter": 76.5,
+        "tpass": 42.7,
+        "regular_adult": 33.8,
+        "student": 3.8,
+        "senior": 19.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1570",
+          "count": 13971
+        },
+        {
+          "RouteName": "1879",
+          "count": 2327
+        },
+        {
+          "RouteName": "1572",
+          "count": 53
+        },
+        {
+          "RouteName": "1661",
+          "count": 48
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "市府轉運站",
+          "count": 14024,
+          "latlng": [
+            25.0405,
+            121.5658
+          ]
+        },
+        {
+          "DeboardingStopName": "南港轉運站西站",
+          "count": 617,
+          "latlng": [
+            25.0528,
+            121.6065
+          ]
+        },
+        {
+          "DeboardingStopName": "石潭公園(成功)",
+          "count": 140,
+          "latlng": [
+            24.6585,
+            121.7865
+          ]
+        },
+        {
+          "DeboardingStopName": "桃園機場第一航廈",
+          "count": 28,
+          "latlng": [
+            25.0805,
+            121.2335
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "宜蘭轉運站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.7538,
+      "lng": 121.7582,
+      "transfer_volume": 14756,
+      "subsidized_ntd": 969856.0,
+      "from_metro": 712,
+      "from_trunk": 88,
+      "from_bus": 1114,
+      "from_train": 448,
+      "persona_pct": {
+        "commuter": 78.1,
+        "tpass": 47.7,
+        "regular_adult": 30.4,
+        "student": 5.0,
+        "senior": 16.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1571",
+          "count": 11930
+        },
+        {
+          "RouteName": "1878",
+          "count": 2360
+        },
+        {
+          "RouteName": "1665",
+          "count": 320
+        },
+        {
+          "RouteName": "1661",
+          "count": 86
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "市府轉運站",
+          "count": 11930,
+          "latlng": [
+            25.0405,
+            121.5658
+          ]
+        },
+        {
+          "DeboardingStopName": "南港轉運站西站",
+          "count": 567,
+          "latlng": [
+            25.0528,
+            121.6065
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運大坪林站",
+          "count": 232,
+          "latlng": [
+            24.7358,
+            121.7702
+          ]
+        },
+        {
+          "DeboardingStopName": "石潭公園(成功)",
+          "count": 177,
+          "latlng": [
+            24.7658,
+            121.7426
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "台電大樓",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 13212,
+      "subsidized_ntd": 46898.0,
+      "from_metro": 2669,
+      "from_trunk": 219,
+      "from_bus": 10174,
+      "from_train": 33,
+      "persona_pct": {
+        "commuter": 53.6,
+        "tpass": 18.9,
+        "regular_adult": 34.7,
+        "student": 15.0,
+        "senior": 31.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "羅斯福路幹線",
+          "count": 1790
+        },
+        {
+          "RouteName": "606",
+          "count": 1732
+        },
+        {
+          "RouteName": "253",
+          "count": 1570
+        },
+        {
+          "RouteName": "1",
+          "count": 1531
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運公館站",
+          "count": 604,
+          "latlng": [
+            25.0136,
+            121.534
+          ]
+        },
+        {
+          "DeboardingStopName": "師大分部",
+          "count": 477,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "羅斯福金門街口",
+          "count": 356,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運古亭站(羅斯福)",
+          "count": 286,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "果菜市場",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.152,
+      "lng": 120.682,
+      "transfer_volume": 12717,
+      "subsidized_ntd": 57427.0,
+      "from_metro": 150,
+      "from_trunk": 5106,
+      "from_bus": 7378,
+      "from_train": 10,
+      "persona_pct": {
+        "commuter": 50.6,
+        "tpass": 18.9,
+        "regular_adult": 31.7,
+        "student": 5.9,
+        "senior": 43.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "307",
+          "count": 2929
+        },
+        {
+          "RouteName": "202",
+          "count": 2062
+        },
+        {
+          "RouteName": "204",
+          "count": 1445
+        },
+        {
+          "RouteName": "重慶幹線",
+          "count": 1436
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運西門站",
+          "count": 1530,
+          "latlng": [
+            25.0422,
+            121.5085
+          ]
+        },
+        {
+          "DeboardingStopName": "華中橋",
+          "count": 1188,
+          "latlng": [
+            24.164,
+            120.6628
+          ]
+        },
+        {
+          "DeboardingStopName": "萬華車站",
+          "count": 746,
+          "latlng": [
+            24.134,
+            120.694
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 396,
+          "latlng": [
+            24.164,
+            120.6664
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "彰化",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.0818,
+      "lng": 120.5385,
+      "transfer_volume": 12175,
+      "subsidized_ntd": 114922.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 3788,
+      "persona_pct": {
+        "commuter": 53.1,
+        "tpass": 29.7,
+        "regular_adult": 23.4,
+        "student": 15.4,
+        "senior": 31.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6906",
+          "count": 3430
+        },
+        {
+          "RouteName": "6900",
+          "count": 2065
+        },
+        {
+          "RouteName": "6916",
+          "count": 911
+        },
+        {
+          "RouteName": "6933",
+          "count": 872
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "鹿港乘車處",
+          "count": 935,
+          "latlng": [
+            24.0638,
+            120.5229
+          ]
+        },
+        {
+          "DeboardingStopName": "市場前",
+          "count": 754,
+          "latlng": [
+            24.0938,
+            120.5193
+          ]
+        },
+        {
+          "DeboardingStopName": "順天醫院",
+          "count": 727,
+          "latlng": [
+            24.0638,
+            120.5505
+          ]
+        },
+        {
+          "DeboardingStopName": "和調里",
+          "count": 443,
+          "latlng": [
+            24.0938,
+            120.5229
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "永和國小",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.152,
+      "lng": 120.682,
+      "transfer_volume": 11495,
+      "subsidized_ntd": 67285.0,
+      "from_metro": 1719,
+      "from_trunk": 1720,
+      "from_bus": 7941,
+      "from_train": 44,
+      "persona_pct": {
+        "commuter": 57.3,
+        "tpass": 29.4,
+        "regular_adult": 27.9,
+        "student": 17.2,
+        "senior": 25.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 7080
+        },
+        {
+          "RouteName": "262",
+          "count": 2014
+        },
+        {
+          "RouteName": "311",
+          "count": 791
+        },
+        {
+          "RouteName": "214",
+          "count": 519
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運頂溪站",
+          "count": 3010,
+          "latlng": [
+            24.134,
+            120.6664
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 1158,
+          "latlng": [
+            24.164,
+            120.6628
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運景安站(景平路)",
+          "count": 869,
+          "latlng": [
+            24.134,
+            120.694
+          ]
+        },
+        {
+          "DeboardingStopName": "博愛路",
+          "count": 418,
+          "latlng": [
+            24.164,
+            120.6664
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "高鐵臺中站",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.1118,
+      "lng": 120.6157,
+      "transfer_volume": 9456,
+      "subsidized_ntd": 79161.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 1842,
+      "from_train": 981,
+      "persona_pct": {
+        "commuter": 52.4,
+        "tpass": 6.9,
+        "regular_adult": 45.5,
+        "student": 12.6,
+        "senior": 35.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6670",
+          "count": 5384
+        },
+        {
+          "RouteName": "1657",
+          "count": 1842
+        },
+        {
+          "RouteName": "6883",
+          "count": 976
+        },
+        {
+          "RouteName": "6936",
+          "count": 619
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "埔里站",
+          "count": 2048,
+          "latlng": [
+            23.9675,
+            120.9658
+          ]
+        },
+        {
+          "DeboardingStopName": "日月潭",
+          "count": 1119,
+          "latlng": [
+            23.8682,
+            120.9152
+          ]
+        },
+        {
+          "DeboardingStopName": "溪頭",
+          "count": 696,
+          "latlng": [
+            23.6738,
+            120.7965
+          ]
+        },
+        {
+          "DeboardingStopName": "埔里酒廠",
+          "count": 600,
+          "latlng": [
+            24.1238,
+            120.6001
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "礁溪轉運站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.8272,
+      "lng": 121.774,
+      "transfer_volume": 8350,
+      "subsidized_ntd": 211632.0,
+      "from_metro": 297,
+      "from_trunk": 33,
+      "from_bus": 1592,
+      "from_train": 477,
+      "persona_pct": {
+        "commuter": 51.3,
+        "tpass": 24.1,
+        "regular_adult": 27.2,
+        "student": 2.8,
+        "senior": 45.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1572",
+          "count": 6816
+        },
+        {
+          "RouteName": "1881",
+          "count": 945
+        },
+        {
+          "RouteName": "1665",
+          "count": 299
+        },
+        {
+          "RouteName": "1880",
+          "count": 155
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "市府轉運站",
+          "count": 6816,
+          "latlng": [
+            25.0405,
+            121.5658
+          ]
+        },
+        {
+          "DeboardingStopName": "南港轉運站西站",
+          "count": 724,
+          "latlng": [
+            25.0528,
+            121.6065
+          ]
+        },
+        {
+          "DeboardingStopName": "圓山轉運站(玉門)",
+          "count": 221,
+          "latlng": [
+            25.0712,
+            121.5198
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運大坪林站",
+          "count": 177,
+          "latlng": [
+            24.8392,
+            121.7584
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "三民國小",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 7750,
+      "subsidized_ntd": 30781.0,
+      "from_metro": 143,
+      "from_trunk": 2097,
+      "from_bus": 5397,
+      "from_train": 13,
+      "persona_pct": {
+        "commuter": 60.3,
+        "tpass": 16.8,
+        "regular_adult": 43.5,
+        "student": 5.7,
+        "senior": 34.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "民權幹線",
+          "count": 1630
+        },
+        {
+          "RouteName": "630",
+          "count": 1375
+        },
+        {
+          "RouteName": "617",
+          "count": 1105
+        },
+        {
+          "RouteName": "紅31",
+          "count": 786
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運民權西路站",
+          "count": 622,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "民權復興路口",
+          "count": 436,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運中山國小站",
+          "count": 381,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "民權敦化路口",
+          "count": 330,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "忠孝國小",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 7367,
+      "subsidized_ntd": 44264.0,
+      "from_metro": 2124,
+      "from_trunk": 278,
+      "from_bus": 4908,
+      "from_train": 4,
+      "persona_pct": {
+        "commuter": 71.1,
+        "tpass": 26.1,
+        "regular_adult": 45.0,
+        "student": 7.4,
+        "senior": 21.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "262區",
+          "count": 2596
+        },
+        {
+          "RouteName": "299",
+          "count": 1907
+        },
+        {
+          "RouteName": "忠孝幹線",
+          "count": 967
+        },
+        {
+          "RouteName": "262",
+          "count": 832
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 883,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "中華路北站",
+          "count": 407,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "頂好市場",
+          "count": 390,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "懷生國中",
+          "count": 311,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "干城站",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.1378,
+      "lng": 120.6872,
+      "transfer_volume": 7013,
+      "subsidized_ntd": 135191.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 1,
+      "from_train": 486,
+      "persona_pct": {
+        "commuter": 53.4,
+        "tpass": 20.8,
+        "regular_adult": 32.6,
+        "student": 9.3,
+        "senior": 37.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6333",
+          "count": 3366
+        },
+        {
+          "RouteName": "6268",
+          "count": 2294
+        },
+        {
+          "RouteName": "6883",
+          "count": 648
+        },
+        {
+          "RouteName": "6899",
+          "count": 337
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "草屯",
+          "count": 837,
+          "latlng": [
+            23.9772,
+            120.6835
+          ]
+        },
+        {
+          "DeboardingStopName": "埔里東站",
+          "count": 837,
+          "latlng": [
+            24.1498,
+            120.668
+          ]
+        },
+        {
+          "DeboardingStopName": "溪頭",
+          "count": 545,
+          "latlng": [
+            23.6738,
+            120.7965
+          ]
+        },
+        {
+          "DeboardingStopName": "南投站",
+          "count": 490,
+          "latlng": [
+            23.9102,
+            120.6865
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "成功國宅",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.412,
+      "lng": 121.762,
+      "transfer_volume": 5810,
+      "subsidized_ntd": 26428.0,
+      "from_metro": 368,
+      "from_trunk": 9,
+      "from_bus": 5347,
+      "from_train": 4,
+      "persona_pct": {
+        "commuter": 71.5,
+        "tpass": 25.0,
+        "regular_adult": 46.5,
+        "student": 6.3,
+        "senior": 22.2
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "敦化幹線",
+          "count": 2696
+        },
+        {
+          "RouteName": "688",
+          "count": 889
+        },
+        {
+          "RouteName": "905",
+          "count": 888
+        },
+        {
+          "RouteName": "52",
+          "count": 293
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "安和敦化路口",
+          "count": 857,
+          "latlng": [
+            24.394,
+            121.7464
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北小巨蛋",
+          "count": 401,
+          "latlng": [
+            24.424,
+            121.7428
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運忠孝敦化站",
+          "count": 393,
+          "latlng": [
+            24.394,
+            121.774
+          ]
+        },
+        {
+          "DeboardingStopName": "仁愛國中",
+          "count": 237,
+          "latlng": [
+            24.424,
+            121.7464
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "草屯",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9772,
+      "lng": 120.6835,
+      "transfer_volume": 5567,
+      "subsidized_ntd": 53666.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 410,
+      "from_train": 34,
+      "persona_pct": {
+        "commuter": 49.6,
+        "tpass": 17.8,
+        "regular_adult": 31.8,
+        "student": 10.5,
+        "senior": 39.8
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6333",
+          "count": 1903
+        },
+        {
+          "RouteName": "6268",
+          "count": 701
+        },
+        {
+          "RouteName": "6918",
+          "count": 458
+        },
+        {
+          "RouteName": "1657",
+          "count": 410
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺中車站(民族路口)",
+          "count": 632,
+          "latlng": [
+            23.9592,
+            120.6679
+          ]
+        },
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 523,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "干城站",
+          "count": 413,
+          "latlng": [
+            24.1378,
+            120.6872
+          ]
+        },
+        {
+          "DeboardingStopName": "南投站",
+          "count": 169,
+          "latlng": [
+            23.9102,
+            120.6865
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "長庚醫院",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 5248,
+      "subsidized_ntd": 51172.0,
+      "from_metro": 283,
+      "from_trunk": 142,
+      "from_bus": 4676,
+      "from_train": 40,
+      "persona_pct": {
+        "commuter": 61.1,
+        "tpass": 17.8,
+        "regular_adult": 43.3,
+        "student": 5.4,
+        "senior": 33.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7211",
+          "count": 1268
+        },
+        {
+          "RouteName": "敦化幹線",
+          "count": 816
+        },
+        {
+          "RouteName": "277",
+          "count": 757
+        },
+        {
+          "RouteName": "630",
+          "count": 559
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵嘉義站",
+          "count": 393,
+          "latlng": [
+            23.4592,
+            120.3235
+          ]
+        },
+        {
+          "DeboardingStopName": "朴子轉運站",
+          "count": 253,
+          "latlng": [
+            23.4615,
+            120.2458
+          ]
+        },
+        {
+          "DeboardingStopName": "民生社區活動中心",
+          "count": 246,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "聯合二村",
+          "count": 189,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "嘉義火車站",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.4791,
+      "lng": 120.4411,
+      "transfer_volume": 5179,
+      "subsidized_ntd": 40477.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 1125,
+      "from_train": 1238,
+      "persona_pct": {
+        "commuter": 63.1,
+        "tpass": 15.3,
+        "regular_adult": 47.8,
+        "student": 6.9,
+        "senior": 30.0
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7322",
+          "count": 963
+        },
+        {
+          "RouteName": "7325",
+          "count": 530
+        },
+        {
+          "RouteName": "7201",
+          "count": 512
+        },
+        {
+          "RouteName": "7209",
+          "count": 482
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "阿里山轉運站",
+          "count": 724,
+          "latlng": [
+            23.5105,
+            120.8038
+          ]
+        },
+        {
+          "DeboardingStopName": "大雅站",
+          "count": 287,
+          "latlng": [
+            23.4762,
+            120.4725
+          ]
+        },
+        {
+          "DeboardingStopName": "安仁里",
+          "count": 277,
+          "latlng": [
+            23.4565,
+            120.3012
+          ]
+        },
+        {
+          "DeboardingStopName": "北港派出所",
+          "count": 275,
+          "latlng": [
+            23.5702,
+            120.3015
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "高鐵嘉義站",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.4592,
+      "lng": 120.3235,
+      "transfer_volume": 5121,
+      "subsidized_ntd": 43421.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 3898,
+      "from_train": 644,
+      "persona_pct": {
+        "commuter": 67.6,
+        "tpass": 0.1,
+        "regular_adult": 67.5,
+        "student": 6.7,
+        "senior": 25.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7211",
+          "count": 3424
+        },
+        {
+          "RouteName": "7235",
+          "count": 665
+        },
+        {
+          "RouteName": "7329",
+          "count": 436
+        },
+        {
+          "RouteName": "7212",
+          "count": 303
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "縣政府",
+          "count": 869,
+          "latlng": [
+            23.4412,
+            120.3079
+          ]
+        },
+        {
+          "DeboardingStopName": "朴子轉運站",
+          "count": 362,
+          "latlng": [
+            23.4615,
+            120.2458
+          ]
+        },
+        {
+          "DeboardingStopName": "阿里山轉運站",
+          "count": 348,
+          "latlng": [
+            23.5105,
+            120.8038
+          ]
+        },
+        {
+          "DeboardingStopName": "北港派出所",
+          "count": 290,
+          "latlng": [
+            23.5702,
+            120.3015
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "埔里站",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9675,
+      "lng": 120.9658,
+      "transfer_volume": 5047,
+      "subsidized_ntd": 60002.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 60,
+      "persona_pct": {
+        "commuter": 51.3,
+        "tpass": 10.0,
+        "regular_adult": 41.3,
+        "student": 19.2,
+        "senior": 29.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6670",
+          "count": 4210
+        },
+        {
+          "RouteName": "6899",
+          "count": 427
+        },
+        {
+          "RouteName": "6672",
+          "count": 131
+        },
+        {
+          "RouteName": "6875",
+          "count": 67
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 3026,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "日月潭",
+          "count": 148,
+          "latlng": [
+            23.8682,
+            120.9152
+          ]
+        },
+        {
+          "DeboardingStopName": "干城站",
+          "count": 121,
+          "latlng": [
+            24.1378,
+            120.6872
+          ]
+        },
+        {
+          "DeboardingStopName": "魚池",
+          "count": 82,
+          "latlng": [
+            23.9795,
+            120.9502
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "變電所",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 5001,
+      "subsidized_ntd": 27285.0,
+      "from_metro": 225,
+      "from_trunk": 131,
+      "from_bus": 4367,
+      "from_train": 17,
+      "persona_pct": {
+        "commuter": 60.1,
+        "tpass": 25.3,
+        "regular_adult": 34.8,
+        "student": 12.9,
+        "senior": 27.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "912",
+          "count": 1708
+        },
+        {
+          "RouteName": "949",
+          "count": 924
+        },
+        {
+          "RouteName": "679",
+          "count": 717
+        },
+        {
+          "RouteName": "660",
+          "count": 590
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運市政府站",
+          "count": 483,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運木柵站",
+          "count": 349,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "萬順寮",
+          "count": 288,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "松壽路口",
+          "count": 255,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "第一銀行",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 4922,
+      "subsidized_ntd": 23867.0,
+      "from_metro": 1167,
+      "from_trunk": 4,
+      "from_bus": 3719,
+      "from_train": 9,
+      "persona_pct": {
+        "commuter": 42.4,
+        "tpass": 16.4,
+        "regular_adult": 26.0,
+        "student": 4.0,
+        "senior": 53.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "承德幹線",
+          "count": 1513
+        },
+        {
+          "RouteName": "223",
+          "count": 928
+        },
+        {
+          "RouteName": "218",
+          "count": 477
+        },
+        {
+          "RouteName": "216",
+          "count": 290
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "復興中學",
+          "count": 569,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "秀山里",
+          "count": 540,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "中和街",
+          "count": 413,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "新北投",
+          "count": 293,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "石潭公園(成功)",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.412,
+      "lng": 121.762,
+      "transfer_volume": 4833,
+      "subsidized_ntd": 77861.0,
+      "from_metro": 110,
+      "from_trunk": 3032,
+      "from_bus": 1232,
+      "from_train": 46,
+      "persona_pct": {
+        "commuter": 84.5,
+        "tpass": 50.0,
+        "regular_adult": 34.5,
+        "student": 3.0,
+        "senior": 12.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "藍36",
+          "count": 1563
+        },
+        {
+          "RouteName": "284",
+          "count": 1439
+        },
+        {
+          "RouteName": "藍20區",
+          "count": 264
+        },
+        {
+          "RouteName": "藍50",
+          "count": 202
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運昆陽站",
+          "count": 1716,
+          "latlng": [
+            24.394,
+            121.7464
+          ]
+        },
+        {
+          "DeboardingStopName": "南港車站",
+          "count": 188,
+          "latlng": [
+            24.424,
+            121.7428
+          ]
+        },
+        {
+          "DeboardingStopName": "南港高中",
+          "count": 141,
+          "latlng": [
+            24.394,
+            121.774
+          ]
+        },
+        {
+          "DeboardingStopName": "南港分局(向陽)",
+          "count": 137,
+          "latlng": [
+            24.424,
+            121.7464
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "溪墘",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 4244,
+      "subsidized_ntd": 24810.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 4244,
+      "from_train": 0,
+      "persona_pct": {
+        "commuter": 59.3,
+        "tpass": 34.0,
+        "regular_adult": 25.3,
+        "student": 7.4,
+        "senior": 33.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "508區",
+          "count": 939
+        },
+        {
+          "RouteName": "225",
+          "count": 768
+        },
+        {
+          "RouteName": "忠孝幹線",
+          "count": 660
+        },
+        {
+          "RouteName": "221",
+          "count": 482
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "徐匯中學",
+          "count": 374,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運徐匯中學站",
+          "count": 372,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "士林國中",
+          "count": 128,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "三和國中",
+          "count": 112,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "仁愛街口",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.152,
+      "lng": 120.682,
+      "transfer_volume": 4095,
+      "subsidized_ntd": 25184.0,
+      "from_metro": 0,
+      "from_trunk": 1477,
+      "from_bus": 2586,
+      "from_train": 1,
+      "persona_pct": {
+        "commuter": 61.5,
+        "tpass": 31.9,
+        "regular_adult": 29.6,
+        "student": 7.4,
+        "senior": 31.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "226",
+          "count": 1477
+        },
+        {
+          "RouteName": "221",
+          "count": 1389
+        },
+        {
+          "RouteName": "紅9",
+          "count": 1197
+        },
+        {
+          "RouteName": "6918",
+          "count": 15
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運蘆洲站",
+          "count": 988,
+          "latlng": [
+            24.134,
+            120.6664
+          ]
+        },
+        {
+          "DeboardingStopName": "五常郵局",
+          "count": 300,
+          "latlng": [
+            24.164,
+            120.6628
+          ]
+        },
+        {
+          "DeboardingStopName": "自強五華街口",
+          "count": 154,
+          "latlng": [
+            24.134,
+            120.694
+          ]
+        },
+        {
+          "DeboardingStopName": "徐匯中學",
+          "count": 109,
+          "latlng": [
+            24.164,
+            120.6664
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "日月潭",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.8682,
+      "lng": 120.9152,
+      "transfer_volume": 3912,
+      "subsidized_ntd": 17871.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 46,
+      "persona_pct": {
+        "commuter": 66.6,
+        "tpass": 4.7,
+        "regular_adult": 61.9,
+        "student": 4.3,
+        "senior": 29.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6670",
+          "count": 2819
+        },
+        {
+          "RouteName": "6669",
+          "count": 744
+        },
+        {
+          "RouteName": "6289",
+          "count": 98
+        },
+        {
+          "RouteName": "6668",
+          "count": 93
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 1332,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "伊達邵",
+          "count": 271,
+          "latlng": [
+            23.8802,
+            120.896
+          ]
+        },
+        {
+          "DeboardingStopName": "埔里站",
+          "count": 241,
+          "latlng": [
+            23.9675,
+            120.9658
+          ]
+        },
+        {
+          "DeboardingStopName": "日月潭纜車",
+          "count": 159,
+          "latlng": [
+            23.8682,
+            120.9152
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "仙公廟",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 3551,
+      "subsidized_ntd": 13926.0,
+      "from_metro": 10,
+      "from_trunk": 0,
+      "from_bus": 3524,
+      "from_train": 4,
+      "persona_pct": {
+        "commuter": 55.2,
+        "tpass": 22.9,
+        "regular_adult": 32.3,
+        "student": 8.4,
+        "senior": 36.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "292",
+          "count": 2038
+        },
+        {
+          "RouteName": "14",
+          "count": 950
+        },
+        {
+          "RouteName": "274",
+          "count": 211
+        },
+        {
+          "RouteName": "227",
+          "count": 164
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運菜寮站",
+          "count": 508,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "菜寮(重新路)",
+          "count": 260,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(鄭州)",
+          "count": 242,
+          "latlng": [
+            25.0492,
+            121.5165
+          ]
+        },
+        {
+          "DeboardingStopName": "大同路口",
+          "count": 162,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "鹿港乘車處",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.152,
+      "lng": 120.682,
+      "transfer_volume": 3485,
+      "subsidized_ntd": 56487.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 86,
+      "persona_pct": {
+        "commuter": 62.1,
+        "tpass": 37.6,
+        "regular_adult": 24.5,
+        "student": 7.4,
+        "senior": 30.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6933",
+          "count": 1350
+        },
+        {
+          "RouteName": "6900",
+          "count": 705
+        },
+        {
+          "RouteName": "6936",
+          "count": 473
+        },
+        {
+          "RouteName": "6901",
+          "count": 375
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "彰化",
+          "count": 922,
+          "latlng": [
+            24.0818,
+            120.5385
+          ]
+        },
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 472,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "彰化縣政府",
+          "count": 377,
+          "latlng": [
+            24.0818,
+            120.5385
+          ]
+        },
+        {
+          "DeboardingStopName": "彰化女中",
+          "count": 324,
+          "latlng": [
+            24.0818,
+            120.5385
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "彰化銀行(嘉義)",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.4782,
+      "lng": 120.4485,
+      "transfer_volume": 3433,
+      "subsidized_ntd": 77321.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 2809,
+      "from_train": 254,
+      "persona_pct": {
+        "commuter": 67.8,
+        "tpass": 4.6,
+        "regular_adult": 63.2,
+        "student": 4.8,
+        "senior": 27.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7201",
+          "count": 675
+        },
+        {
+          "RouteName": "7202",
+          "count": 402
+        },
+        {
+          "RouteName": "7215",
+          "count": 345
+        },
+        {
+          "RouteName": "7209",
+          "count": 265
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "北港",
+          "count": 414,
+          "latlng": [
+            23.5702,
+            120.3015
+          ]
+        },
+        {
+          "DeboardingStopName": "北港派出所",
+          "count": 168,
+          "latlng": [
+            23.5702,
+            120.3015
+          ]
+        },
+        {
+          "DeboardingStopName": "中埔國中",
+          "count": 119,
+          "latlng": [
+            23.4602,
+            120.4605
+          ]
+        },
+        {
+          "DeboardingStopName": "新港國中",
+          "count": 107,
+          "latlng": [
+            23.4902,
+            120.4329
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "台東轉運站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 22.7535,
+      "lng": 121.1495,
+      "transfer_volume": 3326,
+      "subsidized_ntd": 105842.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 21,
+      "persona_pct": {
+        "commuter": 71.1,
+        "tpass": 51.7,
+        "regular_adult": 19.4,
+        "student": 5.4,
+        "senior": 23.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "8129",
+          "count": 1030
+        },
+        {
+          "RouteName": "8135",
+          "count": 340
+        },
+        {
+          "RouteName": "8103",
+          "count": 289
+        },
+        {
+          "RouteName": "8102",
+          "count": 199
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "台東大學",
+          "count": 439,
+          "latlng": [
+            22.7485,
+            121.0725
+          ]
+        },
+        {
+          "DeboardingStopName": "台東火車站",
+          "count": 296,
+          "latlng": [
+            22.7932,
+            121.1232
+          ]
+        },
+        {
+          "DeboardingStopName": "太麻里",
+          "count": 194,
+          "latlng": [
+            22.6148,
+            121.0075
+          ]
+        },
+        {
+          "DeboardingStopName": "成功",
+          "count": 132,
+          "latlng": [
+            23.0005,
+            120.2185
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "港墘派出所",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 3319,
+      "subsidized_ntd": 19245.0,
+      "from_metro": 287,
+      "from_trunk": 47,
+      "from_bus": 2976,
+      "from_train": 1,
+      "persona_pct": {
+        "commuter": 67.4,
+        "tpass": 38.4,
+        "regular_adult": 29.0,
+        "student": 6.9,
+        "senior": 25.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "藍26",
+          "count": 1373
+        },
+        {
+          "RouteName": "222",
+          "count": 1060
+        },
+        {
+          "RouteName": "藍7",
+          "count": 259
+        },
+        {
+          "RouteName": "藍7副",
+          "count": 204
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "瑞光路",
+          "count": 1117,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "金龍寺",
+          "count": 418,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運市政府站",
+          "count": 156,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "金龍隧道口",
+          "count": 117,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "北港",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.5702,
+      "lng": 120.3015,
+      "transfer_volume": 2650,
+      "subsidized_ntd": 48445.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 2190,
+      "from_train": 51,
+      "persona_pct": {
+        "commuter": 62.4,
+        "tpass": 4.1,
+        "regular_adult": 58.3,
+        "student": 5.5,
+        "senior": 32.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7201",
+          "count": 542
+        },
+        {
+          "RouteName": "7202",
+          "count": 510
+        },
+        {
+          "RouteName": "7235",
+          "count": 383
+        },
+        {
+          "RouteName": "7222",
+          "count": 232
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵嘉義站",
+          "count": 374,
+          "latlng": [
+            23.4592,
+            120.3235
+          ]
+        },
+        {
+          "DeboardingStopName": "嘉義火車站",
+          "count": 234,
+          "latlng": [
+            23.4791,
+            120.4411
+          ]
+        },
+        {
+          "DeboardingStopName": "彰化銀行(嘉義)",
+          "count": 203,
+          "latlng": [
+            23.4782,
+            120.4485
+          ]
+        },
+        {
+          "DeboardingStopName": "斗六火車站",
+          "count": 109,
+          "latlng": [
+            23.5822,
+            120.2859
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "朴子轉運站",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.4615,
+      "lng": 120.2458,
+      "transfer_volume": 2648,
+      "subsidized_ntd": 80054.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 2497,
+      "from_train": 29,
+      "persona_pct": {
+        "commuter": 73.9,
+        "tpass": 2.8,
+        "regular_adult": 71.1,
+        "student": 4.3,
+        "senior": 21.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7211",
+          "count": 1547
+        },
+        {
+          "RouteName": "7209",
+          "count": 353
+        },
+        {
+          "RouteName": "7233",
+          "count": 166
+        },
+        {
+          "RouteName": "7205",
+          "count": 109
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵嘉義站",
+          "count": 381,
+          "latlng": [
+            23.4592,
+            120.3235
+          ]
+        },
+        {
+          "DeboardingStopName": "長庚醫院",
+          "count": 248,
+          "latlng": [
+            23.4735,
+            120.2266
+          ]
+        },
+        {
+          "DeboardingStopName": "文化路口",
+          "count": 185,
+          "latlng": [
+            23.4435,
+            120.2578
+          ]
+        },
+        {
+          "DeboardingStopName": "嘉義公園",
+          "count": 185,
+          "latlng": [
+            23.4735,
+            120.2302
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南投",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9102,
+      "lng": 120.6865,
+      "transfer_volume": 2609,
+      "subsidized_ntd": 29098.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 159,
+      "from_train": 14,
+      "persona_pct": {
+        "commuter": 41.4,
+        "tpass": 20.3,
+        "regular_adult": 21.1,
+        "student": 7.9,
+        "senior": 50.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6918",
+          "count": 434
+        },
+        {
+          "RouteName": "6929",
+          "count": 294
+        },
+        {
+          "RouteName": "6916",
+          "count": 263
+        },
+        {
+          "RouteName": "6928",
+          "count": 257
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "草屯",
+          "count": 178,
+          "latlng": [
+            23.9772,
+            120.6835
+          ]
+        },
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 157,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "鄉親寮",
+          "count": 150,
+          "latlng": [
+            23.8922,
+            120.6985
+          ]
+        },
+        {
+          "DeboardingStopName": "彰化",
+          "count": 143,
+          "latlng": [
+            24.0818,
+            120.5385
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "南投站",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9102,
+      "lng": 120.6865,
+      "transfer_volume": 2517,
+      "subsidized_ntd": 38946.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 2,
+      "from_train": 26,
+      "persona_pct": {
+        "commuter": 52.7,
+        "tpass": 16.1,
+        "regular_adult": 36.6,
+        "student": 8.6,
+        "senior": 38.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6333",
+          "count": 2485
+        },
+        {
+          "RouteName": "6322",
+          "count": 30
+        },
+        {
+          "RouteName": "1657",
+          "count": 2
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺中車站(民族路口)",
+          "count": 292,
+          "latlng": [
+            23.8922,
+            120.6709
+          ]
+        },
+        {
+          "DeboardingStopName": "干城站",
+          "count": 259,
+          "latlng": [
+            24.1378,
+            120.6872
+          ]
+        },
+        {
+          "DeboardingStopName": "草屯",
+          "count": 181,
+          "latlng": [
+            23.9772,
+            120.6835
+          ]
+        },
+        {
+          "DeboardingStopName": "中學路",
+          "count": 165,
+          "latlng": [
+            23.9222,
+            120.6709
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "光復路口",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 2421,
+      "subsidized_ntd": 8215.0,
+      "from_metro": 289,
+      "from_trunk": 15,
+      "from_bus": 2049,
+      "from_train": 5,
+      "persona_pct": {
+        "commuter": 61.9,
+        "tpass": 19.3,
+        "regular_adult": 42.6,
+        "student": 5.9,
+        "senior": 32.1
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "202",
+          "count": 594
+        },
+        {
+          "RouteName": "257",
+          "count": 518
+        },
+        {
+          "RouteName": "203",
+          "count": 432
+        },
+        {
+          "RouteName": "276",
+          "count": 429
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺視",
+          "count": 227,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "臺安醫院",
+          "count": 192,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北車站(忠孝)",
+          "count": 148,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "松山車站(八德)",
+          "count": 85,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "溪頭",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.6738,
+      "lng": 120.7965,
+      "transfer_volume": 2325,
+      "subsidized_ntd": 5782.0,
+      "from_metro": 21,
+      "from_trunk": 1,
+      "from_bus": 103,
+      "from_train": 20,
+      "persona_pct": {
+        "commuter": 20.8,
+        "tpass": 4.7,
+        "regular_adult": 16.1,
+        "student": 0.6,
+        "senior": 78.6
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6883",
+          "count": 1707
+        },
+        {
+          "RouteName": "6719",
+          "count": 343
+        },
+        {
+          "RouteName": "6801",
+          "count": 148
+        },
+        {
+          "RouteName": "905",
+          "count": 114
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵臺中站",
+          "count": 983,
+          "latlng": [
+            24.1118,
+            120.6157
+          ]
+        },
+        {
+          "DeboardingStopName": "干城站",
+          "count": 117,
+          "latlng": [
+            24.1378,
+            120.6872
+          ]
+        },
+        {
+          "DeboardingStopName": "杉林溪",
+          "count": 85,
+          "latlng": [
+            23.6558,
+            120.8085
+          ]
+        },
+        {
+          "DeboardingStopName": "延平",
+          "count": 72,
+          "latlng": [
+            23.6858,
+            120.7809
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "仁愛國中",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.152,
+      "lng": 120.682,
+      "transfer_volume": 2286,
+      "subsidized_ntd": 10521.0,
+      "from_metro": 130,
+      "from_trunk": 301,
+      "from_bus": 1778,
+      "from_train": 2,
+      "persona_pct": {
+        "commuter": 62.2,
+        "tpass": 21.6,
+        "regular_adult": 40.6,
+        "student": 7.4,
+        "senior": 30.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "敦化幹線",
+          "count": 990
+        },
+        {
+          "RouteName": "235",
+          "count": 289
+        },
+        {
+          "RouteName": "905",
+          "count": 287
+        },
+        {
+          "RouteName": "278",
+          "count": 180
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運忠孝敦化站",
+          "count": 246,
+          "latlng": [
+            24.134,
+            120.6664
+          ]
+        },
+        {
+          "DeboardingStopName": "臺北小巨蛋",
+          "count": 230,
+          "latlng": [
+            24.164,
+            120.6628
+          ]
+        },
+        {
+          "DeboardingStopName": "長庚醫院",
+          "count": 113,
+          "latlng": [
+            24.134,
+            120.694
+          ]
+        },
+        {
+          "DeboardingStopName": "市立體育場",
+          "count": 105,
+          "latlng": [
+            24.164,
+            120.6664
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "員林站",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 23.9595,
+      "lng": 120.5702,
+      "transfer_volume": 2230,
+      "subsidized_ntd": 31527.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 461,
+      "persona_pct": {
+        "commuter": 47.9,
+        "tpass": 15.2,
+        "regular_adult": 32.7,
+        "student": 27.6,
+        "senior": 24.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6707",
+          "count": 602
+        },
+        {
+          "RouteName": "6881",
+          "count": 580
+        },
+        {
+          "RouteName": "6705",
+          "count": 568
+        },
+        {
+          "RouteName": "6882",
+          "count": 146
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "溪湖站",
+          "count": 221,
+          "latlng": [
+            23.9415,
+            120.5546
+          ]
+        },
+        {
+          "DeboardingStopName": "北斗國中",
+          "count": 193,
+          "latlng": [
+            23.9715,
+            120.551
+          ]
+        },
+        {
+          "DeboardingStopName": "溪州",
+          "count": 158,
+          "latlng": [
+            23.9415,
+            120.5822
+          ]
+        },
+        {
+          "DeboardingStopName": "大道里",
+          "count": 90,
+          "latlng": [
+            23.9715,
+            120.5546
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "彰化(三民路)",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.0818,
+      "lng": 120.5385,
+      "transfer_volume": 2215,
+      "subsidized_ntd": 26602.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 634,
+      "persona_pct": {
+        "commuter": 60.0,
+        "tpass": 36.7,
+        "regular_adult": 23.3,
+        "student": 19.2,
+        "senior": 20.8
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "6903",
+          "count": 960
+        },
+        {
+          "RouteName": "6907",
+          "count": 867
+        },
+        {
+          "RouteName": "6901",
+          "count": 375
+        },
+        {
+          "RouteName": "6911",
+          "count": 13
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "頂番婆",
+          "count": 272,
+          "latlng": [
+            24.0638,
+            120.5229
+          ]
+        },
+        {
+          "DeboardingStopName": "派出所前",
+          "count": 180,
+          "latlng": [
+            24.0938,
+            120.5193
+          ]
+        },
+        {
+          "DeboardingStopName": "陽明里",
+          "count": 99,
+          "latlng": [
+            24.0638,
+            120.5505
+          ]
+        },
+        {
+          "DeboardingStopName": "南佃里",
+          "count": 76,
+          "latlng": [
+            24.0938,
+            120.5229
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "深坑",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 1839,
+      "subsidized_ntd": 6022.0,
+      "from_metro": 61,
+      "from_trunk": 9,
+      "from_bus": 1742,
+      "from_train": 15,
+      "persona_pct": {
+        "commuter": 50.5,
+        "tpass": 16.5,
+        "regular_adult": 34.0,
+        "student": 6.8,
+        "senior": 42.7
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "912",
+          "count": 797
+        },
+        {
+          "RouteName": "949",
+          "count": 309
+        },
+        {
+          "RouteName": "679",
+          "count": 256
+        },
+        {
+          "RouteName": "660區",
+          "count": 244
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "捷運市政府站",
+          "count": 323,
+          "latlng": [
+            22.644,
+            120.3164
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運木柵站",
+          "count": 184,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "松壽路口",
+          "count": 132,
+          "latlng": [
+            22.644,
+            120.344
+          ]
+        },
+        {
+          "DeboardingStopName": "東南科技大學",
+          "count": 121,
+          "latlng": [
+            22.674,
+            120.3164
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "阿里山轉運站",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.5105,
+      "lng": 120.8038,
+      "transfer_volume": 1700,
+      "subsidized_ntd": 0.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 66,
+      "persona_pct": {
+        "commuter": 79.7,
+        "tpass": 0.0,
+        "regular_adult": 79.7,
+        "student": 2.9,
+        "senior": 17.4
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7322",
+          "count": 1381
+        },
+        {
+          "RouteName": "7329",
+          "count": 319
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "嘉義火車站",
+          "count": 949,
+          "latlng": [
+            23.4791,
+            120.4411
+          ]
+        },
+        {
+          "DeboardingStopName": "高鐵嘉義站",
+          "count": 228,
+          "latlng": [
+            23.4592,
+            120.3235
+          ]
+        },
+        {
+          "DeboardingStopName": "石棹",
+          "count": 146,
+          "latlng": [
+            23.4925,
+            120.8158
+          ]
+        },
+        {
+          "DeboardingStopName": "奮起湖終點站",
+          "count": 117,
+          "latlng": [
+            23.5225,
+            120.7882
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "文化路口",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 22.662,
+      "lng": 120.332,
+      "transfer_volume": 1516,
+      "subsidized_ntd": 41653.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 1121,
+      "from_train": 53,
+      "persona_pct": {
+        "commuter": 82.0,
+        "tpass": 14.2,
+        "regular_adult": 67.8,
+        "student": 6.2,
+        "senior": 11.8
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7211",
+          "count": 1023
+        },
+        {
+          "RouteName": "7323",
+          "count": 80
+        },
+        {
+          "RouteName": "7309",
+          "count": 54
+        },
+        {
+          "RouteName": "7312",
+          "count": 41
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "高鐵嘉義站",
+          "count": 256,
+          "latlng": [
+            23.4592,
+            120.3235
+          ]
+        },
+        {
+          "DeboardingStopName": "縣政府",
+          "count": 215,
+          "latlng": [
+            22.674,
+            120.3128
+          ]
+        },
+        {
+          "DeboardingStopName": "朴子轉運站",
+          "count": 145,
+          "latlng": [
+            23.4615,
+            120.2458
+          ]
+        },
+        {
+          "DeboardingStopName": "嘉義火車站",
+          "count": 100,
+          "latlng": [
+            23.4791,
+            120.4411
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "大雅站",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "lat": 23.4762,
+      "lng": 120.4725,
+      "transfer_volume": 1486,
+      "subsidized_ntd": 46982.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 23,
+      "persona_pct": {
+        "commuter": 85.3,
+        "tpass": 72.6,
+        "regular_adult": 12.7,
+        "student": 4.5,
+        "senior": 10.2
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "7320",
+          "count": 398
+        },
+        {
+          "RouteName": "7325",
+          "count": 293
+        },
+        {
+          "RouteName": "7327",
+          "count": 242
+        },
+        {
+          "RouteName": "7309",
+          "count": 97
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "嘉義火車站",
+          "count": 226,
+          "latlng": [
+            23.4791,
+            120.4411
+          ]
+        },
+        {
+          "DeboardingStopName": "過溝",
+          "count": 66,
+          "latlng": [
+            23.4882,
+            120.4533
+          ]
+        },
+        {
+          "DeboardingStopName": "梅山",
+          "count": 46,
+          "latlng": [
+            23.4582,
+            120.4845
+          ]
+        },
+        {
+          "DeboardingStopName": "長老會",
+          "count": 45,
+          "latlng": [
+            23.4882,
+            120.4569
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "花蓮轉運站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 23.9932,
+      "lng": 121.6015,
+      "transfer_volume": 959,
+      "subsidized_ntd": 21624.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 529,
+      "from_train": 88,
+      "persona_pct": {
+        "commuter": 53.5,
+        "tpass": 11.7,
+        "regular_adult": 41.8,
+        "student": 6.6,
+        "senior": 39.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1121",
+          "count": 263
+        },
+        {
+          "RouteName": "1140",
+          "count": 198
+        },
+        {
+          "RouteName": "1145",
+          "count": 155
+        },
+        {
+          "RouteName": "1139",
+          "count": 108
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "海洋公園",
+          "count": 85,
+          "latlng": [
+            23.9752,
+            121.5859
+          ]
+        },
+        {
+          "DeboardingStopName": "中華路",
+          "count": 75,
+          "latlng": [
+            24.0052,
+            121.5823
+          ]
+        },
+        {
+          "DeboardingStopName": "東大門夜市",
+          "count": 44,
+          "latlng": [
+            23.9752,
+            121.6135
+          ]
+        },
+        {
+          "DeboardingStopName": "花蓮文創園區(中正)",
+          "count": 35,
+          "latlng": [
+            24.0052,
+            121.5859
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "成功路口",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 24.412,
+      "lng": 121.762,
+      "transfer_volume": 799,
+      "subsidized_ntd": 27581.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 30,
+      "from_train": 110,
+      "persona_pct": {
+        "commuter": 74.8,
+        "tpass": 51.8,
+        "regular_adult": 23.0,
+        "student": 3.9,
+        "senior": 21.3
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "1816",
+          "count": 622
+        },
+        {
+          "RouteName": "6653",
+          "count": 62
+        },
+        {
+          "RouteName": "6333",
+          "count": 53
+        },
+        {
+          "RouteName": "1662",
+          "count": 31
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "臺北車站(鄭州)",
+          "count": 288,
+          "latlng": [
+            25.0492,
+            121.5165
+          ]
+        },
+        {
+          "DeboardingStopName": "捷運大橋頭站",
+          "count": 183,
+          "latlng": [
+            24.424,
+            121.7428
+          ]
+        },
+        {
+          "DeboardingStopName": "民族重慶路口",
+          "count": 62,
+          "latlng": [
+            24.394,
+            121.774
+          ]
+        },
+        {
+          "DeboardingStopName": "圓環(重慶)",
+          "count": 26,
+          "latlng": [
+            24.424,
+            121.7464
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "台東火車站",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 22.7932,
+      "lng": 121.1232,
+      "transfer_volume": 767,
+      "subsidized_ntd": 7863.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 0,
+      "from_train": 106,
+      "persona_pct": {
+        "commuter": 63.3,
+        "tpass": 13.8,
+        "regular_adult": 49.5,
+        "student": 3.8,
+        "senior": 32.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "8172",
+          "count": 271
+        },
+        {
+          "RouteName": "8103",
+          "count": 256
+        },
+        {
+          "RouteName": "8101",
+          "count": 141
+        },
+        {
+          "RouteName": "8117",
+          "count": 40
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "中央市場",
+          "count": 119,
+          "latlng": [
+            22.6735,
+            120.4905
+          ]
+        },
+        {
+          "DeboardingStopName": "台東轉運站",
+          "count": 104,
+          "latlng": [
+            22.7535,
+            121.1495
+          ]
+        },
+        {
+          "DeboardingStopName": "都蘭B",
+          "count": 44,
+          "latlng": [
+            22.7752,
+            121.1352
+          ]
+        },
+        {
+          "DeboardingStopName": "成功",
+          "count": 42,
+          "latlng": [
+            23.0005,
+            120.2185
+          ]
+        }
+      ]
+    },
+    {
+      "BoardingStopName": "成功",
+      "region": "east",
+      "region_label": "東部生活圈 (宜花東)",
+      "lat": 23.0005,
+      "lng": 120.2185,
+      "transfer_volume": 750,
+      "subsidized_ntd": 32883.0,
+      "from_metro": 0,
+      "from_trunk": 0,
+      "from_bus": 7,
+      "from_train": 7,
+      "persona_pct": {
+        "commuter": 57.4,
+        "tpass": 43.5,
+        "regular_adult": 13.9,
+        "student": 0.8,
+        "senior": 41.9
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "8105",
+          "count": 216
+        },
+        {
+          "RouteName": "8101",
+          "count": 139
+        },
+        {
+          "RouteName": "8181",
+          "count": 125
+        },
+        {
+          "RouteName": "8102",
+          "count": 116
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "台東轉運站",
+          "count": 100,
+          "latlng": [
+            22.7535,
+            121.1495
+          ]
+        },
+        {
+          "DeboardingStopName": "玉里火車站",
+          "count": 82,
+          "latlng": [
+            23.0125,
+            120.1993
+          ]
+        },
+        {
+          "DeboardingStopName": "中央市場",
+          "count": 49,
+          "latlng": [
+            22.6735,
+            120.4905
+          ]
+        },
+        {
+          "DeboardingStopName": "台東火車站",
+          "count": 35,
+          "latlng": [
+            22.7932,
+            121.1232
+          ]
+        }
+      ]
+    }
+  ]
+}

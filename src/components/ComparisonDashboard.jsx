@@ -548,6 +548,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', padding: '14px', borderRadius: '10px', borderLeft: '3px solid #38BDF8' }}>
                     <div style={{ fontWeight: '700', color: '#38BDF8', marginBottom: '6px' }}>🎯 最佳選址與落點時段：</div>
                     <p>• <strong>早晨 07:00-08:45 早餐攤</strong>：選在【居住流出站 (Outflow)】進站閘口動線旁，如 <strong>板橋新埔站 (出發 2,284/h)、永和頂溪站 (出發 2,152/h)、中和景安站</strong>。</p>
+                    <p>• <strong>高頻轉乘節點 (Transfer Hub) 換乘動線</strong>：選在全台 76 大樞紐之接駁換乘通道，如 <strong>台北車站地下街、市府轉運站、台中干城站、左營高鐵轉運道</strong>。轉乘旅客擁有 <strong>3 ~ 7 分鐘</strong> 等車碎片空檔，是「拿了就走 (Grab & Go)」坪效爆發點！</p>
                     <p>• <strong>午間 11:30-13:00 便當店</strong>：選在【商辦流入站 (Inflow)】周邊，如 <strong>信義市政府站 (流入 3,602/h)、南京復興、內科瑞光路</strong>。</p>
                   </div>
 
