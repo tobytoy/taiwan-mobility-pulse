@@ -57,7 +57,7 @@ export default function App() {
   const [selectedMode, setSelectedMode] = useState('all');
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedPaxType, setSelectedPaxType] = useState('all');
-  const [selectedDayType, setSelectedDayType] = useState('Weekday');
+  const [selectedDayType, setSelectedDayType] = useState('workday_clear');
   const [basemap, setBasemap] = useState('dark');
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
@@ -549,7 +549,7 @@ export default function App() {
               gap: '10px',
               alignItems: 'flex-end'
             }}>
-              {/* Day Type Toggle (平日 / 週末 / 連假) */}
+              {/* Day & Weather Scenario Toggle (上班日/放假日 x 晴天/雨天 2x2 矩陣) */}
               <div style={{
                 background: 'rgba(15, 23, 42, 0.9)',
                 backdropFilter: 'blur(10px)',
@@ -557,16 +557,17 @@ export default function App() {
                 borderRadius: '10px',
                 padding: '6px 10px',
                 display: 'flex',
-                gap: '6px',
+                gap: '5px',
                 alignItems: 'center'
               }}>
                 <span style={{ fontSize: '11px', color: '#64748b', marginRight: '2px', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                  <Calendar size={13} /> 時段:
+                  <Calendar size={13} /> 天候情境:
                 </span>
                 {[
-                  { id: 'Weekday', label: '💼 平日 (1-5)' },
-                  { id: 'Weekend', label: '🏖️ 週末 (六日)' },
-                  { id: 'Holiday', label: '🎉 連假節慶' }
+                  { id: 'workday_clear', label: '☀️ 上班日·晴天', color: '#38BDF8' },
+                  { id: 'workday_rain', label: '🌧️ 上班日·雨天', color: '#06B6D4' },
+                  { id: 'holiday_clear', label: '☀️ 假日·晴天', color: '#F59E0B' },
+                  { id: 'holiday_rain', label: '🌧️ 假日·雨天', color: '#A855F7' }
                 ].map(dt => {
                   const isSel = selectedDayType === dt.id;
                   return (
@@ -578,10 +579,11 @@ export default function App() {
                         borderRadius: '5px',
                         fontSize: '11px',
                         fontWeight: isSel ? '700' : '500',
-                        border: isSel ? '1px solid #F59E0B' : '1px solid transparent',
-                        background: isSel ? 'rgba(245, 158, 11, 0.25)' : 'rgba(255,255,255,0.05)',
-                        color: isSel ? '#FBBF24' : '#94a3b8',
-                        cursor: 'pointer'
+                        border: isSel ? `1px solid ${dt.color}` : '1px solid transparent',
+                        background: isSel ? `${dt.color}33` : 'rgba(255,255,255,0.05)',
+                        color: isSel ? dt.color : '#94a3b8',
+                        cursor: 'pointer',
+                        transition: 'all 0.15s ease'
                       }}
                     >
                       {dt.label}
@@ -765,7 +767,7 @@ export default function App() {
               </div>
             }>
               <ErrorBoundary>
-                <HeatmapView basemap={basemap} initialPaxType={selectedPaxType} />
+                <HeatmapView basemap={basemap} initialPaxType={selectedPaxType} initialTimeScope={selectedDayType} />
               </ErrorBoundary>
             </Suspense>
           </div>

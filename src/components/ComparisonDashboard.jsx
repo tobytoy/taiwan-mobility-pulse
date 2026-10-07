@@ -454,7 +454,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                 </div>
                 <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6' }}>
                   <p>• <strong>物理意涵</strong>：該時段「人潮進入或抵達」該區域的目的地吸納量。</p>
-                  <p>• <strong>優點</strong>：業務直覺最清晰！週三上午 9 點下車爆滿的站點（如市政府、南京復興、內科）立刻顯現為鮮紅熱點，精確描繪<strong>工作商辦聚集地</strong>。</p>
+                  <p>• <strong>優點</strong>：業務直覺最清晰！平日上班日上午 9 點下車爆滿的站點（如市政府、南京復興、內科）立刻顯現為鮮紅熱點，精確描繪<strong>工作商辦聚集地</strong>。</p>
                   <p>• <strong>缺點</strong>：忽略了住宅臥城（中永和、淡水）將人大量輸送出去的活躍動能。</p>
                 </div>
               </div>
@@ -563,7 +563,7 @@ export default function ComparisonDashboard({ studyData = {}, modesMeta = [] }) 
                 <div style={{ marginTop: '12px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', borderRadius: '8px', padding: '10px 14px', fontSize: '12px', color: '#FCA5A5', display: 'flex', alignItems: 'center', gap: '8px' }}>
                   <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
                   <div>
-                    <strong>❌ 致命選址禁區</strong>：千萬別開在純觀光站（如週三早上的淡水老街、高雄駁二、花蓮車站）！非假日早上這些地方遊客還在飯店睡覺，出門也是慢慢吃早午餐，趕著買飯糰的通勤客近乎為零，必虧無疑。
+                    <strong>❌ 致命選址禁區</strong>：千萬別開在純觀光站（如平日上班日早上的淡水老街、高雄駁二、花蓮車站）！非假日早上這些地方遊客還在飯店睡覺，出門也是慢慢吃早午餐，趕著買飯糰的通勤客近乎為零，必虧無疑。
                   </div>
                 </div>
               </div>
