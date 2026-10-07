@@ -329,11 +329,38 @@ input[type=range]::-webkit-slider-thumb {
   color: #f8fafc !important;
 }
 
-.cyber-dark-tooltip .leaflet-tooltip-pane {
-  background: transparent !important;
+/* Heatmap Pulsing & Weather Surge Glow */
+@keyframes weatherSurgePulse {
+  0% {
+    stroke-opacity: 0.95;
+    stroke-width: 2.2px;
+  }
+  50% {
+    stroke-opacity: 0.35;
+    stroke-width: 6.5px;
+  }
+  100% {
+    stroke-opacity: 0.95;
+    stroke-width: 2.2px;
+  }
 }
 
-.cyber-dark-tooltip::before {
-  border-top-color: rgba(13, 18, 30, 0.94) !important;
+.heatmap-surge-glow {
+  animation: weatherSurgePulse 1.8s ease-in-out infinite !important;
 }
+
+.custom-leaflet-tooltip {
+  background: rgba(15, 23, 42, 0.94) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6) !important;
+  padding: 0 !important;
+}
+
+.custom-leaflet-tooltip::before {
+  border-top-color: rgba(15, 23, 42, 0.94) !important;
+}
+
 

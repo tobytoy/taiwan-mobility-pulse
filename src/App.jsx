@@ -49,6 +49,7 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('gis_map'); // 'gis_map', 'ai_lab', 'personas', 'analytics', 'telecom', 'tpass'
   const [mapViewType, setMapViewType] = useState('flows'); // 'flows' (動態走廊流向), 'heatmap' (時空熱點圖)
   const [analyticsSubView, setAnalyticsSubView] = useState('comparison'); // 'comparison', 'od'
+  const [personaSubTab, setPersonaSubTab] = useState('weather'); // 'transfer', 'commuter', 'senior', 'student', or 'weather'
 
   // Map Controls State
   const [currentHour, setCurrentHour] = useState(8);
@@ -767,7 +768,15 @@ export default function App() {
               </div>
             }>
               <ErrorBoundary>
-                <HeatmapView basemap={basemap} initialPaxType={selectedPaxType} initialTimeScope={selectedDayType} />
+                <HeatmapView 
+                  basemap={basemap} 
+                  initialPaxType={selectedPaxType} 
+                  initialTimeScope={selectedDayType}
+                  onOpenWeatherLab={() => {
+                    setPersonaSubTab('weather');
+                    setActiveTab('personas');
+                  }}
+                />
               </ErrorBoundary>
             </Suspense>
           </div>
@@ -808,15 +817,18 @@ export default function App() {
       {/* VIEW: Persona Deep Analytics (Commuters, Seniors & Students & Transfers) */}
       {activeTab === 'personas' && (
         <div style={{ height: '100%', overflowY: 'auto' }}>
-          <PersonaAnalyticsView 
-            onSwitchToTransferMap={() => {
-              setActiveTab('gis_map');
-              setMapViewType('transfers');
-            }} 
-            onSwitchToAiLab={() => {
-              setActiveTab('ai_lab');
-            }}
-          />
+          <ErrorBoundary>
+            <PersonaAnalyticsView 
+              initialSubTab={personaSubTab}
+              onSwitchToTransferMap={() => {
+                setActiveTab('gis_map');
+                setMapViewType('transfers');
+              }} 
+              onSwitchToAiLab={() => {
+                setActiveTab('ai_lab');
+              }}
+            />
+          </ErrorBoundary>
         </div>
       )}
 

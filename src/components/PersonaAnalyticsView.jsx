@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import WeatherPersonaComparisonLab from './WeatherPersonaComparisonLab';
 import { 
   Users, Briefcase, Heart, Clock, Navigation, MapPin, 
   TrendingUp, Award, ShieldAlert, Sparkles, ChevronRight,
@@ -8,14 +9,20 @@ import {
   CloudRain, Sun, Umbrella, Droplets, Thermometer
 } from 'lucide-react';
 
-export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchToAiLab }) {
-  const [activeSubTab, setActiveSubTab] = useState('transfer'); // 'transfer', 'commuter', 'senior', 'student', or 'weather'
+export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchToAiLab, initialSubTab = 'transfer' }) {
+  const [activeSubTab, setActiveSubTab] = useState(initialSubTab || 'transfer'); // 'transfer', 'commuter', 'senior', 'student', or 'weather'
   const [commuterData, setCommuterData] = useState(null);
   const [seniorData, setSeniorData] = useState(null);
   const [studentData, setStudentData] = useState(null);
   const [transferData, setTransferData] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (initialSubTab && initialSubTab !== activeSubTab) {
+      setActiveSubTab(initialSubTab);
+    }
+  }, [initialSubTab]);
 
   useEffect(() => {
     const baseUrl = import.meta.env.BASE_URL || '/';
@@ -1584,6 +1591,9 @@ function WeatherSection({ data }) {
           icon={Train}
         />
       </div>
+
+      {/* 24 小時各客群晴雨作息對比與天候衝擊實驗室 (Overlaid Diurnal Curves & Heat Matrix) */}
+      <WeatherPersonaComparisonLab weatherData={data} />
 
       {/* 6 大非監督客群天候彈性演進畫像 */}
       <div style={{

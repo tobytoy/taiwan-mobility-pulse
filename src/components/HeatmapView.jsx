@@ -42,7 +42,12 @@ const REGION_BOUNDS = {
   East: { center: [24.30, 121.70], zoom: 9 }
 };
 
-export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', initialTimeScope = 'workday_clear' }) {
+export default function HeatmapView({ 
+  basemap = 'dark', 
+  initialPaxType = 'all', 
+  initialTimeScope = 'workday_clear',
+  onOpenWeatherLab
+}) {
   const [heatmapData, setHeatmapData] = useState(null);
   const [loading, setLoading] = useState(true);
   
@@ -165,12 +170,12 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
     return () => clearInterval(timer);
   }, [isPlaying]);
 
-  // 6. 依專家拉桿參數與四維人群像動態重算站點
-  const calcStationWithParams = (st) => {
+  // 6. 依專家拉桿參數與四維人群像動態重算站點 (支援任意天候情境代入)
+  const calcStationWithParams = (st, targetScope = timeScope) => {
     const isPeak = [7, 8, 9, 17, 18, 19].includes(currentHour);
     const isOffPeak = currentHour >= 10 && currentHour <= 16;
-    const isHoliday = timeScope.startsWith('holiday') || timeScope === 'weekend';
-    const isRain = timeScope.endsWith('rain');
+    const isHoliday = targetScope.startsWith('holiday') || targetScope === 'weekend';
+    const isRain = targetScope.endsWith('rain');
     
     let baseRate = 0.5;
     if (isHoliday) {
@@ -263,22 +268,42 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
       studentBaseRate = 0.03;
     }
 
-    // 學生作息時間曲線：
-    // 早晨 06:30 ~ 07:30 (早自習 1.35x), 下午 16:00 ~ 17:30 (放學大尖峰 1.85x), 晚間 20:30 ~ 22:00 (補習下課返家 1.25x)
+    // 學生作息時間曲線 (嚴格校準假日與天候)：
     let studentHourFactor = 1.0;
-    if (currentHour === 7) {
-      studentHourFactor = 1.35;
-    } else if (currentHour >= 16 && currentHour <= 17) {
-      studentHourFactor = 1.85;
-    } else if (currentHour >= 20 && currentHour <= 21) {
-      studentHourFactor = 1.25;
-    } else if (currentHour >= 10 && currentHour <= 15) {
-      studentHourFactor = 0.65;
-    } else if (currentHour >= 23 || currentHour <= 5) {
-      studentHourFactor = 0.05;
+    if (isHoliday) {
+      // 假日學校不上課！常規校園通學暴跌 (-80%)，但補習街與商圈下午活躍
+      const isCramOrLeisure = /南陽街|台北車站|補習|西門|公館|府中|士林|巨城|新竹|一中|逢甲/.test(stName);
+      if (isCramOrLeisure) {
+        if (currentHour >= 13 && currentHour <= 18) studentHourFactor = 1.40;
+        else if (currentHour >= 19 && currentHour <= 21) studentHourFactor = 1.15;
+        else studentHourFactor = 0.35;
+      } else {
+        studentHourFactor = 0.18; // 假日非學校日，純校園站點劇降
+      }
+    } else {
+      // 平日作息：早自習 07:00 (1.35x), 放學大尖峰 16-17 (1.85x), 補習返家 20-21 (1.25x)
+      if (currentHour === 7) {
+        studentHourFactor = 1.35;
+      } else if (currentHour >= 16 && currentHour <= 17) {
+        studentHourFactor = 1.85;
+      } else if (currentHour >= 20 && currentHour <= 21) {
+        studentHourFactor = 1.25;
+      } else if (currentHour >= 10 && currentHour <= 15) {
+        studentHourFactor = 0.65;
+      } else if (currentHour >= 23 || currentHour <= 5) {
+        studentHourFactor = 0.05;
+      }
     }
 
-    const studentRate = Math.min(0.85, Math.max(0.02, studentBaseRate * studentHourFactor));
+    // 🌧️ 雨天對學生的影響：
+    // 工作日雨天：學生放棄 YouBike/步行，大量湧入公車與捷運 (+15% 聚集)
+    // 假日雨天：取消戶外休閒運動聚會，大幅減少外出 (-35%)
+    let weatherStudentFactor = 1.0;
+    if (isRain) {
+      weatherStudentFactor = isHoliday ? 0.65 : 1.15;
+    }
+
+    const studentRate = Math.min(0.85, Math.max(0.02, studentBaseRate * studentHourFactor * weatherStudentFactor));
     const actStudent = Math.round(actTot * studentRate);
     const inStudent = Math.round((st.in_tot || 0) * studentRate);
     const outStudent = Math.round((st.out_tot || 0) * studentRate);
@@ -349,29 +374,53 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
     return st.act_tot;
   };
 
-  const getMarkerStyle = (st, val, maxVal = 10000) => {
+  const getMarkerStyle = (st, val, benchmarkMax = 10000, diffPct = 0, isRain = false) => {
     const baseVal = Math.abs(val);
 
     // 1. Zoom 自適應縮放 (Zoom 7~8 全台概覽: 最大 13px，徹底防止大台北重疊成巨球；Zoom 10 都會: 最大 22px；Zoom 12 市區: 最大 30px)
     const zoom = currentZoom || 8;
     const zoomScale = Math.pow(1.20, zoom - 8);
-    const minRadius = Math.max(3.5, 4 * Math.min(1.8, zoomScale));
+    const minRadius = Math.max(3.0, 3.8 * Math.min(1.8, zoomScale));
     const maxRadius = Math.min(32, 13 * zoomScale);
 
-    // 2. 依當前客群母體之 95th 百分位數進行感知自適應歸一化
-    const safeMax = Math.max(maxVal || 1000, 50);
-    const normRatio = Math.min(1, Math.max(0.04, Math.pow(baseVal / safeMax, 0.45)));
-    const radius = Math.round(minRadius + normRatio * (maxRadius - minRadius));
+    // 2. 基於基準情境的動態尺度 (採用更有層次感的 0.65 次冪次曲線，突破被壓扁的相對論陷阱)
+    const safeMax = Math.max(benchmarkMax || 1000, 50);
+    const rawRatio = baseVal / safeMax;
+    const normRatio = Math.min(1.4, Math.max(0.04, Math.pow(rawRatio, 0.65)));
+    let radius = Math.round(minRadius + normRatio * (maxRadius - minRadius));
 
     let color = '#38BDF8';
     let fillColor = '#0284C7';
-    let fillOpacity = 0.65;
+    let fillOpacity = 0.68;
+    let strokeWidth = 1.2;
     let categoryName = '';
+    let weatherBadge = '';
+
+    // 3. 雨天晴雨衝擊專屬特徵 (Weather Delta Responsive Visual Hierarchy)
+    if (isRain) {
+      if (diffPct <= -25) {
+        // ❄️ 戶外急凍 / 長者不出門防跌 / 郊區冷卻
+        radius = Math.max(3, Math.round(radius * 0.72)); // 明顯縮小
+        fillOpacity = 0.32; // 半透明冷清感
+        color = '#38BDF8'; // 冰河冷藍邊框
+        fillColor = '#0369A1';
+        strokeWidth = 1.0;
+        weatherBadge = `❄️ 戶外急凍 (${diffPct.toFixed(0)}%)`;
+      } else if (diffPct >= 10) {
+        // 🔥 避雨湧入 / 室內共構商場 / 地下連通道大聚集
+        radius = Math.round(radius * 1.22); // 明顯膨脹
+        fillOpacity = 0.95; // 高彩度高飽和
+        color = '#F43F5E'; // 警示火紅邊框
+        fillColor = '#E11D48';
+        strokeWidth = 2.2;
+        weatherBadge = `🔥 避雨湧浪 (+${diffPct.toFixed(0)}%)`;
+      }
+    }
 
     if (paxType === 'personas') {
       const { core, explorer, business, tourist } = st.personas;
       if (core >= explorer && core >= business && core >= tourist) {
-        color = '#38BDF8'; // 剛需通勤 (晴空藍)
+        color = isRain && diffPct >= 10 ? '#F43F5E' : '#38BDF8'; // 剛需通勤 (晴空藍)
         fillColor = '#0284C7';
         categoryName = '🍙 剛需通勤主導';
       } else if (explorer >= core && explorer >= business && explorer >= tourist) {
@@ -383,7 +432,7 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
         fillColor = '#CA8A04';
         categoryName = '💼 彈性商務洽公';
       } else {
-        color = '#F97316'; // 純外地觀光 (暖陽橘)
+        color = isRain && diffPct <= -25 ? '#38BDF8' : '#F97316'; // 純外地觀光 (暖陽橘)
         fillColor = '#EA580C';
         categoryName = '🧳 純外地觀光';
       }
@@ -398,33 +447,61 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
         categoryName = '🟠 人流淨發散';
       }
     } else if (paxType === 'commuter') {
-      color = '#38BDF8'; // 晴空藍 (通勤)
+      color = isRain && diffPct >= 10 ? '#38BDF8' : '#38BDF8'; // 晴空藍 (通勤)
       fillColor = '#0284C7';
       categoryName = '💼 通勤剛需核心';
     } else if (paxType === 'tourist') {
-      color = '#F97316'; // 暖陽橘 (觀光) - 徹底避開紅色混淆
+      color = isRain && diffPct <= -25 ? '#38BDF8' : '#F97316'; // 暖陽橘 (觀光)
       fillColor = '#EA580C';
       categoryName = '🧳 休閒觀光聚落';
     } else if (paxType === 'senior') {
-      color = '#F43F5E'; // 薔薇紅 (銀髮長者)
-      fillColor = '#E11D48';
-      fillOpacity = 0.75;
-      categoryName = '👵 銀髮樂齡生活圈';
+      const isSeniorHub = (st.senior_pct || 0) >= 35;
+      if (isSeniorHub) {
+        color = isRain && diffPct <= -20 ? '#38BDF8' : '#F43F5E';
+        fillColor = '#E11D48';
+        fillOpacity = isRain ? 0.50 : 0.88;
+        strokeWidth = isRain && diffPct <= -20 ? 1.2 : 2.0;
+        categoryName = '👵 銀髮高密度聚落';
+      } else {
+        radius = Math.max(3, Math.round(radius * 0.80));
+        color = isRain && diffPct <= -20 ? '#38BDF8' : '#FB7185';
+        fillColor = '#BE123C';
+        fillOpacity = isRain ? 0.25 : 0.48;
+        categoryName = '👵 一般長者生活圈';
+      }
     } else if (paxType === 'student') {
-      color = '#10B981'; // 翡翠綠 (學生通學)
-      fillColor = '#059669';
-      fillOpacity = 0.75;
-      categoryName = '🎓 學生通學校園圈';
+      const isStudentHub = (st.student_pct || 0) >= 22;
+      if (isStudentHub) {
+        color = isRain && diffPct >= 9.9 ? '#F43F5E' : '#10B981';
+        fillColor = '#059669';
+        fillOpacity = 0.88;
+        strokeWidth = isRain && diffPct >= 9.9 ? 2.6 : 2.0;
+        categoryName = '🎓 學生通學高頻熱點';
+      } else {
+        radius = Math.max(3, Math.round(radius * 0.80));
+        color = isRain && diffPct >= 9.9 ? '#F43F5E' : '#34D399';
+        fillColor = '#047857';
+        fillOpacity = 0.45;
+        strokeWidth = isRain && diffPct >= 9.9 ? 2.0 : 1.2;
+        categoryName = '🎓 一般學生接駁圈';
+      }
     } else {
       // paxType === 'all' 全體模式：依據站點機能屬性與主力服務場域分類
-      // 避免依據隨時段浮動的絕對比例導致整片地圖在特定時段翻色
       const stName = st.name || '';
       const isMetroHub = /台北車站|臺北車站|臺北$|板橋|市政府|市府轉運站|南港(?!軟體)|左營|新左營|高雄|高雄車站|臺中|桃園|新竹|臺南/.test(stName);
       const isSeniorHub = /醫院|榮總|長庚|振興|新光|三總|馬偕|亞東|雙和|龍山寺|石牌|萬華|大安森林公園|果菜市場|中山市場|永安市場/.test(stName);
       const isStudentHub = /公館|劍潭|士林|忠孝新生|古亭|景美|文化大學|東吳|師大|政大|政治大學|銘傳|致理|輔大|輔仁|臺灣大學|台大(?!醫院)|建中|北一女|附中|成功高中|松山高中|逢甲|中興大學|東海大學|成大|中山大學|東華大學|宜蘭大學/.test(stName) && !isSeniorHub;
       const isTouristHub = /淡水|新北投|紅樹林|西門|美麗島|101|巨蛋|三多商圈|凹子底|花蓮|臺東|平溪|九份|安平|礁溪/.test(stName);
 
-      if (isMetroHub) {
+      if (isRain && diffPct >= 10) {
+        color = '#F43F5E';
+        fillColor = '#E11D48';
+        categoryName = '🔥 避雨湧入樞紐';
+      } else if (isRain && diffPct <= -25) {
+        color = '#38BDF8';
+        fillColor = '#0284C7';
+        categoryName = '❄️ 戶外急凍降溫';
+      } else if (isMetroHub) {
         color = '#A855F7'; // 羅蘭紫
         fillColor = '#7E22CE';
         fillOpacity = 0.80;
@@ -452,46 +529,80 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
       }
     }
 
-    return { radius, color, fillColor, fillOpacity, categoryName };
+    return { radius, color, fillColor, fillOpacity, strokeWidth, categoryName, weatherBadge };
   };
 
-  // 7. 繪製熱點圓盤與 Tooltip
+  // 7. 繪製熱點圓盤與 Tooltip (全局基準尺規錨定 + 晴雨即時對照)
   useEffect(() => {
     if (!mapRef.current || !heatmapData) return;
 
     markersRef.current.forEach(m => mapRef.current.removeLayer(m));
     markersRef.current = [];
 
+    // 找出對照基準情境 (Benchmark Scope)
+    // 當前若是雨天 (workday_rain 或 holiday_rain)，基準情境鎖定在對應的晴天 (workday_clear 或 holiday_clear)
+    // 這樣全台下雨時，比例尺依然固定在晴天刻度，雨天下跌站點會真實、劇烈地縮小！
+    const isRain = timeScope.endsWith('rain');
+    const isHoliday = timeScope.startsWith('holiday') || timeScope === 'weekend';
+    const clearScope = isHoliday ? 'holiday_clear' : 'workday_clear';
+    const rainScope = isHoliday ? 'holiday_rain' : 'workday_rain';
+
+    // 取得晴天基準時段資料並建立快查表
+    const clearHourData = heatmapData?.time_scopes?.[clearScope]?.hours?.[String(currentHour)] || [];
+    const clearMap = new Map();
+    clearHourData.forEach(rawSt => {
+      const st = calcStationWithParams(rawSt, clearScope);
+      clearMap.set(st.name, getStationValue(st));
+    });
+
+    // 取得雨天對照時段資料並建立快查表
+    const rainHourData = heatmapData?.time_scopes?.[rainScope]?.hours?.[String(currentHour)] || [];
+    const rainMap = new Map();
+    rainHourData.forEach(rawSt => {
+      const st = calcStationWithParams(rawSt, rainScope);
+      rainMap.set(st.name, getStationValue(st));
+    });
+
+    // 晴天基準最大值 (以晴天 95th 百分位數作為全局不變尺規)
+    const benchmarkValList = clearHourData.filter(st => {
+      if (selectedRegion !== 'all' && st.region !== selectedRegion) return false;
+      return true;
+    }).map(rawSt => {
+      const st = calcStationWithParams(rawSt, clearScope);
+      return Math.abs(getStationValue(st));
+    }).sort((a, b) => a - b);
+    const p95Idx = Math.floor(benchmarkValList.length * 0.95);
+    const benchmarkMaxVal = benchmarkValList.length > 0 ? (benchmarkValList[p95Idx] || benchmarkValList[benchmarkValList.length - 1] || 1000) : 1000;
+
+    // 當前選取情境之站點
     const hourData = heatmapData?.time_scopes?.[timeScope]?.hours?.[String(currentHour)] || [];
     const filteredStations = hourData.filter(st => {
       if (selectedRegion !== 'all' && st.region !== selectedRegion) return false;
       return true;
     });
 
-    // 依當前客群母體動態計算 95th 百分位數作為基準上限
-    const valList = filteredStations.map(rawSt => {
-      const st = calcStationWithParams(rawSt);
-      return Math.abs(getStationValue(st));
-    }).sort((a, b) => a - b);
-    const p95Idx = Math.floor(valList.length * 0.95);
-    const maxValForScope = valList.length > 0 ? (valList[p95Idx] || valList[valList.length - 1] || 1000) : 1000;
-
     filteredStations.forEach(rawSt => {
       // 套用專家參數與人群像運算
-      const st = calcStationWithParams(rawSt);
+      const st = calcStationWithParams(rawSt, timeScope);
       const val = getStationValue(st);
       if (Math.abs(val) < 2) return;
 
-      const style = getMarkerStyle(st, val, maxValForScope);
+      const clearVal = clearMap.get(st.name) ?? val;
+      const rainVal = rainMap.get(st.name) ?? val;
+      // 計算相對於晴天的天候變化百分比
+      const diffPct = clearVal > 0 ? ((val - clearVal) / clearVal) * 100 : 0;
+      const expectedRainDiffPct = clearVal > 0 ? ((rainVal - clearVal) / clearVal) * 100 : 0;
+
+      const style = getMarkerStyle(st, val, benchmarkMaxVal, diffPct, isRain);
       const isSelected = selectedStation === st.name;
 
       const circle = L.circleMarker([st.lat, st.lng], {
         radius: isSelected ? style.radius + 4 : style.radius,
         color: isSelected ? '#FFFFFF' : style.color,
-        weight: isSelected ? 2.5 : 1.2,
+        weight: isSelected ? 3.0 : (style.strokeWidth || 1.2),
         fillColor: style.fillColor,
-        fillOpacity: isSelected ? 0.9 : style.fillOpacity,
-        className: 'heatmap-pulsing-disc'
+        fillOpacity: isSelected ? 0.95 : style.fillOpacity,
+        className: diffPct >= 10 && isRain ? 'heatmap-pulsing-disc heatmap-surge-glow' : 'heatmap-pulsing-disc'
       });
 
       const flowModeLabel = {
@@ -502,21 +613,49 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
       }[flowMode];
 
       const tooltipHtml = `
-        <div style="font-family: Inter, sans-serif; min-width: 220px; padding: 6px 8px; color: #f8fafc;">
+        <div style="font-family: Inter, sans-serif; min-width: 240px; padding: 6px 8px; color: #f8fafc;">
           <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 5px; margin-bottom: 6px;">
             <div style="font-weight: 800; font-size: 14px; color: #38BDF8;">${esc(st.name)}</div>
             <span style="font-size: 10px; background: rgba(56, 189, 248, 0.2); color: #38BDF8; padding: 2px 5px; border-radius: 4px;">${esc(st.region)}</span>
           </div>
-          <div style="display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; background: ${style.color}25; border: 1px solid ${style.color}66; color: ${style.color}; font-weight: 700; margin-bottom: 6px;">
-            ${style.categoryName}
+          <div style="display: flex; gap: 5px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
+            <span style="font-size: 10px; padding: 2px 7px; border-radius: 4px; background: ${style.color}25; border: 1px solid ${style.color}66; color: ${style.color}; font-weight: 700;">
+              ${style.categoryName}
+            </span>
+            ${style.weatherBadge ? `
+              <span style="font-size: 10px; padding: 2px 7px; border-radius: 4px; background: ${diffPct >= 10 ? 'rgba(244,63,94,0.3)' : 'rgba(56,189,248,0.25)'}; border: 1px solid ${diffPct >= 10 ? '#F43F5E' : '#38BDF8'}; color: ${diffPct >= 10 ? '#FDA4AF' : '#7DD3FC'}; font-weight: 800;">
+                ${style.weatherBadge}
+              </span>
+            ` : ''}
           </div>
           <div style="font-size: 11px; color: #94a3b8; margin-bottom: 4px;">
             時段: <strong style="color: #fff;">${currentHour}:00 - ${currentHour + 1}:00</strong>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 6px;">
             <span>${flowModeLabel}:</span>
             <strong style="color: ${style.color}; font-size: 13px;">${Math.round(val).toLocaleString()} 人次/h</strong>
           </div>
+
+          <!-- 🌧️ 天候實證晴雨對照卡 -->
+          <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid ${isRain ? (diffPct >= 10 ? 'rgba(244,63,94,0.5)' : diffPct <= -25 ? 'rgba(56,189,248,0.5)' : 'rgba(255,255,255,0.15)') : 'rgba(255,255,255,0.12)'}; border-radius: 6px; padding: 6px 8px; margin-bottom: 6px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
+              <span style="font-size: 10px; font-weight: 700; color: #94a3b8;">🌧️ 晴雨衝擊實測對照 (${isRain ? '雨天實況' : '晴天基準'})：</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px;">
+              <span style="color: #cbd5e1;">☀️ 晴天基準人流:</span>
+              <strong style="color: #F8FAFC;">${Math.round(clearVal).toLocaleString()} 人次/h</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 11px; margin-top: 2px;">
+              <span style="color: #cbd5e1;">🌧️ 雨天人流實況:</span>
+              <strong style="color: ${expectedRainDiffPct >= 0 ? '#34D399' : '#F87171'};">
+                ${Math.round(rainVal).toLocaleString()} 人次/h (${expectedRainDiffPct >= 0 ? '+' : ''}${expectedRainDiffPct.toFixed(1)}%)
+              </strong>
+            </div>
+            <div style="font-size: 9.5px; color: ${diffPct >= 10 ? '#6EE7B7' : diffPct <= -25 ? '#93C5FD' : '#94a3b8'}; margin-top: 3px; border-top: 1px dashed rgba(255,255,255,0.08); padding-top: 2px;">
+              ${diffPct >= 10 ? '⚡ 避雨湧入 / 室內共構商場大聚集' : diffPct <= -25 ? '❄️ 戶外急凍 / 長者防跌取消出行' : '🔄 剛性通勤維繫穩定'}
+            </div>
+          </div>
+
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #38BDF8; margin-bottom: 2px; font-weight: 600;">
             <span>💼 動態通勤推估:</span>
             <span>${Math.round(st.act_c).toLocaleString()} (${st.commuter_pct}%)</span>
@@ -542,7 +681,7 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
           ${paxType === 'student' ? `
             <div style="background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 4px; padding: 4px 6px; margin-bottom: 6px; font-size: 10px; color: #a7f3d0;">
               ${st.student_category}<br/>
-              ${st.student_pct >= 25 ? '🏫 學生通學高頻熱點 (建議放學加密班次)' : 'ℹ️ 一般學區接駁動態'}
+              ${st.student_pct >= 22 ? '🏫 學生通學高頻熱點 (建議放學加密班次)' : 'ℹ️ 一般學區接駁動態'}
             </div>
           ` : ''}
           <!-- 四大族群分佈條 (天藍-通勤 / 翠綠-學生 / 薔薇-長者 / 暖橘-觀光) -->
@@ -770,6 +909,30 @@ export default function HeatmapView({ basemap = 'dark', initialPaxType = 'all', 
                 </button>
               );
             })}
+            {onOpenWeatherLab && (
+              <button
+                onClick={onOpenWeatherLab}
+                title="前往客群畫像專題：檢視 24H 晴雨覆疊波形與全客群熱力矩陣"
+                style={{
+                  padding: '4px 9px',
+                  borderRadius: '6px',
+                  fontSize: '11px',
+                  fontWeight: '700',
+                  border: '1px solid rgba(56, 189, 248, 0.4)',
+                  background: 'rgba(2, 132, 199, 0.25)',
+                  color: '#38BDF8',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '4px',
+                  marginLeft: '4px',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <TrendingUp size={12} />
+                <span>📊 24H 晴雨作息深研 ↗</span>
+              </button>
+            )}
           </div>
 
           {/* 專家動態參數調校開關 */}
