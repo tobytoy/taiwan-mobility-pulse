@@ -7,7 +7,6 @@ const HeatmapView = lazy(() => import('./components/HeatmapView'));
 const TransferMapView = lazy(() => import('./components/TransferMapView'));
 const TPASSDashboard = lazy(() => import('./components/TPASSDashboard'));
 const ODStationView = lazy(() => import('./components/ODStationView'));
-const RDSimulationLab = lazy(() => import('./components/RDSimulationLab'));
 const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonView'));
 const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsView'));
 const UnsupervisedRailLab = lazy(() => import('./components/UnsupervisedRailLab'));
@@ -47,10 +46,9 @@ export default function App() {
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState(null);
   // 整併後的 5 大頂級導航模組
-  const [activeTab, setActiveTab] = useState('gis_map'); // 'gis_map', 'analytics', 'telecom', 'policy_labs', 'pipeline'
+  const [activeTab, setActiveTab] = useState('gis_map'); // 'gis_map', 'ai_lab', 'personas', 'analytics', 'telecom', 'tpass'
   const [mapViewType, setMapViewType] = useState('flows'); // 'flows' (動態走廊流向), 'heatmap' (時空熱點圖)
   const [analyticsSubView, setAnalyticsSubView] = useState('comparison'); // 'comparison', 'od'
-  const [policySubView, setPolicySubView] = useState('tpass'); // 'tpass', 'rd_labs'
 
   // Map Controls State
   const [currentHour, setCurrentHour] = useState(8);
@@ -181,7 +179,6 @@ export default function App() {
   const corridors = data?.map_corridors || [];
   const stationsGeo = data?.stations_geo || {};
   const progressData = data?.progress_data || {};
-  const rdProposals = data?.rd_proposals || [];
 
   const getHourPhase = (h) => {
     if (h >= 7 && h <= 9) return { text: '早尖峰通勤狂潮 (Morning Rush Peak)', color: '#38BDF8', bg: 'rgba(56, 189, 248, 0.2)' };
@@ -242,7 +239,7 @@ export default function App() {
             { id: 'personas', label: '👥 客群畫像與轉乘應用 (通勤/銀髮/學生/轉乘)', icon: Users },
             { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
             { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
-            { id: 'policy_labs', label: '🏛️ TPASS 政策與 AI 決策室', icon: CreditCard }
+            { id: 'tpass', label: '💳 TPASS 月票效益監測', icon: CreditCard }
           ].map(tab => {
             const isSelected = activeTab === tab.id;
             const Icon = tab.icon;
@@ -889,62 +886,12 @@ export default function App() {
         </div>
       )}
 
-      {/* VIEW 4: TPASS Policy & AI Labs */}
-      {activeTab === 'policy_labs' && (
-        <div style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-          {/* Secondary Sub-view Switcher Bar */}
-          <div style={{
-            background: '#0B0F17',
-            borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-            padding: '10px 24px',
-            display: 'flex',
-            gap: '10px',
-            alignItems: 'center'
-          }}>
-            <span style={{ fontSize: '12px', color: '#64748B', marginRight: '4px' }}>政策模組：</span>
-            <button
-              onClick={() => setPolicySubView('tpass')}
-              style={{
-                padding: '6px 16px',
-                borderRadius: '6px',
-                fontSize: '12px',
-                fontWeight: policySubView === 'tpass' ? '700' : '500',
-                border: policySubView === 'tpass' ? '1px solid #F59E0B' : '1px solid rgba(255,255,255,0.08)',
-                background: policySubView === 'tpass' ? 'rgba(245, 158, 11, 0.2)' : 'rgba(255,255,255,0.03)',
-                color: policySubView === 'tpass' ? '#FBBF24' : '#94A3B8',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-            >
-              💳 TPASS 行政院通勤月票效益監測
-            </button>
-            <button
-              onClick={() => setPolicySubView('rd_labs')}
-              style={{
-                padding: '6px 16px',
-                borderRadius: '6px',
-                fontSize: '12px',
-                fontWeight: policySubView === 'rd_labs' ? '700' : '500',
-                border: policySubView === 'rd_labs' ? '1px solid #A855F7' : '1px solid rgba(255,255,255,0.08)',
-                background: policySubView === 'rd_labs' ? 'rgba(168, 85, 247, 0.2)' : 'rgba(255,255,255,0.03)',
-                color: policySubView === 'rd_labs' ? '#C084FC' : '#94A3B8',
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-            >
-              🧪 5 大前瞻政策與 AI 韌性模擬實驗室
-            </button>
-          </div>
-
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            <ErrorBoundary>
-              {policySubView === 'tpass' ? (
-                <TPASSDashboard />
-              ) : (
-                <RDSimulationLab rdProposals={rdProposals} />
-              )}
-            </ErrorBoundary>
-          </div>
+      {/* VIEW 6: TPASS Policy Analytics */}
+      {activeTab === 'tpass' && (
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <ErrorBoundary>
+            <TPASSDashboard />
+          </ErrorBoundary>
         </div>
       )}
 

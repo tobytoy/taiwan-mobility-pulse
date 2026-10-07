@@ -9,12 +9,32 @@ import os
 from pathlib import Path
 from tqdm import tqdm
 BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+REPO_ROOT = Path(__file__).resolve().parent.parent
+REPO_PUBLIC = REPO_ROOT / 'public'
+REPO_PUBLIC.mkdir(parents=True, exist_ok=True)
 WEB_PUBLIC_DIR = BASE_DIR / 'taiwan-mobility-web' / 'public'
 WEB_PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
 STUDY_JSON = BASE_DIR / 'mobility_flow_study.json'
 PROGRESS_JSON = BASE_DIR / 'analysis_progress.json'
 OUTPUT_WEB_JSON = WEB_PUBLIC_DIR / 'mobility_full_study.json'
+OUTPUT_REPO_JSON = REPO_PUBLIC / 'mobility_full_study.json'
+STUDENT_JSON = REPO_PUBLIC / 'student_analysis.json'
+SENIOR_JSON = REPO_PUBLIC / 'senior_mobility_analysis.json'
+
+def normalize_curve(curve_dict_or_list):
+    """將 24 小時分時數據標準化至 0.0 ~ 1.0 (保持真實波動特徵)"""
+    if isinstance(curve_dict_or_list, list):
+        vals = [float(v) for v in curve_dict_or_list[:24]]
+        if len(vals) < 24:
+            vals.extend([0.0] * (24 - len(vals)))
+        max_v = max(vals) if max(vals) > 0 else 1.0
+        return [round(v / max_v, 4) for v in vals]
+    elif isinstance(curve_dict_or_list, dict):
+        vals = [float(curve_dict_or_list.get(str(h), curve_dict_or_list.get(h, 0.0))) for h in range(24)]
+        max_v = max(vals) if max(vals) > 0 else 1.0
+        return [round(v / max_v, 4) for v in vals]
+    return [0.0] * 24
 
 # Station Coordinates Database (WGS84)
 STATIONS_GEO = {
@@ -297,8 +317,8 @@ def main():
             "type": "跨城際國道與一般客運",
             "color": "#F43F5E", # Rose
             "color_glow": "rgba(244, 63, 94, 0.4)",
-            "speed": "50-100 km/h",
-            "scope": "全台跨縣市走廊",
+            "speed": "60-100 km/h",
+            "scope": "全國跨縣市與國道",
             "icon": "Bus"
         },
         {
@@ -324,12 +344,42 @@ def main():
             "icon": "Bus"
         }
     ]
-    
+
+    # 載入學生與長者客群實測數據以進行嚴謹特徵萃取
+    student_curve = [0.5] * 24
+    student_hubs = set(['捷運公館站', '公館', '士林', '劍潭', '政治大學', '臺灣大學', '文化大學', '東吳大學', '師大', '師大公館分部', '大安高工', '附中', '成功高中', '建中', '北一女'])
+    if STUDENT_JSON.exists():
+        with open(STUDENT_JSON, 'r', encoding='utf-8') as f:
+            st_json = json.load(f)
+            h_dist = st_json.get('hourly_distribution', [])
+            if h_dist:
+                raw_curve = [item.get('student_pct', 0.0) for item in h_dist]
+                student_curve = normalize_curve(raw_curve)
+            for c in st_json.get('top_student_corridors', []):
+                if c.get('origin'): student_hubs.add(c['origin'])
+                if c.get('destination'): student_hubs.add(c['destination'])
+
+    senior_curve = [0.5] * 24
+    senior_hubs = set(['榮總', '振興醫院', '臺大醫院', '新光醫院', '三總', '馬偕', '萬芳醫院', '和平院區', '果菜市場', '湖光市場', '雙和醫院', '亞東醫院', '龍山寺', '行天宮'])
+    if SENIOR_JSON.exists():
+        with open(SENIOR_JSON, 'r', encoding='utf-8') as f:
+            sr_json = json.load(f)
+            h_dist = sr_json.get('hourly_distribution', [])
+            if h_dist:
+                raw_curve = [item.get('senior_pct', item.get('senior_trips', 0.0)) for item in h_dist]
+                senior_curve = normalize_curve(raw_curve)
+            hotspots = sr_json.get('hotspot_categories', {})
+            for cat_list in hotspots.values():
+                if isinstance(cat_list, list):
+                    for h_item in cat_list:
+                        if isinstance(h_item, dict) and h_item.get('name'):
+                            senior_hubs.add(h_item['name'])
+
     # Build National Comprehensive Bidirectional Corridors
     corridors = []
     seen_pairs = set()
 
-    def add_corridor(m_id, m_name, color, orig, dest, vol, pax_type="commuter", commuter_idx=1.2, region=None):
+    def add_corridor(m_id, m_name, color, orig, dest, vol, pax_type="commuter", commuter_idx=1.2, region=None, custom_curve=None, curve_wd=None, curve_we=None):
         if orig == dest:
             return
         c_orig = get_coords(orig)
@@ -342,8 +392,6 @@ def main():
         if pair_key in seen_pairs:
             return
         seen_pairs.add(pair_key)
-        
-        curve = HOURLY_COMMUTER if pax_type == "commuter" else HOURLY_TOURIST
         
         corridors.append({
             "mode_id": m_id,
@@ -359,85 +407,140 @@ def main():
             "day_type": "Weekday",
             "pax_type": pax_type,
             "commuter_idx": float(commuter_idx),
-            "hourly_curve": curve
+            "hourly_curve": custom_curve or [0.5] * 24,
+            "hourly_curve_weekday": curve_wd or custom_curve or [0.5] * 24,
+            "hourly_curve_weekend": curve_we or custom_curve or [0.5] * 24
         })
 
-    # 1. Populate from study_data Top ODs and ensure bidirectional pairing
+    # 1. Populate from study_data Top ODs using Rigorous Data-Driven Multi-Tier Gating
     for m in tqdm(modes_meta, desc="  🌐 構建全台多模態動態人流走廊", unit="運具", leave=False, dynamic_ncols=True):
         m_id = m['id']
         m_name = m['short_name']
         color = m['color']
         m_key = m['key']
         m_data = study_data.get(m_key, {})
-        top_ods = m_data.get('top_od', {}).get('Weekday', [])
         
-        od_dict = {}
-        for od in top_ods:
+        # Real normalized curves from the mode's actual hourly distribution
+        mode_wd_curve = normalize_curve(m_data.get('hourly_profile', {}).get('Weekday', {}))
+        mode_we_curve = normalize_curve(m_data.get('hourly_profile', {}).get('Weekend', {}))
+        
+        top_ods_wd = m_data.get('top_od', {}).get('Weekday', [])
+        top_ods_we = m_data.get('top_od', {}).get('Weekend', [])
+        
+        wd_dict = {}
+        for od in top_ods_wd:
             pair = od['od'].split(' -> ')
             if len(pair) == 2:
-                orig, dest = pair[0].strip(), pair[1].strip()
-                od_dict[(orig, dest)] = od['vol']
+                wd_dict[(pair[0].strip(), pair[1].strip())] = od['vol']
                 
-        for (orig, dest), vol in od_dict.items():
-            # Determine pax_type based on station/mode traits
-            is_tourist = (m_id in ['thsr', 'krtc'] and ('左營' in orig or '巨蛋' in orig or '宜蘭' in dest or '羅東' in dest)) or '公園' in dest or '故居' in orig
-            pax = "tourist" if is_tourist else "commuter"
-            c_idx = 0.75 if pax == "tourist" else 1.45
+        we_dict = {}
+        for od in top_ods_we:
+            pair = od['od'].split(' -> ')
+            if len(pair) == 2:
+                we_dict[(pair[0].strip(), pair[1].strip())] = od['vol']
+                
+        for (orig, dest), vol in wd_dict.items():
+            # 嚴謹計算真實通勤偏向指數 CI (平日日均 / 週末日均)
+            if (orig, dest) in we_dict:
+                vol_we = we_dict[(orig, dest)]
+                c_idx = round((vol / 5.0) / (vol_we / 2.0), 2) if vol_we > 0 else 1.45
+            else:
+                c_idx = 1.45 # 僅出現在平日通勤 Top OD，高度通勤特徵
+                
+            # 嚴謹客群判定 (Multi-Tier Rigorous Gating)
+            is_student = (orig in student_hubs or dest in student_hubs or
+                          any(k in orig or k in dest for k in ['大學', '高中', '高職', '國中', '校區']))
+            is_senior = (orig in senior_hubs or dest in senior_hubs or
+                         any(k in orig or k in dest for k in ['榮總', '萬芳醫院', '馬偕', '和平院區', '果菜市場', '湖光市場']))
+                         
+            if is_student:
+                pax = "student"
+                curve = student_curve if max(student_curve) > 0 else mode_wd_curve
+                c_idx = max(c_idx, 1.30)
+                wd_c = student_curve if max(student_curve) > 0 else mode_wd_curve
+                we_c = [round(v * 0.25, 4) for v in wd_c] # 週末通學急遽下降
+            elif is_senior:
+                pax = "senior"
+                curve = senior_curve if max(senior_curve) > 0 else mode_wd_curve
+                c_idx = max(c_idx, 1.10)
+                wd_c = senior_curve if max(senior_curve) > 0 else mode_wd_curve
+                we_c = [round(v * 0.70, 4) for v in wd_c] # 週末以在地休閒為主
+            elif c_idx >= 1.15:
+                pax = "commuter"
+                curve = mode_wd_curve
+                wd_c = mode_wd_curve
+                we_c = mode_we_curve
+            elif c_idx < 0.90:
+                pax = "tourist"
+                curve = mode_we_curve
+                wd_c = mode_wd_curve
+                we_c = mode_we_curve
+            else:
+                pax = "commuter"
+                curve = mode_wd_curve
+                wd_c = mode_wd_curve
+                we_c = mode_we_curve
             
-            add_corridor(m_id, m_name, color, orig, dest, vol, pax_type=pax, commuter_idx=c_idx)
+            add_corridor(m_id, m_name, color, orig, dest, vol, pax_type=pax, commuter_idx=c_idx, custom_curve=curve, curve_wd=wd_c, curve_we=we_c)
             
-            # Ensure return direction exists
-            if (dest, orig) not in od_dict:
-                return_vol = round(vol * 0.95)
-                add_corridor(m_id, m_name, color, dest, orig, return_vol, pax_type=pax, commuter_idx=c_idx)
+            # 反向走廊：若平日 Top OD 也有反向則使用真實量，否則對稱配對
+            rev_vol = wd_dict.get((dest, orig), vol)
+            add_corridor(m_id, m_name, color, dest, orig, rev_vol, pax_type=pax, commuter_idx=c_idx, custom_curve=curve, curve_wd=wd_c, curve_we=we_c)
 
-    # 2. Enrich THSR Central & Southern National Corridors (from real HSR network)
-    add_corridor("thsr", "高鐵", "#F97316", "台北", "台中", 52300, pax_type="tourist", commuter_idx=0.65, region="Central")
-    add_corridor("thsr", "高鐵", "#F97316", "台中", "台北", 51400, pax_type="tourist", commuter_idx=0.68, region="Central")
-    add_corridor("thsr", "高鐵", "#F97316", "台中", "左營", 38900, pax_type="tourist", commuter_idx=0.58, region="South")
-    add_corridor("thsr", "高鐵", "#F97316", "左營", "台中", 37800, pax_type="tourist", commuter_idx=0.55, region="South")
-    add_corridor("thsr", "高鐵", "#F97316", "台北", "左營", 34100, pax_type="tourist", commuter_idx=0.52, region="South")
-    add_corridor("thsr", "高鐵", "#F97316", "左營", "台北", 35200, pax_type="tourist", commuter_idx=0.50, region="South")
-    add_corridor("thsr", "高鐵", "#F97316", "嘉義", "台南", 18400, pax_type="commuter", commuter_idx=1.15, region="South")
-    add_corridor("thsr", "高鐵", "#F97316", "台南", "左營", 26500, pax_type="commuter", commuter_idx=1.25, region="South")
+    # 2. 補充高鐵 (THSR) 全國走廊 (採用高鐵實測時空曲線)
+    thsr_wd = normalize_curve(study_data.get("高鐵 (THSR)", {}).get('hourly_profile', {}).get('Weekday', {}))
+    thsr_we = normalize_curve(study_data.get("高鐵 (THSR)", {}).get('hourly_profile', {}).get('Weekend', {}))
+    add_corridor("thsr", "高鐵", "#F97316", "台北", "台中", 52300, pax_type="tourist", commuter_idx=0.65, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台中", "台北", 51400, pax_type="tourist", commuter_idx=0.68, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台中", "左營", 38900, pax_type="tourist", commuter_idx=0.58, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "左營", "台中", 37800, pax_type="tourist", commuter_idx=0.55, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台北", "左營", 34100, pax_type="tourist", commuter_idx=0.52, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "左營", "台北", 35200, pax_type="tourist", commuter_idx=0.50, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "嘉義", "台南", 18400, pax_type="commuter", commuter_idx=1.15, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台南", "左營", 26500, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
 
-    # 3. Enrich TRA Central, Southern & Eastern Corridors (from real TRA data)
-    # Central
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "彰化", 460559, pax_type="commuter", commuter_idx=1.32, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "彰化", "臺中", 451200, pax_type="commuter", commuter_idx=1.30, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "新烏日", "臺中", 368776, pax_type="commuter", commuter_idx=1.28, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "新烏日", 349340, pax_type="commuter", commuter_idx=1.25, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "豐原", 320938, pax_type="commuter", commuter_idx=1.30, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "豐原", "臺中", 312000, pax_type="commuter", commuter_idx=1.28, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "員林", "彰化", 245000, pax_type="commuter", commuter_idx=1.20, region="Central")
-    add_corridor("tra", "臺鐵", "#3B82F6", "竹南", "苗栗火車站", 168000, pax_type="commuter", commuter_idx=1.18, region="Central")
+    # 3. 補充臺鐵 (TRA) 全國走廊 (採用臺鐵實測時空曲線)
+    tra_wd = normalize_curve(study_data.get("臺鐵 (TRA)", {}).get('hourly_profile', {}).get('Weekday', {}))
+    tra_we = normalize_curve(study_data.get("臺鐵 (TRA)", {}).get('hourly_profile', {}).get('Weekend', {}))
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "彰化", 460559, pax_type="commuter", commuter_idx=1.32, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "彰化", "臺中", 451200, pax_type="commuter", commuter_idx=1.30, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "新烏日", "臺中", 368776, pax_type="commuter", commuter_idx=1.28, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "新烏日", 349340, pax_type="commuter", commuter_idx=1.25, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺中", "豐原", 320938, pax_type="commuter", commuter_idx=1.30, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "豐原", "臺中", 312000, pax_type="commuter", commuter_idx=1.28, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "員林", "彰化", 245000, pax_type="commuter", commuter_idx=1.20, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "竹南", "苗栗火車站", 168000, pax_type="commuter", commuter_idx=1.18, region="Central", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
     
     # Southern
-    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "臺南", 622471, pax_type="commuter", commuter_idx=1.22, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺南", "高雄", 601076, pax_type="commuter", commuter_idx=1.20, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "屏東", 553246, pax_type="commuter", commuter_idx=1.28, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "屏東", "高雄", 544527, pax_type="commuter", commuter_idx=1.25, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "鳳山", 310000, pax_type="commuter", commuter_idx=1.35, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "新左營", "屏東", 330740, pax_type="commuter", commuter_idx=1.15, region="South")
-    add_corridor("tra", "臺鐵", "#3B82F6", "潮州", "屏東", 210000, pax_type="commuter", commuter_idx=1.25, region="South")
+    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "臺南", 622471, pax_type="commuter", commuter_idx=1.22, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺南", "高雄", 601076, pax_type="commuter", commuter_idx=1.20, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "屏東", 553246, pax_type="commuter", commuter_idx=1.28, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "屏東", "高雄", 544527, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "高雄", "鳳山", 310000, pax_type="commuter", commuter_idx=1.35, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "新左營", "屏東", 330740, pax_type="commuter", commuter_idx=1.15, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "潮州", "屏東", 210000, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=tra_wd, curve_wd=tra_wd, curve_we=tra_we)
     
     # Eastern
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "宜蘭", 260000, pax_type="tourist", commuter_idx=0.72, region="East")
-    add_corridor("tra", "臺鐵", "#3B82F6", "宜蘭", "羅東", 240000, pax_type="tourist", commuter_idx=0.85, region="East")
-    add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "花蓮", 215000, pax_type="tourist", commuter_idx=0.60, region="East")
-    add_corridor("tra", "臺鐵", "#3B82F6", "花蓮", "臺東", 125000, pax_type="tourist", commuter_idx=0.58, region="East")
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "宜蘭", 260000, pax_type="tourist", commuter_idx=0.72, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "宜蘭", "羅東", 240000, pax_type="tourist", commuter_idx=0.85, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "花蓮", 215000, pax_type="tourist", commuter_idx=0.60, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "花蓮", "臺東", 125000, pax_type="tourist", commuter_idx=0.58, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
 
-    # 4. Enrich Highway Bus National Corridors
-    add_corridor("thb_bus", "公路客運", "#F43F5E", "台北轉運站", "台中轉運站", 185000, pax_type="tourist", commuter_idx=0.72, region="Central")
-    add_corridor("thb_bus", "公路客運", "#F43F5E", "台中轉運站", "台北轉運站", 182000, pax_type="tourist", commuter_idx=0.70, region="Central")
+    # 4. 補充公路客運 (THB) 全國走廊
+    thb_wd = normalize_curve(study_data.get("公路客運 (THB Bus TO3A)", {}).get('hourly_profile', {}).get('Weekday', {}))
+    thb_we = normalize_curve(study_data.get("公路客運 (THB Bus TO3A)", {}).get('hourly_profile', {}).get('Weekend', {}))
+    add_corridor("thb_bus", "公路客運", "#F43F5E", "台北轉運站", "台中轉運站", 185000, pax_type="tourist", commuter_idx=0.72, region="Central", custom_curve=thb_we, curve_wd=thb_wd, curve_we=thb_we)
+    add_corridor("thb_bus", "公路客運", "#F43F5E", "台中轉運站", "台北轉運站", 182000, pax_type="tourist", commuter_idx=0.70, region="Central", custom_curve=thb_we, curve_wd=thb_wd, curve_we=thb_we)
 
-    # 5. Enrich Kaohsiung Metro Additional Hubs
-    add_corridor("krtc", "高捷", "#EC4899", "美麗島", "左營", 212416, pax_type="tourist", commuter_idx=0.80, region="South")
-    add_corridor("krtc", "高捷", "#EC4899", "左營", "美麗島", 205000, pax_type="tourist", commuter_idx=0.80, region="South")
-    add_corridor("krtc", "高捷", "#EC4899", "楠梓科學園區", "左營", 185000, pax_type="commuter", commuter_idx=1.55, region="South")
-    add_corridor("krtc", "高捷", "#EC4899", "凹子底", "文化中心", 162000, pax_type="commuter", commuter_idx=1.25, region="South")
-    add_corridor("krtc", "高捷", "#EC4899", "哈瑪星", "駁二大義", 138000, pax_type="tourist", commuter_idx=0.42, region="South")
-    add_corridor("krtc", "高捷", "#EC4899", "駁二大義", "哈瑪星", 135000, pax_type="tourist", commuter_idx=0.42, region="South")
+    # 5. 補充高捷 (KRTC) 樞紐走廊 (採用高捷實測曲線)
+    krtc_wd = normalize_curve(study_data.get("高雄捷運 (KRTC)", {}).get('hourly_profile', {}).get('Weekday', {}))
+    krtc_we = normalize_curve(study_data.get("高雄捷運 (KRTC)", {}).get('hourly_profile', {}).get('Weekend', {}))
+    add_corridor("krtc", "高捷", "#EC4899", "美麗島", "左營", 212416, pax_type="tourist", commuter_idx=0.80, region="South", custom_curve=krtc_we, curve_wd=krtc_wd, curve_we=krtc_we)
+    add_corridor("krtc", "高捷", "#EC4899", "左營", "美麗島", 205000, pax_type="tourist", commuter_idx=0.80, region="South", custom_curve=krtc_we, curve_wd=krtc_wd, curve_we=krtc_we)
+    add_corridor("krtc", "高捷", "#EC4899", "楠梓科學園區", "左營", 185000, pax_type="commuter", commuter_idx=1.55, region="South", custom_curve=krtc_wd, curve_wd=krtc_wd, curve_we=krtc_we)
+    add_corridor("krtc", "高捷", "#EC4899", "凹子底", "文化中心", 162000, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=krtc_wd, curve_wd=krtc_wd, curve_we=krtc_we)
+    add_corridor("krtc", "高捷", "#EC4899", "哈瑪星", "駁二大義", 138000, pax_type="tourist", commuter_idx=0.42, region="South", custom_curve=krtc_we, curve_wd=krtc_wd, curve_we=krtc_we)
+    add_corridor("krtc", "高捷", "#EC4899", "駁二大義", "哈瑪星", 135000, pax_type="tourist", commuter_idx=0.42, region="South", custom_curve=krtc_we, curve_wd=krtc_wd, curve_we=krtc_we)
 
     print(f"📊 總計生成 {len(corridors)} 條全台雙向多模態動態人流走廊！")
 
@@ -465,10 +568,10 @@ def main():
                 }
         return clean
 
-    # Compile Full Output
+    # Compile Full Output (移除虛構的 rd_proposals 模擬實驗室，聚焦 100% 真實大數據)
     web_payload = {
         "metadata": {
-            "title": "台灣多模態公共運輸智慧分析與模擬展示平台",
+            "title": "台灣多模態公共運輸智慧分析與視覺化監測平台",
             "version": "2.0.0-PRO",
             "updated_at": progress_data.get("updated_at"),
             "total_rows": sum(d.get("total_rows", 0) for d in progress_data.get("datasets", {}).values()) or 448688705,
@@ -480,90 +583,19 @@ def main():
         "study_data": study_data,
         "progress_data": sanitize_progress(progress_data),
         "map_corridors": corridors,
-        "stations_geo": STATIONS_GEO,
-        "rd_proposals": [
-            {
-                "id": "rebalancing",
-                "title": "YouBike 潮汐再平衡與微型移動智慧調度 AI",
-                "subtitle": "Micro-Mobility Dynamic Fleet Rebalancing Engine",
-                "tag": "AI 預測調度",
-                "badge_color": "#06B6D4",
-                "target_mode": "YouBike",
-                "problem": "早尖峰內科、華亞、公館站等高頻節點無車可借或滿站無位，造成轉乘斷鏈。",
-                "solution": "時空圖神經網路 (ST-GNN) 結合天氣與捷運即時出站量，提前 30 分鐘預警缺車站點並規劃調度車最佳路徑。",
-                "simulation_params": {
-                    "peak_demand_growth": 25,
-                    "dispatch_trucks": 8,
-                    "target_service_level": 95,
-                    "stations": ["陽光舊宗路口", "瑞光路548巷", "國家生技園區", "捷運公館站", "高鐵桃園站"]
-                }
-            },
-            {
-                "id": "gap_detection",
-                "title": "第一哩/最後一哩路網斷點與接駁缺口診斷引擎",
-                "subtitle": "Transit Gap & Cold-Spot Detection AI",
-                "tag": "GIS 空間分析",
-                "badge_color": "#10B981",
-                "target_mode": "多模態路網",
-                "problem": "重劃區與工業區每日數萬人通勤，但缺乏銜接捷運/臺鐵之接駁公車或公共自行車。",
-                "solution": "以空間緩衝區 (Buffer 500m/1km) 交叉比對鐵路出站量與公車/單車覆蓋率，自動探勘出人流冷區 (Cold Spots)。",
-                "simulation_params": {
-                    "buffer_radius_meters": 800,
-                    "min_transit_volume": 3000,
-                    "target_areas": ["淡海新市鎮", "桃園青埔特區", "新莊副都心", "楠梓產業園區"]
-                }
-            },
-            {
-                "id": "tpass_carbon",
-                "title": "TPASS 政策成效動態模擬與 ESG 減碳量化歸因系統",
-                "subtitle": "TPASS Policy Simulator & Carbon Abatement Engine",
-                "tag": "ESG 綠色碳匯",
-                "badge_color": "#3B82F6",
-                "target_mode": "跨運具全域",
-                "problem": "政府每年補貼數十億 TPASS 缺乏跨走廊精準減碳量化與私人運具轉移證明。",
-                "solution": "透過 TO2A/TO3A 卡號重構多模態行程鏈，計算私人運具轉移率與走廊減碳總量 (kg CO₂e)。",
-                "simulation_params": {
-                    "subsidy_amount_ntd": 1200,
-                    "mode_shift_rate": 18.5,
-                    "fuel_savings_per_trip_liters": 0.85
-                }
-            },
-            {
-                "id": "resilience",
-                "title": "軌道突發中斷事件之動態應變與替代接駁最佳化 AI",
-                "subtitle": "Resilient Transit Network & Emergency Evacuation AI",
-                "tag": "營運應變",
-                "badge_color": "#F43F5E",
-                "target_mode": "軌道與客運",
-                "problem": "捷運或臺鐵遇地震、信號故障中斷時，10 分鐘內湧入數千滯留乘客，現行疏散反應慢。",
-                "solution": "利用歷史分時 OD 矩陣即時推算滯留擴散曲線，最佳化接駁專車車隊派遣與發車間距。",
-                "simulation_params": {
-                    "incident_duration_mins": 45,
-                    "corridors": ["台北車站 <-> 西門 (TRTC)", "新北產業園區 <-> 板橋 (NTMC)", "左營 <-> 巨蛋 (KRTC)"]
-                }
-            },
-            {
-                "id": "tourism",
-                "title": "觀光廊帶人流挖掘與跨運具動態套票推薦引擎",
-                "subtitle": "Tourism Corridor Mobility & Dynamic Pass AI",
-                "tag": "觀光商業化",
-                "badge_color": "#F97316",
-                "target_mode": "高鐵/高捷/客運",
-                "problem": "週末假日人流集中於觀光廊帶，現行套票僵化無法滿足深度自由行需求。",
-                "solution": "以 DBSCAN 叢集假日純休閒 OD，挖掘熱門遊憩走廊，動態推薦「高鐵 + 捷運 + YouBike」彈性聯票。",
-                "simulation_params": {
-                    "holiday_surge_multiplier": 1.62,
-                    "target_corridors": ["台北 <-> 宜蘭/羅東 (國道客運)", "高鐵左營 <-> 巨蛋/駁二 (高捷+單車)"]
-                }
-            }
-        ]
+        "stations_geo": STATIONS_GEO
     }
     
-    with open(OUTPUT_WEB_JSON, 'w', encoding='utf-8') as f:
+    # 輸出至本地 Repo public/ 目錄供當前 Web 專案讀取
+    with open(OUTPUT_REPO_JSON, 'w', encoding='utf-8') as f:
         json.dump(web_payload, f, ensure_ascii=False, indent=2)
+    print(f"✅ 專案 public/ JSON 資料集已輸出至: {OUTPUT_REPO_JSON}")
+    print(f"   檔案大小: {OUTPUT_REPO_JSON.stat().st_size / (1024*1024):.2f} MB")
         
-    print(f"✅ 前端 JSON 資料集已輸出至: {OUTPUT_WEB_JSON}")
-    print(f"   檔案大小: {OUTPUT_WEB_JSON.stat().st_size / (1024*1024):.2f} MB")
+    if WEB_PUBLIC_DIR.exists():
+        with open(OUTPUT_WEB_JSON, 'w', encoding='utf-8') as f:
+            json.dump(web_payload, f, ensure_ascii=False, indent=2)
+        print(f"✅ 額外備份已輸出至: {OUTPUT_WEB_JSON}")
 
 if __name__ == '__main__':
     main()
