@@ -48,7 +48,7 @@ const REGIONS = [
 
 const PERSPECTIVES = [
   { id: 'all', label: '🌐 全機能總覽', color: '#38BDF8', desc: '綜合 15 分鐘 TOD 多元機能指標' },
-  { id: 'senior', label: '👵 銀髮慢箋醫療視角', color: '#F43F5E', desc: '聚焦 300m 健保藥局、家醫診所與長照可達性' },
+  { id: 'senior', label: '👵 銀髮醫療與慢箋視角', color: '#F43F5E', desc: '聚焦 500m 綜合醫院、家醫診所與健保藥局慢箋可達性' },
   { id: 'student', label: '🎓 學生通學文教視角', color: '#10B981', desc: '聚焦 500m 學校、補習班與 YouBike 微循環' },
   { id: 'commuter', label: '💼 通勤超商早餐視角', color: '#A855F7', desc: '聚焦站前 200m 7-11/全家照明錨點與接駁' },
   { id: 'desert', label: '🚨 機能缺口與沙漠探針', color: '#EF4444', desc: '專注檢視醫療盲區、生鮮沙漠與偏鄉生活圈' }
@@ -303,7 +303,21 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
       const np = selectedHub.nearest_pois || {};
       const allNearPois = [
         ...(np.convenience || []).map(p => ({ ...p, icon: '🏪', color: '#F97316', label: '便利超商' })),
-        ...(np.healthcare || []).map(p => ({ ...p, icon: '💊', color: '#10B981', label: '醫療藥局' })),
+        ...(np.healthcare || []).map(p => {
+          let icon = '💊';
+          let label = '健保藥局';
+          let color = '#10B981';
+          if (p.sub_type === 'hospital' || (p.name && p.name.includes('醫院'))) {
+            icon = '🏥';
+            label = '大型醫院';
+            color = '#F43F5E';
+          } else if (p.sub_type === 'clinic' || (p.name && p.name.includes('診所'))) {
+            icon = '🩺';
+            label = '專科診所';
+            color = '#34D399';
+          }
+          return { ...p, icon, color, label };
+        }),
         ...(np.education || []).map(p => ({ ...p, icon: '🏫', color: '#38BDF8', label: '學校文教' })),
         ...(np.supermarket || []).map(p => ({ ...p, icon: '🛒', color: '#F59E0B', label: '生鮮超市' }))
       ];
@@ -350,6 +364,11 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
   const hubsList = data?.hubs_amenity_profile || [];
   const selectedSum = selectedHub?.amenity_summary || { convenience_count: 0, healthcare_count: 0, education_count: 0, supermarket_count: 0, tod_living_score: 0, grade: '' };
   const persona = selectedHub?.persona_pct || {};
+
+  const selectedHcPois = selectedHub?.nearest_pois?.healthcare || [];
+  const hospitalCount = selectedHcPois.filter(p => p.sub_type === 'hospital' || (p.name && p.name.includes('醫院'))).length;
+  const clinicCount = selectedHcPois.filter(p => p.sub_type === 'clinic' || (p.name && p.name.includes('診所'))).length;
+  const pharmacyCount = selectedHcPois.filter(p => p.sub_type === 'pharmacy' || (p.name && (p.name.includes('藥局') || p.name.includes('藥房')))).length;
 
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#0A0F1D' }}>
@@ -621,7 +640,7 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
 
             <div style={{ textAlign: 'center' }}>
               <div style={{ fontSize: '10px', color: selectedSum.healthcare_count === 0 ? '#EF4444' : '#10B981', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3px' }}>
-                <HeartPulse size={11} /> 醫療藥局
+                <HeartPulse size={11} /> 醫療照護
               </div>
               <div style={{
                 fontSize: '16px',
@@ -632,8 +651,8 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
               }}>
                 {selectedSum.healthcare_count}
               </div>
-              <div style={{ fontSize: '9px', color: selectedSum.healthcare_count === 0 ? '#EF4444' : '#64748b' }}>
-                {selectedSum.healthcare_count === 0 ? '🚨 盲區缺乏' : '健保/診所'}
+              <div style={{ fontSize: '9px', color: selectedSum.healthcare_count === 0 ? '#EF4444' : '#64748b', whiteSpace: 'nowrap' }}>
+                {selectedSum.healthcare_count === 0 ? '🚨 盲區缺乏' : `院:${hospitalCount} 診:${clinicCount} 藥:${pharmacyCount}`}
               </div>
             </div>
 
