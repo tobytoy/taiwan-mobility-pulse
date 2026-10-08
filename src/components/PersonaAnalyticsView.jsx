@@ -9,7 +9,7 @@ import {
   CloudRain, Sun, Umbrella, Droplets, Thermometer
 } from 'lucide-react';
 
-export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchToAiLab, initialSubTab = 'transfer' }) {
+export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchToAiLab, onSwitchToAmenityMap, initialSubTab = 'transfer' }) {
   const [activeSubTab, setActiveSubTab] = useState(initialSubTab || 'transfer'); // 'transfer', 'commuter', 'senior', 'student', or 'weather'
   const [commuterData, setCommuterData] = useState(null);
   const [seniorData, setSeniorData] = useState(null);
@@ -1486,29 +1486,54 @@ function TransferSection({ data, onSwitchToTransferMap }) {
           </div>
         </div>
 
-        {onSwitchToTransferMap && (
-          <button
-            onClick={onSwitchToTransferMap}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              padding: '10px 20px',
-              borderRadius: '8px',
-              background: '#38BDF8',
-              color: '#0F172A',
-              border: 'none',
-              fontSize: '13px',
-              fontWeight: '800',
-              cursor: 'pointer',
-              boxShadow: '0 4px 15px rgba(56, 189, 248, 0.4)',
-              transition: 'all 0.2s ease'
-            }}
-          >
-            <span>前往 GIS 跨運具轉乘地圖</span>
-            <ArrowUpRight size={16} />
-          </button>
-        )}
+        <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
+          {onSwitchToTransferMap && (
+            <button
+              onClick={onSwitchToTransferMap}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 18px',
+                borderRadius: '8px',
+                background: '#38BDF8',
+                color: '#0F172A',
+                border: 'none',
+                fontSize: '12.5px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(56, 189, 248, 0.4)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>前往 GIS 跨運具轉乘地圖</span>
+              <ArrowUpRight size={16} />
+            </button>
+          )}
+          {onSwitchToAmenityMap && (
+            <button
+              onClick={onSwitchToAmenityMap}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '8px',
+                padding: '10px 18px',
+                borderRadius: '8px',
+                background: 'linear-gradient(135deg, #10B981, #06B6D4)',
+                color: '#FFFFFF',
+                border: 'none',
+                fontSize: '12.5px',
+                fontWeight: '800',
+                cursor: 'pointer',
+                boxShadow: '0 4px 15px rgba(16, 185, 129, 0.4)',
+                transition: 'all 0.2s ease'
+              }}
+            >
+              <span>🏪 前往 15分鐘微生活圈與機能診斷</span>
+              <ArrowUpRight size={16} />
+            </button>
+          )}
+        </div>
       </div>
 
     </div>

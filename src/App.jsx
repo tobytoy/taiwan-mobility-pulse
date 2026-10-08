@@ -10,12 +10,13 @@ const ODStationView = lazy(() => import('./components/ODStationView'));
 const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonView'));
 const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsView'));
 const UnsupervisedRailLab = lazy(() => import('./components/UnsupervisedRailLab'));
+const UrbanAmenityAccessibilityLab = lazy(() => import('./components/UrbanAmenityAccessibilityLab'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle,
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store,
   Cloud, CloudRain, CloudLightning, ChevronDown
 } from 'lucide-react';
 
@@ -388,6 +389,26 @@ export default function App() {
               >
                 <Shuffle size={14} />
                 <span>🔀 跨運具轉乘脈衝 (身分接駁)</span>
+              </button>
+              <button
+                onClick={() => setMapViewType('amenities')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: mapViewType === 'amenities' ? 'linear-gradient(135deg, #10B981, #06B6D4)' : 'transparent',
+                  color: mapViewType === 'amenities' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: mapViewType === 'amenities' ? '800' : '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Store size={14} />
+                <span>🏪 15分鐘微生活圈 (都市機能可達性)</span>
               </button>
             </div>
 
@@ -948,6 +969,21 @@ export default function App() {
             </Suspense>
           </div>
         )}
+
+        {/* Sub-view 1D: 15-Minute Urban Living & Mobility Accessibility Lab */}
+        {activeTab === 'gis_map' && mapViewType === 'amenities' && (
+          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <Suspense fallback={
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+                🏪 15分鐘微生活圈 · 都市機能與客群可達性模組載入中...
+              </div>
+            }>
+              <ErrorBoundary>
+                <UrbanAmenityAccessibilityLab basemap={basemap} />
+              </ErrorBoundary>
+            </Suspense>
+          </div>
+        )}
       </div>
     )}
 
@@ -976,6 +1012,10 @@ export default function App() {
                 setActiveTab('gis_map');
                 setMapViewType('transfers');
               }} 
+              onSwitchToAmenityMap={() => {
+                setActiveTab('gis_map');
+                setMapViewType('amenities');
+              }}
               onSwitchToAiLab={() => {
                 setActiveTab('ai_lab');
               }}
