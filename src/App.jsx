@@ -130,7 +130,7 @@ export default function App() {
           正在載入全台多模態動態人流資料庫...
         </div>
         <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
-          TICP 4.48 億筆票證分析、157 條動態走廊與全台 76 大跨運具轉乘樞紐
+          TICP 4.48 億筆票證分析、111 條代表性動態走廊與全台 76 大跨運具轉乘樞紐
         </div>
       </div>
     );

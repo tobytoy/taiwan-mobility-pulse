@@ -35,10 +35,10 @@ const BASEMAP_TILES = {
 
 const REGION_OPTIONS = [
   { id: 'all', label: '🌐 全台總覽', center: [23.95, 120.95], zoom: 8, badge: '76 樞紐' },
-  { id: 'north', label: '🏙️ 北部都會', center: [25.045, 121.530], zoom: 11, badge: '30 樞紐' },
+  { id: 'north', label: '🏙️ 北部都會', center: [25.045, 121.530], zoom: 11, badge: '46 樞紐' },
   { id: 'central', label: '🌲 中部生活圈', center: [24.085, 120.650], zoom: 11, badge: '18 樞紐' },
-  { id: 'south', label: '☀️ 南部生活圈', center: [22.750, 120.400], zoom: 10, badge: '18 樞紐' },
-  { id: 'east', label: '🌊 東部生活圈', center: [24.400, 121.700], zoom: 9, badge: '10 樞紐' }
+  { id: 'south', label: '☀️ 南部生活圈', center: [22.750, 120.400], zoom: 10, badge: '6 樞紐' },
+  { id: 'east', label: '🌊 東部生活圈', center: [24.400, 121.700], zoom: 9, badge: '6 樞紐' }
 ];
 
 const PERSONA_FILTERS = [
@@ -189,11 +189,12 @@ export default function TransferMapView({ basemap = 'dark' }) {
     const strokeW = Math.max(5, size * 0.12);
     const circ = 2 * Math.PI * r;
 
-    // 四個客群弧長 (以總和 100 歸一化)
-    const p1 = (p.regular_adult || 0) / 100;
-    const p2 = (p.tpass || 0) / 100;
-    const p3 = (p.student || 0) / 100;
-    const p4 = (p.senior || 0) / 100;
+    // 四個客群弧長 (以總和精準歸一化，消除浮點四捨五入隙縫)
+    const pTotal = ((p.regular_adult || 0) + (p.tpass || 0) + (p.student || 0) + (p.senior || 0)) || 100;
+    const p1 = (p.regular_adult || 0) / pTotal;
+    const p2 = (p.tpass || 0) / pTotal;
+    const p3 = (p.student || 0) / pTotal;
+    const p4 = (p.senior || 0) / pTotal;
 
     const o1 = 0;
     const o2 = -p1 * circ;

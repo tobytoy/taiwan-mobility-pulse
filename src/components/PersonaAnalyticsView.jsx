@@ -1328,11 +1328,11 @@ function TransferSection({ data, onSwitchToTransferMap }) {
           <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', alignItems: 'center' }}>
             <div style={{ display: 'flex', background: 'rgba(15, 23, 42, 0.8)', padding: '3px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)' }}>
               {[
-                { id: 'all', label: '🌐 全台 (76)' },
-                { id: 'north', label: '🏙️ 北部 (30)' },
-                { id: 'central', label: '🌲 中部 (18)' },
-                { id: 'south', label: '☀️ 南部 (18)' },
-                { id: 'east', label: '🌊 東部 (10)' }
+                { id: 'all', label: `🌐 全台 (${allHubs.length || 76})` },
+                { id: 'north', label: `🏙️ 北部 (${allHubs.filter(h => h.region === 'north').length || 46})` },
+                { id: 'central', label: `🌲 中部 (${allHubs.filter(h => h.region === 'central').length || 18})` },
+                { id: 'south', label: `☀️ 南部 (${allHubs.filter(h => h.region === 'south').length || 6})` },
+                { id: 'east', label: `🌊 東部 (${allHubs.filter(h => h.region === 'east').length || 6})` }
               ].map(r => (
                 <button
                   key={r.id}

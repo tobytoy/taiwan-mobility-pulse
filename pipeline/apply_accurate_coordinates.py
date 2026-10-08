@@ -102,8 +102,10 @@ def update_transfer_analysis():
 
     # 更新目的地座標 (destinations)
     for h in hubs:
+        h['name'] = h.get('BoardingStopName', '')
         for d in h.get('top_destinations', []):
             d_name = d.get('DeboardingStopName', '')
+            d['name'] = d_name
             d_lat, d_lon = resolve_station_coords(d_name, fallback_lat=h['lat'], fallback_lon=h['lng'])
             d['latlng'] = [d_lat, d_lon]
 
