@@ -18,6 +18,7 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
   const [dayType, setDayType] = useState('workday'); // 'workday' or 'holiday'
   const [selectedPersonaId, setSelectedPersonaId] = useState(3); // 預設學生通學族 (最富故事性)
   const [hoveredHour, setHoveredHour] = useState(null);
+  const [activeModeLeakage, setActiveModeLeakage] = useState('taipei_bike');
   const [visibleCurves, setVisibleCurves] = useState({
     sunny: true,
     cloudy: true,
