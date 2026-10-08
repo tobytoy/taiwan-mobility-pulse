@@ -77,10 +77,15 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
       .then(json => {
         setData(json);
         setLoading(false);
-        // 預設選中全台第 1 大樞紐或萬芳醫院站
+        // 預設選中全台第 1 大樞紐
         if (json.hubs_amenity_profile && json.hubs_amenity_profile.length > 0) {
           setSelectedHub(json.hubs_amenity_profile[0]);
         }
+        setTimeout(() => {
+          if (mapRef.current) {
+            mapRef.current.invalidateSize();
+          }
+        }, 150);
       })
       .catch(err => {
         console.error('載入 15 分鐘微生活圈機能資料失敗:', err);
@@ -103,7 +108,7 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
 
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
       attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
-      subdomains: 'abc',
+      subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
       maxZoom: 19
     }).addTo(map);
 
@@ -116,10 +121,16 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
 
     const resizeTimer = setTimeout(() => {
       map.invalidateSize();
-    }, 150);
+    }, 200);
+
+    const handleResize = () => {
+      map.invalidateSize();
+    };
+    window.addEventListener('resize', handleResize);
 
     return () => {
       clearTimeout(resizeTimer);
+      window.removeEventListener('resize', handleResize);
       map.remove();
       mapRef.current = null;
     };
@@ -131,7 +142,7 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
     mapRef.current.removeLayer(tileLayerRef.current);
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
       attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
-      subdomains: 'abc',
+      subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
       maxZoom: 19
     }).addTo(mapRef.current);
   }, [basemap]);
@@ -326,33 +337,6 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
 
   }, [data, selectedRegion, perspective, selectedHub, searchQuery, currentZoom]);
 
-  if (loading) {
-    return (
-      <div style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        background: '#0B0F19',
-        color: '#38BDF8',
-        fontSize: '14px',
-        fontWeight: '700',
-        gap: '10px'
-      }}>
-        <div style={{
-          width: '20px',
-          height: '20px',
-          border: '2px solid rgba(56, 189, 248, 0.2)',
-          borderTopColor: '#38BDF8',
-          borderRadius: '50%',
-          animation: 'spin 1s linear infinite'
-        }} />
-        <span>載入 15分鐘微生活圈 · 都市機能與客群可達性資料庫...</span>
-      </div>
-    );
-  }
-
   const macroFindings = data?.macro_insights?.key_findings || [];
   const hubsList = data?.hubs_amenity_profile || [];
   const selectedSum = selectedHub?.amenity_summary || { convenience_count: 0, healthcare_count: 0, education_count: 0, supermarket_count: 0, tod_living_score: 0, grade: '' };
@@ -362,12 +346,30 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden', background: '#0A0F1D' }}>
       
       {/* 1. 地圖容器 */}
-      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', zIndex: 1 }} />
+      <div ref={mapContainerRef} style={{ width: '100%', height: '100%', position: 'absolute', inset: 0, background: '#07090e', zIndex: 1 }} />
 
-      {/* 2. 頂部左側懸浮控制列：客群視角 + 生活圈過濾 */}
+      {/* 載入中遮罩 */}
+      {loading && (
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 999,
+          backgroundColor: '#07090e',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          color: '#38BDF8'
+        }}>
+          <div style={{ width: '36px', height: '36px', border: '3px solid rgba(56, 189, 248, 0.2)', borderTopColor: '#38BDF8', borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '12px' }} />
+          <div style={{ fontSize: '14px', fontWeight: '700' }}>載入 15分鐘微生活圈 · 都市機能與客群可達性資料庫...</div>
+        </div>
+      )}
+
+      {/* 2. 頂部左側懸浮控制列：客群視角 + 生活圈過濾 (top: 68px 避免遮擋全域模式列) */}
       <div style={{
         position: 'absolute',
-        top: '16px',
+        top: '68px',
         left: '16px',
         zIndex: 400,
         display: 'flex',
@@ -479,11 +481,11 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
         </div>
       </div>
 
-      {/* 3. 頂部宏觀洞察橫幅膠囊 (可收折) */}
+      {/* 3. 頂部宏觀洞察橫幅膠囊 (可收折，top: 68px) */}
       {showMacroInsights && (
         <div style={{
           position: 'absolute',
-          top: '16px',
+          top: '68px',
           right: '16px',
           zIndex: 400,
           background: 'rgba(15, 23, 42, 0.94)',
