@@ -18,7 +18,13 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
   const [dayType, setDayType] = useState('workday'); // 'workday' or 'holiday'
   const [selectedPersonaId, setSelectedPersonaId] = useState(3); // 預設學生通學族 (最富故事性)
   const [hoveredHour, setHoveredHour] = useState(null);
-  const [activeModeLeakage, setActiveModeLeakage] = useState('taipei_bike');
+  const [visibleCurves, setVisibleCurves] = useState({
+    sunny: true,
+    cloudy: true,
+    rainy: true,
+    heavy_rain: true
+  });
+  const [modeWeatherView, setModeWeatherView] = useState('rainy'); // 'cloudy', 'rainy', 'heavy_rain'
   const gradientPrefix = useId();
 
   if (!weatherData) {
@@ -39,11 +45,22 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
 
   const hours = Array.isArray(diurnalCurves.hours) ? diurnalCurves.hours : Array.from({ length: 24 }, (_, i) => i);
   const sunnyVals = Array.isArray(diurnal?.sunny) ? diurnal.sunny : Array(24).fill(0);
+  const cloudyVals = Array.isArray(diurnal?.cloudy) ? diurnal.cloudy : Array(24).fill(0);
   const rainyVals = Array.isArray(diurnal?.rainy) ? diurnal.rainy : Array(24).fill(0);
+  const heavyRainVals = Array.isArray(diurnal?.heavy_rain) ? diurnal.heavy_rain : Array(24).fill(0);
   const deltaPcts = Array.isArray(diurnal?.delta_pct) ? diurnal.delta_pct : Array(24).fill(0);
+  const deltaPctsCloudy = Array.isArray(diurnal?.delta_pct_cloudy) ? diurnal.delta_pct_cloudy : Array(24).fill(0);
+  const deltaPctsHeavyRain = Array.isArray(diurnal?.delta_pct_heavy_rain) ? diurnal.delta_pct_heavy_rain : Array(24).fill(0);
 
-  // 計算 SVG 曲線座標 (寬度 800，高度 260，padding 40)
-  const maxVal = Math.max(...sunnyVals, ...rainyVals, 1000) * 1.15;
+  // 計算 SVG 曲線座標 (寬度 840，高度 260，padding 40)
+  const activeCurveVals = [
+    ...(visibleCurves.sunny ? sunnyVals : []),
+    ...(visibleCurves.cloudy ? cloudyVals : []),
+    ...(visibleCurves.rainy ? rainyVals : []),
+    ...(visibleCurves.heavy_rain ? heavyRainVals : []),
+    1000
+  ];
+  const maxVal = Math.max(...activeCurveVals) * 1.15;
   const svgWidth = 840;
   const svgHeight = 260;
   const padLeft = 55;
@@ -75,13 +92,18 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
   };
 
   const sunnyPoints = hours.map((h, i) => ({ x: getX(i), y: getY(sunnyVals[i] || 0) }));
+  const cloudyPoints = hours.map((h, i) => ({ x: getX(i), y: getY(cloudyVals[i] || 0) }));
   const rainyPoints = hours.map((h, i) => ({ x: getX(i), y: getY(rainyVals[i] || 0) }));
+  const heavyRainPoints = hours.map((h, i) => ({ x: getX(i), y: getY(heavyRainVals[i] || 0) }));
+
   const sunnyPath = createSmoothPath(sunnyPoints);
+  const cloudyPath = createSmoothPath(cloudyPoints);
   const rainyPath = createSmoothPath(rainyPoints);
+  const heavyRainPath = createSmoothPath(heavyRainPoints);
 
   // 建立陰影差值閉合多邊形
   const lastRainy = rainyPoints[rainyPoints.length - 1] || { x: getX(23), y: getY(0) };
-  const diffAreaPath = rainyPoints.length > 0
+  const diffAreaPath = rainyPoints.length > 0 && visibleCurves.sunny && visibleCurves.rainy
     ? `${sunnyPath} L ${lastRainy.x} ${lastRainy.y} ` +
       createSmoothPath([...rainyPoints].reverse()).replace(/^M [0-9\.]+ [0-9\.]+/, '') +
       ` Z`
@@ -244,24 +266,43 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
             </div>
           </div>
 
-          {/* 晴天 vs 雨天 圖例 */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', background: 'rgba(0,0,0,0.3)', padding: '6px 14px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#FCD34D' }}>
-              <span style={{ width: '14px', height: '3px', background: '#F59E0B', borderRadius: '2px', display: 'inline-block' }} />
-              <Sun size={13} color="#F59E0B" />
-              <span>☀️ 晴天常態線</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: '#38BDF8' }}>
-              <span style={{ width: '14px', height: '3px', background: '#0284C7', borderRadius: '2px', display: 'inline-block' }} />
-              <CloudRain size={13} color="#38BDF8" />
-              <span>🌧️ 雨天實況線</span>
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '11px', color: '#94a3b8' }}>
-              <span style={{ width: '10px', height: '10px', background: 'rgba(244,63,94,0.3)', border: '1px solid #F43F5E', borderRadius: '2px' }} />
-              <span>避雨湧浪</span>
-              <span style={{ width: '10px', height: '10px', background: 'rgba(56,189,248,0.25)', border: '1px solid #38BDF8', borderRadius: '2px', marginLeft: '6px' }} />
-              <span>急凍延期</span>
-            </div>
+          {/* 4 段天候互動式曲線切換 Pills */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexWrap: 'wrap' }}>
+            <span style={{ fontSize: '11px', color: '#64748b', marginRight: '2px' }}>波形圖例：</span>
+            {[
+              { id: 'sunny', label: '☀️ 晴朗天', color: '#F59E0B', active: visibleCurves.sunny },
+              { id: 'cloudy', label: '☁️ 陰天', color: '#94A3B8', active: visibleCurves.cloudy },
+              { id: 'rainy', label: '🌧️ 常規雨', color: '#38BDF8', active: visibleCurves.rainy },
+              { id: 'heavy_rain', label: '⛈️ 豪大雨', color: '#F43F5E', active: visibleCurves.heavy_rain }
+            ].map(btn => (
+              <button
+                key={btn.id}
+                onClick={() => setVisibleCurves(prev => {
+                  const next = { ...prev, [btn.id]: !prev[btn.id] };
+                  if (!next.sunny && !next.cloudy && !next.rainy && !next.heavy_rain) return prev;
+                  return next;
+                })}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '5px',
+                  padding: '4px 9px',
+                  borderRadius: '6px',
+                  fontSize: '11px',
+                  fontWeight: '700',
+                  border: btn.active ? `1px solid ${btn.color}` : '1px solid rgba(255,255,255,0.08)',
+                  background: btn.active ? `${btn.color}25` : 'rgba(255,255,255,0.03)',
+                  color: btn.active ? btn.color : '#64748b',
+                  cursor: 'pointer',
+                  opacity: btn.active ? 1 : 0.45,
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: btn.color }} />
+                <span>{btn.label}</span>
+                <span style={{ fontSize: '9px', opacity: 0.8 }}>{btn.active ? '✓' : 'off'}</span>
+              </button>
+            ))}
           </div>
         </div>
 
@@ -329,29 +370,58 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
             })}
 
             {/* 晴雨差值填充帶 */}
-            <path
-              d={diffAreaPath}
-              fill={`url(#${gradientPrefix}-diffGrad)`}
-            />
+            {diffAreaPath && (
+              <path
+                d={diffAreaPath}
+                fill={`url(#${gradientPrefix}-diffGrad)`}
+              />
+            )}
 
             {/* ☀️ 晴天常態曲線 */}
-            <path
-              d={sunnyPath}
-              fill="none"
-              stroke="#F59E0B"
-              strokeWidth="2.4"
-              strokeDasharray="5,4"
-              opacity="0.85"
-            />
+            {visibleCurves.sunny && (
+              <path
+                d={sunnyPath}
+                fill="none"
+                stroke="#F59E0B"
+                strokeWidth="2.4"
+                strokeDasharray="5,4"
+                opacity="0.85"
+              />
+            )}
 
-            {/* 🌧️ 雨天實況曲線 */}
-            <path
-              d={rainyPath}
-              fill="none"
-              stroke={`url(#${gradientPrefix}-rainGlow)`}
-              strokeWidth="3.2"
-              filter="drop-shadow(0 2px 8px rgba(56, 189, 248, 0.35))"
-            />
+            {/* ☁️ 陰天平穩曲線 */}
+            {visibleCurves.cloudy && (
+              <path
+                d={cloudyPath}
+                fill="none"
+                stroke="#94A3B8"
+                strokeWidth="2.2"
+                strokeDasharray="3,3"
+                opacity="0.9"
+              />
+            )}
+
+            {/* 🌧️ 常規雨實況曲線 */}
+            {visibleCurves.rainy && (
+              <path
+                d={rainyPath}
+                fill="none"
+                stroke={`url(#${gradientPrefix}-rainGlow)`}
+                strokeWidth="3.2"
+                filter="drop-shadow(0 2px 8px rgba(56, 189, 248, 0.35))"
+              />
+            )}
+
+            {/* ⛈️ 豪大雨極端實況曲線 */}
+            {visibleCurves.heavy_rain && (
+              <path
+                d={heavyRainPath}
+                fill="none"
+                stroke="#F43F5E"
+                strokeWidth="3.4"
+                filter="drop-shadow(0 2px 10px rgba(244, 63, 94, 0.5))"
+              />
+            )}
 
             {/* X 軸小時刻度與文字 */}
             {hours.map((h, i) => {
@@ -394,23 +464,49 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
                   strokeDasharray="4,4"
                 />
                 {/* 晴天交點 */}
-                <circle
-                  cx={getX(hoveredHour)}
-                  cy={getY(sunnyVals[hoveredHour])}
-                  r="5"
-                  fill="#F59E0B"
-                  stroke="#FFFFFF"
-                  strokeWidth="2"
-                />
+                {visibleCurves.sunny && (
+                  <circle
+                    cx={getX(hoveredHour)}
+                    cy={getY(sunnyVals[hoveredHour])}
+                    r="5"
+                    fill="#F59E0B"
+                    stroke="#FFFFFF"
+                    strokeWidth="2"
+                  />
+                )}
+                {/* 陰天交點 */}
+                {visibleCurves.cloudy && (
+                  <circle
+                    cx={getX(hoveredHour)}
+                    cy={getY(cloudyVals[hoveredHour])}
+                    r="5"
+                    fill="#94A3B8"
+                    stroke="#FFFFFF"
+                    strokeWidth="2"
+                  />
+                )}
                 {/* 雨天交點 */}
-                <circle
-                  cx={getX(hoveredHour)}
-                  cy={getY(rainyVals[hoveredHour])}
-                  r="6"
-                  fill="#38BDF8"
-                  stroke="#FFFFFF"
-                  strokeWidth="2.5"
-                />
+                {visibleCurves.rainy && (
+                  <circle
+                    cx={getX(hoveredHour)}
+                    cy={getY(rainyVals[hoveredHour])}
+                    r="6"
+                    fill="#38BDF8"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.5"
+                  />
+                )}
+                {/* 豪大雨交點 */}
+                {visibleCurves.heavy_rain && (
+                  <circle
+                    cx={getX(hoveredHour)}
+                    cy={getY(heavyRainVals[hoveredHour])}
+                    r="6.5"
+                    fill="#F43F5E"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.5"
+                  />
+                )}
               </g>
             )}
 
@@ -451,7 +547,7 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
               boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
               pointerEvents: 'none',
               zIndex: 10,
-              minWidth: '180px'
+              minWidth: '220px'
             }}>
               <div style={{ fontWeight: '800', color: '#38BDF8', borderBottom: '1px solid rgba(255,255,255,0.1)', paddingBottom: '3px', marginBottom: '5px' }}>
                 時段：{String(hoveredHour).padStart(2, '0')}:00 ~ {String(hoveredHour + 1).padStart(2, '0')}:00
@@ -461,16 +557,21 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
                 <strong style={{ fontFamily: 'JetBrains Mono, monospace' }}>{sunnyVals[hoveredHour].toLocaleString()} 人次</strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-                <span style={{ color: '#38BDF8' }}>🌧️ 雨天實況：</span>
-                <strong style={{ fontFamily: 'JetBrains Mono, monospace' }}>{rainyVals[hoveredHour].toLocaleString()} 人次</strong>
+                <span style={{ color: '#94A3B8' }}>☁️ 陰天實況：</span>
+                <strong style={{ fontFamily: 'JetBrains Mono, monospace', color: '#CBD5E1' }}>
+                  {cloudyVals[hoveredHour].toLocaleString()} ({deltaPctsCloudy[hoveredHour] >= 0 ? `+${deltaPctsCloudy[hoveredHour]}` : deltaPctsCloudy[hoveredHour]}%)
+                </strong>
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
+                <span style={{ color: '#38BDF8' }}>🌧️ 常規雨天：</span>
+                <strong style={{ fontFamily: 'JetBrains Mono, monospace', color: '#38BDF8' }}>
+                  {rainyVals[hoveredHour].toLocaleString()} ({deltaPcts[hoveredHour] >= 0 ? `+${deltaPcts[hoveredHour]}` : deltaPcts[hoveredHour]}%)
+                </strong>
               </div>
               <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '1px dashed rgba(255,255,255,0.1)', paddingTop: '3px', marginTop: '3px' }}>
-                <span style={{ color: '#94a3b8' }}>晴雨衝擊 $\Delta$：</span>
-                <strong style={{
-                  color: deltaPcts[hoveredHour] >= 10 ? '#F43F5E' : deltaPcts[hoveredHour] <= -20 ? '#38BDF8' : '#34D399',
-                  fontFamily: 'JetBrains Mono, monospace'
-                }}>
-                  {deltaPcts[hoveredHour] >= 0 ? `+${deltaPcts[hoveredHour]}%` : `${deltaPcts[hoveredHour]}%`}
+                <span style={{ color: '#F43F5E' }}>⛈️ 豪大雨實況：</span>
+                <strong style={{ fontFamily: 'JetBrains Mono, monospace', color: '#FDA4AF' }}>
+                  {heavyRainVals[hoveredHour].toLocaleString()} ({deltaPctsHeavyRain[hoveredHour] >= 0 ? `+${deltaPctsHeavyRain[hoveredHour]}` : deltaPctsHeavyRain[hoveredHour]}%)
                 </strong>
               </div>
             </div>
@@ -608,11 +709,48 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
           <div>
             <h3 style={{ margin: '0 0 4px 0', fontSize: '16px', fontWeight: '800', color: '#f8fafc', display: 'flex', alignItems: 'center', gap: '8px' }}>
               <TrendingUp size={18} color="#10B981" />
-              <span>運具晴雨彈性對稱差值與微型移動外溢 (Mode Weather Diverging Shifts)</span>
+              <span>運具天候彈性對稱差值與微型移動外溢 (Mode Weather Diverging Shifts)</span>
             </h3>
             <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8' }}>
-              對稱橫條圖展示各運具在下雨天之「暴跌流失」vs「湧浪吸收」，點擊 YouBike 可展開其外溢路徑。
+              對稱橫條圖展示各運具在不同天候情境之「暴跌流失」vs「湧浪吸收」，點擊 YouBike 可展開其外溢路徑。
             </p>
+          </div>
+
+          {/* 天候情境切換按鈕 (陰天 / 常規雨 / 豪大雨) */}
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.8)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
+            borderRadius: '8px',
+            padding: '3px',
+            display: 'flex',
+            gap: '3px'
+          }}>
+            {[
+              { id: 'cloudy', label: '☁️ 陰天微氣候', color: '#94A3B8' },
+              { id: 'rainy', label: '🌧️ 常規雨 (0.1~10mm)', color: '#38BDF8' },
+              { id: 'heavy_rain', label: '⛈️ 豪大雨 (≥10mm)', color: '#F43F5E' }
+            ].map(mw => {
+              const isSel = modeWeatherView === mw.id;
+              return (
+                <button
+                  key={mw.id}
+                  onClick={() => setModeWeatherView(mw.id)}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    fontSize: '11px',
+                    fontWeight: isSel ? '700' : '500',
+                    border: 'none',
+                    background: isSel ? `${mw.color}25` : 'transparent',
+                    color: isSel ? mw.color : '#94A3B8',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  {mw.label}
+                </button>
+              );
+            })}
           </div>
         </div>
 
@@ -621,8 +759,13 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
           <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
             {modes.map(m => {
               const isSelected = activeModeLeakage === m.mode_id;
-              const isDrop = m.change_pct < 0;
-              const barWidth = Math.min(100, Math.abs(m.change_pct) * 1.6);
+              const chgPct = modeWeatherView === 'heavy_rain'
+                ? (m.heavy_rain_change_pct ?? m.change_pct)
+                : modeWeatherView === 'cloudy'
+                ? (m.cloudy_change_pct ?? 1.0)
+                : m.change_pct;
+              const isDrop = chgPct < 0;
+              const barWidth = Math.min(100, Math.abs(chgPct) * 1.6);
               return (
                 <div
                   key={m.mode_id}
@@ -644,7 +787,7 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
                       fontFamily: 'JetBrains Mono, monospace',
                       color: isDrop ? '#EF4444' : '#10B981'
                     }}>
-                      {m.change_pct > 0 ? `+${m.change_pct}%` : `${m.change_pct}%`}
+                      {chgPct > 0 ? `+${chgPct}%` : `${chgPct}%`}
                     </strong>
                   </div>
                   {/* 對稱長條 */}
@@ -681,7 +824,7 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
                 </h4>
               </div>
               <p style={{ fontSize: '12px', color: '#94a3b8', lineHeight: '1.5', margin: '0 0 14px 0' }}>
-                晴天下雨 YouBike 日均人次由 24.2 萬暴跌至 11.2 萬（-53.7%），暴雨日驟減至 4.5 萬（-81.4%）。微型移動中斷後的人流被重新分配至大眾運輸：
+                晴天 YouBike 日均人次約 24.2 萬，陰天涼爽微升至 25.4 萬（+5.1%）；常規雨天驟跌至 11.2 萬（-53.7%），豪大雨日更暴跌至 4.5 萬（-81.4%）。微型移動中斷後的人流被重新分配至大眾運輸：
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>

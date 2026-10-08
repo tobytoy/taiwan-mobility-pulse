@@ -225,7 +225,10 @@ export default function FlowMap({
     });
 
     const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
-    const isRain = selectedDayType.endsWith('rain');
+    const isHeavyRain = selectedDayType.includes('heavy_rain');
+    const isRain = selectedDayType.includes('rainy') || (selectedDayType.endsWith('rain') && !isHeavyRain);
+    const isCloudy = selectedDayType.includes('cloudy');
+    const isSunny = selectedDayType.includes('sunny') || selectedDayType.endsWith('clear');
 
     const particles = [];
     filteredCorridors.forEach((corr) => {
@@ -235,19 +238,33 @@ export default function FlowMap({
       if (isHoliday) {
         if (corr.pax_type === 'commuter') hourFactor *= 0.35; // 假日通勤線量大減
         if (corr.pax_type === 'tourist') {
-          hourFactor *= isRain ? 0.38 : 1.45;  // 假日雨天戶外觀光急凍 (-62%)，晴天大增
+          hourFactor *= isHeavyRain ? 0.22 : isRain ? 0.38 : isCloudy ? 1.25 : 1.45;  // 豪雨觀光重創 (-78%)，常規雨凍結 (-62%)，陰晴熱絡
         }
         if (corr.pax_type === 'senior') {
-          hourFactor *= isRain ? 0.44 : 0.85;  // 假日雨天長者不出門防跌 (-56%)
+          hourFactor *= isHeavyRain ? 0.28 : isRain ? 0.44 : isCloudy ? 0.95 : 0.85;  // 長者豪雨高度避險不出門 (-72%)
         }
-        if (corr.pax_type === 'student') hourFactor *= 0.20;  // 假日學校停課，通學量大減
+        if (corr.pax_type === 'student') hourFactor *= (isHeavyRain ? 0.12 : 0.20);  // 假日學校停課
       } else {
-        if (corr.pax_type === 'tourist') hourFactor *= 0.55;  // 平日觀光線略降
-        if (corr.pax_type === 'senior' && isRain) hourFactor *= 0.72; // 平日雨天就醫延期
+        if (corr.pax_type === 'tourist') hourFactor *= (isHeavyRain ? 0.35 : 0.55);  // 平日觀光線略降
+        if (corr.pax_type === 'senior') {
+          if (isHeavyRain) hourFactor *= 0.45; // 豪雨平日非緊急就醫大幅延期 (-55%)
+          else if (isRain) hourFactor *= 0.72; // 常規雨延期 (-28%)
+          else if (isCloudy) hourFactor *= 1.05; // 陰天宜出行
+        }
       }
 
-      // 天候降雨對不同運具的粒子彈性調節
-      if (isRain) {
+      // 天候四段降雨對不同運具的粒子彈性調節
+      if (isHeavyRain) {
+        if (corr.mode_id === 'taipei_bike' || corr.mode_id === 'bike' || /bike|ubike|youbike/i.test(corr.corridor_id || corr.name || '')) {
+          hourFactor *= 0.19; // 豪大雨 YouBike 幾近停擺 (-81%)
+        } else if (corr.mode_id === 'tpe_bus' || corr.mode_id === 'bus' || /bus/i.test(corr.mode_id || '')) {
+          hourFactor *= 1.14; // 公車承接短程避雨 (+14%)
+        } else if (corr.mode_id === 'trtc' || corr.mode_id === 'metro' || /metro|trtc/i.test(corr.mode_id || '')) {
+          hourFactor *= 1.22; // 地下捷運避雨大聚集 (+22%)
+        } else if (corr.mode_id === 'thb_bus') {
+          hourFactor *= 0.75; // 國道受積水與視線不良大幅壅塞延誤 (-25%)
+        }
+      } else if (isRain) {
         if (corr.mode_id === 'taipei_bike' || corr.mode_id === 'bike' || /bike|ubike|youbike/i.test(corr.corridor_id || corr.name || '')) {
           hourFactor *= 0.46; // YouBike 斷鏈 (-54%)
         } else if (corr.mode_id === 'tpe_bus' || corr.mode_id === 'bus' || /bus/i.test(corr.mode_id || '')) {
@@ -256,6 +273,10 @@ export default function FlowMap({
           hourFactor *= 1.10; // 地下捷運避雨湧入 (+10%)
         } else if (corr.mode_id === 'thb_bus') {
           hourFactor *= 0.85; // 國道客運受道路塞車影響 (-15%)
+        }
+      } else if (isCloudy) {
+        if (corr.mode_id === 'taipei_bike' || corr.mode_id === 'bike' || /bike|ubike|youbike/i.test(corr.corridor_id || corr.name || '')) {
+          hourFactor *= 1.05; // 陰天體感涼爽無雨，騎乘意願最高 (+5%)
         }
       }
 
@@ -266,7 +287,7 @@ export default function FlowMap({
         particles.push({
           corridor: corr,
           progress: Math.random(),
-          speed: (0.003 + Math.random() * 0.004) * (0.6 + hourFactor * 0.8) * (isRain ? 0.88 : 1.0),
+          speed: (0.003 + Math.random() * 0.004) * (0.6 + hourFactor * 0.8) * (isHeavyRain ? 0.75 : isRain ? 0.88 : isCloudy ? 0.98 : 1.0),
           color: corr.color || '#38BDF8',
           paxType: corr.pax_type,
           hourFactor: hourFactor
@@ -421,54 +442,82 @@ export default function FlowMap({
       )}
 
       {/* Floating Bottom-Left Weather Impact Diagnostic Badge */}
-      <div style={{
-        position: 'absolute',
-        bottom: '24px',
-        left: '16px',
-        zIndex: 400,
-        maxWidth: '460px',
-        background: selectedDayType.endsWith('rain') ? 'rgba(15, 23, 42, 0.94)' : 'rgba(15, 23, 42, 0.88)',
-        backdropFilter: 'blur(12px)',
-        border: selectedDayType.endsWith('rain') ? '1px solid rgba(56, 189, 248, 0.35)' : '1px solid rgba(255, 255, 255, 0.12)',
-        borderRadius: '12px',
-        padding: '10px 14px',
-        boxShadow: '0 8px 32px rgba(0,0,0,0.6)',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '6px',
-        pointerEvents: 'auto'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <div style={{ fontSize: '11px', fontWeight: '800', color: selectedDayType.endsWith('rain') ? '#38BDF8' : '#FBBF24', display: 'flex', alignItems: 'center', gap: '5px' }}>
-            <span>{selectedDayType.endsWith('rain') ? '🌧️ 雨天交通衝擊實證診斷' : '☀️ 晴天常態交通基準'}</span>
-            <span style={{ fontSize: '9px', background: selectedDayType.endsWith('rain') ? 'rgba(56, 189, 248, 0.2)' : 'rgba(245, 158, 11, 0.2)', color: selectedDayType.endsWith('rain') ? '#38BDF8' : '#FBBF24', padding: '1px 5px', borderRadius: '4px' }}>
-              {selectedDayType === 'workday_rain' ? '上班日·陰雨' : selectedDayType === 'holiday_rain' ? '假日·陰雨' : selectedDayType === 'holiday_clear' ? '假日·晴天' : '上班日·晴天'}
-            </span>
-          </div>
-        </div>
+      {(() => {
+        const isHol = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
+        const isHvy = selectedDayType.includes('heavy_rain');
+        const isRn = selectedDayType.includes('rainy') || (selectedDayType.endsWith('rain') && !isHvy);
+        const isCld = selectedDayType.includes('cloudy');
+        
+        const badgeColor = isHvy ? '#F43F5E' : isRn ? '#38BDF8' : isCld ? '#94A3B8' : '#F59E0B';
+        const badgeTitle = isHvy ? '⛈️ 豪大雨交通斷層實證診斷 (≥10mm/h)'
+          : isRn ? '🌧️ 常規雨天交通轉移診斷 (0.1~10mm/h)'
+          : isCld ? '☁️ 陰天微氣候通勤基準 (時雨量 0mm)'
+          : '☀️ 晴朗天常態交通基準 (日照充足)';
+        
+        const badgeScenario = `${isHol ? '假日' : '上班日'}·${isHvy ? '豪大雨' : isRn ? '常規雨' : isCld ? '陰天' : '晴天'}`;
 
-        <div style={{ fontSize: '10.5px', color: '#cbd5e1', lineHeight: '1.45' }}>
-          {selectedDayType === 'workday_rain' ? (
-            <>
-              • <strong>💼 上班族自駕/叫車激增</strong>：有車族轉為<strong>自己開車</strong>，引發幹道與聯外橋樑嚴重回堵；無車族放棄 YouBike (<span style={{ color: '#EF4444', fontWeight: '700' }}>-54%</span>) 湧入地下捷運 (<span style={{ color: '#10B981', fontWeight: '700' }}>+8%</span>) 與市區公車 (<span style={{ color: '#10B981', fontWeight: '700' }}>+11%</span>)。<br/>
-              • <strong>👵 退休長者非急迫就醫延期</strong>：常規門診延期率達 <span style={{ color: '#F43F5E', fontWeight: '700' }}>38.5%</span>。
-            </>
-          ) : selectedDayType === 'holiday_rain' ? (
-            <>
-              • <strong>👵 退休長者防跌【大幅不出門】</strong>：長者天雨路滑高度避險，外出人次全日暴跌 <span style={{ color: '#EF4444', fontWeight: '700' }}>-44% 至 -60%</span>。<br/>
-              • <strong>🧳 戶外景點急凍 / 百貨聚集</strong>：淡水/駁二等戶外景點急凍 <span style={{ color: '#EF4444', fontWeight: '700' }}>-68%</span>，人潮倒灌捷運共構室內大型百貨商場 (<span style={{ color: '#10B981', fontWeight: '700' }}>+25%</span>)。
-            </>
-          ) : selectedDayType === 'holiday_clear' ? (
-            <>
-              • <strong>🧳 跨區觀光出遊高峰</strong>：淡水老街、新北投、駁二及東部鐵路走廊全日高載客，長者早晨晨運與傳統市集人流極度熱絡。
-            </>
-          ) : (
-            <>
-              • <strong>💼 剛性通勤全台骨幹</strong>：早尖峰 (07:30~08:30) 與晚尖峰 (17:30~19:00) 捷運、公車與 YouBike 高效協同運轉。
-            </>
-          )}
-        </div>
-      </div>
+        return (
+          <div style={{
+            position: 'absolute',
+            bottom: '24px',
+            left: '16px',
+            zIndex: 400,
+            maxWidth: '470px',
+            background: isHvy ? 'rgba(30, 15, 25, 0.95)' : isRn ? 'rgba(15, 23, 42, 0.94)' : 'rgba(15, 23, 42, 0.88)',
+            backdropFilter: 'blur(12px)',
+            border: `1px solid ${badgeColor}55`,
+            borderRadius: '12px',
+            padding: '10px 14px',
+            boxShadow: `0 8px 32px ${badgeColor}22`,
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '6px',
+            pointerEvents: 'auto'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ fontSize: '11px', fontWeight: '800', color: badgeColor, display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span>{badgeTitle}</span>
+                <span style={{ fontSize: '9px', background: `${badgeColor}25`, color: badgeColor, padding: '1px 6px', borderRadius: '4px', border: `1px solid ${badgeColor}40` }}>
+                  {badgeScenario}
+                </span>
+              </div>
+            </div>
+
+            <div style={{ fontSize: '10.5px', color: '#cbd5e1', lineHeight: '1.45' }}>
+              {isHvy && !isHol ? (
+                <>
+                  • <strong>💼 極端天候通勤斷層</strong>：自駕與叫車需求爆量導致主要幹道嚴重回堵；YouBike 幾近停擺 (<span style={{ color: '#EF4444', fontWeight: '700' }}>-81%</span>)，人潮全面湧入地下捷運 (<span style={{ color: '#10B981', fontWeight: '700' }}>+22% 避雨方舟</span>)；國道客運受視線與塞車嚴重延誤 (<span style={{ color: '#EF4444', fontWeight: '700' }}>-25%</span>)。<br/>
+                  • <strong>👵 長者非緊急活動全面取消</strong>：常規就醫門診取消與延期率突破 <span style={{ color: '#F43F5E', fontWeight: '700' }}>55%</span>。
+                </>
+              ) : isHvy && isHol ? (
+                <>
+                  • <strong>👵 長者防跌極限不出門</strong>：天雨路滑高度避險，外出人次全日崩跌 <span style={{ color: '#EF4444', fontWeight: '700' }}>-72%</span>。<br/>
+                  • <strong>🧳 戶外景點急凍癱瘓</strong>：淡水/駁二等戶外景點急凍 <span style={{ color: '#EF4444', fontWeight: '700' }}>-78%</span>，人流全面轉入室內地下街與共構百貨。
+                </>
+              ) : isRn && !isHol ? (
+                <>
+                  • <strong>💼 上班族自駕/叫車激增</strong>：有車族轉為<strong>自己開車</strong>，引發幹道與聯外橋樑回堵；無車族放棄 YouBike (<span style={{ color: '#EF4444', fontWeight: '700' }}>-54%</span>) 湧入地下捷運 (<span style={{ color: '#10B981', fontWeight: '700' }}>+10%</span>) 與市區公車 (<span style={{ color: '#10B981', fontWeight: '700' }}>+15%</span>)。<br/>
+                  • <strong>👵 退休長者非急迫就醫延期</strong>：常規門診延期率達 <span style={{ color: '#F43F5E', fontWeight: '700' }}>38.5%</span>。
+                </>
+              ) : isRn && isHol ? (
+                <>
+                  • <strong>👵 退休長者防跌大幅不出門</strong>：長者天雨路滑高度避險，外出人次全日急跌 <span style={{ color: '#EF4444', fontWeight: '700' }}>-56%</span>。<br/>
+                  • <strong>🧳 戶外景點急凍 / 百貨聚集</strong>：戶外景點急凍 <span style={{ color: '#EF4444', fontWeight: '700' }}>-62%</span>，人潮倒灌捷運共構室內大型商場 (<span style={{ color: '#10B981', fontWeight: '700' }}>+25%</span>)。
+                </>
+              ) : isCld ? (
+                <>
+                  • <strong>🚲 體感涼爽最佳騎乘微氣候</strong>：時雨量 0mm 無日曬，微型移動 YouBike 騎乘意願最高 (<span style={{ color: '#10B981', fontWeight: '700' }}>+5%</span>)。<br/>
+                  • <strong>🏙️ 跨區走廊均衡穩定</strong>：{isHol ? '各風景區與市集活動熱絡，舒適氣候吸引家庭外出。' : '早晚尖峰通勤順暢，公車與捷運運轉準點率最高。'}
+                </>
+              ) : (
+                <>
+                  • <strong>💼 晴朗天全台常態基準</strong>：{isHol ? '跨區觀光出遊高峰，淡水老街、新北投、駁二及東部鐵路全日高載客。' : '早尖峰 (07:30~08:30) 與晚尖峰 (17:30~19:00) 捷運、公車與 YouBike 高效協同運轉。'}
+                </>
+              )}
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Floating Bottom-Right Corridor Legend Badge */}
       <div style={{

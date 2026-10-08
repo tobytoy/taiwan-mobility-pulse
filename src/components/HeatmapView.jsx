@@ -175,7 +175,10 @@ export default function HeatmapView({
     const isPeak = [7, 8, 9, 17, 18, 19].includes(currentHour);
     const isOffPeak = currentHour >= 10 && currentHour <= 16;
     const isHoliday = targetScope.startsWith('holiday') || targetScope === 'weekend';
-    const isRain = targetScope.endsWith('rain');
+    const isHeavyRain = targetScope.includes('heavy_rain');
+    const isRain = targetScope.includes('rainy') || (targetScope.endsWith('rain') && !isHeavyRain);
+    const isCloudy = targetScope.includes('cloudy');
+    const isSunny = targetScope.includes('sunny') || targetScope.endsWith('clear');
     
     let baseRate = 0.5;
     if (isHoliday) {
@@ -244,10 +247,14 @@ export default function HeatmapView({
       seniorHourFactor = 0.20;
     }
 
-    // 🌧️ 天候避險抑制：雨天長者顧慮濕滑跌倒，外出人次大減；平日就醫非緊急門診延期
+    // 🌧️ 天候避險抑制：四段天候長者外出與就醫敏感度調整
     let weatherSeniorFactor = 1.0;
-    if (isRain) {
-      weatherSeniorFactor = isHoliday ? 0.44 : 0.72; // 假日雨天不出門防跌 (-56%)，平日雨天就醫延期 (-28%)
+    if (isHeavyRain) {
+      weatherSeniorFactor = isHoliday ? 0.28 : 0.45; // 豪大雨外出極高跌倒風險，門診大幅取消延期 (-72% / -55%)
+    } else if (isRain) {
+      weatherSeniorFactor = isHoliday ? 0.44 : 0.72; // 常規雨天防跌不出門 (-56%)，平日非緊急就醫延期 (-28%)
+    } else if (isCloudy) {
+      weatherSeniorFactor = 1.05; // 陰天體感涼爽舒適
     }
 
     const seniorRate = Math.min(0.85, Math.max(0.02, seniorBaseRate * seniorHourFactor * weatherSeniorFactor));
@@ -295,12 +302,14 @@ export default function HeatmapView({
       }
     }
 
-    // 🌧️ 雨天對學生的影響：
-    // 工作日雨天：學生放棄 YouBike/步行，大量湧入公車與捷運 (+15% 聚集)
-    // 假日雨天：取消戶外休閒運動聚會，大幅減少外出 (-35%)
+    // 🌧️ 四段天候對學生的影響：
     let weatherStudentFactor = 1.0;
-    if (isRain) {
-      weatherStudentFactor = isHoliday ? 0.65 : 1.15;
+    if (isHeavyRain) {
+      weatherStudentFactor = isHoliday ? 0.45 : 1.25; // 豪大雨平日全面湧入捷運站避雨 (+25%)，假日大幅不出門 (-55%)
+    } else if (isRain) {
+      weatherStudentFactor = isHoliday ? 0.65 : 1.15; // 常規雨天轉乘捷運公車
+    } else if (isCloudy) {
+      weatherStudentFactor = 1.02;
     }
 
     const studentRate = Math.min(0.85, Math.max(0.02, studentBaseRate * studentHourFactor * weatherStudentFactor));
@@ -542,10 +551,12 @@ export default function HeatmapView({
     // 找出對照基準情境 (Benchmark Scope)
     // 當前若是雨天 (workday_rain 或 holiday_rain)，基準情境鎖定在對應的晴天 (workday_clear 或 holiday_clear)
     // 這樣全台下雨時，比例尺依然固定在晴天刻度，雨天下跌站點會真實、劇烈地縮小！
-    const isRain = timeScope.endsWith('rain');
+    const isHeavyRain = timeScope.includes('heavy_rain');
+    const isRain = timeScope.includes('rainy') || (timeScope.endsWith('rain') && !isHeavyRain);
+    const isCloudy = timeScope.includes('cloudy');
     const isHoliday = timeScope.startsWith('holiday') || timeScope === 'weekend';
-    const clearScope = isHoliday ? 'holiday_clear' : 'workday_clear';
-    const rainScope = isHoliday ? 'holiday_rain' : 'workday_rain';
+    const clearScope = isHoliday ? 'holiday_sunny' : 'workday_sunny';
+    const rainScope = isHoliday ? (isHeavyRain ? 'holiday_heavy_rain' : 'holiday_rainy') : (isHeavyRain ? 'workday_heavy_rain' : 'workday_rainy');
 
     // 取得晴天基準時段資料並建立快查表
     const clearHourData = heatmapData?.time_scopes?.[clearScope]?.hours?.[String(currentHour)] || [];
@@ -869,46 +880,85 @@ export default function HeatmapView({
             })}
           </div>
 
-          {/* 時空天候情境 (2x2 矩陣：上班日/放假日 x 晴天/陰雨) */}
+          {/* 時空天候情境 (上班日/放假日 x 4 段天氣) */}
           <div style={{
             background: 'rgba(15, 23, 42, 0.94)',
             backdropFilter: 'blur(12px)',
             border: '1px solid rgba(255, 255, 255, 0.12)',
             borderRadius: '10px',
-            padding: '6px 10px',
+            padding: '4px 8px',
             display: 'flex',
             alignItems: 'center',
-            gap: '5px'
+            gap: '6px'
           }}>
             <Calendar size={13} color="#38BDF8" />
-            <span style={{ fontSize: '11px', color: '#64748b', marginRight: '2px' }}>天候情境:</span>
-            {[
-              { id: 'workday_clear', label: '☀️ 上班日·晴天', color: '#38BDF8' },
-              { id: 'workday_rain', label: '🌧️ 上班日·雨天', color: '#06B6D4' },
-              { id: 'holiday_clear', label: '☀️ 假日·晴天', color: '#F59E0B' },
-              { id: 'holiday_rain', label: '🌧️ 假日·雨天', color: '#A855F7' }
-            ].map(ts => {
-              const isSel = timeScope === ts.id;
-              return (
-                <button
-                  key={ts.id}
-                  onClick={() => setTimeScope(ts.id)}
-                  style={{
-                    padding: '4px 8px',
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: isSel ? '700' : '500',
-                    border: isSel ? `1px solid ${ts.color}` : '1px solid transparent',
-                    background: isSel ? `${ts.color}33` : 'rgba(255,255,255,0.03)',
-                    color: isSel ? ts.color : '#94a3b8',
-                    cursor: 'pointer',
-                    transition: 'all 0.15s ease'
-                  }}
-                >
-                  {ts.label}
-                </button>
-              );
-            })}
+            
+            {/* 工作日 / 放假日 */}
+            <div style={{ display: 'flex', gap: '2px', background: 'rgba(255,255,255,0.06)', padding: '2px', borderRadius: '6px' }}>
+              {[
+                { id: 'workday', label: '💼 上班日' },
+                { id: 'holiday', label: '🏖️ 假日' }
+              ].map(dt => {
+                const currentDay = timeScope.startsWith('holiday') ? 'holiday' : 'workday';
+                const isSel = currentDay === dt.id;
+                return (
+                  <button
+                    key={dt.id}
+                    onClick={() => {
+                      const currentStage = timeScope.includes('heavy_rain') ? 'heavy_rain' : timeScope.includes('cloudy') ? 'cloudy' : (timeScope.includes('rainy') || timeScope.endsWith('rain')) ? 'rainy' : 'sunny';
+                      setTimeScope(`${dt.id}_${currentStage}`);
+                    }}
+                    style={{
+                      padding: '3px 7px',
+                      borderRadius: '5px',
+                      fontSize: '11px',
+                      fontWeight: isSel ? '700' : '500',
+                      border: 'none',
+                      background: isSel ? 'rgba(56, 189, 248, 0.25)' : 'transparent',
+                      color: isSel ? '#38BDF8' : '#94a3b8',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {dt.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* 4 段氣象署實證天候 */}
+            <div style={{ display: 'flex', gap: '3px' }}>
+              {[
+                { id: 'sunny', label: '☀️ 晴朗', color: '#F59E0B' },
+                { id: 'cloudy', label: '☁️ 陰天', color: '#94A3B8' },
+                { id: 'rainy', label: '🌧️ 常規雨', color: '#38BDF8' },
+                { id: 'heavy_rain', label: '⛈️ 豪大雨', color: '#F43F5E' }
+              ].map(stg => {
+                const currentDay = timeScope.startsWith('holiday') ? 'holiday' : 'workday';
+                const isSel = (stg.id === 'sunny' && (timeScope.endsWith('sunny') || timeScope.endsWith('clear'))) ||
+                              (stg.id === 'cloudy' && timeScope.includes('cloudy')) ||
+                              (stg.id === 'rainy' && (timeScope.includes('rainy') || (timeScope.endsWith('rain') && !timeScope.includes('heavy_rain')))) ||
+                              (stg.id === 'heavy_rain' && timeScope.includes('heavy_rain'));
+                return (
+                  <button
+                    key={stg.id}
+                    onClick={() => setTimeScope(`${currentDay}_${stg.id}`)}
+                    style={{
+                      padding: '3px 7px',
+                      borderRadius: '5px',
+                      fontSize: '11px',
+                      fontWeight: isSel ? '700' : '500',
+                      border: isSel ? `1px solid ${stg.color}` : '1px solid transparent',
+                      background: isSel ? `${stg.color}33` : 'rgba(255,255,255,0.03)',
+                      color: isSel ? stg.color : '#94a3b8',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {stg.label}
+                  </button>
+                );
+              })}
+            </div>
             {onOpenWeatherLab && (
               <button
                 onClick={onOpenWeatherLab}

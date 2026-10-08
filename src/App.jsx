@@ -15,8 +15,21 @@ import {
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle,
+  Cloud, CloudRain, CloudLightning, ChevronDown
 } from 'lucide-react';
+
+const WEATHER_STAGES = [
+  { id: 'sunny', label: '☀️ 晴朗天', shortLabel: '晴天', icon: Sun, color: '#F59E0B', desc: '時雨量 0mm · 日照充足 · YouBike 高峰' },
+  { id: 'cloudy', label: '☁️ 陰天', shortLabel: '陰天', icon: Cloud, color: '#94A3B8', desc: '時雨量 0mm · 體感涼爽 · 移動平穩舒適' },
+  { id: 'rainy', label: '🌧️ 常規雨', shortLabel: '常規雨', icon: CloudRain, color: '#38BDF8', desc: '0.1~10mm · YouBike 斷鏈 · 轉乘公車捷運' },
+  { id: 'heavy_rain', label: '⛈️ 豪大雨', shortLabel: '豪大雨', icon: CloudLightning, color: '#F43F5E', desc: '≥10mm · 自駕塞車 · 捷運避雨湧浪大聚集' }
+];
+
+const DAY_TYPES = [
+  { id: 'workday', label: '💼 工作日', desc: '常態通勤' },
+  { id: 'holiday', label: '🏖️ 放假日', desc: '生活觀光' }
+];
 
 const BASEMAP_OPTIONS = [
   { id: 'dark', label: '賽博深色', icon: Moon, desc: 'Dark Matter' },
@@ -57,8 +70,10 @@ export default function App() {
   const [playSpeed, setPlaySpeed] = useState(1);
   const [selectedMode, setSelectedMode] = useState('all');
   const [selectedRegion, setSelectedRegion] = useState('all');
-  const [selectedPaxType, setSelectedPaxType] = useState('all');
-  const [selectedDayType, setSelectedDayType] = useState('workday_clear');
+  const [dayType, setDayType] = useState('workday'); // 'workday' or 'holiday'
+  const [weatherStage, setWeatherStage] = useState('sunny'); // 'sunny', 'cloudy', 'rainy', 'heavy_rain'
+  const [isWeatherDropdownOpen, setIsWeatherDropdownOpen] = useState(false);
+  const selectedDayType = `${dayType}_${weatherStage}`;
   const [basemap, setBasemap] = useState('dark');
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
@@ -190,6 +205,8 @@ export default function App() {
   };
 
   const hourPhase = getHourPhase(currentHour);
+  const currentStage = WEATHER_STAGES.find(s => s.id === weatherStage) || WEATHER_STAGES[0];
+  const CurrentWeatherIcon = currentStage.icon;
 
   return (
     <div style={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', background: '#07090E', overflow: 'hidden' }}>
@@ -550,47 +567,181 @@ export default function App() {
               gap: '10px',
               alignItems: 'flex-end'
             }}>
-              {/* Day & Weather Scenario Toggle (上班日/放假日 x 晴天/雨天 2x2 矩陣) */}
+              {/* Day & Weather Scenario Controls (日型選擇 + 4 段天氣玻璃態下拉選單) */}
               <div style={{
-                background: 'rgba(15, 23, 42, 0.9)',
-                backdropFilter: 'blur(10px)',
-                border: '1px solid rgba(255, 255, 255, 0.12)',
-                borderRadius: '10px',
-                padding: '6px 10px',
+                position: 'relative',
                 display: 'flex',
-                gap: '5px',
+                gap: '8px',
                 alignItems: 'center'
               }}>
-                <span style={{ fontSize: '11px', color: '#64748b', marginRight: '2px', display: 'flex', alignItems: 'center', gap: '3px' }}>
-                  <Calendar size={13} /> 天候情境:
-                </span>
-                {[
-                  { id: 'workday_clear', label: '☀️ 上班日·晴天', color: '#38BDF8' },
-                  { id: 'workday_rain', label: '🌧️ 上班日·雨天', color: '#06B6D4' },
-                  { id: 'holiday_clear', label: '☀️ 假日·晴天', color: '#F59E0B' },
-                  { id: 'holiday_rain', label: '🌧️ 假日·雨天', color: '#A855F7' }
-                ].map(dt => {
-                  const isSel = selectedDayType === dt.id;
-                  return (
-                    <button
-                      key={dt.id}
-                      onClick={() => setSelectedDayType(dt.id)}
+                {/* 1. 工作日 / 放假日 Segmented Toggle */}
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.92)',
+                  backdropFilter: 'blur(12px)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '10px',
+                  padding: '4px',
+                  display: 'flex',
+                  gap: '3px',
+                  boxShadow: '0 4px 16px rgba(0,0,0,0.3)'
+                }}>
+                  {DAY_TYPES.map(dt => {
+                    const isSel = dayType === dt.id;
+                    return (
+                      <button
+                        key={dt.id}
+                        onClick={() => setDayType(dt.id)}
+                        title={dt.desc}
+                        style={{
+                          padding: '5px 10px',
+                          borderRadius: '7px',
+                          fontSize: '11px',
+                          fontWeight: isSel ? '700' : '500',
+                          border: isSel ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
+                          background: isSel ? 'rgba(56, 189, 248, 0.18)' : 'transparent',
+                          color: isSel ? '#38BDF8' : '#94A3B8',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease'
+                        }}
+                      >
+                        {dt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* 2. 4 段天氣狀態下拉選單 (☀️ 晴朗天 / ☁️ 陰天 / 🌧️ 常規雨 / ⛈️ 豪大雨) */}
+                <div style={{ position: 'relative' }}>
+                  <button
+                    onClick={() => setIsWeatherDropdownOpen(prev => !prev)}
+                    style={{
+                      background: 'rgba(15, 23, 42, 0.92)',
+                      backdropFilter: 'blur(12px)',
+                      border: `1px solid ${currentStage.color}66`,
+                      borderRadius: '10px',
+                      padding: '6px 12px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      cursor: 'pointer',
+                      color: '#F8FAFC',
+                      fontSize: '11.5px',
+                      fontWeight: '700',
+                      boxShadow: `0 4px 16px ${currentStage.color}22`,
+                      transition: 'all 0.2s ease'
+                    }}
+                  >
+                    <span style={{
+                      width: '8px',
+                      height: '8px',
+                      borderRadius: '50%',
+                      background: currentStage.color,
+                      boxShadow: `0 0 8px ${currentStage.color}`
+                    }} />
+                    <CurrentWeatherIcon size={14} color={currentStage.color} />
+                    <span>{currentStage.label}</span>
+                    <ChevronDown
+                      size={13}
+                      color="#94A3B8"
                       style={{
-                        padding: '4px 9px',
-                        borderRadius: '5px',
-                        fontSize: '11px',
-                        fontWeight: isSel ? '700' : '500',
-                        border: isSel ? `1px solid ${dt.color}` : '1px solid transparent',
-                        background: isSel ? `${dt.color}33` : 'rgba(255,255,255,0.05)',
-                        color: isSel ? dt.color : '#94a3b8',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s ease'
+                        transform: isWeatherDropdownOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                        transition: 'transform 0.2s ease'
                       }}
-                    >
-                      {dt.label}
-                    </button>
-                  );
-                })}
+                    />
+                  </button>
+
+                  {/* 下拉選單面板 */}
+                  {isWeatherDropdownOpen && (
+                    <>
+                      {/* 點擊遮罩關閉 */}
+                      <div
+                        onClick={() => setIsWeatherDropdownOpen(false)}
+                        style={{
+                          position: 'fixed',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          zIndex: 499
+                        }}
+                      />
+                      <div style={{
+                        position: 'absolute',
+                        top: 'calc(100% + 6px)',
+                        right: 0,
+                        zIndex: 500,
+                        width: '275px',
+                        background: 'rgba(15, 23, 42, 0.97)',
+                        backdropFilter: 'blur(16px)',
+                        border: '1px solid rgba(255, 255, 255, 0.14)',
+                        borderRadius: '12px',
+                        padding: '6px',
+                        boxShadow: '0 12px 36px rgba(0,0,0,0.6)',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '4px'
+                      }}>
+                        <div style={{
+                          padding: '6px 8px 4px 8px',
+                          fontSize: '10px',
+                          fontWeight: '700',
+                          color: '#64748b',
+                          letterSpacing: '0.5px',
+                          borderBottom: '1px solid rgba(255,255,255,0.06)',
+                          marginBottom: '2px',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center'
+                        }}>
+                          <span>🌧️ 氣象署實證 4 段天候情境</span>
+                          <span style={{ color: '#38BDF8' }}>CWA 觀測校準</span>
+                        </div>
+                        {WEATHER_STAGES.map(stage => {
+                          const isSel = weatherStage === stage.id;
+                          const SIcon = stage.icon;
+                          return (
+                            <button
+                              key={stage.id}
+                              onClick={() => {
+                                setWeatherStage(stage.id);
+                                setIsWeatherDropdownOpen(false);
+                              }}
+                              style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: '3px',
+                                padding: '8px 10px',
+                                borderRadius: '8px',
+                                border: isSel ? `1px solid ${stage.color}88` : '1px solid transparent',
+                                background: isSel ? `${stage.color}18` : 'transparent',
+                                cursor: 'pointer',
+                                textAlign: 'left',
+                                transition: 'all 0.15s ease'
+                              }}
+                            >
+                              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                  <SIcon size={14} color={stage.color} />
+                                  <span style={{ fontSize: '12px', fontWeight: isSel ? '800' : '600', color: isSel ? stage.color : '#F1F5F9' }}>
+                                    {stage.label}
+                                  </span>
+                                </div>
+                                {isSel && (
+                                  <span style={{ fontSize: '10px', color: stage.color, fontWeight: '700' }}>
+                                    ● 啟用中
+                                  </span>
+                                )}
+                              </div>
+                              <span style={{ fontSize: '10px', color: '#94A3B8', lineHeight: '1.4' }}>
+                                {stage.desc}
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
 
               {/* Basemap Switcher */}

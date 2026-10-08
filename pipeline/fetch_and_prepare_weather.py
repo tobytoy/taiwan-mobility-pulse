@@ -53,23 +53,26 @@ START_DATE = '2026-01-01'
 END_DATE = '2026-06-30'
 
 
-def clean_num(val, default=0.0):
+def clean_num(val, default=0.0, is_precipitation=False):
     if pd.isna(val):
         return default
     if isinstance(val, (int, float)):
-        if val <= -90.0:
+        if val <= -9.0 or (is_precipitation and val < 0):
             return default
         return float(val)
     s = str(val).strip()
     if s in ('T', 't'):
         return 0.05 # 微量降雨記為 0.05 mm
-    if s in ('', 'None', 'null', '-99.0', '-99.5', '-99.8', '-99.9', 'X', 'V'):
+    if s in ('', 'None', 'null', '-99.0', '-99.5', '-99.8', '-99.9', '-9.8', '-9.9', 'X', 'V'):
         return default
     try:
         v = float(s)
-        return default if v <= -90.0 else v
+        if v <= -9.0 or (is_precipitation and v < 0):
+            return default
+        return v
     except:
         return default
+
 
 
 def fetch_station_data(station_id: str, meta: dict) -> pd.DataFrame:
@@ -108,7 +111,7 @@ def fetch_station_data(station_id: str, meta: dict) -> pd.DataFrame:
     
     # 降水 (Precp)
     precp_col = 'Precp' if 'Precp' in df_h1.columns else 'Precipitation.Accumulationf'
-    df_clean['precipitation'] = df_h1[precp_col].apply(lambda x: clean_num(x, default=0.0))
+    df_clean['precipitation'] = df_h1[precp_col].apply(lambda x: clean_num(x, default=0.0, is_precipitation=True))
     
     # 濕度 (RH)
     rh_col = 'RH' if 'RH' in df_h1.columns else 'RelativeHumidity.Instantaneousf'
