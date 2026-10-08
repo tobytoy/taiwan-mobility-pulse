@@ -6,9 +6,14 @@ import {
   ShieldCheck, Flame, Compass, Layers, Info, Sparkles, Navigation
 } from 'lucide-react';
 import { esc } from '../utils/sanitize';
-import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
+import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 
 const BASEMAP_TILES = {
+  emap: {
+    url: NLSC_TILES.emap,
+    attribution: NLSC_ATTRIBUTION,
+    maxZoom: 19
+  },
   dark: {
     url: CARTO_TILES.dark,
     attribution: CARTO_ATTRIBUTION,
@@ -50,7 +55,7 @@ const PERSONA_FILTERS = [
   { id: 'tpass', label: '💳 TPASS 月票專案', color: '#A855F7', icon: Zap, desc: '邊際成本 0 元高頻轉乘' }
 ];
 
-export default function TransferMapView({ basemap = 'dark' }) {
+export default function TransferMapView({ basemap = 'emap' }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentZoom, setCurrentZoom] = useState(8);
@@ -99,8 +104,8 @@ export default function TransferMapView({ basemap = 'dark' }) {
       attributionControl: false
     });
 
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
-      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
       subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(map);
@@ -144,10 +149,10 @@ export default function TransferMapView({ basemap = 'dark' }) {
   useEffect(() => {
     if (!mapRef.current || !tileLayerRef.current) return;
     mapRef.current.removeLayer(tileLayerRef.current);
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
-      attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
-      maxZoom: BASEMAP_TILES[basemap].maxZoom
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
+      subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
+      maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(mapRef.current);
   }, [basemap]);
 

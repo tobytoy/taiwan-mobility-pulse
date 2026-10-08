@@ -8,3 +8,11 @@ export const CARTO_TILES = {
   light: `https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png${keySuffix}`,
   voyager: `https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png${keySuffix}`
 };
+
+export const NLSC_ATTRIBUTION = '&copy; <a href="https://maps.nlsc.gov.tw/" target="_blank">國土測繪圖資服務雲 (臺灣通用電子地圖)</a>';
+
+export const NLSC_TILES = {
+  emap: 'https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}',
+  transparent: 'https://wmts.nlsc.gov.tw/wmts/EMAP2/default/GoogleMapsCompatible/{z}/{y}/{x}',
+  grayscale: 'https://wmts.nlsc.gov.tw/wmts/EMAP01/default/GoogleMapsCompatible/{z}/{y}/{x}'
+};

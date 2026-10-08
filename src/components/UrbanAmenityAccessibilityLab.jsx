@@ -5,9 +5,14 @@ import {
   ShieldCheck, CheckCircle2, Navigation, Layers, Compass,
   Sparkles, Info, Users, Clock, ArrowUpRight, Flame, Search, Filter, X
 } from 'lucide-react';
-import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
+import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 
 const BASEMAP_TILES = {
+  emap: {
+    url: NLSC_TILES.emap,
+    attribution: NLSC_ATTRIBUTION,
+    maxZoom: 19
+  },
   dark: {
     url: CARTO_TILES.dark,
     attribution: CARTO_ATTRIBUTION,
@@ -49,7 +54,7 @@ const PERSPECTIVES = [
   { id: 'desert', label: '🚨 機能缺口與沙漠探針', color: '#EF4444', desc: '專注檢視醫療盲區、生鮮沙漠與偏鄉生活圈' }
 ];
 
-export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
+export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedRegion, setSelectedRegion] = useState('all');
@@ -108,10 +113,10 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
       attributionControl: false
     });
 
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
-      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
       subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
-      maxZoom: 19
+      maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(map);
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -144,8 +149,8 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
     if (currentBasemapRef.current === basemap) return;
     currentBasemapRef.current = basemap;
     mapRef.current.removeLayer(tileLayerRef.current);
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
-      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
       subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(mapRef.current);

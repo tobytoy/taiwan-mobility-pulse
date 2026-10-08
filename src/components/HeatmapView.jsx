@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import L from 'leaflet';
 import { esc } from '../utils/sanitize';
-import { CARTO_TILES, CARTO_ATTRIBUTION } from '../utils/basemap';
+import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 import { 
   Flame, ArrowDownRight, ArrowUpRight, Waves, 
   Users, Briefcase, Compass, Play, Pause, RotateCcw, 
@@ -10,6 +10,11 @@ import {
 } from 'lucide-react';
 
 const BASEMAP_TILES = {
+  emap: {
+    url: NLSC_TILES.emap,
+    attribution: NLSC_ATTRIBUTION,
+    maxZoom: 19
+  },
   dark: {
     url: CARTO_TILES.dark,
     attribution: CARTO_ATTRIBUTION,
@@ -124,10 +129,10 @@ export default function HeatmapView({
       attributionControl: false
     });
 
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
-      attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
-      maxZoom: BASEMAP_TILES[basemap].maxZoom
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
+      subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
+      maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(map);
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
@@ -148,10 +153,10 @@ export default function HeatmapView({
   useEffect(() => {
     if (!mapRef.current || !tileLayerRef.current) return;
     mapRef.current.removeLayer(tileLayerRef.current);
-    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
-      attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
-      maxZoom: BASEMAP_TILES[basemap].maxZoom
+    tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.emap.url, {
+      attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.emap.attribution,
+      subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
+      maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(mapRef.current);
   }, [basemap]);
 

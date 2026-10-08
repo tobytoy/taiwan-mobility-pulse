@@ -33,9 +33,10 @@ const DAY_TYPES = [
 ];
 
 const BASEMAP_OPTIONS = [
-  { id: 'dark', label: '賽博深色', icon: Moon, desc: 'Dark Matter' },
+  { id: 'emap', label: '臺灣繁中', icon: MapIcon, desc: '國土測繪 臺灣通用電子地圖 (100% 繁中)' },
+  { id: 'dark', label: '賽博深色', icon: Moon, desc: 'Dark Matter (賽博風格)' },
   { id: 'satellite', label: '高解析衛星', icon: Globe, desc: 'ESRI Satellite' },
-  { id: 'osm', label: '開放街圖', icon: MapIcon, desc: 'OpenStreetMap' },
+  { id: 'osm', label: '開放街圖', icon: Globe, desc: 'OpenStreetMap (Voyager)' },
   { id: 'light', label: '極簡淺色', icon: Sun, desc: 'Positron' }
 ];
 
@@ -76,7 +77,7 @@ export default function App() {
   const [weatherStage, setWeatherStage] = useState('sunny'); // 'sunny', 'cloudy', 'rainy', 'heavy_rain'
   const [isWeatherDropdownOpen, setIsWeatherDropdownOpen] = useState(false);
   const selectedDayType = `${dayType}_${weatherStage}`;
-  const [basemap, setBasemap] = useState('dark');
+  const [basemap, setBasemap] = useState('emap');
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
 
