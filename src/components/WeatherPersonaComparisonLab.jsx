@@ -2,7 +2,8 @@ import React, { useState, useId } from 'react';
 import {
   Umbrella, Sun, CloudRain, Calendar, Clock, Sparkles, TrendingUp,
   TrendingDown, ArrowRight, ShieldAlert, Users, Bus, Train, Bike,
-  ChevronRight, Info, AlertTriangle, Layers
+  ChevronRight, Info, AlertTriangle, Layers,
+  Thermometer, Droplets, Wind, Flame, Compass, HeartPulse
 } from 'lucide-react';
 
 const PERSONA_COLORS = {
@@ -19,6 +20,9 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
   const [selectedPersonaId, setSelectedPersonaId] = useState(3); // 預設學生通學族 (最富故事性)
   const [hoveredHour, setHoveredHour] = useState(null);
   const [activeModeLeakage, setActiveModeLeakage] = useState('taipei_bike');
+  const [selectedAttributionMode, setSelectedAttributionMode] = useState('taipei_bike');
+  const [selectedMatrixMode, setSelectedMatrixMode] = useState('taipei_bike');
+  const [hoveredMatrixCell, setHoveredMatrixCell] = useState(null);
   const [visibleCurves, setVisibleCurves] = useState({
     sunny: true,
     cloudy: true,
@@ -39,6 +43,9 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
   const personas = weatherData.persona_weather_profiles || [];
   const matrixData = weatherData.weather_persona_diurnal_matrix?.[dayType] || [];
   const modes = weatherData.mode_weather_elasticity || [];
+  const climateAttribution = weatherData.climate_factor_attribution || [];
+  const comfortMatrix = weatherData.comfort_2d_matrix || {};
+  const middayHeatwave = weatherData.midday_heatwave_analysis || {};
 
   const currentPersona = personas.find(p => p.cluster_id === selectedPersonaId) || personas[0] || {};
   const diurnalCurves = currentPersona?.diurnal_curves || {};
@@ -861,6 +868,449 @@ export default function WeatherPersonaComparisonLab({ weatherData }) {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 5. 體感溫度 (AT) 與濕度 (RH) 影響力分解 · 溫濕二維微氣候舒適度熱力矩陣 */}
+      <div style={{
+        background: 'rgba(15, 23, 42, 0.85)',
+        border: '1px solid rgba(249, 115, 22, 0.3)',
+        borderRadius: '16px',
+        padding: '24px',
+        boxShadow: '0 8px 32px rgba(0,0,0,0.35)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '20px'
+      }}>
+        {/* 標題與簡介 */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '12px' }}>
+          <div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <span style={{ fontSize: '20px' }}>🌡️</span>
+              <h3 style={{ margin: 0, fontSize: '17px', fontWeight: '800', color: '#f8fafc' }}>
+                微氣候因子影響力分解 · 溫濕二維熱力舒適度矩陣
+              </h3>
+              <span style={{
+                fontSize: '11px',
+                background: 'rgba(249, 115, 22, 0.15)',
+                color: '#FB923C',
+                border: '1px solid rgba(249, 115, 22, 0.35)',
+                padding: '2px 8px',
+                borderRadius: '6px',
+                fontWeight: '700'
+              }}>
+                中央氣象署物理溫濕模型實證
+              </span>
+            </div>
+            <p style={{ margin: 0, fontSize: '12px', color: '#94a3b8', lineHeight: '1.6' }}>
+              突破傳統「晴雨二分法」的盲點！依據中央氣象署綜觀觀測站大數據，深度拆解<strong>「體感高溫熱浪」</strong>與<strong>「相對濕度黏膩感」</strong>對微型移動與大眾運輸的邊際彈性影響比例。
+            </p>
+          </div>
+        </div>
+
+        {/* 5A. 運具天候因子影響佔比 100% 堆疊條與邊際指標 */}
+        <div style={{
+          background: 'rgba(30, 41, 59, 0.55)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '12px',
+          padding: '16px 18px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '14px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+            <div style={{ fontSize: '13px', fontWeight: '800', color: '#F1F5F9', display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <Compass size={15} color="#38BDF8" />
+              <span>各運具天候因子影響力貢獻比例（Factor Importance Attribution，總和 100%）</span>
+            </div>
+
+            {/* 運具切換按鈕組 */}
+            <div style={{ display: 'flex', gap: '5px', overflowX: 'auto', paddingBottom: '2px' }}>
+              {climateAttribution.map(ca => {
+                const isSel = selectedAttributionMode === ca.mode_id;
+                return (
+                  <button
+                    key={ca.mode_id}
+                    onClick={() => setSelectedAttributionMode(ca.mode_id)}
+                    style={{
+                      padding: '5px 11px',
+                      borderRadius: '7px',
+                      fontSize: '11.5px',
+                      fontWeight: isSel ? '800' : '500',
+                      border: isSel ? '1px solid #38BDF8' : '1px solid rgba(255,255,255,0.08)',
+                      background: isSel ? 'rgba(56, 189, 248, 0.2)' : 'rgba(15, 23, 42, 0.6)',
+                      color: isSel ? '#FFFFFF' : '#94a3b8',
+                      cursor: 'pointer',
+                      whiteSpace: 'nowrap',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {ca.name.split(' (')[0]}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 當前選中運具的 100% 堆疊條 */}
+          {(() => {
+            const currAtt = climateAttribution.find(c => c.mode_id === selectedAttributionMode) || climateAttribution[0];
+            if (!currAtt) return null;
+            const f = currAtt.factors;
+
+            return (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {/* 100% 堆疊橫條 */}
+                <div style={{ width: '100%', height: '22px', borderRadius: '8px', overflow: 'hidden', display: 'flex', boxShadow: '0 2px 10px rgba(0,0,0,0.3)' }}>
+                  <div
+                    title={`🌧️ 降雨衝擊: ${f.precipitation}%`}
+                    style={{ width: `${f.precipitation}%`, background: 'linear-gradient(90deg, #0284C7, #38BDF8)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10.5px', fontWeight: '800', color: '#fff' }}
+                  >
+                    {f.precipitation >= 12 && `🌧️ 降雨 ${f.precipitation}%`}
+                  </div>
+                  <div
+                    title={`🌡️ 體感溫度 (熱浪/寒流): ${f.apparent_temp}%`}
+                    style={{ width: `${f.apparent_temp}%`, background: 'linear-gradient(90deg, #EA580C, #F97316)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10.5px', fontWeight: '800', color: '#fff' }}
+                  >
+                    {f.apparent_temp >= 12 && `🌡️ 體感溫 ${f.apparent_temp}%`}
+                  </div>
+                  <div
+                    title={`💧 相對濕度 (悶熱黏膩): ${f.relative_humidity}%`}
+                    style={{ width: `${f.relative_humidity}%`, background: 'linear-gradient(90deg, #0D9488, #14B8A6)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10.5px', fontWeight: '800', color: '#fff' }}
+                  >
+                    {f.relative_humidity >= 10 && `💧 濕度 ${f.relative_humidity}%`}
+                  </div>
+                  <div
+                    title={`💨 風速與陣風: ${f.wind_speed}%`}
+                    style={{ width: `${f.wind_speed}%`, background: 'linear-gradient(90deg, #7C3AED, #A855F7)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '10.5px', fontWeight: '800', color: '#fff' }}
+                  >
+                    {f.wind_speed >= 8 && `💨 風速 ${f.wind_speed}%`}
+                  </div>
+                </div>
+
+                {/* 4 塊因子佔比膠囊卡 */}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '10px' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                    <div style={{ fontSize: '11px', color: '#7DD3FC', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <CloudRain size={13} /> 降雨衝擊佔比
+                    </div>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#38BDF8', fontFamily: 'JetBrains Mono, monospace', marginTop: '3px' }}>
+                      {f.precipitation}%
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>路面濕滑 · 直接轉移門檻</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(249, 115, 22, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                    <div style={{ fontSize: '11px', color: '#FDBA74', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Thermometer size={13} /> 體感溫度影響佔比
+                    </div>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#FB923C', fontFamily: 'JetBrains Mono, monospace', marginTop: '3px' }}>
+                      {f.apparent_temp}%
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>熱浪曝曬極限 · 寒流避難</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(20, 184, 166, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                    <div style={{ fontSize: '11px', color: '#5EEAD4', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Droplets size={13} /> 相對濕度影響佔比
+                    </div>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#2DD4BF', fontFamily: 'JetBrains Mono, monospace', marginTop: '3px' }}>
+                      {f.relative_humidity}%
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>排汗受阻 · 候車黏膩不耐</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '8px', padding: '10px 12px' }}>
+                    <div style={{ fontSize: '11px', color: '#D8B4FE', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                      <Wind size={13} /> 風速與陣風佔比
+                    </div>
+                    <div style={{ fontSize: '20px', fontWeight: '900', color: '#C084FC', fontFamily: 'JetBrains Mono, monospace', marginTop: '3px' }}>
+                      {f.wind_speed}%
+                    </div>
+                    <div style={{ fontSize: '10px', color: '#64748b', marginTop: '2px' }}>高架軌道降速 · 騎乘阻力</div>
+                  </div>
+                </div>
+
+                {/* 實證關鍵洞察診斷條 */}
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.75)',
+                  borderLeft: '4px solid #FB923C',
+                  borderRadius: '4px 8px 8px 4px',
+                  padding: '10px 14px',
+                  fontSize: '11.5px',
+                  color: '#e2e8f0',
+                  lineHeight: '1.55',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px'
+                }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontWeight: '800', color: '#FDBA74' }}>
+                    <Sparkles size={14} />
+                    <span>【體感溫濕合力效應】：體感溫度與濕度合力影響達 <strong>{currAtt.heat_and_humidity_combined}%</strong></span>
+                    {currAtt.sweet_spot && (
+                      <span style={{ fontSize: '10.5px', color: '#34D399', marginLeft: 'auto' }}>
+                        ✦ 黃金甜蜜點：{currAtt.sweet_spot}
+                      </span>
+                    )}
+                  </div>
+                  <div>{currAtt.key_finding}</div>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* 5B. 溫濕度二維微氣候交叉熱力方陣 (2D Apparent Temp × Relative Humidity Matrix) */}
+        <div style={{
+          background: 'rgba(30, 41, 59, 0.55)',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          borderRadius: '12px',
+          padding: '16px 18px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '14px'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
+            <div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#F1F5F9', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Layers size={15} color="#A855F7" />
+                <span>溫濕二維微氣候熱力舒適度矩陣（2D Heat Comfort Matrix Heatmap）</span>
+              </div>
+              <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '2px' }}>
+                X 軸為體感溫度級距，Y 軸為相對濕度級距。數值代表該溫濕微氣候相較於常態晴天基準之<strong>人流變化率 ($\Delta\%$)</strong>。
+              </div>
+            </div>
+
+            {/* 運具選擇：YouBike vs 捷運 */}
+            <div style={{ display: 'flex', gap: '4px', background: 'rgba(15, 23, 42, 0.8)', padding: '3px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.08)' }}>
+              {[
+                { id: 'taipei_bike', label: '🚲 YouBike 2.0 (微型移動)', color: '#F59E0B' },
+                { id: 'trtc', label: '🚇 台北捷運 (避暑空調路網)', color: '#38BDF8' }
+              ].map(opt => {
+                const isSel = selectedMatrixMode === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    onClick={() => setSelectedMatrixMode(opt.id)}
+                    style={{
+                      padding: '4px 10px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: isSel ? '800' : '500',
+                      border: 'none',
+                      background: isSel ? `${opt.color}25` : 'transparent',
+                      color: isSel ? opt.color : '#94a3b8',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    {opt.label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 二維矩陣本體 */}
+          {(() => {
+            const atBins = comfortMatrix.apparent_temp_bins || [];
+            const rhBins = comfortMatrix.humidity_bins || [];
+            const cellList = comfortMatrix.matrix_data?.[selectedMatrixMode] || [];
+
+            const getCell = (rhId, atId) => cellList.find(c => c.rh_id === rhId && c.at_id === atId) || { delta_pct: 0, status: '常態', note: '' };
+
+            return (
+              <div style={{ overflowX: 'auto', paddingBottom: '4px' }}>
+                <table style={{ width: '100%', minWidth: '700px', borderCollapse: 'separate', borderSpacing: '6px', fontSize: '11px' }}>
+                  <thead>
+                    <tr>
+                      <th style={{ width: '120px', padding: '6px', textAlign: 'left', color: '#64748b', fontSize: '10.5px' }}>
+                        濕度 (Y) \ 體感 (X)
+                      </th>
+                      {atBins.map(at => (
+                        <th key={at.id} style={{ padding: '6px 4px', textAlign: 'center', color: '#cbd5e1' }}>
+                          <div style={{ fontWeight: '800', fontSize: '11.5px' }}>{at.label}</div>
+                          <div style={{ fontSize: '9.5px', color: '#64748b', fontWeight: 'normal' }}>{at.range}</div>
+                        </th>
+                      ))}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {rhBins.map(rh => (
+                      <tr key={rh.id}>
+                        <td style={{ padding: '8px 6px', color: '#cbd5e1', fontWeight: '700', whiteSpace: 'nowrap' }}>
+                          <div>{rh.label}</div>
+                          <div style={{ fontSize: '9.5px', color: '#64748b', fontWeight: 'normal' }}>{rh.range}</div>
+                        </td>
+                        {atBins.map(at => {
+                          const cell = getCell(rh.id, at.id);
+                          const d = cell.delta_pct;
+                          const isHovered = hoveredMatrixCell?.rh === rh.id && hoveredMatrixCell?.at === at.id;
+
+                          let cellBg = 'rgba(255, 255, 255, 0.04)';
+                          let cellBorder = 'rgba(255, 255, 255, 0.08)';
+                          let cellColor = '#94a3b8';
+
+                          if (d > 10) {
+                            cellBg = selectedMatrixMode === 'trtc' ? 'rgba(244, 63, 94, 0.45)' : 'rgba(16, 185, 129, 0.45)';
+                            cellBorder = selectedMatrixMode === 'trtc' ? '#F43F5E' : '#10B981';
+                            cellColor = '#FFFFFF';
+                          } else if (d > 0) {
+                            cellBg = selectedMatrixMode === 'trtc' ? 'rgba(244, 63, 94, 0.20)' : 'rgba(16, 185, 129, 0.22)';
+                            cellBorder = selectedMatrixMode === 'trtc' ? 'rgba(244, 63, 94, 0.4)' : 'rgba(16, 185, 129, 0.4)';
+                            cellColor = selectedMatrixMode === 'trtc' ? '#FDA4AF' : '#6EE7B7';
+                          } else if (d <= -30) {
+                            cellBg = 'rgba(2, 132, 199, 0.75)';
+                            cellBorder = '#0284C7';
+                            cellColor = '#FFFFFF';
+                          } else if (d <= -15) {
+                            cellBg = 'rgba(2, 132, 199, 0.40)';
+                            cellBorder = 'rgba(56, 189, 248, 0.4)';
+                            cellColor = '#7DD3FC';
+                          } else if (d < 0) {
+                            cellBg = 'rgba(2, 132, 199, 0.18)';
+                            cellBorder = 'rgba(56, 189, 248, 0.2)';
+                            cellColor = '#BAE6FD';
+                          }
+
+                          return (
+                            <td
+                              key={at.id}
+                              onMouseEnter={() => setHoveredMatrixCell({ rh: rh.id, at: at.id, rhLabel: rh.label, atLabel: at.label, cell })}
+                              onMouseLeave={() => setHoveredMatrixCell(null)}
+                              style={{
+                                background: cellBg,
+                                border: isHovered ? '2px solid #FFFFFF' : `1px solid ${cellBorder}`,
+                                borderRadius: '8px',
+                                padding: '10px 6px',
+                                textAlign: 'center',
+                                cursor: 'pointer',
+                                transform: isHovered ? 'scale(1.04)' : 'scale(1)',
+                                transition: 'all 0.15s ease',
+                                boxShadow: isHovered ? '0 6px 18px rgba(0,0,0,0.5)' : 'none'
+                              }}
+                            >
+                              <div style={{
+                                fontSize: '13.5px',
+                                fontWeight: '900',
+                                color: cellColor,
+                                fontFamily: 'JetBrains Mono, monospace'
+                              }}>
+                                {d > 0 ? `+${d.toFixed(1)}%` : d < 0 ? `${d.toFixed(1)}%` : '0.0%'}
+                              </div>
+                              <div style={{ fontSize: '10px', color: isHovered ? '#FFFFFF' : '#cbd5e1', marginTop: '2px', fontWeight: '600' }}>
+                                {cell.status}
+                              </div>
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+
+                {/* 懸浮/選取即時解說條 */}
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.7)',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  borderRadius: '8px',
+                  padding: '8px 14px',
+                  fontSize: '11px',
+                  color: '#94a3b8',
+                  marginTop: '8px',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center'
+                }}>
+                  {hoveredMatrixCell ? (
+                    <div>
+                      📍 焦點微氣候：<strong style={{ color: '#F1F5F9' }}>{hoveredMatrixCell.atLabel} × {hoveredMatrixCell.rhLabel}</strong>
+                      <span style={{ margin: '0 8px', color: '#64748b' }}>|</span>
+                      衝擊幅度：<strong style={{ color: hoveredMatrixCell.cell.delta_pct >= 0 ? '#10B981' : '#38BDF8', fontFamily: 'JetBrains Mono, monospace' }}>
+                        {hoveredMatrixCell.cell.delta_pct >= 0 ? `+${hoveredMatrixCell.cell.delta_pct}%` : `${hoveredMatrixCell.cell.delta_pct}%`}
+                      </strong>
+                      <span style={{ margin: '0 8px', color: '#64748b' }}>|</span>
+                      行為機制：<span style={{ color: '#E2E8F0' }}>{hoveredMatrixCell.cell.note}</span>
+                    </div>
+                  ) : (
+                    <div>
+                      💡 滑鼠懸浮任一矩陣格子，可檢視該溫濕微氣候組合下的詳細交通行為因果機制。
+                    </div>
+                  )}
+                  <span style={{ color: '#64748b', fontSize: '10px' }}>資料基準：2026 上半年 CWA 觀測交叉校準</span>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+
+        {/* 5C. 夏日中午熱浪微型移動跳崖 vs. 地下冷氣方舟實證卡 */}
+        {middayHeatwave.metrics && (
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(30, 41, 59, 0.7), rgba(15, 23, 42, 0.8))',
+            border: '1px solid rgba(249, 115, 22, 0.25)',
+            borderRadius: '12px',
+            padding: '16px 18px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '8px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <Flame size={16} color="#F97316" />
+                <h4 style={{ margin: 0, fontSize: '13.5px', fontWeight: '800', color: '#F8FAFC' }}>
+                  {middayHeatwave.title}
+                </h4>
+              </div>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <span style={{ fontSize: '10px', background: 'rgba(249, 115, 22, 0.15)', color: '#FB923C', padding: '2px 8px', borderRadius: '4px', border: '1px solid rgba(249, 115, 22, 0.3)' }}>
+                  時段：{middayHeatwave.period}
+                </span>
+                <span style={{ fontSize: '10px', background: 'rgba(255, 255, 255, 0.06)', color: '#94a3b8', padding: '2px 8px', borderRadius: '4px' }}>
+                  門檻：{middayHeatwave.sample_condition}
+                </span>
+              </div>
+            </div>
+
+            <p style={{ margin: 0, fontSize: '11.5px', color: '#cbd5e1', lineHeight: '1.5' }}>
+              {middayHeatwave.phenomenon_summary}
+            </p>
+
+            {/* 4 塊實證指標 */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(210px, 1fr))', gap: '10px' }}>
+              {middayHeatwave.metrics.map((m, idx) => (
+                <div key={idx} style={{
+                  background: 'rgba(15, 23, 42, 0.7)',
+                  border: `1px solid ${m.color}35`,
+                  borderRadius: '8px',
+                  padding: '10px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between'
+                }}>
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                      <span style={{ fontSize: '12px', fontWeight: '700', color: '#F1F5F9' }}>{m.target}</span>
+                      <strong style={{
+                        fontFamily: 'JetBrains Mono, monospace',
+                        color: m.color,
+                        fontSize: '13px'
+                      }}>
+                        {m.delta_pct > 0 ? `+${m.delta_pct}%` : `${m.delta_pct}%`}
+                      </strong>
+                    </div>
+                    <div style={{ fontSize: '10.5px', color: '#94a3b8', display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+                      <span>常態晴天: {m.normal_sunny_avg.toLocaleString()}</span>
+                      <span style={{ color: '#E2E8F0' }}>酷熱中午: {m.heatwave_avg.toLocaleString()}</span>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: '10px', color: '#64748b', lineHeight: '1.4', borderTop: '1px dashed rgba(255,255,255,0.06)', paddingTop: '4px' }}>
+                    {m.behavior}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
 
     </div>
