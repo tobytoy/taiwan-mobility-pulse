@@ -52,6 +52,7 @@ const PERSONA_FILTERS = [
 export default function TransferMapView({ basemap = 'dark' }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [currentZoom, setCurrentZoom] = useState(8);
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedPersona, setSelectedPersona] = useState('all');
   const [selectedHotspot, setSelectedHotspot] = useState(null);
@@ -106,6 +107,10 @@ export default function TransferMapView({ basemap = 'dark' }) {
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     mapRef.current = map;
 
+    map.on('zoomend', () => {
+      setCurrentZoom(map.getZoom());
+    });
+
     // 確保容器尺寸就緒後重算視圖
     const resizeTimer = setTimeout(() => {
       map.invalidateSize();
@@ -145,37 +150,39 @@ export default function TransferMapView({ basemap = 'dark' }) {
     }).addTo(mapRef.current);
   }, [basemap]);
 
-  // 4. 動態生成 SVG 甜甜圈圓盤 HTML
-  const generateDonutHtml = (st, index, personaFilter, isSelected) => {
+  // 4. 動態生成 SVG 甜甜圈圓盤 HTML (支援 Zoom 自適應尺度)
+  const generateDonutHtml = (st, index, personaFilter, isSelected, zoomLevel = 8) => {
     const p = st.persona_pct || { regular_adult: 25, tpass: 25, student: 25, senior: 25 };
     
     // 依據目前過濾器動態決定主導顏色與大小
-    let size = 46;
+    const zoomFactor = zoomLevel <= 8 ? 0.70 : zoomLevel <= 10 ? 0.85 : 1.0;
+    let baseSize = 46;
     let rank = index + 1;
     let label = `#${rank}`;
     let primaryColor = '#38BDF8';
 
     if (personaFilter === 'student') {
       const stuScore = p.student || 0;
-      size = Math.max(38, Math.min(62, 36 + stuScore * 1.5));
+      baseSize = Math.max(38, Math.min(62, 36 + stuScore * 1.5));
       primaryColor = '#10B981';
     } else if (personaFilter === 'senior') {
       const senScore = p.senior || 0;
-      size = Math.max(38, Math.min(62, 36 + senScore * 0.9));
+      baseSize = Math.max(38, Math.min(62, 36 + senScore * 0.9));
       primaryColor = '#F43F5E';
     } else if (personaFilter === 'commuter') {
-      size = Math.max(38, Math.min(62, 36 + (p.commuter || 0) * 0.4));
+      baseSize = Math.max(38, Math.min(62, 36 + (p.commuter || 0) * 0.4));
       primaryColor = '#38BDF8';
     } else if (personaFilter === 'tpass') {
-      size = Math.max(38, Math.min(62, 36 + (p.tpass || 0) * 0.5));
+      baseSize = Math.max(38, Math.min(62, 36 + (p.tpass || 0) * 0.5));
       primaryColor = '#A855F7';
     } else {
       // All: 依週轉乘量縮放
       const vol = st.transfer_volume || 20000;
-      size = Math.max(42, Math.min(64, 40 + (vol / 55000) * 22));
+      baseSize = Math.max(42, Math.min(64, 40 + (vol / 55000) * 22));
     }
 
-    if (isSelected) size += 10;
+    if (isSelected) baseSize += 10;
+    const size = Math.round(baseSize * zoomFactor);
 
     const c = size / 2;
     const r = size * 0.35;
@@ -256,16 +263,18 @@ export default function TransferMapView({ basemap = 'dark' }) {
     const hotspots = selectedRegion === 'all'
       ? allHotspots
       : allHotspots.filter(h => h.region === selectedRegion);
+    const zoomFactor = currentZoom <= 8 ? 0.70 : currentZoom <= 10 ? 0.85 : 1.0;
 
     hotspots.forEach((st, idx) => {
       const isSelected = selectedHotspot?.BoardingStopName === st.BoardingStopName;
-      const html = generateDonutHtml(st, idx, selectedPersona, isSelected);
+      const html = generateDonutHtml(st, idx, selectedPersona, isSelected, currentZoom);
+      const iconDim = Math.round((isSelected ? 56 : 46) * zoomFactor);
 
       const icon = L.divIcon({
         className: 'transfer-hub-div-icon',
         html,
-        iconSize: [50, 50],
-        iconAnchor: [25, 25]
+        iconSize: [iconDim, iconDim],
+        iconAnchor: [Math.round(iconDim / 2), Math.round(iconDim / 2)]
       });
 
       const marker = L.marker([st.lat, st.lng], { icon, zIndexOffset: isSelected ? 1000 : 100 });
@@ -362,7 +371,7 @@ export default function TransferMapView({ basemap = 'dark' }) {
       });
     }
 
-  }, [data, selectedRegion, selectedPersona, selectedHotspot, showSpiderRays]);
+  }, [data, selectedRegion, selectedPersona, selectedHotspot, showSpiderRays, currentZoom]);
 
   const meta = data?.analysis_meta || {};
   const currentSt = selectedHotspot;

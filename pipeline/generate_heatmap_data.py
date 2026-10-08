@@ -121,31 +121,16 @@ for k, v in MANUAL_STATIONS.items():
 
 print(f"🗺️ 經緯度資料庫已就緒，共有 {len(STATION_COORDS)} 個精確定位節點。")
 
+from station_coordinates_master import resolve_station_coords, resolve_station_region
+
 def get_region(name: str) -> str:
-    clean = name.replace("YouBike2.0_", "").replace("(O)", "").strip()
-    south = ["左營", "高雄", "台南", "臺南", "嘉義", "屏東", "潮州", "新營", "巨蛋", "三多", "美麗島", "中央公園", "凹子底", "後驛", "都會公園", "楠梓", "哈瑪星", "駁二"]
-    central = ["台中", "臺中", "苗栗", "彰化", "雲林", "新烏日", "豐原", "員林", "斗六", "朝馬", "竹南"]
-    east = ["宜蘭", "羅東", "礁溪", "花蓮", "台東", "臺東", "蘇澳"]
-    for s in east:
-        if s in name or s in clean: return "East"
-    for s in south:
-        if s in name or s in clean: return "South"
-    for s in central:
-        if s in name or s in clean: return "Central"
+    coords = find_coords(name)
+    if coords:
+        return resolve_station_region(name, coords[0], coords[1])
     return "North"
 
 def find_coords(name: str):
-    clean = name.replace("YouBike2.0_", "").replace("(O)", "").replace("站", "").strip()
-    if name in STATION_COORDS:
-        return STATION_COORDS[name]
-    for k, v in STATION_COORDS.items():
-        if k in name or name in k:
-            return v
-    # 近似比對
-    for k, v in STATION_COORDS.items():
-        if clean and (clean in k or k in clean):
-            return v
-    return None
+    return resolve_station_coords(name)
 
 def process_rail_dataset(file_path: Path, mode_id: str):
     """

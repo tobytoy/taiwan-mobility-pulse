@@ -193,28 +193,16 @@ CENTRAL_STATIONS = {"苗栗", "苗栗火車站", "台中", "臺中", "台中轉�
 SOUTH_STATIONS = {"嘉義", "台南", "臺南", "左營", "新左營", "高雄", "高雄車站", "鳳山", "屏東", "潮州", "新營", "巨蛋", "三多商圈", "美麗島", "中央公園", "文化中心", "凹子底", "後驛", "都會公園", "楠梓科學園區", "油廠國小", "橋頭火車站", "橋頭糖廠", "信義國小", "哈瑪星", "駁二大義"}
 EAST_STATIONS = {"宜蘭", "羅東", "礁溪", "花蓮", "台東", "臺東", "宜蘭轉運站", "羅東轉運站", "礁溪轉運站"}
 
+from station_coordinates_master import resolve_station_coords, resolve_station_region, STATION_COORDINATES_DB
+
 def get_coords(name):
-    clean = name.replace("YouBike2.0_", "").replace("(O)", "").strip()
-    for k, v in STATIONS_GEO.items():
-        if k in name or name in k or clean in k or k in clean:
-            return v
-    # fallback to central Taiwan
-    return [24.1477, 120.6736]
+    return resolve_station_coords(name)
 
 def determine_region(orig, dest):
-    def get_reg(name):
-        clean = name.replace("YouBike2.0_", "").replace("(O)", "").strip()
-        for s in EAST_STATIONS:
-            if s in name or s in clean: return "East"
-        for s in SOUTH_STATIONS:
-            if s in name or s in clean: return "South"
-        for s in CENTRAL_STATIONS:
-            if s in name or s in clean: return "Central"
-        for s in NORTH_STATIONS:
-            if s in name or s in clean: return "North"
-        return "North"
-    
-    r1, r2 = get_reg(orig), get_reg(dest)
+    c_orig = get_coords(orig)
+    c_dest = get_coords(dest)
+    r1 = resolve_station_region(orig, c_orig[0], c_orig[1])
+    r2 = resolve_station_region(dest, c_dest[0], c_dest[1])
     if "East" in (r1, r2): return "East"
     if "South" in (r1, r2): return "South"
     if "Central" in (r1, r2): return "Central"
@@ -583,7 +571,7 @@ def main():
         "study_data": study_data,
         "progress_data": sanitize_progress(progress_data),
         "map_corridors": corridors,
-        "stations_geo": STATIONS_GEO
+        "stations_geo": {**STATIONS_GEO, **STATION_COORDINATES_DB}
     }
     
     # 輸出至本地 Repo public/ 目錄供當前 Web 專案讀取

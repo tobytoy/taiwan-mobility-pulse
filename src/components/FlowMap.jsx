@@ -57,6 +57,7 @@ export default function FlowMap({
   onSelectCorridor,
   selectedCorridor
 }) {
+  const [currentZoom, setCurrentZoom] = useState(8);
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const tileLayerRef = useRef(null);
@@ -86,6 +87,10 @@ export default function FlowMap({
 
     L.control.zoom({ position: 'bottomright' }).addTo(map);
     mapRef.current = map;
+
+    map.on('zoomend', () => {
+      setCurrentZoom(map.getZoom());
+    });
 
     // 建立 Canvas Overlay
     const canvas = document.createElement('canvas');
@@ -141,18 +146,27 @@ export default function FlowMap({
     });
   }, [selectedRegion]);
 
-  // 4. 繪製車站標記點 (Station Markers)
+  // 4. 繪製車站標記點 (Station Markers) - 隨縮放等級動態調校半徑與防重疊
   useEffect(() => {
     if (!mapRef.current) return;
 
     markersRef.current.forEach(m => mapRef.current.removeLayer(m));
     markersRef.current = [];
 
+    const isMacroView = (currentZoom <= 9 && selectedRegion === 'all');
+
     const filteredCorridors = corridors.filter(c => {
       const matchMode = selectedMode === 'all' || c.mode_id === selectedMode;
       const matchRegion = selectedRegion === 'all' || c.region === selectedRegion;
       const matchPax = selectedPaxType === 'all' || c.pax_type === selectedPaxType;
-      return matchMode && matchRegion && matchPax;
+      if (!matchMode || !matchRegion || !matchPax) return false;
+
+      // 全島宏觀視角 LOD：隱藏短距走廊避免大台北擠成發光團塊；區域放大時展開完整微觀接駁
+      if (isMacroView && c.origin_coord && c.dest_coord) {
+        const dKm = Math.hypot((c.origin_coord[0] - c.dest_coord[0]) * 111, (c.origin_coord[1] - c.dest_coord[1]) * 102);
+        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra') return false;
+      }
+      return true;
     });
 
     const activeStations = new Set();
@@ -161,15 +175,17 @@ export default function FlowMap({
       activeStations.add(c.destination);
     });
 
+    const baseRadius = currentZoom <= 8 ? 3.0 : currentZoom <= 10 ? 4.5 : 6.5;
+
     Object.entries(stationsGeo).forEach(([name, coords]) => {
       if (activeStations.size > 0 && !activeStations.has(name)) return;
 
       const isSelected = selectedStation === name;
       const marker = L.circleMarker(coords, {
-        radius: isSelected ? 8 : 4.5,
+        radius: isSelected ? baseRadius + 3.5 : baseRadius,
         fillColor: isSelected ? '#38BDF8' : '#F8FAFC',
         color: isSelected ? '#38BDF8' : '#0F172A',
-        weight: isSelected ? 3 : 1.5,
+        weight: isSelected ? 2.5 : 1.2,
         opacity: 0.9,
         fillOpacity: isSelected ? 1 : 0.75
       });
@@ -187,17 +203,25 @@ export default function FlowMap({
       marker.addTo(mapRef.current);
       markersRef.current.push(marker);
     });
-  }, [corridors, stationsGeo, selectedMode, selectedRegion, selectedPaxType, selectedStation]);
+  }, [corridors, stationsGeo, selectedMode, selectedRegion, selectedPaxType, selectedStation, currentZoom]);
 
   // 5. 隨時間 (currentHour)、日型與天候情境 (selectedDayType) 動態粒子渲染
   useEffect(() => {
     if (!mapRef.current || !canvasRef.current) return;
 
+    const isMacroView = (currentZoom <= 9 && selectedRegion === 'all');
+
     const filteredCorridors = corridors.filter(c => {
       const matchMode = selectedMode === 'all' || c.mode_id === selectedMode;
       const matchRegion = selectedRegion === 'all' || c.region === selectedRegion;
       const matchPax = selectedPaxType === 'all' || c.pax_type === selectedPaxType;
-      return matchMode && matchRegion && matchPax;
+      if (!matchMode || !matchRegion || !matchPax) return false;
+
+      if (isMacroView && c.origin_coord && c.dest_coord) {
+        const dKm = Math.hypot((c.origin_coord[0] - c.dest_coord[0]) * 111, (c.origin_coord[1] - c.dest_coord[1]) * 102);
+        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra') return false;
+      }
+      return true;
     });
 
     const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
@@ -303,8 +327,10 @@ export default function FlowMap({
 
         const dx = x2 - x1;
         const dy = y2 - y1;
-        const cx = (x1 + x2) / 2 - dy * 0.15;
-        const cy = (y1 + y2) / 2 + dx * 0.15;
+        // 雙向走廊分離：A->B 與 B->A 分居左右兩側，消除重合干涉
+        const side = (corr.origin || '') > (corr.destination || '') ? 1 : -1;
+        const cx = (x1 + x2) / 2 - dy * 0.15 * side;
+        const cy = (y1 + y2) / 2 + dx * 0.15 * side;
 
         ctx.beginPath();
         ctx.moveTo(x1, y1);
@@ -332,8 +358,9 @@ export default function FlowMap({
 
         const dx = x2 - x1;
         const dy = y2 - y1;
-        const cx = (x1 + x2) / 2 - dy * 0.15;
-        const cy = (y1 + y2) / 2 + dx * 0.15;
+        const side = (p.corridor.origin || '') > (p.corridor.destination || '') ? 1 : -1;
+        const cx = (x1 + x2) / 2 - dy * 0.15 * side;
+        const cy = (y1 + y2) / 2 + dx * 0.15 * side;
 
         const t = p.progress;
         const px = (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * cx + t * t * x2;
@@ -357,7 +384,7 @@ export default function FlowMap({
     return () => {
       if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
     };
-  }, [corridors, selectedMode, selectedRegion, selectedPaxType, selectedDayType, currentHour, selectedCorridor]);
+  }, [corridors, selectedMode, selectedRegion, selectedPaxType, selectedDayType, currentHour, selectedCorridor, currentZoom]);
 
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '380px', overflow: 'hidden' }}>
@@ -368,6 +395,30 @@ export default function FlowMap({
         tabIndex={0}
         style={{ width: '100%', height: '100%', minHeight: '380px', background: '#07090E' }} 
       />
+
+      {/* LOD 縮放過濾提示標籤 */}
+      {currentZoom <= 9 && selectedRegion === 'all' && (
+        <div style={{
+          position: 'absolute',
+          top: '16px',
+          right: '16px',
+          zIndex: 400,
+          background: 'rgba(15, 23, 42, 0.85)',
+          backdropFilter: 'blur(8px)',
+          border: '1px solid rgba(56, 189, 248, 0.3)',
+          borderRadius: '20px',
+          padding: '5px 12px',
+          fontSize: '11px',
+          color: '#38BDF8',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '6px',
+          pointerEvents: 'none'
+        }}>
+          <span>🌐 全島城際主幹線視圖</span>
+          <span style={{ color: '#94a3b8', fontSize: '10px' }}>(放大或切換區域以展開微觀短程接駁)</span>
+        </div>
+      )}
 
       {/* Floating Bottom-Left Weather Impact Diagnostic Badge */}
       <div style={{

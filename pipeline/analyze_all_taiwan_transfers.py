@@ -139,30 +139,12 @@ GEO_COORDS = {
     '高鐵彰化站': (23.8745, 120.5742),
 }
 
+from station_coordinates_master import resolve_station_coords, resolve_station_region, apply_polar_jitter
+
 def get_hub_region(name: str, auth: str = '') -> str:
     """精準判定生活圈分區"""
-    # 1. 台北市區公車 100% 歸屬北部
-    if auth == 'TPE-BUS':
-        return 'north'
-
-    # 2. 東部特徵 (宜花東)
-    if any(k in name for k in ['羅東', '宜蘭', '礁溪', '花蓮', '台東', '臺東', '太麻里', '知本', '東河', '成功']):
-        return 'east'
-
-    # 3. 中部特徵 (中彰投苗)
-    if 'VO11' in auth or any(k in name for k in ['彰化', '臺中', '台中', '干城', '草屯', '埔里', '朝馬', '員林', '中投', '南投', '日月潭', '溪頭', '中興新村', '大甲', '豐原', '沙鹿']):
-        return 'central'
-
-    # 4. 南部特徵 (雲嘉南/高屏)
-    if 'VO24' in auth or any(k in name for k in ['嘉義', '朴子', '北港', '左營', '高雄', '美麗島', '台南', '臺南', '新營', '東琉線', '枋寮', '恆春', '屏東', '阿里山', '潮州']):
-        return 'south'
-
-    # 5. VO14-2 若不是東部則為高屏 (南部)
-    if 'VO14-2' in auth:
-        return 'south'
-
-    # 6. 北部都會區 (VO10, VO18 或預設)
-    return 'north'
+    coords = resolve_station_coords(name)
+    return resolve_station_region(name, coords[0], coords[1]).lower()
 
 def get_region_label(region: str) -> str:
     labels = {
@@ -173,30 +155,9 @@ def get_region_label(region: str) -> str:
     }
     return labels.get(region, '全台跨生活圈')
 
-REGION_CENTERS = {
-    'north': (25.045, 121.530),
-    'central': (24.140, 120.670),
-    'south': (22.650, 120.320),
-    'east': (24.400, 121.750)
-}
-
 def get_coords_for_stop(name: str, region: str = 'north', ref_lat: float = None, ref_lng: float = None, offset_idx: int = 0) -> list:
-    """精準取坐標，無座標時依生活圈基準中心微幅偏移"""
-    if name in GEO_COORDS:
-        return [GEO_COORDS[name][0], GEO_COORDS[name][1]]
-    for k, v in GEO_COORDS.items():
-        if k in name or name in k:
-            return [v[0], v[1]]
-    
-    # 依生活圈中心或參考座標
-    if ref_lat is None or ref_lng is None:
-        base_lat, base_lng = REGION_CENTERS.get(region, REGION_CENTERS['north'])
-    else:
-        base_lat, base_lng = ref_lat, ref_lng
-
-    # 微幅偏移避免點重合
-    return [round(base_lat + 0.015 * (1 + (offset_idx % 2) * 0.5) * (0.8 if offset_idx % 2 == 0 else -0.8), 4),
-            round(base_lng + 0.015 * (1 + (offset_idx % 3) * 0.3) * (0.8 if offset_idx % 3 == 0 else -0.8), 4)]
+    """精準取坐標"""
+    return resolve_station_coords(name, fallback_lat=ref_lat, fallback_lon=ref_lng)
 
 def extract_all_taiwan_transfers():
     start_time = time.time()

@@ -15,10 +15,10 @@
     ],
     "hubs_count": 76,
     "regional_hubs_count": {
-      "north": 30,
+      "north": 46,
       "central": 18,
-      "south": 18,
-      "east": 10
+      "south": 6,
+      "east": 6
     }
   },
   "regions_meta": {
@@ -90,8 +90,8 @@
       "BoardingStopName": "臺北車站(忠孝)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0465,
+      "lng": 121.5175,
       "transfer_volume": 82178,
       "subsidized_ntd": 399237.0,
       "from_metro": 9923,
@@ -128,32 +128,32 @@
           "DeboardingStopName": "新北大道中華路口",
           "count": 3687,
           "latlng": [
-            25.039,
-            121.5264
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "中華路北站",
           "count": 1607,
           "latlng": [
-            25.069,
-            121.5228
+            25.045,
+            121.5085
           ]
         },
         {
           "DeboardingStopName": "中華路",
           "count": 1604,
           "latlng": [
-            25.039,
-            121.554
+            25.045,
+            121.5085
           ]
         },
         {
           "DeboardingStopName": "頭前國中",
           "count": 1283,
           "latlng": [
-            25.069,
-            121.5264
+            25.0465,
+            121.5175
           ]
         }
       ]
@@ -200,32 +200,32 @@
           "DeboardingStopName": "福和橋(林森路)",
           "count": 6615,
           "latlng": [
-            24.9956,
-            121.5184
+            25.0068,
+            121.526
           ]
         },
         {
           "DeboardingStopName": "興德國小",
           "count": 4404,
           "latlng": [
-            25.0256,
-            121.5148
+            25.0136,
+            121.534
           ]
         },
         {
           "DeboardingStopName": "師大分部",
           "count": 4339,
           "latlng": [
-            24.9956,
-            121.546
+            25.0136,
+            121.534
           ]
         },
         {
           "DeboardingStopName": "興隆市場",
           "count": 2979,
           "latlng": [
-            25.0256,
-            121.5184
+            25.0136,
+            121.534
           ]
         }
       ]
@@ -272,32 +272,32 @@
           "DeboardingStopName": "羅東轉運站",
           "count": 13615,
           "latlng": [
-            24.6765,
-            121.7745
+            24.6775,
+            121.775
           ]
         },
         {
           "DeboardingStopName": "宜蘭轉運站",
           "count": 13073,
           "latlng": [
-            24.7538,
-            121.7582
+            24.7544,
+            121.761
           ]
         },
         {
           "DeboardingStopName": "礁溪轉運站",
           "count": 9248,
           "latlng": [
-            24.8272,
-            121.774
+            24.829,
+            121.773
           ]
         },
         {
           "DeboardingStopName": "基隆轉運站",
           "count": 2902,
           "latlng": [
-            25.1315,
-            121.7388
+            25.132,
+            121.7397
           ]
         }
       ]
@@ -307,7 +307,7 @@
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
       "lat": 25.0422,
-      "lng": 121.5085,
+      "lng": 121.5083,
       "transfer_volume": 50605,
       "subsidized_ntd": 321878.0,
       "from_metro": 18187,
@@ -344,32 +344,32 @@
           "DeboardingStopName": "南機場公寓",
           "count": 4836,
           "latlng": [
-            25.0242,
-            121.4929
+            25.0422,
+            121.5083
           ]
         },
         {
           "DeboardingStopName": "中華南海路口",
           "count": 2107,
           "latlng": [
-            25.0542,
-            121.4893
+            25.0422,
+            121.5083
           ]
         },
         {
           "DeboardingStopName": "廈安里",
           "count": 2064,
           "latlng": [
-            25.0242,
-            121.5205
+            25.0422,
+            121.5083
           ]
         },
         {
           "DeboardingStopName": "大埔街",
           "count": 1514,
           "latlng": [
-            25.0542,
-            121.4929
+            25.0422,
+            121.5083
           ]
         }
       ]
@@ -416,32 +416,32 @@
           "DeboardingStopName": "南京林森路口",
           "count": 2423,
           "latlng": [
-            25.0342,
-            121.5284
+            25.052,
+            121.5255
           ]
         },
         {
           "DeboardingStopName": "南京建國路口",
           "count": 2103,
           "latlng": [
-            25.0642,
-            121.5248
+            25.0522,
+            121.544
           ]
         },
         {
           "DeboardingStopName": "捷運松江南京站",
           "count": 1969,
           "latlng": [
-            25.0342,
-            121.556
+            25.0521,
+            121.5332
           ]
         },
         {
           "DeboardingStopName": "南京吉林路口",
           "count": 1923,
           "latlng": [
-            25.0642,
-            121.5284
+            25.0522,
+            121.544
           ]
         }
       ]
@@ -450,8 +450,8 @@
       "BoardingStopName": "捷運萬芳醫院站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 24.9985,
+      "lng": 121.5583,
       "transfer_volume": 43941,
       "subsidized_ntd": 310177.0,
       "from_metro": 25165,
@@ -488,24 +488,24 @@
           "DeboardingStopName": "興德國小",
           "count": 3884,
           "latlng": [
-            25.039,
-            121.5264
+            24.9985,
+            121.5583
           ]
         },
         {
           "DeboardingStopName": "興隆市場",
           "count": 3542,
           "latlng": [
-            25.069,
-            121.5228
+            24.9985,
+            121.5583
           ]
         },
         {
           "DeboardingStopName": "興隆國小",
           "count": 2599,
           "latlng": [
-            25.039,
-            121.554
+            24.9985,
+            121.5583
           ]
         },
         {
@@ -522,8 +522,8 @@
       "BoardingStopName": "士林國中",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0965,
+      "lng": 121.5225,
       "transfer_volume": 36691,
       "subsidized_ntd": 199164.0,
       "from_metro": 8429,
@@ -560,32 +560,32 @@
           "DeboardingStopName": "東吳大學(錢穆故居)",
           "count": 3141,
           "latlng": [
-            25.039,
-            121.5264
+            25.0998,
+            121.5478
           ]
         },
         {
           "DeboardingStopName": "社子市場",
           "count": 2606,
           "latlng": [
-            25.069,
-            121.5228
+            25.0965,
+            121.5225
           ]
         },
         {
           "DeboardingStopName": "重陽橋",
           "count": 1942,
           "latlng": [
-            25.039,
-            121.554
+            25.0965,
+            121.5225
           ]
         },
         {
           "DeboardingStopName": "葫東重慶路口",
           "count": 1388,
           "latlng": [
-            25.069,
-            121.5264
+            25.0965,
+            121.5225
           ]
         }
       ]
@@ -594,8 +594,8 @@
       "BoardingStopName": "綜合市場(捷運石牌站)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.1154,
+      "lng": 121.5158,
       "transfer_volume": 33738,
       "subsidized_ntd": 235612.0,
       "from_metro": 6513,
@@ -632,32 +632,32 @@
           "DeboardingStopName": "榮總",
           "count": 7418,
           "latlng": [
-            25.039,
-            121.5264
+            25.1207,
+            121.5201
           ]
         },
         {
           "DeboardingStopName": "陽明交大實驗大樓",
           "count": 2789,
           "latlng": [
-            25.069,
-            121.5228
+            25.1154,
+            121.5158
           ]
         },
         {
           "DeboardingStopName": "榮總一",
           "count": 2628,
           "latlng": [
-            25.039,
-            121.554
+            25.1154,
+            121.5158
           ]
         },
         {
           "DeboardingStopName": "天母廣場",
           "count": 2308,
           "latlng": [
-            25.069,
-            121.5264
+            25.1154,
+            121.5158
           ]
         }
       ]
@@ -666,8 +666,8 @@
       "BoardingStopName": "基隆轉運站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.1315,
-      "lng": 121.7388,
+      "lat": 25.132,
+      "lng": 121.7397,
       "transfer_volume": 33459,
       "subsidized_ntd": 885341.0,
       "from_metro": 17,
@@ -704,16 +704,16 @@
           "DeboardingStopName": "圓山轉運站(玉門)",
           "count": 2418,
           "latlng": [
-            25.0712,
-            121.5198
+            25.0715,
+            121.5202
           ]
         },
         {
           "DeboardingStopName": "聯合報",
           "count": 1749,
           "latlng": [
-            25.1435,
-            121.7196
+            25.132,
+            121.7397
           ]
         },
         {
@@ -776,32 +776,32 @@
           "DeboardingStopName": "重安街口",
           "count": 2788,
           "latlng": [
-            25.0312,
-            121.5009
+            25.0492,
+            121.5165
           ]
         },
         {
           "DeboardingStopName": "中壢客運中壢總站",
           "count": 1972,
           "latlng": [
-            25.0612,
-            121.4973
+            25.0492,
+            121.5165
           ]
         },
         {
           "DeboardingStopName": "雙峰路口",
           "count": 1191,
           "latlng": [
-            25.0312,
-            121.5285
+            25.0492,
+            121.5165
           ]
         },
         {
           "DeboardingStopName": "大興路口",
           "count": 1167,
           "latlng": [
-            25.0612,
-            121.5009
+            25.0492,
+            121.5165
           ]
         }
       ]
@@ -810,8 +810,8 @@
       "BoardingStopName": "南京公寓(捷運南京三民)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0515,
+      "lng": 121.5615,
       "transfer_volume": 32525,
       "subsidized_ntd": 448274.0,
       "from_metro": 3910,
@@ -848,32 +848,32 @@
           "DeboardingStopName": "三民路",
           "count": 1739,
           "latlng": [
-            25.039,
-            121.5264
+            24.0825,
+            120.5395
           ]
         },
         {
           "DeboardingStopName": "市政府",
           "count": 1240,
           "latlng": [
-            25.069,
-            121.5228
+            25.0411,
+            121.5651
           ]
         },
         {
           "DeboardingStopName": "潭美公園",
           "count": 1168,
           "latlng": [
-            25.039,
-            121.554
+            25.0515,
+            121.5615
           ]
         },
         {
           "DeboardingStopName": "捷運市政府站",
           "count": 1128,
           "latlng": [
-            25.069,
-            121.5264
+            25.0411,
+            121.5651
           ]
         }
       ]
@@ -882,8 +882,8 @@
       "BoardingStopName": "景美國中",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 24.9926,
+      "lng": 121.5415,
       "transfer_volume": 31490,
       "subsidized_ntd": 249485.0,
       "from_metro": 20554,
@@ -920,32 +920,32 @@
           "DeboardingStopName": "復興派出所",
           "count": 7499,
           "latlng": [
-            25.039,
-            121.5264
+            24.987,
+            121.543
           ]
         },
         {
           "DeboardingStopName": "世新大學",
           "count": 5024,
           "latlng": [
-            25.069,
-            121.5228
+            24.9926,
+            121.5415
           ]
         },
         {
           "DeboardingStopName": "考試院",
           "count": 4423,
           "latlng": [
-            25.039,
-            121.554
+            24.9926,
+            121.5415
           ]
         },
         {
           "DeboardingStopName": "永建國小",
           "count": 2113,
           "latlng": [
-            25.069,
-            121.5264
+            24.9926,
+            121.5415
           ]
         }
       ]
@@ -954,8 +954,8 @@
       "BoardingStopName": "松山車站(八德)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0498,
+      "lng": 121.5785,
       "transfer_volume": 31130,
       "subsidized_ntd": 240420.0,
       "from_metro": 1806,
@@ -992,32 +992,32 @@
           "DeboardingStopName": "新湖三路口(台北花市)",
           "count": 2370,
           "latlng": [
-            25.039,
-            121.5264
+            25.0498,
+            121.5785
           ]
         },
         {
           "DeboardingStopName": "舊宗路一段(行善)",
           "count": 2179,
           "latlng": [
-            25.069,
-            121.5228
+            25.0498,
+            121.5785
           ]
         },
         {
           "DeboardingStopName": "週美里一",
           "count": 2043,
           "latlng": [
-            25.039,
-            121.554
+            25.0498,
+            121.5785
           ]
         },
         {
           "DeboardingStopName": "新湖一路口",
           "count": 1939,
           "latlng": [
-            25.069,
-            121.5264
+            25.0498,
+            121.5785
           ]
         }
       ]
@@ -1064,32 +1064,32 @@
           "DeboardingStopName": "文化大學一",
           "count": 7054,
           "latlng": [
-            25.0668,
-            121.5092
+            25.1375,
+            121.5405
           ]
         },
         {
           "DeboardingStopName": "陽明山總站",
           "count": 4678,
           "latlng": [
-            25.0968,
-            121.5056
+            25.0848,
+            121.5248
           ]
         },
         {
           "DeboardingStopName": "山仔后派出所",
           "count": 1084,
           "latlng": [
-            25.0668,
-            121.5368
+            25.0848,
+            121.5248
           ]
         },
         {
           "DeboardingStopName": "社子市場",
           "count": 952,
           "latlng": [
-            25.0968,
-            121.5092
+            25.0848,
+            121.5248
           ]
         }
       ]
@@ -1098,8 +1098,8 @@
       "BoardingStopName": "捷運松江南京站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0521,
+      "lng": 121.5332,
       "transfer_volume": 30513,
       "subsidized_ntd": 254255.0,
       "from_metro": 3511,
@@ -1136,8 +1136,8 @@
           "DeboardingStopName": "南京林森路口",
           "count": 1569,
           "latlng": [
-            25.039,
-            121.5264
+            25.052,
+            121.5255
           ]
         },
         {
@@ -1152,16 +1152,16 @@
           "DeboardingStopName": "捷運中山站(志仁高中)",
           "count": 1053,
           "latlng": [
-            25.039,
-            121.554
+            25.0528,
+            121.5208
           ]
         },
         {
           "DeboardingStopName": "南京敦化路口(小巨蛋)",
           "count": 1007,
           "latlng": [
-            25.069,
-            121.5264
+            25.0519,
+            121.5498
           ]
         }
       ]
@@ -1170,8 +1170,8 @@
       "BoardingStopName": "南京林森路口",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.052,
+      "lng": 121.5255,
       "transfer_volume": 28571,
       "subsidized_ntd": 153118.0,
       "from_metro": 2183,
@@ -1216,24 +1216,24 @@
           "DeboardingStopName": "捷運中山站(志仁高中)",
           "count": 1792,
           "latlng": [
-            25.069,
-            121.5228
+            25.0528,
+            121.5208
           ]
         },
         {
           "DeboardingStopName": "捷運松江南京站",
           "count": 1619,
           "latlng": [
-            25.039,
-            121.554
+            25.0521,
+            121.5332
           ]
         },
         {
           "DeboardingStopName": "南京龍江路口",
           "count": 1055,
           "latlng": [
-            25.069,
-            121.5264
+            25.052,
+            121.5255
           ]
         }
       ]
@@ -1242,7 +1242,7 @@
       "BoardingStopName": "捷運士林站(中正)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.0935,
+      "lat": 25.0936,
       "lng": 121.5262,
       "transfer_volume": 28410,
       "subsidized_ntd": 270007.0,
@@ -1280,32 +1280,32 @@
           "DeboardingStopName": "東吳大學(錢穆故居)",
           "count": 6998,
           "latlng": [
-            25.0755,
-            121.5106
+            25.0998,
+            121.5478
           ]
         },
         {
           "DeboardingStopName": "捷運劍南路站",
           "count": 2306,
           "latlng": [
-            25.1055,
-            121.507
+            25.0848,
+            121.5555
           ]
         },
         {
           "DeboardingStopName": "故宮博物院",
           "count": 1770,
           "latlng": [
-            25.0755,
-            121.5382
+            25.0936,
+            121.5262
           ]
         },
         {
           "DeboardingStopName": "故宮博物院(正館)",
           "count": 1318,
           "latlng": [
-            25.1055,
-            121.5106
+            25.0936,
+            121.5262
           ]
         }
       ]
@@ -1314,8 +1314,8 @@
       "BoardingStopName": "南京寧安街口",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0518,
+      "lng": 121.5562,
       "transfer_volume": 27779,
       "subsidized_ntd": 160338.0,
       "from_metro": 2708,
@@ -1360,24 +1360,24 @@
           "DeboardingStopName": "南京敦化路口(小巨蛋)",
           "count": 1374,
           "latlng": [
-            25.069,
-            121.5228
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "南京公寓(捷運南京三民)",
           "count": 1035,
           "latlng": [
-            25.039,
-            121.554
+            25.0515,
+            121.5615
           ]
         },
         {
           "DeboardingStopName": "捷運松江南京站",
           "count": 890,
           "latlng": [
-            25.069,
-            121.5264
+            25.0521,
+            121.5332
           ]
         }
       ]
@@ -1386,8 +1386,8 @@
       "BoardingStopName": "捷運昆陽站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0505,
+      "lng": 121.5933,
       "transfer_volume": 27601,
       "subsidized_ntd": 247270.0,
       "from_metro": 3257,
@@ -1424,32 +1424,32 @@
           "DeboardingStopName": "上灣仔",
           "count": 2185,
           "latlng": [
-            25.039,
-            121.5264
+            25.0505,
+            121.5933
           ]
         },
         {
           "DeboardingStopName": "石潭公園(成功)",
           "count": 2017,
           "latlng": [
-            25.069,
-            121.5228
+            25.0585,
+            121.5855
           ]
         },
         {
           "DeboardingStopName": "南港分局(向陽)",
           "count": 1438,
           "latlng": [
-            25.039,
-            121.554
+            25.0505,
+            121.5933
           ]
         },
         {
           "DeboardingStopName": "三總內湖站",
           "count": 1318,
           "latlng": [
-            25.069,
-            121.5264
+            25.0505,
+            121.5933
           ]
         }
       ]
@@ -1458,8 +1458,8 @@
       "BoardingStopName": "民權松江路口",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.062,
+      "lng": 121.533,
       "transfer_volume": 26635,
       "subsidized_ntd": 165622.0,
       "from_metro": 1445,
@@ -1496,32 +1496,32 @@
           "DeboardingStopName": "捷運民權西路站",
           "count": 1149,
           "latlng": [
-            25.039,
-            121.5264
+            25.0628,
+            121.5195
           ]
         },
         {
           "DeboardingStopName": "捷運中山國小站",
           "count": 883,
           "latlng": [
-            25.069,
-            121.5228
+            25.0628,
+            121.5262
           ]
         },
         {
           "DeboardingStopName": "民權龍江路口",
           "count": 867,
           "latlng": [
-            25.039,
-            121.554
+            25.062,
+            121.533
           ]
         },
         {
           "DeboardingStopName": "民權中山路口",
           "count": 777,
           "latlng": [
-            25.069,
-            121.5264
+            25.062,
+            121.533
           ]
         }
       ]
@@ -1530,8 +1530,8 @@
       "BoardingStopName": "中華路北站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.045,
+      "lng": 121.5085,
       "transfer_volume": 25420,
       "subsidized_ntd": 110299.0,
       "from_metro": 4498,
@@ -1568,32 +1568,32 @@
           "DeboardingStopName": "捷運頂溪站",
           "count": 901,
           "latlng": [
-            25.039,
-            121.5264
+            25.0136,
+            121.5153
           ]
         },
         {
           "DeboardingStopName": "南機場公寓",
           "count": 743,
           "latlng": [
-            25.069,
-            121.5228
+            25.045,
+            121.5085
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 679,
           "latlng": [
-            25.039,
-            121.554
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "中興二村",
           "count": 429,
           "latlng": [
-            25.069,
-            121.5264
+            25.045,
+            121.5085
           ]
         }
       ]
@@ -1602,8 +1602,8 @@
       "BoardingStopName": "捷運中山站(志仁高中)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0528,
+      "lng": 121.5208,
       "transfer_volume": 25181,
       "subsidized_ntd": 119650.0,
       "from_metro": 5293,
@@ -1640,32 +1640,32 @@
           "DeboardingStopName": "南京林森路口",
           "count": 2222,
           "latlng": [
-            25.039,
-            121.5264
+            25.052,
+            121.5255
           ]
         },
         {
           "DeboardingStopName": "民生重慶路口",
           "count": 1485,
           "latlng": [
-            25.069,
-            121.5228
+            25.0528,
+            121.5208
           ]
         },
         {
           "DeboardingStopName": "南京吉林路口",
           "count": 1323,
           "latlng": [
-            25.039,
-            121.554
+            25.0528,
+            121.5208
           ]
         },
         {
           "DeboardingStopName": "三重派出所(重新路)",
           "count": 882,
           "latlng": [
-            25.069,
-            121.5264
+            25.0528,
+            121.5208
           ]
         }
       ]
@@ -1674,8 +1674,8 @@
       "BoardingStopName": "捷運忠孝敦化站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0415,
+      "lng": 121.551,
       "transfer_volume": 25025,
       "subsidized_ntd": 327453.0,
       "from_metro": 5603,
@@ -1712,32 +1712,32 @@
           "DeboardingStopName": "臺北小巨蛋",
           "count": 1891,
           "latlng": [
-            25.039,
-            121.5264
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "長庚醫院",
           "count": 1679,
           "latlng": [
-            25.069,
-            121.5228
+            25.0601,
+            121.3688
           ]
         },
         {
           "DeboardingStopName": "市民大道口",
           "count": 913,
           "latlng": [
-            25.039,
-            121.554
+            25.0415,
+            121.551
           ]
         },
         {
           "DeboardingStopName": "市立體育場",
           "count": 911,
           "latlng": [
-            25.069,
-            121.5264
+            25.0415,
+            121.551
           ]
         }
       ]
@@ -1746,8 +1746,8 @@
       "BoardingStopName": "臺北小巨蛋",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.05244,
+      "lng": 121.5498,
       "transfer_volume": 24206,
       "subsidized_ntd": 168502.0,
       "from_metro": 4834,
@@ -1784,8 +1784,8 @@
           "DeboardingStopName": "長庚醫院",
           "count": 1648,
           "latlng": [
-            25.039,
-            121.5264
+            25.0601,
+            121.3688
           ]
         },
         {
@@ -1800,16 +1800,16 @@
           "DeboardingStopName": "頂好市場",
           "count": 974,
           "latlng": [
-            25.039,
-            121.554
+            25.05244,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "公教住宅",
           "count": 631,
           "latlng": [
-            25.069,
-            121.5264
+            25.05244,
+            121.5498
           ]
         }
       ]
@@ -1818,8 +1818,8 @@
       "BoardingStopName": "南京敦化路口(小巨蛋)",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.05136,
+      "lng": 121.5498,
       "transfer_volume": 21945,
       "subsidized_ntd": 112416.0,
       "from_metro": 1973,
@@ -1856,32 +1856,32 @@
           "DeboardingStopName": "南京三民路口",
           "count": 1529,
           "latlng": [
-            25.039,
-            121.5264
+            25.0515,
+            121.562
           ]
         },
         {
           "DeboardingStopName": "南京寧安街口",
           "count": 1270,
           "latlng": [
-            25.069,
-            121.5228
+            25.0518,
+            121.5562
           ]
         },
         {
           "DeboardingStopName": "南京公寓(捷運南京三民)",
           "count": 957,
           "latlng": [
-            25.039,
-            121.554
+            25.0515,
+            121.5615
           ]
         },
         {
           "DeboardingStopName": "南京林森路口",
           "count": 844,
           "latlng": [
-            25.069,
-            121.5264
+            25.052,
+            121.5255
           ]
         }
       ]
@@ -1890,8 +1890,8 @@
       "BoardingStopName": "捷運蘆洲站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0872,
+      "lng": 121.4645,
       "transfer_volume": 21910,
       "subsidized_ntd": 172935.0,
       "from_metro": 0,
@@ -1928,32 +1928,32 @@
           "DeboardingStopName": "長安街一",
           "count": 2491,
           "latlng": [
-            25.039,
-            121.5264
+            25.0872,
+            121.4645
           ]
         },
         {
           "DeboardingStopName": "永平市場",
           "count": 2276,
           "latlng": [
-            25.069,
-            121.5228
+            25.0872,
+            121.4645
           ]
         },
         {
           "DeboardingStopName": "永康公園",
           "count": 1795,
           "latlng": [
-            25.039,
-            121.554
+            25.0872,
+            121.4645
           ]
         },
         {
           "DeboardingStopName": "長榮路",
           "count": 1661,
           "latlng": [
-            25.069,
-            121.5264
+            25.0872,
+            121.4645
           ]
         }
       ]
@@ -1962,8 +1962,8 @@
       "BoardingStopName": "南京三民路口",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0515,
+      "lng": 121.562,
       "transfer_volume": 21025,
       "subsidized_ntd": 122825.0,
       "from_metro": 1453,
@@ -2008,24 +2008,24 @@
           "DeboardingStopName": "南京敦化路口(小巨蛋)",
           "count": 1412,
           "latlng": [
-            25.069,
-            121.5228
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "南京寧安街口",
           "count": 736,
           "latlng": [
-            25.039,
-            121.554
+            25.0518,
+            121.5562
           ]
         },
         {
           "DeboardingStopName": "基隆轉運站",
           "count": 723,
           "latlng": [
-            25.1315,
-            121.7388
+            25.132,
+            121.7397
           ]
         }
       ]
@@ -2034,7 +2034,7 @@
       "BoardingStopName": "捷運圓山站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.0715,
+      "lat": 25.0712,
       "lng": 121.5202,
       "transfer_volume": 20934,
       "subsidized_ntd": 194272.0,
@@ -2072,32 +2072,32 @@
           "DeboardingStopName": "仁寶大樓",
           "count": 2701,
           "latlng": [
-            25.0535,
-            121.5046
+            25.0712,
+            121.5202
           ]
         },
         {
           "DeboardingStopName": "基湖站",
           "count": 2408,
           "latlng": [
-            25.0835,
-            121.501
+            25.0712,
+            121.5202
           ]
         },
         {
           "DeboardingStopName": "瑞光路",
           "count": 2193,
           "latlng": [
-            25.0535,
-            121.5322
+            25.0789,
+            121.5698
           ]
         },
         {
           "DeboardingStopName": "瑞光港墘路口",
           "count": 1855,
           "latlng": [
-            25.0835,
-            121.5046
+            25.0712,
+            121.5202
           ]
         }
       ]
@@ -2106,8 +2106,8 @@
       "BoardingStopName": "民生敦化路口",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0585,
+      "lng": 121.5495,
       "transfer_volume": 20923,
       "subsidized_ntd": 128751.0,
       "from_metro": 2278,
@@ -2144,32 +2144,32 @@
           "DeboardingStopName": "臺北小巨蛋",
           "count": 1271,
           "latlng": [
-            25.039,
-            121.5264
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 811,
           "latlng": [
-            25.069,
-            121.5228
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "頂好市場",
           "count": 789,
           "latlng": [
-            25.039,
-            121.554
+            25.0585,
+            121.5495
           ]
         },
         {
           "DeboardingStopName": "民生松江路口",
           "count": 752,
           "latlng": [
-            25.069,
-            121.5264
+            25.0585,
+            121.5495
           ]
         }
       ]
@@ -2178,8 +2178,8 @@
       "BoardingStopName": "捷運頂溪站",
       "region": "north",
       "region_label": "北部都會區 (基北北桃竹)",
-      "lat": 25.057,
-      "lng": 121.542,
+      "lat": 25.0136,
+      "lng": 121.5153,
       "transfer_volume": 20608,
       "subsidized_ntd": 168613.0,
       "from_metro": 12241,
@@ -2216,32 +2216,32 @@
           "DeboardingStopName": "永和國小",
           "count": 1584,
           "latlng": [
-            25.039,
-            121.5264
+            25.0025,
+            121.5165
           ]
         },
         {
           "DeboardingStopName": "博愛路",
           "count": 1413,
           "latlng": [
-            25.069,
-            121.5228
+            25.0136,
+            121.5153
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 1393,
           "latlng": [
-            25.039,
-            121.554
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "重慶南路三段(中正橋)",
           "count": 1291,
           "latlng": [
-            25.069,
-            121.5264
+            25.0136,
+            121.5153
           ]
         }
       ]
@@ -2288,32 +2288,32 @@
           "DeboardingStopName": "捷運頂溪站",
           "count": 3291,
           "latlng": [
-            23.9395,
-            120.6709
+            25.0136,
+            121.5153
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 1143,
           "latlng": [
-            23.9695,
-            120.6673
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "捷運景安站(景平路)",
           "count": 783,
           "latlng": [
-            23.9395,
-            120.6985
+            24.9938,
+            121.5052
           ]
         },
         {
           "DeboardingStopName": "博愛路",
           "count": 587,
           "latlng": [
-            23.9695,
-            120.6709
+            23.9575,
+            120.6865
           ]
         }
       ]
@@ -2322,8 +2322,8 @@
       "BoardingStopName": "羅東轉運站",
       "region": "east",
       "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.6765,
-      "lng": 121.7745,
+      "lat": 24.6775,
+      "lng": 121.775,
       "transfer_volume": 16429,
       "subsidized_ntd": 968203.0,
       "from_metro": 781,
@@ -2368,16 +2368,16 @@
           "DeboardingStopName": "南港轉運站西站",
           "count": 617,
           "latlng": [
-            25.0528,
-            121.6065
+            25.0531,
+            121.608
           ]
         },
         {
           "DeboardingStopName": "石潭公園(成功)",
           "count": 140,
           "latlng": [
-            24.6585,
-            121.7865
+            25.0585,
+            121.5855
           ]
         },
         {
@@ -2394,8 +2394,8 @@
       "BoardingStopName": "宜蘭轉運站",
       "region": "east",
       "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.7538,
-      "lng": 121.7582,
+      "lat": 24.7544,
+      "lng": 121.761,
       "transfer_volume": 14756,
       "subsidized_ntd": 969856.0,
       "from_metro": 712,
@@ -2440,34 +2440,34 @@
           "DeboardingStopName": "南港轉運站西站",
           "count": 567,
           "latlng": [
-            25.0528,
-            121.6065
+            25.0531,
+            121.608
           ]
         },
         {
           "DeboardingStopName": "捷運大坪林站",
           "count": 232,
           "latlng": [
-            24.7358,
-            121.7702
+            24.7544,
+            121.761
           ]
         },
         {
           "DeboardingStopName": "石潭公園(成功)",
           "count": 177,
           "latlng": [
-            24.7658,
-            121.7426
+            25.0585,
+            121.5855
           ]
         }
       ]
     },
     {
       "BoardingStopName": "台電大樓",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0205,
+      "lng": 121.5285,
       "transfer_volume": 13212,
       "subsidized_ntd": 46898.0,
       "from_metro": 2669,
@@ -2512,34 +2512,34 @@
           "DeboardingStopName": "師大分部",
           "count": 477,
           "latlng": [
-            22.674,
-            120.3128
+            25.0205,
+            121.5285
           ]
         },
         {
           "DeboardingStopName": "羅斯福金門街口",
           "count": 356,
           "latlng": [
-            22.644,
-            120.344
+            25.0205,
+            121.5285
           ]
         },
         {
           "DeboardingStopName": "捷運古亭站(羅斯福)",
           "count": 286,
           "latlng": [
-            22.674,
-            120.3164
+            25.0264,
+            121.5229
           ]
         }
       ]
     },
     {
       "BoardingStopName": "果菜市場",
-      "region": "central",
-      "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.152,
-      "lng": 120.682,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.025,
+      "lng": 121.498,
       "transfer_volume": 12717,
       "subsidized_ntd": 57427.0,
       "from_metro": 150,
@@ -2577,31 +2577,31 @@
           "count": 1530,
           "latlng": [
             25.0422,
-            121.5085
+            121.5083
           ]
         },
         {
           "DeboardingStopName": "華中橋",
           "count": 1188,
           "latlng": [
-            24.164,
-            120.6628
+            25.025,
+            121.498
           ]
         },
         {
           "DeboardingStopName": "萬華車站",
           "count": 746,
           "latlng": [
-            24.134,
-            120.694
+            25.0336,
+            121.5002
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 396,
           "latlng": [
-            24.164,
-            120.6664
+            25.0465,
+            121.5175
           ]
         }
       ]
@@ -2648,42 +2648,42 @@
           "DeboardingStopName": "鹿港乘車處",
           "count": 935,
           "latlng": [
-            24.0638,
-            120.5229
+            24.0565,
+            120.4355
           ]
         },
         {
           "DeboardingStopName": "市場前",
           "count": 754,
           "latlng": [
-            24.0938,
-            120.5193
+            24.0818,
+            120.5385
           ]
         },
         {
           "DeboardingStopName": "順天醫院",
           "count": 727,
           "latlng": [
-            24.0638,
-            120.5505
+            24.0818,
+            120.5385
           ]
         },
         {
           "DeboardingStopName": "和調里",
           "count": 443,
           "latlng": [
-            24.0938,
-            120.5229
+            24.0818,
+            120.5385
           ]
         }
       ]
     },
     {
       "BoardingStopName": "永和國小",
-      "region": "central",
-      "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.152,
-      "lng": 120.682,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0025,
+      "lng": 121.5165,
       "transfer_volume": 11495,
       "subsidized_ntd": 67285.0,
       "from_metro": 1719,
@@ -2720,32 +2720,32 @@
           "DeboardingStopName": "捷運頂溪站",
           "count": 3010,
           "latlng": [
-            24.134,
-            120.6664
+            25.0136,
+            121.5153
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 1158,
           "latlng": [
-            24.164,
-            120.6628
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "捷運景安站(景平路)",
           "count": 869,
           "latlng": [
-            24.134,
-            120.694
+            24.9938,
+            121.5052
           ]
         },
         {
           "DeboardingStopName": "博愛路",
           "count": 418,
           "latlng": [
-            24.164,
-            120.6664
+            25.0025,
+            121.5165
           ]
         }
       ]
@@ -2754,8 +2754,8 @@
       "BoardingStopName": "高鐵臺中站",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.1118,
-      "lng": 120.6157,
+      "lat": 24.1121,
+      "lng": 120.6159,
       "transfer_volume": 9456,
       "subsidized_ntd": 79161.0,
       "from_metro": 0,
@@ -2816,8 +2816,8 @@
           "DeboardingStopName": "埔里酒廠",
           "count": 600,
           "latlng": [
-            24.1238,
-            120.6001
+            24.1121,
+            120.6159
           ]
         }
       ]
@@ -2826,8 +2826,8 @@
       "BoardingStopName": "礁溪轉運站",
       "region": "east",
       "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.8272,
-      "lng": 121.774,
+      "lat": 24.829,
+      "lng": 121.773,
       "transfer_volume": 8350,
       "subsidized_ntd": 211632.0,
       "from_metro": 297,
@@ -2872,24 +2872,24 @@
           "DeboardingStopName": "南港轉運站西站",
           "count": 724,
           "latlng": [
-            25.0528,
-            121.6065
+            25.0531,
+            121.608
           ]
         },
         {
           "DeboardingStopName": "圓山轉運站(玉門)",
           "count": 221,
           "latlng": [
-            25.0712,
-            121.5198
+            25.0715,
+            121.5202
           ]
         },
         {
           "DeboardingStopName": "捷運大坪林站",
           "count": 177,
           "latlng": [
-            24.8392,
-            121.7584
+            24.829,
+            121.773
           ]
         }
       ]
@@ -2898,8 +2898,8 @@
       "BoardingStopName": "三民國小",
       "region": "south",
       "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "lat": 22.6465,
+      "lng": 120.3015,
       "transfer_volume": 7750,
       "subsidized_ntd": 30781.0,
       "from_metro": 143,
@@ -2936,42 +2936,42 @@
           "DeboardingStopName": "捷運民權西路站",
           "count": 622,
           "latlng": [
-            22.644,
-            120.3164
+            25.0628,
+            121.5195
           ]
         },
         {
           "DeboardingStopName": "民權復興路口",
           "count": 436,
           "latlng": [
-            22.674,
-            120.3128
+            22.6465,
+            120.3015
           ]
         },
         {
           "DeboardingStopName": "捷運中山國小站",
           "count": 381,
           "latlng": [
-            22.644,
-            120.344
+            25.0628,
+            121.5262
           ]
         },
         {
           "DeboardingStopName": "民權敦化路口",
           "count": 330,
           "latlng": [
-            22.674,
-            120.3164
+            22.6465,
+            120.3015
           ]
         }
       ]
     },
     {
       "BoardingStopName": "忠孝國小",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0425,
+      "lng": 121.5305,
       "transfer_volume": 7367,
       "subsidized_ntd": 44264.0,
       "from_metro": 2124,
@@ -3008,32 +3008,32 @@
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 883,
           "latlng": [
-            22.644,
-            120.3164
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "中華路北站",
           "count": 407,
           "latlng": [
-            22.674,
-            120.3128
+            25.045,
+            121.5085
           ]
         },
         {
           "DeboardingStopName": "頂好市場",
           "count": 390,
           "latlng": [
-            22.644,
-            120.344
+            25.0425,
+            121.5305
           ]
         },
         {
           "DeboardingStopName": "懷生國中",
           "count": 311,
           "latlng": [
-            22.674,
-            120.3164
+            25.0425,
+            121.5305
           ]
         }
       ]
@@ -3088,8 +3088,8 @@
           "DeboardingStopName": "埔里東站",
           "count": 837,
           "latlng": [
-            24.1498,
-            120.668
+            24.1378,
+            120.6872
           ]
         },
         {
@@ -3112,10 +3112,10 @@
     },
     {
       "BoardingStopName": "成功國宅",
-      "region": "east",
-      "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.412,
-      "lng": 121.762,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0305,
+      "lng": 121.5455,
       "transfer_volume": 5810,
       "subsidized_ntd": 26428.0,
       "from_metro": 368,
@@ -3152,32 +3152,32 @@
           "DeboardingStopName": "安和敦化路口",
           "count": 857,
           "latlng": [
-            24.394,
-            121.7464
+            25.0305,
+            121.5455
           ]
         },
         {
           "DeboardingStopName": "臺北小巨蛋",
           "count": 401,
           "latlng": [
-            24.424,
-            121.7428
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "捷運忠孝敦化站",
           "count": 393,
           "latlng": [
-            24.394,
-            121.774
+            25.0415,
+            121.551
           ]
         },
         {
           "DeboardingStopName": "仁愛國中",
           "count": 237,
           "latlng": [
-            24.424,
-            121.7464
+            25.0365,
+            121.5512
           ]
         }
       ]
@@ -3224,16 +3224,16 @@
           "DeboardingStopName": "臺中車站(民族路口)",
           "count": 632,
           "latlng": [
-            23.9592,
-            120.6679
+            23.9772,
+            120.6835
           ]
         },
         {
           "DeboardingStopName": "高鐵臺中站",
           "count": 523,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
@@ -3256,10 +3256,10 @@
     },
     {
       "BoardingStopName": "長庚醫院",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0601,
+      "lng": 121.3688,
       "transfer_volume": 5248,
       "subsidized_ntd": 51172.0,
       "from_metro": 283,
@@ -3296,8 +3296,8 @@
           "DeboardingStopName": "高鐵嘉義站",
           "count": 393,
           "latlng": [
-            23.4592,
-            120.3235
+            23.4594,
+            120.3236
           ]
         },
         {
@@ -3312,16 +3312,16 @@
           "DeboardingStopName": "民生社區活動中心",
           "count": 246,
           "latlng": [
-            22.644,
-            120.344
+            25.0601,
+            121.3688
           ]
         },
         {
           "DeboardingStopName": "聯合二村",
           "count": 189,
           "latlng": [
-            22.674,
-            120.3164
+            25.0601,
+            121.3688
           ]
         }
       ]
@@ -3376,24 +3376,24 @@
           "DeboardingStopName": "大雅站",
           "count": 287,
           "latlng": [
-            23.4762,
-            120.4725
+            24.2285,
+            120.6515
           ]
         },
         {
           "DeboardingStopName": "安仁里",
           "count": 277,
           "latlng": [
-            23.4565,
-            120.3012
+            23.4791,
+            120.4411
           ]
         },
         {
           "DeboardingStopName": "北港派出所",
           "count": 275,
           "latlng": [
-            23.5702,
-            120.3015
+            23.4791,
+            120.4411
           ]
         }
       ]
@@ -3402,8 +3402,8 @@
       "BoardingStopName": "高鐵嘉義站",
       "region": "south",
       "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 23.4592,
-      "lng": 120.3235,
+      "lat": 23.4594,
+      "lng": 120.3236,
       "transfer_volume": 5121,
       "subsidized_ntd": 43421.0,
       "from_metro": 0,
@@ -3440,8 +3440,8 @@
           "DeboardingStopName": "縣政府",
           "count": 869,
           "latlng": [
-            23.4412,
-            120.3079
+            23.4594,
+            120.3236
           ]
         },
         {
@@ -3464,8 +3464,8 @@
           "DeboardingStopName": "北港派出所",
           "count": 290,
           "latlng": [
-            23.5702,
-            120.3015
+            23.4594,
+            120.3236
           ]
         }
       ]
@@ -3512,8 +3512,8 @@
           "DeboardingStopName": "高鐵臺中站",
           "count": 3026,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
@@ -3536,18 +3536,18 @@
           "DeboardingStopName": "魚池",
           "count": 82,
           "latlng": [
-            23.9795,
-            120.9502
+            23.9675,
+            120.9658
           ]
         }
       ]
     },
     {
       "BoardingStopName": "變電所",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 24.9685,
+      "lng": 121.5385,
       "transfer_volume": 5001,
       "subsidized_ntd": 27285.0,
       "from_metro": 225,
@@ -3584,42 +3584,42 @@
           "DeboardingStopName": "捷運市政府站",
           "count": 483,
           "latlng": [
-            22.644,
-            120.3164
+            25.0411,
+            121.5651
           ]
         },
         {
           "DeboardingStopName": "捷運木柵站",
           "count": 349,
           "latlng": [
-            22.674,
-            120.3128
+            24.9685,
+            121.5385
           ]
         },
         {
           "DeboardingStopName": "萬順寮",
           "count": 288,
           "latlng": [
-            22.644,
-            120.344
+            24.9685,
+            121.5385
           ]
         },
         {
           "DeboardingStopName": "松壽路口",
           "count": 255,
           "latlng": [
-            22.674,
-            120.3164
+            24.9685,
+            121.5385
           ]
         }
       ]
     },
     {
       "BoardingStopName": "第一銀行",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0365,
+      "lng": 121.4515,
       "transfer_volume": 4922,
       "subsidized_ntd": 23867.0,
       "from_metro": 1167,
@@ -3656,42 +3656,42 @@
           "DeboardingStopName": "復興中學",
           "count": 569,
           "latlng": [
-            22.644,
-            120.3164
+            25.0365,
+            121.4515
           ]
         },
         {
           "DeboardingStopName": "秀山里",
           "count": 540,
           "latlng": [
-            22.674,
-            120.3128
+            25.0365,
+            121.4515
           ]
         },
         {
           "DeboardingStopName": "中和街",
           "count": 413,
           "latlng": [
-            22.644,
-            120.344
+            25.0365,
+            121.4515
           ]
         },
         {
           "DeboardingStopName": "新北投",
           "count": 293,
           "latlng": [
-            22.674,
-            120.3164
+            25.1368,
+            121.5032
           ]
         }
       ]
     },
     {
       "BoardingStopName": "石潭公園(成功)",
-      "region": "east",
-      "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.412,
-      "lng": 121.762,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0585,
+      "lng": 121.5855,
       "transfer_volume": 4833,
       "subsidized_ntd": 77861.0,
       "from_metro": 110,
@@ -3728,42 +3728,42 @@
           "DeboardingStopName": "捷運昆陽站",
           "count": 1716,
           "latlng": [
-            24.394,
-            121.7464
+            25.0505,
+            121.5933
           ]
         },
         {
           "DeboardingStopName": "南港車站",
           "count": 188,
           "latlng": [
-            24.424,
-            121.7428
+            25.0531,
+            121.6071
           ]
         },
         {
           "DeboardingStopName": "南港高中",
           "count": 141,
           "latlng": [
-            24.394,
-            121.774
+            25.0585,
+            121.5855
           ]
         },
         {
           "DeboardingStopName": "南港分局(向陽)",
           "count": 137,
           "latlng": [
-            24.424,
-            121.7464
+            25.0585,
+            121.5855
           ]
         }
       ]
     },
     {
       "BoardingStopName": "溪墘",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0785,
+      "lng": 121.4825,
       "transfer_volume": 4244,
       "subsidized_ntd": 24810.0,
       "from_metro": 0,
@@ -3800,32 +3800,32 @@
           "DeboardingStopName": "徐匯中學",
           "count": 374,
           "latlng": [
-            22.644,
-            120.3164
+            25.0785,
+            121.4825
           ]
         },
         {
           "DeboardingStopName": "捷運徐匯中學站",
           "count": 372,
           "latlng": [
-            22.674,
-            120.3128
+            25.0785,
+            121.4825
           ]
         },
         {
           "DeboardingStopName": "士林國中",
           "count": 128,
           "latlng": [
-            22.644,
-            120.344
+            25.0965,
+            121.5225
           ]
         },
         {
           "DeboardingStopName": "三和國中",
           "count": 112,
           "latlng": [
-            22.674,
-            120.3164
+            25.0768,
+            121.4878
           ]
         }
       ]
@@ -3834,8 +3834,8 @@
       "BoardingStopName": "仁愛街口",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.152,
-      "lng": 120.682,
+      "lat": 24.0815,
+      "lng": 120.5415,
       "transfer_volume": 4095,
       "subsidized_ntd": 25184.0,
       "from_metro": 0,
@@ -3872,32 +3872,32 @@
           "DeboardingStopName": "捷運蘆洲站",
           "count": 988,
           "latlng": [
-            24.134,
-            120.6664
+            25.0872,
+            121.4645
           ]
         },
         {
           "DeboardingStopName": "五常郵局",
           "count": 300,
           "latlng": [
-            24.164,
-            120.6628
+            24.0815,
+            120.5415
           ]
         },
         {
           "DeboardingStopName": "自強五華街口",
           "count": 154,
           "latlng": [
-            24.134,
-            120.694
+            24.0815,
+            120.5415
           ]
         },
         {
           "DeboardingStopName": "徐匯中學",
           "count": 109,
           "latlng": [
-            24.164,
-            120.6664
+            24.0815,
+            120.5415
           ]
         }
       ]
@@ -3944,16 +3944,16 @@
           "DeboardingStopName": "高鐵臺中站",
           "count": 1332,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
           "DeboardingStopName": "伊達邵",
           "count": 271,
           "latlng": [
-            23.8802,
-            120.896
+            23.8682,
+            120.9152
           ]
         },
         {
@@ -3978,8 +3978,8 @@
       "BoardingStopName": "仙公廟",
       "region": "south",
       "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "lat": 22.6195,
+      "lng": 120.3545,
       "transfer_volume": 3551,
       "subsidized_ntd": 13926.0,
       "from_metro": 10,
@@ -4016,16 +4016,16 @@
           "DeboardingStopName": "捷運菜寮站",
           "count": 508,
           "latlng": [
-            22.644,
-            120.3164
+            22.6195,
+            120.3545
           ]
         },
         {
           "DeboardingStopName": "菜寮(重新路)",
           "count": 260,
           "latlng": [
-            22.674,
-            120.3128
+            22.6195,
+            120.3545
           ]
         },
         {
@@ -4040,8 +4040,8 @@
           "DeboardingStopName": "大同路口",
           "count": 162,
           "latlng": [
-            22.674,
-            120.3164
+            22.6195,
+            120.3545
           ]
         }
       ]
@@ -4050,8 +4050,8 @@
       "BoardingStopName": "鹿港乘車處",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.152,
-      "lng": 120.682,
+      "lat": 24.0565,
+      "lng": 120.4355,
       "transfer_volume": 3485,
       "subsidized_ntd": 56487.0,
       "from_metro": 0,
@@ -4096,32 +4096,32 @@
           "DeboardingStopName": "高鐵臺中站",
           "count": 472,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
           "DeboardingStopName": "彰化縣政府",
           "count": 377,
           "latlng": [
-            24.0818,
-            120.5385
+            24.0565,
+            120.4355
           ]
         },
         {
           "DeboardingStopName": "彰化女中",
           "count": 324,
           "latlng": [
-            24.0818,
-            120.5385
+            24.0565,
+            120.4355
           ]
         }
       ]
     },
     {
       "BoardingStopName": "彰化銀行(嘉義)",
-      "region": "central",
-      "region_label": "中部生活圈 (中彰投苗)",
+      "region": "south",
+      "region_label": "南部生活圈 (南高屏/雲嘉)",
       "lat": 23.4782,
       "lng": 120.4485,
       "transfer_volume": 3433,
@@ -4168,24 +4168,24 @@
           "DeboardingStopName": "北港派出所",
           "count": 168,
           "latlng": [
-            23.5702,
-            120.3015
+            23.4782,
+            120.4485
           ]
         },
         {
           "DeboardingStopName": "中埔國中",
           "count": 119,
           "latlng": [
-            23.4602,
-            120.4605
+            23.4782,
+            120.4485
           ]
         },
         {
           "DeboardingStopName": "新港國中",
           "count": 107,
           "latlng": [
-            23.4902,
-            120.4329
+            23.4782,
+            120.4485
           ]
         }
       ]
@@ -4232,42 +4232,42 @@
           "DeboardingStopName": "台東大學",
           "count": 439,
           "latlng": [
-            22.7485,
-            121.0725
+            22.7535,
+            121.1495
           ]
         },
         {
           "DeboardingStopName": "台東火車站",
           "count": 296,
           "latlng": [
-            22.7932,
-            121.1232
+            22.7936,
+            121.1231
           ]
         },
         {
           "DeboardingStopName": "太麻里",
           "count": 194,
           "latlng": [
-            22.6148,
-            121.0075
+            22.7535,
+            121.1495
           ]
         },
         {
           "DeboardingStopName": "成功",
           "count": 132,
           "latlng": [
-            23.0005,
-            120.2185
+            24.1147,
+            120.5908
           ]
         }
       ]
     },
     {
       "BoardingStopName": "港墘派出所",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0765,
+      "lng": 121.5785,
       "transfer_volume": 3319,
       "subsidized_ntd": 19245.0,
       "from_metro": 287,
@@ -4304,40 +4304,40 @@
           "DeboardingStopName": "瑞光路",
           "count": 1117,
           "latlng": [
-            22.644,
-            120.3164
+            25.0789,
+            121.5698
           ]
         },
         {
           "DeboardingStopName": "金龍寺",
           "count": 418,
           "latlng": [
-            22.674,
-            120.3128
+            25.0765,
+            121.5785
           ]
         },
         {
           "DeboardingStopName": "捷運市政府站",
           "count": 156,
           "latlng": [
-            22.644,
-            120.344
+            25.0411,
+            121.5651
           ]
         },
         {
           "DeboardingStopName": "金龍隧道口",
           "count": 117,
           "latlng": [
-            22.674,
-            120.3164
+            25.0765,
+            121.5785
           ]
         }
       ]
     },
     {
       "BoardingStopName": "北港",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
       "lat": 23.5702,
       "lng": 120.3015,
       "transfer_volume": 2650,
@@ -4376,8 +4376,8 @@
           "DeboardingStopName": "高鐵嘉義站",
           "count": 374,
           "latlng": [
-            23.4592,
-            120.3235
+            23.4594,
+            120.3236
           ]
         },
         {
@@ -4400,8 +4400,8 @@
           "DeboardingStopName": "斗六火車站",
           "count": 109,
           "latlng": [
-            23.5822,
-            120.2859
+            23.7119,
+            120.5444
           ]
         }
       ]
@@ -4448,32 +4448,32 @@
           "DeboardingStopName": "高鐵嘉義站",
           "count": 381,
           "latlng": [
-            23.4592,
-            120.3235
+            23.4594,
+            120.3236
           ]
         },
         {
           "DeboardingStopName": "長庚醫院",
           "count": 248,
           "latlng": [
-            23.4735,
-            120.2266
+            25.0601,
+            121.3688
           ]
         },
         {
           "DeboardingStopName": "文化路口",
           "count": 185,
           "latlng": [
-            23.4435,
-            120.2578
+            25.0165,
+            121.4645
           ]
         },
         {
           "DeboardingStopName": "嘉義公園",
           "count": 185,
           "latlng": [
-            23.4735,
-            120.2302
+            23.4615,
+            120.2458
           ]
         }
       ]
@@ -4482,7 +4482,7 @@
       "BoardingStopName": "南投",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 23.9102,
+      "lat": 23.91074,
       "lng": 120.6865,
       "transfer_volume": 2609,
       "subsidized_ntd": 29098.0,
@@ -4528,16 +4528,16 @@
           "DeboardingStopName": "高鐵臺中站",
           "count": 157,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
           "DeboardingStopName": "鄉親寮",
           "count": 150,
           "latlng": [
-            23.8922,
-            120.6985
+            23.91074,
+            120.6865
           ]
         },
         {
@@ -4554,7 +4554,7 @@
       "BoardingStopName": "南投站",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 23.9102,
+      "lat": 23.90966,
       "lng": 120.6865,
       "transfer_volume": 2517,
       "subsidized_ntd": 38946.0,
@@ -4588,8 +4588,8 @@
           "DeboardingStopName": "臺中車站(民族路口)",
           "count": 292,
           "latlng": [
-            23.8922,
-            120.6709
+            23.90966,
+            120.6865
           ]
         },
         {
@@ -4612,18 +4612,18 @@
           "DeboardingStopName": "中學路",
           "count": 165,
           "latlng": [
-            23.9222,
-            120.6709
+            23.90966,
+            120.6865
           ]
         }
       ]
     },
     {
       "BoardingStopName": "光復路口",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 24.7955,
+      "lng": 120.9985,
       "transfer_volume": 2421,
       "subsidized_ntd": 8215.0,
       "from_metro": 289,
@@ -4660,32 +4660,32 @@
           "DeboardingStopName": "臺視",
           "count": 227,
           "latlng": [
-            22.644,
-            120.3164
+            24.7955,
+            120.9985
           ]
         },
         {
           "DeboardingStopName": "臺安醫院",
           "count": 192,
           "latlng": [
-            22.674,
-            120.3128
+            24.7955,
+            120.9985
           ]
         },
         {
           "DeboardingStopName": "臺北車站(忠孝)",
           "count": 148,
           "latlng": [
-            22.644,
-            120.344
+            25.0465,
+            121.5175
           ]
         },
         {
           "DeboardingStopName": "松山車站(八德)",
           "count": 85,
           "latlng": [
-            22.674,
-            120.3164
+            25.0498,
+            121.5785
           ]
         }
       ]
@@ -4732,8 +4732,8 @@
           "DeboardingStopName": "高鐵臺中站",
           "count": 983,
           "latlng": [
-            24.1118,
-            120.6157
+            24.1121,
+            120.6159
           ]
         },
         {
@@ -4748,26 +4748,26 @@
           "DeboardingStopName": "杉林溪",
           "count": 85,
           "latlng": [
-            23.6558,
-            120.8085
+            23.6738,
+            120.7965
           ]
         },
         {
           "DeboardingStopName": "延平",
           "count": 72,
           "latlng": [
-            23.6858,
-            120.7809
+            23.6738,
+            120.7965
           ]
         }
       ]
     },
     {
       "BoardingStopName": "仁愛國中",
-      "region": "central",
-      "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.152,
-      "lng": 120.682,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0365,
+      "lng": 121.5512,
       "transfer_volume": 2286,
       "subsidized_ntd": 10521.0,
       "from_metro": 130,
@@ -4804,32 +4804,32 @@
           "DeboardingStopName": "捷運忠孝敦化站",
           "count": 246,
           "latlng": [
-            24.134,
-            120.6664
+            25.0415,
+            121.551
           ]
         },
         {
           "DeboardingStopName": "臺北小巨蛋",
           "count": 230,
           "latlng": [
-            24.164,
-            120.6628
+            25.0519,
+            121.5498
           ]
         },
         {
           "DeboardingStopName": "長庚醫院",
           "count": 113,
           "latlng": [
-            24.134,
-            120.694
+            25.0601,
+            121.3688
           ]
         },
         {
           "DeboardingStopName": "市立體育場",
           "count": 105,
           "latlng": [
-            24.164,
-            120.6664
+            25.0365,
+            121.5512
           ]
         }
       ]
@@ -4838,8 +4838,8 @@
       "BoardingStopName": "員林站",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 23.9595,
-      "lng": 120.5702,
+      "lat": 23.9592,
+      "lng": 120.5708,
       "transfer_volume": 2230,
       "subsidized_ntd": 31527.0,
       "from_metro": 0,
@@ -4876,32 +4876,32 @@
           "DeboardingStopName": "溪湖站",
           "count": 221,
           "latlng": [
-            23.9415,
-            120.5546
+            23.9592,
+            120.5708
           ]
         },
         {
           "DeboardingStopName": "北斗國中",
           "count": 193,
           "latlng": [
-            23.9715,
-            120.551
+            23.9592,
+            120.5708
           ]
         },
         {
           "DeboardingStopName": "溪州",
           "count": 158,
           "latlng": [
-            23.9415,
-            120.5822
+            23.9592,
+            120.5708
           ]
         },
         {
           "DeboardingStopName": "大道里",
           "count": 90,
           "latlng": [
-            23.9715,
-            120.5546
+            23.9592,
+            120.5708
           ]
         }
       ]
@@ -4910,8 +4910,8 @@
       "BoardingStopName": "彰化(三民路)",
       "region": "central",
       "region_label": "中部生活圈 (中彰投苗)",
-      "lat": 24.0818,
-      "lng": 120.5385,
+      "lat": 24.0825,
+      "lng": 120.5395,
       "transfer_volume": 2215,
       "subsidized_ntd": 26602.0,
       "from_metro": 0,
@@ -4948,42 +4948,42 @@
           "DeboardingStopName": "頂番婆",
           "count": 272,
           "latlng": [
-            24.0638,
-            120.5229
+            24.0825,
+            120.5395
           ]
         },
         {
           "DeboardingStopName": "派出所前",
           "count": 180,
           "latlng": [
-            24.0938,
-            120.5193
+            24.0825,
+            120.5395
           ]
         },
         {
           "DeboardingStopName": "陽明里",
           "count": 99,
           "latlng": [
-            24.0638,
-            120.5505
+            24.0825,
+            120.5395
           ]
         },
         {
           "DeboardingStopName": "南佃里",
           "count": 76,
           "latlng": [
-            24.0938,
-            120.5229
+            24.0825,
+            120.5395
           ]
         }
       ]
     },
     {
       "BoardingStopName": "深坑",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0015,
+      "lng": 121.6155,
       "transfer_volume": 1839,
       "subsidized_ntd": 6022.0,
       "from_metro": 61,
@@ -5020,40 +5020,40 @@
           "DeboardingStopName": "捷運市政府站",
           "count": 323,
           "latlng": [
-            22.644,
-            120.3164
+            25.0411,
+            121.5651
           ]
         },
         {
           "DeboardingStopName": "捷運木柵站",
           "count": 184,
           "latlng": [
-            22.674,
-            120.3128
+            25.0015,
+            121.6155
           ]
         },
         {
           "DeboardingStopName": "松壽路口",
           "count": 132,
           "latlng": [
-            22.644,
-            120.344
+            25.0015,
+            121.6155
           ]
         },
         {
           "DeboardingStopName": "東南科技大學",
           "count": 121,
           "latlng": [
-            22.674,
-            120.3164
+            25.0015,
+            121.6155
           ]
         }
       ]
     },
     {
       "BoardingStopName": "阿里山轉運站",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
       "lat": 23.5105,
       "lng": 120.8038,
       "transfer_volume": 1700,
@@ -5092,34 +5092,34 @@
           "DeboardingStopName": "高鐵嘉義站",
           "count": 228,
           "latlng": [
-            23.4592,
-            120.3235
+            23.4594,
+            120.3236
           ]
         },
         {
           "DeboardingStopName": "石棹",
           "count": 146,
           "latlng": [
-            23.4925,
-            120.8158
+            23.5105,
+            120.8038
           ]
         },
         {
           "DeboardingStopName": "奮起湖終點站",
           "count": 117,
           "latlng": [
-            23.5225,
-            120.7882
+            23.5105,
+            120.8038
           ]
         }
       ]
     },
     {
       "BoardingStopName": "文化路口",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 22.662,
-      "lng": 120.332,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0165,
+      "lng": 121.4645,
       "transfer_volume": 1516,
       "subsidized_ntd": 41653.0,
       "from_metro": 0,
@@ -5156,16 +5156,16 @@
           "DeboardingStopName": "高鐵嘉義站",
           "count": 256,
           "latlng": [
-            23.4592,
-            120.3235
+            23.4594,
+            120.3236
           ]
         },
         {
           "DeboardingStopName": "縣政府",
           "count": 215,
           "latlng": [
-            22.674,
-            120.3128
+            25.0165,
+            121.4645
           ]
         },
         {
@@ -5188,10 +5188,10 @@
     },
     {
       "BoardingStopName": "大雅站",
-      "region": "south",
-      "region_label": "南部生活圈 (南高屏/雲嘉)",
-      "lat": 23.4762,
-      "lng": 120.4725,
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.2285,
+      "lng": 120.6515,
       "transfer_volume": 1486,
       "subsidized_ntd": 46982.0,
       "from_metro": 0,
@@ -5236,24 +5236,24 @@
           "DeboardingStopName": "過溝",
           "count": 66,
           "latlng": [
-            23.4882,
-            120.4533
+            24.2285,
+            120.6515
           ]
         },
         {
           "DeboardingStopName": "梅山",
           "count": 46,
           "latlng": [
-            23.4582,
-            120.4845
+            24.2285,
+            120.6515
           ]
         },
         {
           "DeboardingStopName": "長老會",
           "count": 45,
           "latlng": [
-            23.4882,
-            120.4569
+            24.2285,
+            120.6515
           ]
         }
       ]
@@ -5300,42 +5300,42 @@
           "DeboardingStopName": "海洋公園",
           "count": 85,
           "latlng": [
-            23.9752,
-            121.5859
+            23.9932,
+            121.6015
           ]
         },
         {
           "DeboardingStopName": "中華路",
           "count": 75,
           "latlng": [
-            24.0052,
-            121.5823
+            25.045,
+            121.5085
           ]
         },
         {
           "DeboardingStopName": "東大門夜市",
           "count": 44,
           "latlng": [
-            23.9752,
-            121.6135
+            23.9932,
+            121.6015
           ]
         },
         {
           "DeboardingStopName": "花蓮文創園區(中正)",
           "count": 35,
           "latlng": [
-            24.0052,
-            121.5859
+            23.9932,
+            121.6015
           ]
         }
       ]
     },
     {
       "BoardingStopName": "成功路口",
-      "region": "east",
-      "region_label": "東部生活圈 (宜花東)",
-      "lat": 24.412,
-      "lng": 121.762,
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹)",
+      "lat": 25.0785,
+      "lng": 121.5895,
       "transfer_volume": 799,
       "subsidized_ntd": 27581.0,
       "from_metro": 0,
@@ -5380,24 +5380,24 @@
           "DeboardingStopName": "捷運大橋頭站",
           "count": 183,
           "latlng": [
-            24.424,
-            121.7428
+            25.0785,
+            121.5895
           ]
         },
         {
           "DeboardingStopName": "民族重慶路口",
           "count": 62,
           "latlng": [
-            24.394,
-            121.774
+            25.0785,
+            121.5895
           ]
         },
         {
           "DeboardingStopName": "圓環(重慶)",
           "count": 26,
           "latlng": [
-            24.424,
-            121.7464
+            25.0785,
+            121.5895
           ]
         }
       ]
@@ -5406,8 +5406,8 @@
       "BoardingStopName": "台東火車站",
       "region": "east",
       "region_label": "東部生活圈 (宜花東)",
-      "lat": 22.7932,
-      "lng": 121.1232,
+      "lat": 22.7936,
+      "lng": 121.1231,
       "transfer_volume": 767,
       "subsidized_ntd": 7863.0,
       "from_metro": 0,
@@ -5444,8 +5444,8 @@
           "DeboardingStopName": "中央市場",
           "count": 119,
           "latlng": [
-            22.6735,
-            120.4905
+            22.7936,
+            121.1231
           ]
         },
         {
@@ -5460,26 +5460,26 @@
           "DeboardingStopName": "都蘭B",
           "count": 44,
           "latlng": [
-            22.7752,
-            121.1352
+            22.7936,
+            121.1231
           ]
         },
         {
           "DeboardingStopName": "成功",
           "count": 42,
           "latlng": [
-            23.0005,
-            120.2185
+            24.1147,
+            120.5908
           ]
         }
       ]
     },
     {
       "BoardingStopName": "成功",
-      "region": "east",
-      "region_label": "東部生活圈 (宜花東)",
-      "lat": 23.0005,
-      "lng": 120.2185,
+      "region": "central",
+      "region_label": "中部生活圈 (中彰投苗)",
+      "lat": 24.1147,
+      "lng": 120.5908,
       "transfer_volume": 750,
       "subsidized_ntd": 32883.0,
       "from_metro": 0,
@@ -5524,24 +5524,24 @@
           "DeboardingStopName": "玉里火車站",
           "count": 82,
           "latlng": [
-            23.0125,
-            120.1993
+            24.1147,
+            120.5908
           ]
         },
         {
           "DeboardingStopName": "中央市場",
           "count": 49,
           "latlng": [
-            22.6735,
-            120.4905
+            24.1147,
+            120.5908
           ]
         },
         {
           "DeboardingStopName": "台東火車站",
           "count": 35,
           "latlng": [
-            22.7932,
-            121.1232
+            22.7936,
+            121.1231
           ]
         }
       ]
