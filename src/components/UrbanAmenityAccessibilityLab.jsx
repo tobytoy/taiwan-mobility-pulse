@@ -20,8 +20,9 @@ const BASEMAP_TILES = {
     maxZoom: 18
   },
   osm: {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; OpenStreetMap',
+    url: CARTO_TILES.voyager,
+    attribution: CARTO_ATTRIBUTION,
+    subdomains: 'abcd',
     maxZoom: 19
   },
   light: {
@@ -61,6 +62,7 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const tileLayerRef = useRef(null);
+  const currentBasemapRef = useRef(basemap);
   const hubLayersRef = useRef([]);
   const poiLayersRef = useRef([]);
   const circleLayersRef = useRef([]);
@@ -139,11 +141,13 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'dark' }) {
   // 3. 切換底圖
   useEffect(() => {
     if (!mapRef.current || !tileLayerRef.current) return;
+    if (currentBasemapRef.current === basemap) return;
+    currentBasemapRef.current = basemap;
     mapRef.current.removeLayer(tileLayerRef.current);
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap]?.url || BASEMAP_TILES.dark.url, {
       attribution: BASEMAP_TILES[basemap]?.attribution || BASEMAP_TILES.dark.attribution,
       subdomains: BASEMAP_TILES[basemap]?.subdomains || 'abcd',
-      maxZoom: 19
+      maxZoom: BASEMAP_TILES[basemap]?.maxZoom || 19
     }).addTo(mapRef.current);
   }, [basemap]);
 

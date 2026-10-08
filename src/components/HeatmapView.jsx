@@ -22,8 +22,9 @@ const BASEMAP_TILES = {
     maxZoom: 18
   },
   osm: {
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; OpenStreetMap',
+    url: CARTO_TILES.voyager,
+    attribution: CARTO_ATTRIBUTION,
+    subdomains: 'abcd',
     maxZoom: 19
   },
   light: {
@@ -125,7 +126,7 @@ export default function HeatmapView({
 
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
       attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap].maxZoom
     }).addTo(map);
 
@@ -149,7 +150,7 @@ export default function HeatmapView({
     mapRef.current.removeLayer(tileLayerRef.current);
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
       attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap].maxZoom
     }).addTo(mapRef.current);
   }, [basemap]);

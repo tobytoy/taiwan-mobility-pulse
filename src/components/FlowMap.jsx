@@ -20,9 +20,10 @@ const BASEMAP_TILES = {
   },
   osm: {
     name: '開放街圖',
-    desc: 'OpenStreetMap',
-    url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-    attribution: '&copy; OpenStreetMap',
+    desc: 'OpenStreetMap (Voyager)',
+    url: CARTO_TILES.voyager,
+    attribution: CARTO_ATTRIBUTION,
+    subdomains: 'abcd',
     maxZoom: 19
   },
   light: {
@@ -81,7 +82,7 @@ export default function FlowMap({
 
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
       attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap].maxZoom
     }).addTo(map);
 
@@ -131,7 +132,7 @@ export default function FlowMap({
     mapRef.current.removeLayer(tileLayerRef.current);
     tileLayerRef.current = L.tileLayer(BASEMAP_TILES[basemap].url, {
       attribution: BASEMAP_TILES[basemap].attribution,
-      subdomains: BASEMAP_TILES[basemap].subdomains || 'abc',
+      subdomains: BASEMAP_TILES[basemap].subdomains || 'abcd',
       maxZoom: BASEMAP_TILES[basemap].maxZoom
     }).addTo(mapRef.current);
   }, [basemap]);
