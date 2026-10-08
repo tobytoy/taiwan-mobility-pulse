@@ -11,12 +11,13 @@ const TelecomComparisonView = lazy(() => import('./components/TelecomComparisonV
 const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsView'));
 const UnsupervisedRailLab = lazy(() => import('./components/UnsupervisedRailLab'));
 const UrbanAmenityAccessibilityLab = lazy(() => import('./components/UrbanAmenityAccessibilityLab'));
+const CommercialPulseLab = lazy(() => import('./components/CommercialPulseLab'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
-  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store,
+  Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store, Building2,
   Cloud, CloudRain, CloudLightning, ChevronDown
 } from 'lucide-react';
 
@@ -410,6 +411,26 @@ export default function App() {
               >
                 <Store size={14} />
                 <span>🏪 15分鐘微生活圈 (都市機能可達性)</span>
+              </button>
+              <button
+                onClick={() => setMapViewType('commercial')}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: '6px 14px',
+                  borderRadius: '20px',
+                  border: 'none',
+                  background: mapViewType === 'commercial' ? 'linear-gradient(135deg, #EC4899, #8B5CF6)' : 'transparent',
+                  color: mapViewType === 'commercial' ? '#FFFFFF' : '#94A3B8',
+                  fontSize: '12px',
+                  fontWeight: mapViewType === 'commercial' ? '800' : '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+              >
+                <Building2 size={14} />
+                <span>🏬 商圈脈動與投資決策 (四維商業洞察)</span>
               </button>
             </div>
 
@@ -981,6 +1002,21 @@ export default function App() {
             }>
               <ErrorBoundary>
                 <UrbanAmenityAccessibilityLab basemap={basemap} />
+              </ErrorBoundary>
+            </Suspense>
+          </div>
+        )}
+
+        {/* Sub-view 1E: Commercial Pulse & Retail Investment Lab */}
+        {activeTab === 'gis_map' && mapViewType === 'commercial' && (
+          <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+            <Suspense fallback={
+              <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94a3b8', fontSize: '14px' }}>
+                🏬 全台商圈繁榮沒落與商業投資決策地圖載入中...
+              </div>
+            }>
+              <ErrorBoundary>
+                <CommercialPulseLab basemap={basemap} />
               </ErrorBoundary>
             </Suspense>
           </div>
