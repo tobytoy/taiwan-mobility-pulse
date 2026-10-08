@@ -70,6 +70,7 @@ export default function App() {
   const [playSpeed, setPlaySpeed] = useState(1);
   const [selectedMode, setSelectedMode] = useState('all');
   const [selectedRegion, setSelectedRegion] = useState('all');
+  const [selectedPaxType, setSelectedPaxType] = useState('all');
   const [dayType, setDayType] = useState('workday'); // 'workday' or 'holiday'
   const [weatherStage, setWeatherStage] = useState('sunny'); // 'sunny', 'cloudy', 'rainy', 'heavy_rain'
   const [isWeatherDropdownOpen, setIsWeatherDropdownOpen] = useState(false);
