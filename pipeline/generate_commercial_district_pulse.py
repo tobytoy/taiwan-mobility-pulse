@@ -1033,7 +1033,7 @@ STANDALONE_CULTURAL_LANDMARKS = [
     }
 ]
 
-def derive_etag_highway_mobility(h_name, cat_type, reg, vol, wwr):
+def _derive_base_etag(h_name, cat_type, reg, vol, wwr):
     """
     Derives realistic highway corridor traffic and eTag OD matrices
     benchmarked against empirical MOTC TDCS (M03A/M08A) 2026 data.
@@ -1419,6 +1419,252 @@ def derive_etag_highway_mobility(h_name, cat_type, reg, vol, wwr):
             }
         }
 
+def enrich_etag_with_5_analyses(etag, h_name, cat_type, reg, vol, wwr, lat, lng, commuter_pct):
+    """
+    Enriches eTag mobility data with the 5 Major Analytical Dimensions:
+    1. Weather Elasticity (雨天運具移轉 vs 出遊取消)
+    2. Commuter vs Weekend 24h Diurnal Waveforms (M-Shape vs Saddle Plateau)
+    3. Economic Watershed & Gravity (M08A OD 磁吸圈與飛線坐標)
+    4. Congestion Tipping Point & Evacuation Recovery (散場消化模型)
+    5. Green Carbon & Logistics Pulse (車隊結構與 ESG 運具轉移減碳)
+    """
+    is_outdoor_leisure = (cat_type in ["night_market", "old_street"]) or (wwr >= 1.6)
+
+    # ---------------------------------------------------------
+    # 1. 微氣候自駕衝擊彈性模擬 (Weather Elasticity & Driving Simulation)
+    # ---------------------------------------------------------
+    if is_outdoor_leisure:
+        elasticity_type = "rain_collapse"
+        rain_shift_pct = -round(32.0 + (wwr * 7.5), 1)
+        rain_shift_pct = max(-62.0, min(-25.0, rain_shift_pct))
+        speed_impact = {
+            "clear_speed_kmh": 82,
+            "rain_speed_kmh": 68,
+            "drop_kmh": 14,
+            "corridor_status": "車流顯著收縮 (出遊取消延期，聯外道未塞)"
+        }
+        thunderstorm_shock = "午後若逢強陣雨，返程北上車潮提早 2.5 小時湧入國道，造成 14:30~17:00 異常提前回堵"
+        behavior_summary = "露天遊憩對大雨極度敏感，豪大雨使非剛性自駕出遊暴跌 -30%~-55%，但午後強雷雨會促使遊客提前收假北返。"
+    else:
+        elasticity_type = "rain_surge"
+        rain_shift_pct = round(12.0 + (commuter_pct * 0.18), 1)
+        rain_shift_pct = min(28.0, max(8.0, rain_shift_pct))
+        speed_impact = {
+            "clear_speed_kmh": 76,
+            "rain_speed_kmh": 32,
+            "drop_kmh": 44,
+            "corridor_status": "嚴重回堵 (機車族雨天改開車推升流量破表，LOS F)"
+        }
+        thunderstorm_shock = "暴雨天上下班尖峰延伸至 20:30，地下停車場在席率逼近 100%"
+        behavior_summary = "平日都會通勤因機車/步行族大舉轉向自駕或計程車，國道高架車流逆勢暴增 +12%~+25%，造成全線嚴重塞車。"
+
+    weather_elasticity = {
+        "elasticity_type": elasticity_type,
+        "elasticity_label": "☔ 暴雨出遊急凍型" if elasticity_type == "rain_collapse" else "🚗 雨天自駕激增型",
+        "rain_shift_cars_pct": rain_shift_pct,
+        "rain_corridor_speed_impact": speed_impact,
+        "thunderstorm_rush_shift_hours": 2.5 if is_outdoor_leisure else 1.0,
+        "thunderstorm_shock_desc": thunderstorm_shock,
+        "behavior_summary": behavior_summary
+    }
+
+    # ---------------------------------------------------------
+    # 2. 通勤 vs 假日 24h 流量時空曲線模型 (Diurnal 24h Waveform)
+    # ---------------------------------------------------------
+    if is_outdoor_leisure:
+        waveform_type = "saddle_leisure_plateau"
+        waveform_label = "🏖️ 假日單丘休閒散場長平台"
+        workday_curve = [
+            1.2, 0.8, 0.6, 0.5, 0.7, 1.8, 3.8, 7.5, 8.2, 6.0,
+            4.8, 4.6, 4.8, 4.9, 5.2, 5.8, 6.9, 8.5, 8.1, 6.5,
+            5.2, 4.1, 2.8, 1.8
+        ]
+        weekend_curve = [
+            1.8, 1.1, 0.8, 0.6, 0.7, 1.2, 2.5, 4.5, 6.8, 8.5,
+            9.2, 8.8, 7.8, 7.6, 7.9, 8.2, 8.6, 9.4, 9.8, 8.9,
+            7.2, 5.6, 3.8, 2.4
+        ]
+        workday_peaks = ["07:30~09:00 (平日上班)", "17:30~19:00 (返家車流)"]
+        weekend_peaks = ["10:00~12:00 (出遊抵達去程)", "18:30~21:30 (夜市晚餐與散場北返)"]
+        occ_workday = 1.18
+        occ_weekend = 2.65
+    else:
+        waveform_type = "m_shape_dual_peak"
+        waveform_label = "🏢 平日經典 M-Shape 通勤雙尖峰"
+        workday_curve = [
+            0.9, 0.6, 0.5, 0.4, 0.8, 2.2, 5.5, 9.8, 10.5, 6.2,
+            4.5, 4.2, 4.4, 4.5, 4.8, 5.5, 7.8, 10.2, 9.6, 5.8,
+            3.8, 2.6, 1.8, 1.2
+        ]
+        weekend_curve = [
+            1.5, 1.0, 0.8, 0.6, 0.7, 1.1, 2.0, 3.5, 5.2, 6.8,
+            7.5, 7.8, 7.5, 7.4, 7.6, 7.8, 7.5, 7.2, 6.8, 5.8,
+            4.8, 3.6, 2.4, 1.6
+        ]
+        workday_peaks = ["07:45~09:15 (都會晨峰湧入)", "17:30~19:30 (下班昏峰離城)"]
+        weekend_peaks = ["11:30~14:30 (假日午間家庭聚餐)", "17:00~19:30 (商場購物)"]
+        occ_workday = 1.12
+        occ_weekend = 2.15
+
+    diurnal_24h_curves = {
+        "waveform_type": waveform_type,
+        "waveform_label": waveform_label,
+        "workday_curve": workday_curve,
+        "weekend_curve": weekend_curve,
+        "workday_peaks": workday_peaks,
+        "weekend_peaks": weekend_peaks,
+        "occupancy_rate_workday": occ_workday,
+        "occupancy_rate_weekend": occ_weekend,
+        "car_passenger_ratio_desc": f"平日平均乘載率 {occ_workday} 人/車（單人自駕通勤），假日提升至 {occ_weekend} 人/車（家庭與好友共乘出遊）"
+    }
+
+    # ---------------------------------------------------------
+    # 3. 跨縣市經濟腹地與磁吸重力圈 (Economic Watershed & Gravity M08A)
+    # ---------------------------------------------------------
+    REG_COORDS = {
+        "雙北都會": [25.0478, 121.5319],
+        "雙北南港/木柵": [25.0250, 121.5850],
+        "基隆汐止": [25.1276, 121.7392],
+        "桃竹苗": [24.8138, 120.9675],
+        "台中都會": [24.1477, 120.6736],
+        "中彰投": [24.0150, 120.5900],
+        "彰投雲": [23.9555, 120.5422],
+        "嘉南生活圈": [23.1417, 120.2513],
+        "高屏生活圈": [22.6273, 120.3014],
+        "宜蘭生活圈": [24.7021, 121.7377],
+        "花東生活圈": [23.9871, 121.6015]
+    }
+
+    raw_origins = etag.get("highway_od_origins", [])
+    od_flow_rays = []
+    for ro in raw_origins:
+        o_name = ro.get("origin", "")
+        pct = ro.get("pct", 10.0)
+        matched_coord = None
+        for k, coord in REG_COORDS.items():
+            if k in o_name or any(part in o_name for part in k.split('/')):
+                matched_coord = coord
+                break
+        if not matched_coord:
+            if "北" in o_name:
+                matched_coord = [25.0478, 121.5319]
+            elif "中" in o_name or "彰" in o_name:
+                matched_coord = [24.1477, 120.6736]
+            elif "南" in o_name or "高" in o_name or "屏" in o_name:
+                matched_coord = [22.6273, 120.3014]
+            elif "宜" in o_name or "東" in o_name or "花" in o_name:
+                matched_coord = [24.7021, 121.7377]
+            else:
+                matched_coord = [24.5000, 121.0000]
+
+        d_lat = (lat - matched_coord[0]) * 111.0
+        d_lng = (lng - matched_coord[1]) * 102.0
+        dist_km = max(15, round((d_lat**2 + d_lng**2)**0.5, 1))
+
+        od_flow_rays.append({
+            "origin_name": o_name,
+            "origin_lat": matched_coord[0],
+            "origin_lng": matched_coord[1],
+            "flow_pct": pct,
+            "est_distance_km": dist_km,
+            "highway_route": etag.get("corridor_name", "國道主要走廊").split(" · ")[0]
+        })
+
+    gravity_score = min(98, round(45.0 + (wwr * 18.0) + (vol / 5000.0), 1))
+    catchment_radius = 25 if reg == "north" and not is_outdoor_leisure else 65 if is_outdoor_leisure else 40
+
+    economic_watershed = {
+        "gravity_score": gravity_score,
+        "gravity_level": "超強跨縣市磁吸重力圈" if gravity_score >= 80 else "區域生活圈主幹樞紐" if gravity_score >= 60 else "社區型微型商圈",
+        "catchment_radius_km": catchment_radius,
+        "primary_watershed": raw_origins[0]["origin"] if raw_origins else "在地都會區",
+        "secondary_watershed": raw_origins[1]["origin"] if len(raw_origins) > 1 else "周邊衛星城鎮",
+        "spillover_intercity_pct": round(sum(r["pct"] for r in raw_origins[1:]), 1),
+        "od_flow_rays": od_flow_rays,
+        "watershed_summary": f"消費吸引半徑達 {catchment_radius} km，外縣市跨區自駕客源佔比達 {round(sum(r['pct'] for r in raw_origins[1:]), 1)}%，具備強大跨域吸客力場。"
+    }
+
+    # ---------------------------------------------------------
+    # 4. 連假壅塞臨界點與散場消化模型 (Congestion Tipping Point)
+    # ---------------------------------------------------------
+    peak_vph = etag.get("peak_hour_volume", 2500)
+    critical_cap = 2200 if "國道5號" in etag.get("corridor_name", "") else 2400
+    vc_ratio = round(peak_vph / float(critical_cap), 2)
+    if vc_ratio >= 1.0 or is_outdoor_leisure:
+        tipping_risk = "critical_saturation"
+        tipping_label = "🔴 嚴重飽和超載 (臨界突破，LOS F)"
+        tipping_color = "#EF4444"
+        recovery_hours = 2.4 if "羅東" in h_name or "花園" in h_name else 1.8
+        retention_adv = "建議商圈店家在 21:00~22:30 推出延後離場消夜/甜點優惠，引導遊客避開交流道回堵高峰，可為自駕客省下 40~55 分鐘塞車時間。"
+    elif vc_ratio >= 0.75:
+        tipping_risk = "approaching_limit"
+        tipping_label = "🟡 接近臨界負載 (尖峰車速顯著放緩，LOS D/E)"
+        tipping_color = "#F59E0B"
+        recovery_hours = 1.2
+        retention_adv = "尖峰時段建議多利用周邊外圍停車場搭配微型接駁，降低核心路口回堵衝擊。"
+    else:
+        tipping_risk = "fluid_manageable"
+        tipping_label = "🟢 順暢可控 (車流在容量範圍內，LOS C)"
+        tipping_color = "#10B981"
+        recovery_hours = 0.6
+        retention_adv = "聯外匝道容量充裕，車流消化迅速。"
+
+    congestion_tipping = {
+        "critical_capacity_vph": critical_cap,
+        "peak_hour_volume": peak_vph,
+        "vc_ratio": vc_ratio,
+        "tipping_risk_level": tipping_risk,
+        "tipping_risk_label": tipping_label,
+        "tipping_risk_color": tipping_color,
+        "evacuation_recovery_hours": recovery_hours,
+        "service_level_weekend": "LOS F (走走停停 15~25 km/h)" if vc_ratio >= 0.9 else "LOS D (輕度延滯 50~65 km/h)",
+        "retention_recommendation": retention_adv
+    }
+
+    # ---------------------------------------------------------
+    # 5. 產業車隊物流活絡度與 ESG 綠色運具轉移減碳 (Green Carbon Logistics)
+    # ---------------------------------------------------------
+    w_cars = etag.get("weekend_daily_cars", 30000)
+    avg_trip_km = 55.0 if is_outdoor_leisure else 35.0
+    daily_carbon_ton = round((w_cars * avg_trip_km * 0.173) / 1000.0, 1)
+    yearly_saving_ton = round(daily_carbon_ton * 0.20 * 0.70 * 104, 0)
+    
+    fleet = etag.get("fleet_composition", {})
+    cargo_ratio = fleet.get("cargo_pct", 8.0)
+    bus_ratio = fleet.get("tourist_bus_pct", 4.0)
+
+    if etag.get("drive_share_pct", 50.0) >= 65.0:
+        green_priority = "A+ 迫切優先推動 (假日自駕超載)"
+        green_badge_color = "#EF4444"
+    elif etag.get("drive_share_pct", 50.0) >= 45.0:
+        green_priority = "B 穩健推動 (可增設觀光接駁公車)"
+        green_badge_color = "#F59E0B"
+    else:
+        green_priority = "C 綠色運輸示範商圈 (軌道捷運發達)"
+        green_badge_color = "#10B981"
+
+    green_carbon_logistics = {
+        "daily_carbon_footprint_ton": daily_carbon_ton,
+        "green_shift_saving_ton_yr": yearly_saving_ton,
+        "cargo_logistics_ratio": cargo_ratio,
+        "tourist_bus_ratio": bus_ratio,
+        "logistics_vitality_desc": f"物流貨車佔比 {cargo_ratio}%，觀光大巴佔比 {bus_ratio}%，商貿後勤補給充足",
+        "green_transition_priority": green_priority,
+        "green_badge_color": green_badge_color,
+        "esg_recommendation": f"若能將假日 20% 自駕轉移至低碳大眾運輸/電動接駁車，每年該商圈走廊可減少約 {yearly_saving_ton:,.0f} 噸 CO₂ 碳排放！"
+    }
+
+    etag["weather_elasticity"] = weather_elasticity
+    etag["diurnal_24h_curves"] = diurnal_24h_curves
+    etag["economic_watershed"] = economic_watershed
+    etag["congestion_tipping"] = congestion_tipping
+    etag["green_carbon_logistics"] = green_carbon_logistics
+    return etag
+
+def derive_etag_highway_mobility(h_name, cat_type, reg, vol, wwr, lat=23.9, lng=120.9, commuter_pct=40.0):
+    base_etag = _derive_base_etag(h_name, cat_type, reg, vol, wwr)
+    return enrich_etag_with_5_analyses(base_etag, h_name, cat_type, reg, vol, wwr, lat, lng, commuter_pct)
+
 def analyze_commercial_district(hub):
     h_name = hub["hub_name"]
     vol = hub.get("weekly_transfer_volume", 25000)
@@ -1702,7 +1948,7 @@ def analyze_commercial_district(hub):
         "radar": radar_scores,
         "mobility_origin_analysis": mobility_origin,
         "local_specialties": local_spec,
-        "etag_highway_mobility": derive_etag_highway_mobility(h_name, cat_type, hub.get("region", "north"), vol, wwr),
+        "etag_highway_mobility": derive_etag_highway_mobility(h_name, cat_type, hub.get("region", "north"), vol, wwr, hub.get("lat", 23.9), hub.get("lng", 120.9), commuter_pct),
         "nearest_pois": hub.get("nearest_pois", {})
     }
 

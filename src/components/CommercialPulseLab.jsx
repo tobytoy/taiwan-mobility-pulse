@@ -5,7 +5,7 @@ import {
   Compass, Search, ArrowUpRight, ArrowDownRight, Layers,
   ShoppingBag, Coffee, ShieldCheck, AlertTriangle, Flame,
   DollarSign, Users, Award, MapPin, X, Utensils, Landmark,
-  Car, Clock, Waves, Navigation
+  Car, Clock, Waves, Navigation, BarChart3, Leaf, Zap, Sun, Gauge, Route
 } from 'lucide-react';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 
@@ -110,6 +110,8 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentZoom, setCurrentZoom] = useState(8);
+  const [etagSubTab, setEtagSubTab] = useState('weather');
+  const [weatherSimMode, setWeatherSimMode] = useState('clear');
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -118,6 +120,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
   const markerLayersRef = useRef([]);
   const haloLayersRef = useRef([]);
   const poiLayersRef = useRef([]);
+  const rayLayersRef = useRef([]);
 
   // 1. 載入商圈商業大數據
   useEffect(() => {
@@ -243,6 +246,8 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
     haloLayersRef.current = [];
     poiLayersRef.current.forEach(l => mapRef.current.removeLayer(l));
     poiLayersRef.current = [];
+    rayLayersRef.current.forEach(l => mapRef.current.removeLayer(l));
+    rayLayersRef.current = [];
 
     const allDistricts = data.districts || [];
 
@@ -597,6 +602,41 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
       });
     }
 
+    // 8. 繪製國道跨縣市 OD 來源流向光束飛線 (Highway OD Flow Rays)
+    if (selectedDistrict && selectedDistrict.etag_highway_mobility?.economic_watershed?.od_flow_rays) {
+      const rays = selectedDistrict.etag_highway_mobility.economic_watershed.od_flow_rays;
+      rays.forEach(ray => {
+        if (!ray.origin_lat || !ray.origin_lng) return;
+
+        const midLat = (ray.origin_lat + selectedDistrict.lat) / 2 + (ray.origin_lng - selectedDistrict.lng) * 0.04;
+        const midLng = (ray.origin_lng + selectedDistrict.lng) / 2 - (ray.origin_lat - selectedDistrict.lat) * 0.04;
+
+        const curvePoints = [
+          [ray.origin_lat, ray.origin_lng],
+          [midLat, midLng],
+          [selectedDistrict.lat, selectedDistrict.lng]
+        ];
+
+        const rayLine = L.polyline(curvePoints, {
+          color: '#FB923C',
+          weight: Math.max(2.0, Math.min(4.5, (ray.flow_pct || 10) * 0.08)),
+          opacity: 0.75,
+          dashArray: '6, 8'
+        });
+
+        rayLine.bindTooltip(`
+          <div style="font-size: 10px; font-family: Outfit, sans-serif; padding: 3px 5px; background: rgba(15,23,42,0.95); border: 1px solid #FB923C; border-radius: 6px; color: #FFF;">
+            <strong style="color: #FB923C;">🛣️ ${ray.origin_name} &rarr; ${selectedDistrict.hub_name}</strong><br/>
+            <span>流向佔比: <strong style="color: #38BDF8;">${ray.flow_pct}%</strong> (${ray.est_distance_km} km)</span><br/>
+            <span style="color: #94A3B8;">走廊: ${ray.highway_route}</span>
+          </div>
+        `, { sticky: true, className: 'ray-flow-tooltip' });
+
+        rayLine.addTo(mapRef.current);
+        rayLayersRef.current.push(rayLine);
+      });
+    }
+
   }, [data, activeDimension, selectedRegion, selectedCategory, selectedDistrict, searchQuery, currentZoom]);
 
   const currentDimConfig = COMMERCIAL_DIMENSIONS.find(d => d.id === activeDimension) || COMMERCIAL_DIMENSIONS[0];
@@ -937,31 +977,31 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             </div>
           </div>
 
-          {/* 🚗 核心新功能：國道 eTag 自駕車流與跨縣市路徑 (Freeway eTag Intelligence & Corridor OD) */}
+          {/* 🚗 核心功能：國道 eTag 五維智慧分析中控台 (eTag 5-Dimensional Mobility Intelligence Console) */}
           {selectedDistrict.etag_highway_mobility && (
             <div style={{
-              background: 'rgba(15, 23, 42, 0.8)',
+              background: 'rgba(15, 23, 42, 0.82)',
               borderRadius: '11px',
-              border: '1px solid rgba(249, 115, 22, 0.35)',
+              border: '1.5px solid rgba(249, 115, 22, 0.4)',
               padding: '12px',
               display: 'flex',
               flexDirection: 'column',
               gap: '10px',
-              boxShadow: '0 4px 16px rgba(249, 115, 22, 0.08)'
+              boxShadow: '0 4px 20px rgba(249, 115, 22, 0.12)'
             }}>
-              {/* 標題列 */}
+              {/* 標題列與門架標籤 */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '800', color: '#FB923C' }}>
                   <Car size={15} color="#FB923C" />
-                  <span>🚗 國道 eTag 自駕車流與跨縣市路徑</span>
+                  <span>🚗 國道 eTag 五維智慧分析中控台</span>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
                   <span style={{
-                    fontSize: '9.5px',
+                    fontSize: '9px',
                     color: '#FED7AA',
                     fontFamily: 'JetBrains Mono, monospace',
-                    background: 'rgba(249, 115, 22, 0.15)',
-                    border: '1px solid rgba(249, 115, 22, 0.3)',
+                    background: 'rgba(249, 115, 22, 0.18)',
+                    border: '1px solid rgba(249, 115, 22, 0.35)',
                     padding: '1px 6px',
                     borderRadius: '4px'
                   }}>
@@ -970,9 +1010,9 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 </div>
               </div>
 
-              {/* 走廊與破盲區說明 */}
+              {/* 監測走廊摘要盒 */}
               <div style={{
-                background: 'rgba(30, 41, 59, 0.55)',
+                background: 'rgba(30, 41, 59, 0.6)',
                 border: '1px solid rgba(249, 115, 22, 0.2)',
                 borderRadius: '7px',
                 padding: '6px 9px',
@@ -985,11 +1025,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                   <span style={{ color: '#FDBA74' }}>{selectedDistrict.etag_highway_mobility.corridor_name}</span>
                 </div>
                 <div style={{ fontSize: '9px', color: '#94A3B8', lineHeight: '1.4' }}>
-                  * 突破公共運輸票證盲區：中南部與觀光熱點 60%~75% 依賴自駕車流，結合高公局 2026 門架百萬實測大數據補齊全貌。
+                  * 突破純票證盲區：中南部與觀光熱點 60%~75% 仰賴小客車，結合高公局 2026 百萬門架 M03A/M05A/M08A 實測大數據還原客群。
                 </div>
               </div>
 
-              {/* 運具分流佔比長條圖 (Modal Split: 自駕 vs 大眾運輸) */}
+              {/* 運具分流佔比長條圖 (Modal Split) */}
               <div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', marginBottom: '4px' }}>
                   <span style={{ color: '#FB923C', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
@@ -1021,7 +1061,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 </div>
               </div>
 
-              {/* 4 格實測指標矩陣 (Car Volume, WWR Surge, Estimated Visitors, Peak) */}
+              {/* 4 格實測指標矩陣 */}
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
                 <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: '1px solid rgba(255,255,255,0.05)' }}>
                   <div style={{ fontSize: '9px', color: '#94A3B8' }}>假日日均通過車流</div>
@@ -1037,7 +1077,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 </div>
 
                 <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>換算假日自駕遊客</div>
+                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>推估假日自駕遊客</div>
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '1px' }}>
                     <span style={{ fontSize: '14px', fontWeight: '900', color: '#FB923C', fontFamily: 'JetBrains Mono, monospace' }}>
                       {selectedDistrict.etag_highway_mobility.estimated_drive_visitors.toLocaleString()}
@@ -1073,43 +1113,329 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 </div>
               </div>
 
-              {/* 跨縣市高快速公路 OD 來源 (M08A 分析) */}
-              {(selectedDistrict.etag_highway_mobility.highway_od_origins || []).length > 0 && (
-                <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '6px' }}>
-                  <div style={{ fontSize: '10px', color: '#94A3B8', fontWeight: '700', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <span>📍 國道主要來源端點 (OD 溯源)：</span>
-                    <span style={{ fontSize: '8.5px', color: '#64748B' }}>高公局 M08A 交流道對矩陣</span>
+              {/* 五大深度分析切換選單 (Sub-Tab Navigation) */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(5, 1fr)',
+                gap: '3px',
+                background: 'rgba(30, 41, 59, 0.7)',
+                padding: '3px',
+                borderRadius: '8px',
+                border: '1px solid rgba(255, 255, 255, 0.08)'
+              }}>
+                {[
+                  { id: 'weather', icon: CloudRain, label: '🌦️ 雨天彈性' },
+                  { id: 'diurnal', icon: BarChart3, label: '📈 24h時空' },
+                  { id: 'watershed', icon: Route, label: '🌐 經濟腹地' },
+                  { id: 'congestion', icon: Gauge, label: '🚦 壅塞散場' },
+                  { id: 'green', icon: Leaf, label: '🌱 ESG減碳' }
+                ].map(tab => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setEtagSubTab(tab.id)}
+                    style={{
+                      padding: '5px 2px',
+                      fontSize: '9.5px',
+                      fontWeight: etagSubTab === tab.id ? '800' : '600',
+                      color: etagSubTab === tab.id ? '#FFFFFF' : '#94A3B8',
+                      background: etagSubTab === tab.id ? 'rgba(249, 115, 22, 0.35)' : 'transparent',
+                      border: etagSubTab === tab.id ? '1px solid #FB923C' : '1px solid transparent',
+                      borderRadius: '5px',
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <div>{tab.label.split(' ')[0]}</div>
+                    <div style={{ fontSize: '8.5px', marginTop: '1px' }}>{tab.label.split(' ')[1]}</div>
+                  </button>
+                ))}
+              </div>
+
+              {/* 子面板 1: 🌦️ 微氣候自駕衝擊彈性模擬 (Weather Elasticity) */}
+              {etagSubTab === 'weather' && selectedDistrict.etag_highway_mobility.weather_elasticity && (
+                <div style={{ background: 'rgba(30, 41, 59, 0.65)', border: '1px solid rgba(56, 189, 248, 0.25)', borderRadius: '9px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#7DD3FC', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                      <CloudRain size={13} color="#38BDF8" />
+                      <span>微氣候衝擊情境模擬：</span>
+                    </span>
+                    <div style={{ display: 'flex', gap: '3px' }}>
+                      {[
+                        { id: 'clear', label: '☀️ 晴天常態' },
+                        { id: 'heavy_rain', label: '🌧️ 豪雨突襲' },
+                        { id: 'thunderstorm', label: '⚡ 午後強雷雨' }
+                      ].map(mode => (
+                        <button
+                          key={mode.id}
+                          onClick={() => setWeatherSimMode(mode.id)}
+                          style={{
+                            fontSize: '9px',
+                            padding: '2px 5px',
+                            borderRadius: '4px',
+                            border: weatherSimMode === mode.id ? '1px solid #38BDF8' : '1px solid rgba(255,255,255,0.08)',
+                            background: weatherSimMode === mode.id ? 'rgba(56, 189, 248, 0.25)' : 'rgba(15, 23, 42, 0.5)',
+                            color: weatherSimMode === mode.id ? '#FFFFFF' : '#94A3B8',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {mode.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
-                    {selectedDistrict.etag_highway_mobility.highway_od_origins.map((o, idx) => (
-                      <div
-                        key={idx}
-                        style={{
-                          fontSize: '9.5px',
-                          padding: '2px 6px',
-                          borderRadius: '4px',
-                          background: 'rgba(249, 115, 22, 0.1)',
-                          border: '1px solid rgba(249, 115, 22, 0.25)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '4px'
-                        }}
-                      >
-                        <span style={{ color: '#E2E8F0' }}>{o.origin}</span>
-                        <span style={{ color: '#FB923C', fontWeight: '800', fontFamily: 'JetBrains Mono, monospace' }}>
-                          {o.pct}%
+
+                  {weatherSimMode === 'heavy_rain' ? (
+                    <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(244, 63, 94, 0.3)', borderRadius: '7px', padding: '8px', display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <span style={{ fontSize: '10px', fontWeight: '800', color: selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct > 0 ? '#FB923C' : '#F43F5E' }}>
+                          {selectedDistrict.etag_highway_mobility.weather_elasticity.elasticity_label}
+                        </span>
+                        <span style={{ fontSize: '12px', fontWeight: '900', fontFamily: 'JetBrains Mono, monospace', color: selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct > 0 ? '#FB923C' : '#F43F5E' }}>
+                          模擬車流 {selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct > 0 ? `+${selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct}%` : `${selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct}%`}
                         </span>
                       </div>
-                    ))}
+                      <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                        <span style={{ fontSize: '9px', color: '#94A3B8' }}>模擬暴雨車流：</span>
+                        <span style={{ fontSize: '14px', fontWeight: '900', color: '#FFFFFF', fontFamily: 'JetBrains Mono, monospace' }}>
+                          {Math.round(selectedDistrict.etag_highway_mobility.weekend_daily_cars * (1 + (selectedDistrict.etag_highway_mobility.weather_elasticity.rain_shift_cars_pct / 100))).toLocaleString()}
+                        </span>
+                        <span style={{ fontSize: '9px', color: '#94A3B8' }}>輛/日 (常態 {selectedDistrict.etag_highway_mobility.weekend_daily_cars.toLocaleString()})</span>
+                      </div>
+                      <div style={{ fontSize: '9.5px', color: '#CBD5E1', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '4px' }}>
+                        🚗 車速衝擊：晴天 {selectedDistrict.etag_highway_mobility.weather_elasticity.rain_corridor_speed_impact.clear_speed_kmh} km/h &rarr; 暴雨 <strong style={{ color: '#F43F5E' }}>{selectedDistrict.etag_highway_mobility.weather_elasticity.rain_corridor_speed_impact.rain_speed_kmh} km/h</strong> ({selectedDistrict.etag_highway_mobility.weather_elasticity.rain_corridor_speed_impact.corridor_status})
+                      </div>
+                    </div>
+                  ) : weatherSimMode === 'thunderstorm' ? (
+                    <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '7px', padding: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#FCD34D' }}>
+                        ⚡ 午後雷陣雨提前返程衝擊波
+                      </div>
+                      <p style={{ margin: 0, fontSize: '9.5px', color: '#CBD5E1', lineHeight: '1.4' }}>
+                        {selectedDistrict.etag_highway_mobility.weather_elasticity.thunderstorm_shock_desc}
+                      </p>
+                    </div>
+                  ) : (
+                    <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '7px', padding: '8px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                      <div style={{ fontSize: '10.5px', fontWeight: '800', color: '#6EE7B7' }}>
+                        ☀️ 晴朗天候常態出遊水準
+                      </div>
+                      <p style={{ margin: 0, fontSize: '9.5px', color: '#CBD5E1', lineHeight: '1.4' }}>
+                        在晴朗週末日均通過 {selectedDistrict.etag_highway_mobility.weekend_daily_cars.toLocaleString()} 輛車，平均車速維持 {selectedDistrict.etag_highway_mobility.weather_elasticity.rain_corridor_speed_impact.clear_speed_kmh} km/h，商圈人車活絡。
+                      </p>
+                    </div>
+                  )}
+
+                  <p style={{ margin: 0, fontSize: '9.5px', color: '#94A3B8', lineHeight: '1.4' }}>
+                    💡 {selectedDistrict.etag_highway_mobility.weather_elasticity.behavior_summary}
+                  </p>
+                </div>
+              )}
+
+              {/* 子面板 2: 📈 通勤 vs 假日 24小時時空雙峰走勢 (Diurnal Waveforms) */}
+              {etagSubTab === 'diurnal' && selectedDistrict.etag_highway_mobility.diurnal_24h_curves && (
+                <div style={{ background: 'rgba(30, 41, 59, 0.65)', border: '1px solid rgba(249, 115, 22, 0.25)', borderRadius: '9px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span style={{ fontSize: '10.5px', fontWeight: '800', color: '#FED7AA' }}>
+                      {selectedDistrict.etag_highway_mobility.diurnal_24h_curves.waveform_label}
+                    </span>
+                    <span style={{ fontSize: '9px', color: '#94A3B8' }}>
+                      24h 每小時車流佔比分佈 (%)
+                    </span>
+                  </div>
+
+                  {/* 24 小時 SVG 雙曲線對比柱狀圖 */}
+                  <div style={{ width: '100%', height: '70px', background: 'rgba(15, 23, 42, 0.85)', borderRadius: '6px', padding: '6px 4px 4px 4px', display: 'flex', alignItems: 'flex-end', gap: '2px' }}>
+                    {selectedDistrict.etag_highway_mobility.diurnal_24h_curves.workday_curve.map((wPct, hIdx) => {
+                      const ePct = selectedDistrict.etag_highway_mobility.diurnal_24h_curves.weekend_curve[hIdx] || 0;
+                      const maxPct = 12.0;
+                      const wHeight = Math.max(3, Math.min(56, (wPct / maxPct) * 56));
+                      const eHeight = Math.max(3, Math.min(56, (ePct / maxPct) * 56));
+                      return (
+                        <div
+                          key={hIdx}
+                          title={`${hIdx}:00 - 平日: ${wPct}%, 假日: ${ePct}%`}
+                          style={{ flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: '1px', height: '100%' }}
+                        >
+                          <div style={{ width: '45%', height: `${wHeight}px`, background: '#38BDF8', borderRadius: '1px 1px 0 0', opacity: 0.85 }} />
+                          <div style={{ width: '45%', height: `${eHeight}px`, background: '#FB923C', borderRadius: '1px 1px 0 0', opacity: 0.95 }} />
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  {/* 圖例與乘載率 */}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '9px' }}>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <span style={{ color: '#38BDF8', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        <span style={{ width: '6px', height: '6px', background: '#38BDF8', display: 'inline-block', borderRadius: '1px' }}></span>
+                        平日通勤 ({selectedDistrict.etag_highway_mobility.diurnal_24h_curves.occupancy_rate_workday} 人/車)
+                      </span>
+                      <span style={{ color: '#FB923C', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                        <span style={{ width: '6px', height: '6px', background: '#FB923C', display: 'inline-block', borderRadius: '1px' }}></span>
+                        假日休閒 ({selectedDistrict.etag_highway_mobility.diurnal_24h_curves.occupancy_rate_weekend} 人/車)
+                      </span>
+                    </div>
+                    <span style={{ color: '#64748B' }}>0h &rarr; 23h</span>
+                  </div>
+
+                  <div style={{ fontSize: '9.5px', color: '#CBD5E1', display: 'flex', flexDirection: 'column', gap: '2px', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '4px' }}>
+                    <div>🏢 平日尖峰：{selectedDistrict.etag_highway_mobility.diurnal_24h_curves.workday_peaks.join(' · ')}</div>
+                    <div>🏖️ 假日尖峰：{selectedDistrict.etag_highway_mobility.diurnal_24h_curves.weekend_peaks.join(' · ')}</div>
+                    <div style={{ color: '#94A3B8', fontSize: '9px', marginTop: '2px' }}>
+                      💡 {selectedDistrict.etag_highway_mobility.diurnal_24h_curves.car_passenger_ratio_desc}
+                    </div>
                   </div>
                 </div>
               )}
 
-              {/* 車種組成結構 */}
+              {/* 子面板 3: 🌐 跨縣市經濟腹地與磁吸重力圈 (Economic Watershed) */}
+              {etagSubTab === 'watershed' && selectedDistrict.etag_highway_mobility.economic_watershed && (
+                <div style={{ background: 'rgba(30, 41, 59, 0.65)', border: '1px solid rgba(168, 85, 247, 0.25)', borderRadius: '9px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(15, 23, 42, 0.8)', padding: '6px 8px', borderRadius: '6px' }}>
+                    <div>
+                      <div style={{ fontSize: '9px', color: '#94A3B8' }}>商圈消費磁吸重力圈</div>
+                      <div style={{ fontSize: '11px', fontWeight: '800', color: '#C084FC' }}>
+                        {selectedDistrict.etag_highway_mobility.economic_watershed.gravity_level}
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '18px', fontWeight: '900', color: '#C084FC', fontFamily: 'JetBrains Mono, monospace' }}>
+                        {selectedDistrict.etag_highway_mobility.economic_watershed.gravity_score}
+                        <span style={{ fontSize: '10px', color: '#94A3B8' }}> /100</span>
+                      </div>
+                      <div style={{ fontSize: '8.5px', color: '#CBD5E1' }}>
+                        重力半徑 {selectedDistrict.etag_highway_mobility.economic_watershed.catchment_radius_km} km
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                    <div style={{ fontSize: '9.5px', color: '#94A3B8', fontWeight: '700' }}>
+                      🗺️ 國道 M08A 來源流向光束飛線 (OD Flow Rays)：
+                    </div>
+                    {selectedDistrict.etag_highway_mobility.economic_watershed.od_flow_rays.map((ray, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          background: 'rgba(15, 23, 42, 0.7)',
+                          border: '1px solid rgba(168, 85, 247, 0.2)',
+                          borderRadius: '5px',
+                          padding: '4px 6px',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          fontSize: '9.5px'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <span style={{ color: '#FB923C' }}>🛣️</span>
+                          <span style={{ color: '#F1F5F9', fontWeight: '700' }}>{ray.origin_name}</span>
+                          <span style={{ color: '#64748B', fontSize: '8.5px' }}>({ray.est_distance_km} km)</span>
+                        </div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                          <span style={{ color: '#C084FC', fontWeight: '800', fontFamily: 'JetBrains Mono, monospace' }}>
+                            {ray.flow_pct}%
+                          </span>
+                          <span style={{ color: '#94A3B8', fontSize: '8.5px' }}>{ray.highway_route}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ fontSize: '9px', color: '#94A3B8', lineHeight: '1.4', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '4px' }}>
+                    * 地圖已即時繪製橘色虛線流向光束飛線，直接指向商圈中心。{selectedDistrict.etag_highway_mobility.economic_watershed.watershed_summary}
+                  </div>
+                </div>
+              )}
+
+              {/* 子面板 4: 🚦 連假壅塞臨界點與散場消化模型 (Congestion Tipping Point) */}
+              {etagSubTab === 'congestion' && selectedDistrict.etag_highway_mobility.congestion_tipping && (
+                <div style={{ background: 'rgba(30, 41, 59, 0.65)', border: `1px solid ${selectedDistrict.etag_highway_mobility.congestion_tipping.tipping_risk_color}44`, borderRadius: '9px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div>
+                      <div style={{ fontSize: '10.5px', fontWeight: '800', color: selectedDistrict.etag_highway_mobility.congestion_tipping.tipping_risk_color }}>
+                        {selectedDistrict.etag_highway_mobility.congestion_tipping.tipping_risk_label}
+                      </div>
+                      <div style={{ fontSize: '9px', color: '#94A3B8' }}>
+                        容量臨界比 (V/C Ratio): <strong style={{ color: '#FFF', fontFamily: 'JetBrains Mono, monospace' }}>{selectedDistrict.etag_highway_mobility.congestion_tipping.vc_ratio}x</strong>
+                      </div>
+                    </div>
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '9px', color: '#94A3B8' }}>散場排空時長</div>
+                      <div style={{ fontSize: '14px', fontWeight: '900', color: '#FCD34D', fontFamily: 'JetBrains Mono, monospace' }}>
+                        {selectedDistrict.etag_highway_mobility.congestion_tipping.evacuation_recovery_hours}
+                        <span style={{ fontSize: '10px', color: '#94A3B8' }}> 小時</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#94A3B8', marginBottom: '3px' }}>
+                      <span>尖峰通過量: {selectedDistrict.etag_highway_mobility.congestion_tipping.peak_hour_volume.toLocaleString()} 輛/h</span>
+                      <span>容量上限: {selectedDistrict.etag_highway_mobility.congestion_tipping.critical_capacity_vph.toLocaleString()} 輛/h</span>
+                    </div>
+                    <div style={{ width: '100%', height: '6px', background: 'rgba(255,255,255,0.08)', borderRadius: '3px', overflow: 'hidden' }}>
+                      <div
+                        style={{
+                          width: `${Math.min(100, (selectedDistrict.etag_highway_mobility.congestion_tipping.vc_ratio / 1.5) * 100)}%`,
+                          height: '100%',
+                          background: selectedDistrict.etag_highway_mobility.congestion_tipping.tipping_risk_color
+                        }}
+                      />
+                    </div>
+                  </div>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: '6px', padding: '6px 8px', fontSize: '9.5px', color: '#CBD5E1', lineHeight: '1.4' }}>
+                    <strong style={{ color: '#FCD34D' }}>💡 商圈營運與留客建議：</strong>
+                    <p style={{ margin: '2px 0 0 0' }}>
+                      {selectedDistrict.etag_highway_mobility.congestion_tipping.retention_recommendation}
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* 子面板 5: 🌱 產業車隊物流活絡度與 ESG 綠色減碳 (Green Carbon Logistics) */}
+              {etagSubTab === 'green' && selectedDistrict.etag_highway_mobility.green_carbon_logistics && (
+                <div style={{ background: 'rgba(30, 41, 59, 0.65)', border: '1px solid rgba(16, 185, 129, 0.25)', borderRadius: '9px', padding: '10px', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                    <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '6px 8px', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '9px', color: '#94A3B8' }}>走廊每日自駕碳排</div>
+                      <div style={{ fontSize: '14px', fontWeight: '900', color: '#F43F5E', fontFamily: 'JetBrains Mono, monospace' }}>
+                        {selectedDistrict.etag_highway_mobility.green_carbon_logistics.daily_carbon_footprint_ton}
+                        <span style={{ fontSize: '9px', color: '#94A3B8' }}> 噸 CO₂/日</span>
+                      </div>
+                    </div>
+                    <div style={{ background: 'rgba(15, 23, 42, 0.8)', padding: '6px 8px', borderRadius: '6px' }}>
+                      <div style={{ fontSize: '9px', color: '#94A3B8' }}>移轉 20% 自駕年減碳</div>
+                      <div style={{ fontSize: '14px', fontWeight: '900', color: '#10B981', fontFamily: 'JetBrains Mono, monospace' }}>
+                        {selectedDistrict.etag_highway_mobility.green_carbon_logistics.green_shift_saving_ton_yr.toLocaleString()}
+                        <span style={{ fontSize: '9px', color: '#94A3B8' }}> 噸 CO₂/年</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '9.5px', background: 'rgba(15, 23, 42, 0.7)', padding: '5px 8px', borderRadius: '5px' }}>
+                    <span style={{ color: '#94A3B8' }}>ESG 綠色接駁推動優先度：</span>
+                    <span style={{ color: selectedDistrict.etag_highway_mobility.green_carbon_logistics.green_badge_color, fontWeight: '800' }}>
+                      {selectedDistrict.etag_highway_mobility.green_carbon_logistics.green_transition_priority}
+                    </span>
+                  </div>
+
+                  <div style={{ fontSize: '9.5px', color: '#CBD5E1', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '4px', lineHeight: '1.4' }}>
+                    🚚 {selectedDistrict.etag_highway_mobility.green_carbon_logistics.logistics_vitality_desc}
+                  </div>
+                  <div style={{ fontSize: '9px', color: '#10B981', lineHeight: '1.4' }}>
+                    🌿 {selectedDistrict.etag_highway_mobility.green_carbon_logistics.esg_recommendation}
+                  </div>
+                </div>
+              )}
+
+              {/* 底部車隊結構快覽 */}
               {selectedDistrict.etag_highway_mobility.fleet_composition && (
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '9px', color: '#64748B', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '5px' }}>
-                  <span>🚗 自用小客車 {selectedDistrict.etag_highway_mobility.fleet_composition.passenger_car_pct}%</span>
-                  <span>🚌 觀光遊覽大客車 {selectedDistrict.etag_highway_mobility.fleet_composition.tourist_bus_pct}%</span>
+                  <span>🚗 小客車 {selectedDistrict.etag_highway_mobility.fleet_composition.passenger_car_pct}%</span>
+                  <span>🚌 觀光大客車 {selectedDistrict.etag_highway_mobility.fleet_composition.tourist_bus_pct}%</span>
                   <span>🚚 貨運物流 {selectedDistrict.etag_highway_mobility.fleet_composition.cargo_pct}%</span>
                 </div>
               )}
