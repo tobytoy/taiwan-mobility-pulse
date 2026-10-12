@@ -87,6 +87,14 @@ const COMMERCIAL_DIMENSIONS = [
     icon: DollarSign,
     color: '#F59E0B',
     desc: '對比巨大客流需求 vs 周邊商業設施供給，揪出「有流量但機能窮」的超高潛力展店窪地'
+  },
+  {
+    id: 'etag_highway',
+    label: '🚗 國道 eTag 自駕路網',
+    subLabel: '跨縣市車流與自駕佔比',
+    icon: Car,
+    color: '#F97316',
+    desc: '結合高公局門架百萬車流大數據 (2026 實測)，突破公共運輸票證盲區，精確解構自駕客群比例、假日車流暴增比與停車壓力'
   }
 ];
 
@@ -273,6 +281,15 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
       } else if (activeDimension === 'tod') {
         dimColor = d.tod_opportunity.color;
         mainBadgeValue = `比 ${d.tod_opportunity.mismatch_ratio}`;
+      } else if (activeDimension === 'etag_highway') {
+        const etag = d.etag_highway_mobility;
+        if (etag) {
+          dimColor = etag.drive_share_pct >= 60 ? '#F97316' : etag.drive_share_pct >= 40 ? '#FBBF24' : '#38BDF8';
+          mainBadgeValue = `自駕 ${etag.drive_share_pct}%`;
+        } else {
+          dimColor = '#F97316';
+          mainBadgeValue = '自駕 -';
+        }
       }
 
       // 類別識別 Emoji 與標籤色
@@ -456,6 +473,44 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             </div>
             ${attrPillsHtml ? `<div style="display: flex; flex-wrap: wrap; gap: 3px;">${attrPillsHtml}</div>` : ''}
           </div>
+
+          <!-- 🚗 國道 eTag 自駕車流速覽 (突破票證盲區) -->
+          ${d.etag_highway_mobility ? `
+          <div style="
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(249, 115, 22, 0.35);
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          ">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 10px; font-weight: 800; color: #FB923C; display: flex; align-items: center; gap: 4px;">
+                🚗 國道 eTag 自駕路網
+              </span>
+              <span style="
+                font-size: 9px;
+                color: #FED7AA;
+                font-weight: 700;
+                font-family: JetBrains Mono, monospace;
+                background: rgba(249, 115, 22, 0.2);
+                padding: 1px 5px;
+                border-radius: 4px;
+              ">
+                自駕佔比 ${d.etag_highway_mobility.drive_share_pct}%
+              </span>
+            </div>
+            <div style="font-size: 9.5px; color: #E2E8F0; line-height: 1.35;">
+              🛣️ 走廊：<strong style="color: #FFFFFF;">${d.etag_highway_mobility.corridor_name}</strong>
+            </div>
+            <div style="display: flex; align-items: center; justify-content: space-between; font-size: 9px; color: #94A3B8;">
+              <span>假日: <strong style="color: #38BDF8; font-family: JetBrains Mono, monospace;">${d.etag_highway_mobility.weekend_daily_cars.toLocaleString()}</strong> 輛/日</span>
+              <span>車流: <strong style="color: #F43F5E; font-family: JetBrains Mono, monospace;">+${Math.round((d.etag_highway_mobility.car_wwr_surge - 1) * 100)}%</strong></span>
+              <span>停車: <strong style="color: ${d.etag_highway_mobility.parking_stress.color}; font-weight: 700;">${d.etag_highway_mobility.parking_stress.label.split(' ')[0]}</strong></span>
+            </div>
+          </div>
+          ` : ''}
 
           <div style="display: flex; align-items: center; justify-content: space-between; font-size: 8.5px; color: #64748B; margin-top: 1px;">
             <span>週運量: ${d.weekly_transfer_volume.toLocaleString()} 人次</span>
@@ -647,11 +702,12 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             })}
           </div>
 
-          {/* 四大商業維度切換器 */}
+          {/* 五大商業決策維度切換器 */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
             {COMMERCIAL_DIMENSIONS.map(dim => {
               const isSel = activeDimension === dim.id;
               const Icon = dim.icon;
+              const isHighway = dim.id === 'etag_highway';
               return (
                 <button
                   key={dim.id}
@@ -662,17 +718,25 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                     gap: '6px',
                     padding: '6px 8px',
                     borderRadius: '8px',
-                    border: isSel ? `1.5px solid ${dim.color}` : '1px solid rgba(255,255,255,0.08)',
-                    background: isSel ? `${dim.color}22` : 'rgba(30, 41, 59, 0.6)',
+                    border: isSel ? `1.5px solid ${dim.color}` : isHighway ? '1px solid rgba(249, 115, 22, 0.3)' : '1px solid rgba(255,255,255,0.08)',
+                    background: isSel ? `${dim.color}22` : isHighway ? 'rgba(249, 115, 22, 0.08)' : 'rgba(30, 41, 59, 0.6)',
                     color: isSel ? '#FFFFFF' : '#94a3b8',
                     cursor: 'pointer',
                     textAlign: 'left',
-                    transition: 'all 0.15s ease'
+                    transition: 'all 0.15s ease',
+                    gridColumn: isHighway ? '1 / -1' : 'auto'
                   }}
                 >
-                  <Icon size={14} color={isSel ? dim.color : '#64748b'} />
-                  <div>
-                    <div style={{ fontSize: '11px', fontWeight: isSel ? '800' : '600' }}>{dim.label}</div>
+                  <Icon size={14} color={isSel ? dim.color : isHighway ? '#FB923C' : '#64748b'} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '11px', fontWeight: isSel ? '800' : '600', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                      <span>{dim.label}</span>
+                      {isHighway && (
+                        <span style={{ fontSize: '8.5px', background: 'rgba(249, 115, 22, 0.25)', color: '#FDBA74', padding: '1px 5px', borderRadius: '4px', fontFamily: 'JetBrains Mono, monospace' }}>
+                          2026 實測
+                        </span>
+                      )}
+                    </div>
                     <div style={{ fontSize: '9px', color: isSel ? dim.color : '#64748b' }}>{dim.subLabel}</div>
                   </div>
                 </button>
@@ -872,6 +936,185 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
               </div>
             </div>
           </div>
+
+          {/* 🚗 核心新功能：國道 eTag 自駕車流與跨縣市路徑 (Freeway eTag Intelligence & Corridor OD) */}
+          {selectedDistrict.etag_highway_mobility && (
+            <div style={{
+              background: 'rgba(15, 23, 42, 0.8)',
+              borderRadius: '11px',
+              border: '1px solid rgba(249, 115, 22, 0.35)',
+              padding: '12px',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '10px',
+              boxShadow: '0 4px 16px rgba(249, 115, 22, 0.08)'
+            }}>
+              {/* 標題列 */}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '800', color: '#FB923C' }}>
+                  <Car size={15} color="#FB923C" />
+                  <span>🚗 國道 eTag 自駕車流與跨縣市路徑</span>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                  <span style={{
+                    fontSize: '9.5px',
+                    color: '#FED7AA',
+                    fontFamily: 'JetBrains Mono, monospace',
+                    background: 'rgba(249, 115, 22, 0.15)',
+                    border: '1px solid rgba(249, 115, 22, 0.3)',
+                    padding: '1px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    門架 {(selectedDistrict.etag_highway_mobility.gantry_codes || []).join(' · ')}
+                  </span>
+                </div>
+              </div>
+
+              {/* 走廊與破盲區說明 */}
+              <div style={{
+                background: 'rgba(30, 41, 59, 0.55)',
+                border: '1px solid rgba(249, 115, 22, 0.2)',
+                borderRadius: '7px',
+                padding: '6px 9px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '3px'
+              }}>
+                <div style={{ fontSize: '11px', fontWeight: '800', color: '#FFFFFF', display: 'flex', alignItems: 'center', gap: '5px' }}>
+                  <span>🛣️ 關鍵監測走廊：</span>
+                  <span style={{ color: '#FDBA74' }}>{selectedDistrict.etag_highway_mobility.corridor_name}</span>
+                </div>
+                <div style={{ fontSize: '9px', color: '#94A3B8', lineHeight: '1.4' }}>
+                  * 突破公共運輸票證盲區：中南部與觀光熱點 60%~75% 依賴自駕車流，結合高公局 2026 門架百萬實測大數據補齊全貌。
+                </div>
+              </div>
+
+              {/* 運具分流佔比長條圖 (Modal Split: 自駕 vs 大眾運輸) */}
+              <div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '10px', marginBottom: '4px' }}>
+                  <span style={{ color: '#FB923C', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    🚗 小客車自駕族群 {selectedDistrict.etag_highway_mobility.drive_share_pct}%
+                  </span>
+                  <span style={{ color: '#38BDF8', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '3px' }}>
+                    🚆 鐵道/捷運/客運 {selectedDistrict.etag_highway_mobility.transit_share_pct}%
+                  </span>
+                </div>
+                <div style={{ width: '100%', height: '8px', borderRadius: '4px', overflow: 'hidden', display: 'flex', background: 'rgba(255,255,255,0.08)' }}>
+                  <div
+                    title={`自駕佔比: ${selectedDistrict.etag_highway_mobility.drive_share_pct}%`}
+                    style={{
+                      width: `${selectedDistrict.etag_highway_mobility.drive_share_pct}%`,
+                      height: '100%',
+                      background: 'linear-gradient(90deg, #EA580C, #F97316)',
+                      transition: 'width 0.4s ease'
+                    }}
+                  />
+                  <div
+                    title={`大眾運輸佔比: ${selectedDistrict.etag_highway_mobility.transit_share_pct}%`}
+                    style={{
+                      width: `${selectedDistrict.etag_highway_mobility.transit_share_pct}%`,
+                      height: '100%',
+                      background: 'linear-gradient(90deg, #0284C7, #38BDF8)',
+                      transition: 'width 0.4s ease'
+                    }}
+                  />
+                </div>
+              </div>
+
+              {/* 4 格實測指標矩陣 (Car Volume, WWR Surge, Estimated Visitors, Peak) */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>假日日均通過車流</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '1px' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '900', color: '#FFFFFF', fontFamily: 'JetBrains Mono, monospace' }}>
+                      {selectedDistrict.etag_highway_mobility.weekend_daily_cars.toLocaleString()}
+                    </span>
+                    <span style={{ fontSize: '9px', color: '#94A3B8' }}>輛/日</span>
+                  </div>
+                  <div style={{ fontSize: '9px', color: '#34D399', fontWeight: '700', fontFamily: 'JetBrains Mono, monospace' }}>
+                    較平日 +{Math.round((selectedDistrict.etag_highway_mobility.car_wwr_surge - 1) * 100)}% (平 {selectedDistrict.etag_highway_mobility.weekday_daily_cars.toLocaleString()})
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>換算假日自駕遊客</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '1px' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '900', color: '#FB923C', fontFamily: 'JetBrains Mono, monospace' }}>
+                      {selectedDistrict.etag_highway_mobility.estimated_drive_visitors.toLocaleString()}
+                    </span>
+                    <span style={{ fontSize: '9px', color: '#94A3B8' }}>人次/日</span>
+                  </div>
+                  <div style={{ fontSize: '8.5px', color: '#64748B' }}>
+                    高公局 2.2 人/小客車換算
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>尖峰小時通過量</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px', marginTop: '1px' }}>
+                    <span style={{ fontSize: '14px', fontWeight: '900', color: '#FCD34D', fontFamily: 'JetBrains Mono, monospace' }}>
+                      {selectedDistrict.etag_highway_mobility.peak_hour_volume.toLocaleString()}
+                    </span>
+                    <span style={{ fontSize: '9px', color: '#94A3B8' }}>輛/h</span>
+                  </div>
+                  <div style={{ fontSize: '8.5px', color: '#94A3B8' }}>
+                    {selectedDistrict.etag_highway_mobility.peak_time_window}
+                  </div>
+                </div>
+
+                <div style={{ background: 'rgba(30, 41, 59, 0.6)', padding: '7px 8px', borderRadius: '7px', border: `1px solid ${selectedDistrict.etag_highway_mobility.parking_stress.color}44` }}>
+                  <div style={{ fontSize: '9px', color: '#94A3B8' }}>周邊停車周轉壓力</div>
+                  <div style={{ fontSize: '10.5px', fontWeight: '800', color: selectedDistrict.etag_highway_mobility.parking_stress.color, marginTop: '2px' }}>
+                    {selectedDistrict.etag_highway_mobility.parking_stress.label}
+                  </div>
+                  <div style={{ fontSize: '8.5px', color: '#94A3B8', marginTop: '2px', lineHeight: '1.3' }}>
+                    {selectedDistrict.etag_highway_mobility.parking_stress.description}
+                  </div>
+                </div>
+              </div>
+
+              {/* 跨縣市高快速公路 OD 來源 (M08A 分析) */}
+              {(selectedDistrict.etag_highway_mobility.highway_od_origins || []).length > 0 && (
+                <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '6px' }}>
+                  <div style={{ fontSize: '10px', color: '#94A3B8', fontWeight: '700', marginBottom: '4px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <span>📍 國道主要來源端點 (OD 溯源)：</span>
+                    <span style={{ fontSize: '8.5px', color: '#64748B' }}>高公局 M08A 交流道對矩陣</span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                    {selectedDistrict.etag_highway_mobility.highway_od_origins.map((o, idx) => (
+                      <div
+                        key={idx}
+                        style={{
+                          fontSize: '9.5px',
+                          padding: '2px 6px',
+                          borderRadius: '4px',
+                          background: 'rgba(249, 115, 22, 0.1)',
+                          border: '1px solid rgba(249, 115, 22, 0.25)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '4px'
+                        }}
+                      >
+                        <span style={{ color: '#E2E8F0' }}>{o.origin}</span>
+                        <span style={{ color: '#FB923C', fontWeight: '800', fontFamily: 'JetBrains Mono, monospace' }}>
+                          {o.pct}%
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* 車種組成結構 */}
+              {selectedDistrict.etag_highway_mobility.fleet_composition && (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '9px', color: '#64748B', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '5px' }}>
+                  <span>🚗 自用小客車 {selectedDistrict.etag_highway_mobility.fleet_composition.passenger_car_pct}%</span>
+                  <span>🚌 觀光遊覽大客車 {selectedDistrict.etag_highway_mobility.fleet_composition.tourist_bus_pct}%</span>
+                  <span>🚚 貨運物流 {selectedDistrict.etag_highway_mobility.fleet_composition.cargo_pct}%</span>
+                </div>
+              )}
+            </div>
+          )}
 
           {/* 🍢 核心新功能 B：在地必吃特產與名勝古剎 (Local Gastronomy & Heritage) */}
           <div style={{
@@ -1104,6 +1347,25 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 </p>
               </div>
             )}
+
+            {activeDimension === 'etag_highway' && selectedDistrict.etag_highway_mobility && (
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                  <span style={{ fontSize: '11px', fontWeight: '800', color: '#F8FAFC' }}>
+                    🚗 國道自駕路網：{selectedDistrict.etag_highway_mobility.corridor_name}
+                  </span>
+                  <span style={{ fontSize: '13px', fontWeight: '900', color: '#FB923C', fontFamily: 'JetBrains Mono, monospace' }}>
+                    自駕佔比 {selectedDistrict.etag_highway_mobility.drive_share_pct}%
+                  </span>
+                </div>
+                <div style={{ fontSize: '10px', color: '#94a3b8', marginBottom: '6px' }}>
+                  🅿️ 停車壓力：<strong style={{ color: selectedDistrict.etag_highway_mobility.parking_stress.color }}>{selectedDistrict.etag_highway_mobility.parking_stress.label}</strong>
+                </div>
+                <p style={{ margin: 0, fontSize: '11px', color: '#cbd5e1', lineHeight: '1.45' }}>
+                  假日日均流量達 {selectedDistrict.etag_highway_mobility.weekend_daily_cars.toLocaleString()} 輛（較平日暴增 +{Math.round((selectedDistrict.etag_highway_mobility.car_wwr_surge - 1) * 100)}%），推估假日自駕遊客達 {selectedDistrict.etag_highway_mobility.estimated_drive_visitors.toLocaleString()} 人次。
+                </p>
+              </div>
+            )}
           </div>
 
           {/* AI 招商引資與商業策略推薦 (Retail Investment Recommendations) */}
@@ -1210,7 +1472,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
         boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
       }}>
         <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
-          <span>🏬 商圈決策圖例（維度：{activeDimension === 'vitality' ? '生命週期與活力 WWR' : activeDimension === 'weather' ? '天候衝擊抗跌韌性' : activeDimension === 'night' ? '夜經濟活力分級' : 'TOD 供需缺口與窪地'}）</span>
+          <span>🏬 商圈決策圖例（維度：{activeDimension === 'vitality' ? '生命週期與活力 WWR' : activeDimension === 'weather' ? '天候衝擊抗跌韌性' : activeDimension === 'night' ? '夜經濟活力分級' : activeDimension === 'tod' ? 'TOD 供需缺口與窪地' : '國道 eTag 自駕路網與車流'}）</span>
           <span style={{ fontSize: '9px', color: '#38BDF8' }}>當前分類: {selectedCategory === 'all' ? '全部' : selectedCategory === 'night_market' ? '旗艦夜市' : selectedCategory === 'old_street' ? '歷史老街' : '商業樞紐'}</span>
         </div>
 
@@ -1294,8 +1556,25 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
           </div>
         )}
 
+        {activeDimension === 'etag_highway' && (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F97316', display: 'inline-block' }}></span>
+              <span>🚗 自駕絕對主力 (&ge; 60%，中南部/宜花東/山海老街)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#FBBF24', display: 'inline-block' }}></span>
+              <span>🚙 汽機車雙軌均衡 (40%~59%)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
+              <span>🚆 捷運大眾運輸為主 (&lt; 40%，雙北捷運沿線)</span>
+            </div>
+          </div>
+        )}
+
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '9px', color: '#64748B' }}>
-          * 滑鼠懸停標記即可查看「人流來源溯源」與「在地名產勝景」卡片；外圈 500m 虛線光環為核心徒步吸引半徑。
+          * 滑鼠懸停標記即可查看「人流來源溯源」、「在地名產勝景」與「國道 eTag 自駕」卡片；外圈 500m 虛線光環為核心徒步吸引半徑。
         </div>
       </div>
 
