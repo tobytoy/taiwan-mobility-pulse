@@ -1887,16 +1887,31 @@ export default function HeatmapView({
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#7E22CE', border: '1px solid #A855F7', flexShrink: 0 }} />
                 <span style={{ color: '#E2E8F0', fontWeight: '600' }}>羅蘭紫：多元都會大樞紐 (北車/板橋)</span>
               </div>
+
+              {/* 🌧️ 雨天情境專屬天候衝擊示警說明 */}
+              {(timeScope.includes('rain') || timeScope.includes('heavy_rain')) && (
+                <div style={{ borderTop: '1px dashed rgba(244,63,94,0.4)', paddingTop: '6px', marginTop: '3px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ fontSize: '10px', fontWeight: '800', color: '#FDA4AF' }}>🌧️ 天候衝擊動態覆蓋示警：</div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#E11D48', border: '2px solid #F43F5E', boxShadow: '0 0 6px #F43F5E', flexShrink: 0 }} />
+                    <span style={{ color: '#FDA4AF', fontWeight: '700' }}>火紅光暈：🔥 避雨湧浪樞紐 (+10%以上湧入)</span>
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#0284C7', border: '1px solid #38BDF8', opacity: 0.6, flexShrink: 0 }} />
+                    <span style={{ color: '#7DD3FC', fontWeight: '600' }}>冰河冷藍：❄️ 戶外急凍降溫 (-25%以上蒸發)</span>
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5px', fontSize: '10px', color: '#94A3B8', lineHeight: '1.4' }}>
-            <div>⭕ <strong>熱點圓圈大小運算依據：</strong></div>
-            <div style={{ color: '#64748B' }}>
-              1. <strong>族群母體歸一化</strong>：以當前族群 95th 分位量進行指數縮放。
+            <div>⭕ <strong>熱點圓圈大小與顏色判定依據：</strong></div>
+            <div style={{ color: '#cbd5e1' }}>
+              1. <strong>圓圈大小</strong>：代表該站當前時段每小時總活動人次量（人次/h），人次越多圈越大。
             </div>
-            <div style={{ color: '#64748B' }}>
-              2. <strong>地圖層級自適應 (Zoom: {currentZoom || 8})</strong>：縮小時自動收斂避免重疊；放大時展開細節。
+            <div style={{ color: '#cbd5e1' }}>
+              2. <strong>日常底色 vs 雨天示警</strong>：晴天以站點機能定位為主；雨天人流逆勢增加 &ge; 10% 則轉為火紅光暈（如板橋/北車），跌幅 &ge; 25% 則縮小轉為冷藍（如淡水/動物園）。
             </div>
             <div style={{ color: '#FCD34D', marginTop: '3px' }}>
               3. <strong>族群數據註記</strong>：長者與學生人次已全面與全台 76 大轉乘樞紐之真實刷卡優惠減免代碼（TransferCode）進行交叉校驗驗證。

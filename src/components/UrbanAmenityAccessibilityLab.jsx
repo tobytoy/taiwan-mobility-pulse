@@ -732,38 +732,91 @@ export default function UrbanAmenityAccessibilityLab({ basemap = 'emap' }) {
         </div>
       )}
 
-      {/* 5. 底部左側：圖例說明 */}
+      {/* 5. 底部左側：動態圖例說明 */}
       <div style={{
         position: 'absolute',
         bottom: '24px',
         left: '16px',
         zIndex: 400,
-        background: 'rgba(15, 23, 42, 0.88)',
+        background: 'rgba(15, 23, 42, 0.90)',
         backdropFilter: 'blur(10px)',
-        border: '1px solid rgba(255, 255, 255, 0.08)',
+        border: '1px solid rgba(255, 255, 255, 0.1)',
         borderRadius: '10px',
-        padding: '8px 12px',
-        fontSize: '10.5px',
+        padding: '9px 14px',
+        fontSize: '11px',
         color: '#94a3b8',
         display: 'flex',
-        alignItems: 'center',
-        gap: '12px'
+        flexDirection: 'column',
+        gap: '6px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
       }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', display: 'inline-block' }}></span>
-          <span>A+ 卓越生活圈 (80+)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
-          <span>A 活力商圈 (60~79)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }}></span>
-          <span>B 偏斜機能 (40~59)</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444', display: 'inline-block' }}></span>
-          <span>C 匱乏待補區 (&lt;40)</span>
+        {perspective === 'all' && (
+          <>
+            <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>🏪 TOD 機能生活圈評級圖例</div>
+            <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
+                <span>A+ 卓越 (80+)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8' }} />
+                <span>A 活力 (60~79)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B' }} />
+                <span>B 偏斜 (40~59)</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444' }} />
+                <span>C 匱乏 (&lt;40)</span>
+              </div>
+            </div>
+          </>
+        )}
+        {perspective === 'senior' && (
+          <>
+            <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>👵 銀髮醫療生活圈 (350m 等時步程)</div>
+            <div style={{ display: 'flex', gap: '14px', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F43F5E' }} />
+                <span style={{ color: '#FECDD3' }}>醫療充足生活圈</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444' }} />
+                <span style={{ color: '#FDA4AF' }}>🚨 醫療沙漠缺口 (無診所/藥局)</span>
+              </div>
+            </div>
+          </>
+        )}
+        {perspective === 'student' && (
+          <>
+            <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>🎓 學生通學文教生活圈 (600m 活動半徑)</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
+              <span style={{ color: '#A7F3D0' }}>校園、補習文教與 YouBike 密集區</span>
+            </div>
+          </>
+        )}
+        {perspective === 'commuter' && (
+          <>
+            <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>💼 通勤快節奏生活圈 (400m 站前核心)</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#A855F7' }} />
+              <span style={{ color: '#E9D5FF' }}>高密度超商快餐、早午餐與接駁點</span>
+            </div>
+          </>
+        )}
+        {perspective === 'desert' && (
+          <>
+            <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>🚨 複合機能沙漠探針</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444' }} />
+              <span style={{ color: '#FCA5A5' }}>生活機能嚴重失衡、亟待補足資源之生活圈</span>
+            </div>
+          </>
+        )}
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '9px', color: '#64748B' }}>
+          * 虛線同心圓代表該客群之步程舒適圈 (Walkshed Buffer)。
         </div>
       </div>
 

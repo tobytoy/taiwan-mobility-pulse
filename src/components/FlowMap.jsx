@@ -545,27 +545,44 @@ export default function FlowMap({
         fontSize: '11px',
         pointerEvents: 'none'
       }}>
-        <div style={{ fontWeight: '700', color: '#94A3B8', marginBottom: '2px', display: 'flex', alignItems: 'center', gap: '5px' }}>
-          <span>🌊 人流走廊身分圖例</span>
+        <div style={{ fontWeight: '700', color: '#f8fafc', marginBottom: '2px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>🚆 運具流向動態圖例</span>
+          {selectedPaxType !== 'all' && (
+            <span style={{ fontSize: '9.5px', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '1px 5px', borderRadius: '4px' }}>
+              {selectedPaxType === 'commuter' ? '💼 通勤' : selectedPaxType === 'tourist' ? '🧳 觀光' : selectedPaxType === 'senior' ? '👵 銀髮' : '🎓 學生'}走廊
+            </span>
+          )}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#38BDF8' }} />
-          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>💼 通勤剛需走廊</span>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 10px', fontSize: '10.5px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#F97316' }} />
+            <span style={{ color: '#E2E8F0' }}>高鐵 (THSR)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#3B82F6' }} />
+            <span style={{ color: '#E2E8F0' }}>臺鐵 (TRA)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#10B981' }} />
+            <span style={{ color: '#E2E8F0' }}>北捷 (TRTC)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#F43F5E' }} />
+            <span style={{ color: '#E2E8F0' }}>高捷 (KRTC)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#0284C7' }} />
+            <span style={{ color: '#E2E8F0' }}>市區公車</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#EAB308' }} />
+            <span style={{ color: '#E2E8F0' }}>YouBike</span>
+          </div>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#F97316' }} />
-          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>🧳 觀光休閒走廊</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#F43F5E' }} />
-          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>👵 銀髮樂齡走廊</span>
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ width: '12px', height: '3px', borderRadius: '2px', background: '#10B981' }} />
-          <span style={{ color: '#E2E8F0', fontWeight: '600' }}>🎓 學生通學走廊</span>
-        </div>
-        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5px', fontSize: '9px', color: '#64748B', lineHeight: '1.3' }}>
-          ℹ️ 公車微觀走廊採臺北市公車票證；軌道走廊涵蓋全台高鐵、臺鐵、北捷與高捷。
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5px', fontSize: '9px', color: '#94A3B8', lineHeight: '1.4' }}>
+          <div>✨ <strong>動態粒子意涵</strong>：</div>
+          <div>1. <strong>流動方向</strong>：沿 OD 弧線從起點站流向終點站。</div>
+          <div>2. <strong>流速與密度</strong>：粒子數量與速度隨當前時段運量曲線即時增減。</div>
         </div>
       </div>
     </div>
