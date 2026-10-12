@@ -186,18 +186,29 @@ export default function HeatmapView({
     const isCloudy = targetScope.includes('cloudy');
     const isSunny = targetScope.includes('sunny') || targetScope.endsWith('clear');
     
-    let baseRate = 0.5;
+    // 基於站點大數據原始真實 commuter_pct 進行平滑時空調校，消除硬性 96% 削頂封頂
+    const rawCommuterPct = typeof st.commuter_pct === 'number' ? st.commuter_pct : 50;
+    let dynamicRatio = rawCommuterPct;
     if (isHoliday) {
-      baseRate = Math.max(0.05, (100 - expertParams.weekendLeisureRate) / 100);
+      // 假日休閒觀光轉化 (依站點原始特性保留真實差異)
+      const leisureFactor = (expertParams.weekendLeisureRate / 100) * 0.45;
+      dynamicRatio = Math.max(8, rawCommuterPct * (1 - leisureFactor));
     } else {
-      if (isPeak) baseRate = expertParams.peakCommuterRate / 100;
-      else if (isOffPeak) baseRate = expertParams.offpeakBusinessRate / 100;
-      else baseRate = 0.60;
+      if (isPeak) {
+        // 早晚尖峰：各站依自身通勤特性自然調升，但不強制鎖死在 96%
+        const peakBoost = 1.0 + ((expertParams.peakCommuterRate - 75) / 100) * 0.28;
+        dynamicRatio = Math.min(94, Math.max(25, rawCommuterPct * peakBoost));
+      } else if (isOffPeak) {
+        // 日間離峰：公務與休閒佔比提升
+        const offpeakDrop = 0.75 + ((expertParams.offpeakBusinessRate - 40) / 100) * 0.30;
+        dynamicRatio = Math.min(88, Math.max(18, rawCommuterPct * offpeakDrop));
+      } else {
+        // 深夜
+        dynamicRatio = Math.min(85, Math.max(15, rawCommuterPct * 0.82));
+      }
     }
 
-    // 站點特性敏感度縮放
-    const stRatio = (st.commuter_pct || 50) / 75;
-    const adjustedRate = Math.max(0.04, Math.min(0.96, baseRate * Math.pow(stRatio, expertParams.stationSensitivity)));
+    const adjustedRate = Math.min(0.95, Math.max(0.05, dynamicRatio / 100.0));
     const commuterPct = Math.round(adjustedRate * 100);
     const touristPct = 100 - commuterPct;
 
@@ -673,20 +684,34 @@ export default function HeatmapView({
             </div>
           </div>
 
+          <!-- 出行目的分流 (兩者加總嚴格等於 100%) -->
+          <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px;">
+            📊 出行目的解構（合計 100%）：
+          </div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #38BDF8; margin-bottom: 2px; font-weight: 600;">
-            <span>💼 動態通勤推估:</span>
+            <span>💼 通勤通學剛需:</span>
             <span>${Math.round(st.act_c).toLocaleString()} (${st.commuter_pct}%)</span>
           </div>
-          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #F97316; margin-bottom: 2px; font-weight: 600;">
-            <span>🧳 動態旅客推估:</span>
+          <div style="display: flex; justify-content: space-between; font-size: 11px; color: #F97316; margin-bottom: 4px; font-weight: 600;">
+            <span>🧳 觀光休閒人流:</span>
             <span>${Math.round(st.act_t).toLocaleString()} (${st.tourist_pct}%)</span>
           </div>
+          <!-- 雙目的比例條 (通勤 vs 觀光 = 100%) -->
+          <div style="width: 100%; height: 5px; border-radius: 3px; overflow: hidden; display: flex; margin-bottom: 8px; background: rgba(255,255,255,0.1);">
+            <div title="通勤剛需: ${st.commuter_pct}%" style="width: ${st.commuter_pct}%; height: 100%; background: #38BDF8;"></div>
+            <div title="觀光休閒: ${st.tourist_pct}%" style="width: ${st.tourist_pct}%; height: 100%; background: #F97316;"></div>
+          </div>
+
+          <!-- 特種票證身分比率 (獨立統計指標，佔全站比例) -->
+          <div style="font-size: 10px; font-weight: 700; color: #94a3b8; margin-bottom: 3px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 2px;">
+            👥 特殊票種身分佔比（獨立統計）：
+          </div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #F43F5E; margin-bottom: 2px; font-weight: 700;">
-            <span>👵 銀髮長者推估:</span>
+            <span>👵 敬老愛心卡佔比:</span>
             <span>${Math.round(st.act_senior).toLocaleString()} (${st.senior_pct}%)</span>
           </div>
           <div style="display: flex; justify-content: space-between; font-size: 11px; color: #10B981; margin-bottom: 6px; font-weight: 700;">
-            <span>🎓 學生通學推估:</span>
+            <span>🎓 學生票卡佔比:</span>
             <span>${Math.round(st.act_student).toLocaleString()} (${st.student_pct}%)</span>
           </div>
           ${paxType === 'senior' ? `
@@ -701,13 +726,6 @@ export default function HeatmapView({
               ${st.student_pct >= 22 ? '🏫 學生通學高頻熱點 (建議放學加密班次)' : 'ℹ️ 一般學區接駁動態'}
             </div>
           ` : ''}
-          <!-- 四大族群分佈條 (天藍-通勤 / 翠綠-學生 / 薔薇-長者 / 暖橘-觀光) -->
-          <div style="width: 100%; height: 5px; border-radius: 3px; overflow: hidden; display: flex; margin-bottom: 8px; background: rgba(255,255,255,0.1);">
-            <div title="通勤" style="width: ${st.commuter_pct}%; height: 100%; background: #38BDF8;"></div>
-            <div title="學生" style="width: ${st.student_pct}%; height: 100%; background: #10B981;"></div>
-            <div title="長者" style="width: ${st.senior_pct}%; height: 100%; background: #F43F5E;"></div>
-            <div title="觀光" style="width: ${Math.max(0, 100 - st.commuter_pct - st.student_pct - st.senior_pct)}%; height: 100%; background: #F97316;"></div>
-          </div>
           <!-- 四維人群像 -->
           <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 6px; font-size: 10px; display: flex; flex-direction: column; gap: 2px;">
             <div style="font-weight: 700; color: #94a3b8; margin-bottom: 2px;">🧬 四維時空人群像分解：</div>
