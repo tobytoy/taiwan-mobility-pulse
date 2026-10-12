@@ -8,6 +8,7 @@ import {
   Calendar, Clock, MapPin, Zap, ChevronRight, ChevronDown, ChevronUp, TrendingUp, Info, Sparkles, Heart, GraduationCap,
   CloudRain, Sun, Car, AlertTriangle
 } from 'lucide-react';
+import { PERSONA_TOKENS, ALERT_STATE_TOKENS } from '../utils/semanticTokens';
 
 const BASEMAP_TILES = {
   emap: {
@@ -403,20 +404,20 @@ export default function HeatmapView({
   const getMarkerStyle = (st, val, benchmarkMax = 10000, diffPct = 0, isRain = false) => {
     const baseVal = Math.abs(val);
 
-    // 1. Zoom 自適應縮放 (Zoom 7~8 全台概覽: 最大 13px，徹底防止大台北重疊成巨球；Zoom 10 都會: 最大 22px；Zoom 12 市區: 最大 30px)
+    // 1. Zoom 自適應縮放
     const zoom = currentZoom || 8;
     const zoomScale = Math.pow(1.20, zoom - 8);
     const minRadius = Math.max(3.0, 3.8 * Math.min(1.8, zoomScale));
     const maxRadius = Math.min(32, 13 * zoomScale);
 
-    // 2. 基於基準情境的動態尺度 (採用更有層次感的 0.65 次冪次曲線，突破被壓扁的相對論陷阱)
+    // 2. 基於基準情境的動態尺度
     const safeMax = Math.max(benchmarkMax || 1000, 50);
     const rawRatio = baseVal / safeMax;
     const normRatio = Math.min(1.4, Math.max(0.04, Math.pow(rawRatio, 0.65)));
     let radius = Math.round(minRadius + normRatio * (maxRadius - minRadius));
 
-    let color = '#38BDF8';
-    let fillColor = '#0284C7';
+    let color = PERSONA_TOKENS.commuter.color;
+    let fillColor = PERSONA_TOKENS.commuter.fillColor;
     let fillOpacity = 0.68;
     let strokeWidth = 1.2;
     let categoryName = '';
@@ -428,17 +429,17 @@ export default function HeatmapView({
         // ❄️ 戶外急凍 / 長者不出門防跌 / 郊區冷卻
         radius = Math.max(3, Math.round(radius * 0.72)); // 明顯縮小
         fillOpacity = 0.32; // 半透明冷清感
-        color = '#38BDF8'; // 冰河冷藍邊框
-        fillColor = '#0369A1';
+        color = ALERT_STATE_TOKENS.weather_freeze.border; // 冰河冷藍邊框
+        fillColor = ALERT_STATE_TOKENS.weather_freeze.fillColor;
         strokeWidth = 1.0;
         weatherBadge = `❄️ 戶外急凍 (${diffPct.toFixed(0)}%)`;
       } else if (diffPct >= 10) {
         // 🔥 避雨湧入 / 室內共構商場 / 地下連通道大聚集
         radius = Math.round(radius * 1.22); // 明顯膨脹
         fillOpacity = 0.95; // 高彩度高飽和
-        color = '#F43F5E'; // 警示火紅邊框
-        fillColor = '#E11D48';
-        strokeWidth = 2.2;
+        color = ALERT_STATE_TOKENS.weather_surge.border; // 烈焰紅邊框
+        fillColor = ALERT_STATE_TOKENS.weather_surge.color;
+        strokeWidth = 2.4;
         weatherBadge = `🔥 避雨湧浪 (+${diffPct.toFixed(0)}%)`;
       }
     }
@@ -446,20 +447,20 @@ export default function HeatmapView({
     if (paxType === 'personas') {
       const { core, explorer, business, tourist } = st.personas;
       if (core >= explorer && core >= business && core >= tourist) {
-        color = isRain && diffPct >= 10 ? '#F43F5E' : '#38BDF8'; // 剛需通勤 (晴空藍)
-        fillColor = '#0284C7';
+        color = isRain && diffPct >= 10 ? ALERT_STATE_TOKENS.weather_surge.border : PERSONA_TOKENS.commuter.color;
+        fillColor = isRain && diffPct >= 10 ? ALERT_STATE_TOKENS.weather_surge.color : PERSONA_TOKENS.commuter.fillColor;
         categoryName = '🍙 剛需通勤主導';
       } else if (explorer >= core && explorer >= business && explorer >= tourist) {
-        color = '#A855F7'; // 週末月票探索 (賽博紫)
-        fillColor = '#7E22CE';
+        color = PERSONA_TOKENS.tpass.color;
+        fillColor = PERSONA_TOKENS.tpass.fillColor;
         categoryName = '📸 週末月票探索';
       } else if (business >= core && business >= explorer && business >= tourist) {
-        color = '#EAB308'; // 彈性商務 (亮目金黃)
-        fillColor = '#CA8A04';
+        color = PERSONA_TOKENS.business.color;
+        fillColor = PERSONA_TOKENS.business.fillColor;
         categoryName = '💼 彈性商務洽公';
       } else {
-        color = isRain && diffPct <= -25 ? '#38BDF8' : '#F97316'; // 純外地觀光 (暖陽橘)
-        fillColor = '#EA580C';
+        color = isRain && diffPct <= -25 ? ALERT_STATE_TOKENS.weather_freeze.border : PERSONA_TOKENS.tourist.color;
+        fillColor = isRain && diffPct <= -25 ? ALERT_STATE_TOKENS.weather_freeze.fillColor : PERSONA_TOKENS.tourist.fillColor;
         categoryName = '🧳 純外地觀光';
       }
     } else if (flowMode === 'net') {
@@ -473,24 +474,24 @@ export default function HeatmapView({
         categoryName = '🟠 人流淨發散';
       }
     } else if (paxType === 'commuter') {
-      color = isRain && diffPct >= 10 ? '#38BDF8' : '#38BDF8'; // 晴空藍 (通勤)
-      fillColor = '#0284C7';
+      color = isRain && diffPct >= 10 ? ALERT_STATE_TOKENS.weather_surge.border : PERSONA_TOKENS.commuter.color;
+      fillColor = isRain && diffPct >= 10 ? ALERT_STATE_TOKENS.weather_surge.color : PERSONA_TOKENS.commuter.fillColor;
       categoryName = '💼 通勤剛需核心';
     } else if (paxType === 'tourist') {
-      color = isRain && diffPct <= -25 ? '#38BDF8' : '#F97316'; // 暖陽橘 (觀光)
-      fillColor = '#EA580C';
+      color = isRain && diffPct <= -25 ? ALERT_STATE_TOKENS.weather_freeze.border : PERSONA_TOKENS.tourist.color;
+      fillColor = isRain && diffPct <= -25 ? ALERT_STATE_TOKENS.weather_freeze.fillColor : PERSONA_TOKENS.tourist.fillColor;
       categoryName = '🧳 休閒觀光聚落';
     } else if (paxType === 'senior') {
       const isSeniorHub = (st.senior_pct || 0) >= 35;
       if (isSeniorHub) {
-        color = isRain && diffPct <= -20 ? '#38BDF8' : '#F43F5E';
-        fillColor = '#E11D48';
+        color = isRain && diffPct <= -20 ? ALERT_STATE_TOKENS.weather_freeze.border : PERSONA_TOKENS.senior.color;
+        fillColor = isRain && diffPct <= -20 ? ALERT_STATE_TOKENS.weather_freeze.fillColor : PERSONA_TOKENS.senior.fillColor;
         fillOpacity = isRain ? 0.50 : 0.88;
         strokeWidth = isRain && diffPct <= -20 ? 1.2 : 2.0;
         categoryName = '👵 銀髮高密度聚落';
       } else {
         radius = Math.max(3, Math.round(radius * 0.80));
-        color = isRain && diffPct <= -20 ? '#38BDF8' : '#FB7185';
+        color = isRain && diffPct <= -20 ? ALERT_STATE_TOKENS.weather_freeze.border : '#FB7185';
         fillColor = '#BE123C';
         fillOpacity = isRain ? 0.25 : 0.48;
         categoryName = '👵 一般長者生活圈';
@@ -498,14 +499,14 @@ export default function HeatmapView({
     } else if (paxType === 'student') {
       const isStudentHub = (st.student_pct || 0) >= 22;
       if (isStudentHub) {
-        color = isRain && diffPct >= 9.9 ? '#F43F5E' : '#10B981';
-        fillColor = '#059669';
+        color = isRain && diffPct >= 9.9 ? ALERT_STATE_TOKENS.weather_surge.border : PERSONA_TOKENS.student.color;
+        fillColor = isRain && diffPct >= 9.9 ? ALERT_STATE_TOKENS.weather_surge.color : PERSONA_TOKENS.student.fillColor;
         fillOpacity = 0.88;
         strokeWidth = isRain && diffPct >= 9.9 ? 2.6 : 2.0;
         categoryName = '🎓 學生通學高頻熱點';
       } else {
         radius = Math.max(3, Math.round(radius * 0.80));
-        color = isRain && diffPct >= 9.9 ? '#F43F5E' : '#34D399';
+        color = isRain && diffPct >= 9.9 ? ALERT_STATE_TOKENS.weather_surge.border : '#34D399';
         fillColor = '#047857';
         fillOpacity = 0.45;
         strokeWidth = isRain && diffPct >= 9.9 ? 2.0 : 1.2;
@@ -520,36 +521,36 @@ export default function HeatmapView({
       const isTouristHub = /淡水|新北投|紅樹林|西門|美麗島|101|巨蛋|三多商圈|凹子底|花蓮|臺東|平溪|九份|安平|礁溪|瑞芳/.test(stName);
 
       if (isRain && diffPct >= 10) {
-        color = '#F43F5E';
-        fillColor = '#E11D48';
+        color = ALERT_STATE_TOKENS.weather_surge.border;
+        fillColor = ALERT_STATE_TOKENS.weather_surge.color;
         categoryName = '🔥 避雨湧入樞紐';
       } else if (isRain && diffPct <= -25) {
-        color = '#38BDF8';
-        fillColor = '#0284C7';
+        color = ALERT_STATE_TOKENS.weather_freeze.border;
+        fillColor = ALERT_STATE_TOKENS.weather_freeze.color;
         categoryName = '❄️ 戶外急凍降溫';
       } else if (isMetroHub) {
-        color = '#A855F7'; // 羅蘭紫
-        fillColor = '#7E22CE';
+        color = PERSONA_TOKENS.tpass.color; // 賽博紫 / 多元樞紐
+        fillColor = PERSONA_TOKENS.tpass.fillColor;
         fillOpacity = 0.80;
         categoryName = '🧬 多元都會大樞紐';
       } else if (isSeniorHub) {
-        color = '#F43F5E'; // 薔薇紅
-        fillColor = '#E11D48';
+        color = PERSONA_TOKENS.senior.color; // 薔薇粉紅 (銀髮醫療)
+        fillColor = PERSONA_TOKENS.senior.fillColor;
         fillOpacity = 0.80;
         categoryName = '👵 銀髮醫療生活';
       } else if (isStudentHub) {
-        color = '#10B981'; // 翡翠綠
-        fillColor = '#059669';
+        color = PERSONA_TOKENS.student.color; // 翡翠綠
+        fillColor = PERSONA_TOKENS.student.fillColor;
         fillOpacity = 0.80;
         categoryName = '🎓 學生通學聚落';
       } else if (isTouristHub) {
-        color = '#F97316'; // 暖陽橘
-        fillColor = '#EA580C';
+        color = PERSONA_TOKENS.tourist.color; // 暖陽橘
+        fillColor = PERSONA_TOKENS.tourist.fillColor;
         fillOpacity = 0.75;
         categoryName = '🧳 觀光休閒商圈';
       } else {
-        color = '#38BDF8'; // 晴空藍
-        fillColor = '#0284C7';
+        color = PERSONA_TOKENS.commuter.color; // 晴空藍
+        fillColor = PERSONA_TOKENS.commuter.fillColor;
         fillOpacity = 0.65;
         categoryName = '💼 核心上班通勤';
       }

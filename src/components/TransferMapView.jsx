@@ -719,28 +719,38 @@ export default function TransferMapView({ basemap = 'emap' }) {
         border: '1px solid rgba(255, 255, 255, 0.1)',
         borderRadius: '10px',
         padding: '10px 14px',
-        fontSize: '10px',
+        fontSize: '10.5px',
         color: '#94A3B8',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px'
       }}>
-        <div style={{ fontWeight: '700', color: '#f8fafc', marginBottom: '6px' }}>🎨 甜甜圈圓盤四色身分圖例</div>
+        <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '11px' }}>
+          🔀 跨運具轉乘圖例（主體：全台 76 大轉乘樞紐）
+        </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8' }} />
-            <span>晴空藍：自費成人上班通勤 (折 $8)</span>
+            <span style={{ color: '#E2E8F0' }}>晴空藍：自費成人上班通勤 (折 $8)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#A855F7' }} />
-            <span>賽博紫：TPASS 通勤月票 (折 $15)</span>
+            <span style={{ color: '#E2E8F0' }}>賽博紫：TPASS 通勤月票 (折 $15)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }} />
-            <span>翡翠綠：學生通學接駁 (折 $6)</span>
+            <span style={{ color: '#E2E8F0' }}>翡翠綠：學生通學接駁 (折 $6)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F43F5E' }} />
-            <span>薔薇紅：銀髮樂齡醫療生活 (折 $4)</span>
+            <span style={{ color: '#E2E8F0' }}>薔薇粉紅：銀髮樂齡醫療生活 (折 $4)</span>
           </div>
+        </div>
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '9px', color: '#64748B', lineHeight: '1.4' }}>
+          <div>⭕ <strong>甜甜圈圓盤度量</strong>：</div>
+          <div>1. <strong>外徑大小</strong>：代表該樞紐每週跨運具轉乘總量 (人次/週)。</div>
+          <div>2. <strong>四色弧長</strong>：代表四類票種優惠身分佔比 (四者合計嚴格等於 100%)。</div>
         </div>
       </div>
 

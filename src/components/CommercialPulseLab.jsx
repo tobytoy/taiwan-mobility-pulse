@@ -785,15 +785,20 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
         backdropFilter: 'blur(10px)',
         border: '1px solid rgba(255, 255, 255, 0.08)',
         borderRadius: '10px',
-        padding: '8px 12px',
-        fontSize: '10.5px',
+        padding: '9px 14px',
+        fontSize: '11px',
         color: '#94a3b8',
         display: 'flex',
-        alignItems: 'center',
-        gap: '12px'
+        flexDirection: 'column',
+        gap: '6px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
       }}>
+        <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>
+          🏬 商圈決策圖例（維度：{activeDimension === 'vitality' ? '生命週期與活力 WWR' : activeDimension === 'weather' ? '天候衝擊抗跌韌性' : activeDimension === 'night' ? '夜經濟活力分級' : 'TOD 供需缺口與窪地'}）
+        </div>
+
         {activeDimension === 'vitality' && (
-          <>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F43F5E', display: 'inline-block' }}></span>
               <span>🔥 爆發擴張商圈 (WWR &ge; 1.7x)</span>
@@ -810,11 +815,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#94A3B8', display: 'inline-block' }}></span>
               <span>📉 空洞化沒落預警</span>
             </div>
-          </>
+          </div>
         )}
 
         {activeDimension === 'weather' && (
-          <>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981', display: 'inline-block' }}></span>
               <span>🛡️ 全天候避雨庇護 (暴雨逆勢 +10%~+25%)</span>
@@ -827,11 +832,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444', display: 'inline-block' }}></span>
               <span>☔ 露天重創脆弱 (-40%~-65%)</span>
             </div>
-          </>
+          </div>
         )}
 
         {activeDimension === 'night' && (
-          <>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#C084FC', display: 'inline-block' }}></span>
               <span>🦉 越夜越美麗 (夜流 &ge; 25%)</span>
@@ -844,11 +849,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#64748B', display: 'inline-block' }}></span>
               <span>💤 清晨入睡純辦/住宅 (&lt; 15%)</span>
             </div>
-          </>
+          </div>
         )}
 
         {activeDimension === 'tod' && (
-          <>
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }}></span>
               <span>🚀 爆發潛力商機窪地 (供不應求)</span>
@@ -861,8 +866,12 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EC4899', display: 'inline-block' }}></span>
               <span>⚠️ 零售競爭紅海 (飽和)</span>
             </div>
-          </>
+          </div>
         )}
+
+        <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '9px', color: '#64748B' }}>
+          * 外圈 500m 虛線光環代表商圈核心徒步吸引半徑 (Walkshed Buffer)；膠囊標記數值為該維度量化指標。
+        </div>
       </div>
 
     </div>
