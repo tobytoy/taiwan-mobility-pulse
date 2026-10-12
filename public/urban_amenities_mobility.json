@@ -5,7 +5,8 @@
     "walkshed_radius_meters": 500,
     "generated_at": "2026-10-08",
     "total_hubs": 80,
-    "total_osm_pois": 2070
+    "total_osm_pois": 2070,
+    "total_hubs_profiled": 81
   },
   "macro_insights": {
     "total_targets_analyzed": 80,
@@ -10545,6 +10546,83 @@
         }
       ],
       "policy_recommendation": "長者就醫取藥需求高但站周藥局缺乏，建議於轉運站出口增設『健保處方箋智能自提櫃』，並加開銜接區域大型醫院之低底盤接駁車。"
+    },
+    {
+      "hub_name": "瑞芳火車站",
+      "lat": 25.1088,
+      "lng": 121.8058,
+      "region": "north",
+      "region_label": "北部生活圈 (新北東北角山城)",
+      "weekly_transfer_volume": 32597,
+      "persona_pct": {
+        "commuter": 35.2,
+        "student": 11.2,
+        "senior": 28.5,
+        "tpass": 22.1
+      },
+      "is_desert_probe": false,
+      "probe_type": "山城轉運樞紐 (臺鐵宜蘭線/平溪線與九份金瓜石雙核心節點)",
+      "amenity_summary": {
+        "convenience_count": 9,
+        "healthcare_count": 6,
+        "education_count": 3,
+        "supermarket_count": 2,
+        "total_pois_500m": 20,
+        "tod_living_score": 74.2,
+        "grade": "B+ 地方生活兼觀光轉運心臟",
+        "grade_color": "#10B981",
+        "radar": {
+          "retail_convenience": 82.0,
+          "healthcare_access": 76.5,
+          "education_access": 70.0,
+          "grocery_daily": 75.0,
+          "transit_density": 88.0
+        }
+      },
+      "brand_breakdown": {
+        "seven_eleven": 4,
+        "family_mart": 3,
+        "px_mart": 1,
+        "simple_mart": 1,
+        "local_clinics": 4,
+        "mining_hospital": 1
+      },
+      "nearest_pois": [
+        {
+          "category": "醫療院所",
+          "name": "瑞芳礦工醫院",
+          "distance_m": 280,
+          "lat": 25.1092,
+          "lng": 121.8035
+        },
+        {
+          "category": "民生市集",
+          "name": "瑞芳美食廣場/第一市場",
+          "distance_m": 160,
+          "lat": 25.1082,
+          "lng": 121.8065
+        },
+        {
+          "category": "日常超市",
+          "name": "全聯福利中心(瑞芳民生店)",
+          "distance_m": 350,
+          "lat": 25.1075,
+          "lng": 121.808
+        },
+        {
+          "category": "中等教育",
+          "name": "市立瑞芳高工",
+          "distance_m": 420,
+          "lat": 25.1115,
+          "lng": 121.802
+        }
+      ],
+      "identified_gaps": [
+        "例假日九份/十分觀光人潮大量排隊擠壓後站人行動線",
+        "夜間急診與專科藥局相對集中於前站礦工醫院周邊",
+        "高齡人口醫療取藥極度仰賴公車轉乘接駁"
+      ],
+      "policy_recommendation": "落實鐵公路無縫轉乘動線分流，週末加開 965 跳蛙公車直達九份，避免遊客與在地就醫長者於站前廣場過度混雜。"
     }
   ]
 }

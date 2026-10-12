@@ -90,6 +90,13 @@ STATIONS_GEO = {
     "羅東": [24.6775, 121.7725],
     "宜蘭": [24.7544, 121.7581],
     "礁溪": [24.8290, 121.7730],
+    "瑞芳": [25.1088, 121.8058],
+    "瑞芳火車站": [25.1088, 121.8058],
+    "瑞芳車站": [25.1088, 121.8058],
+    "十分": [25.0428, 121.7766],
+    "猴硐": [25.0872, 121.8281],
+    "九份老街": [25.1099, 121.8452],
+    "金瓜石": [25.1118, 121.8596],
     
     # Taipei Metro (TRTC) Hubs
     "西門": [25.0422, 121.5083],
@@ -188,7 +195,7 @@ STATIONS_GEO = {
     "伴山別墅(一)": [24.9650, 121.5050]
 }
 
-NORTH_STATIONS = {"台北", "臺北", "台北車站", "南港", "板橋", "桃園", "高鐵桃園站", "新竹", "基隆", "七堵", "汐止", "汐科", "松山", "萬華", "樹林", "鶯歌", "中壢", "中壢火車站", "楊梅", "內壢", "西門", "市政府", "忠孝復興", "忠孝新生", "古亭", "公館", "象山", "大安森林公園", "西湖", "港墘", "松江南京", "中山", "北投", "淡水", "南港展覽館", "頂溪", "永安市場", "景安", "府中", "亞東醫院", "新埔", "新埔民生", "江子翠", "大安", "新北產業園區", "幸福", "頭前庄", "中原", "橋和", "中和", "紅樹林", "濱海義山", "淡江大學", "台北小城", "十四張", "市府轉運站", "台北轉運站", "板橋客運站", "南港轉運站", "基隆轉運站", "綜合市場(捷運石牌站)", "榮總", "東吳大學(錢穆故居)", "捷運士林站(中正)", "捷運士林站", "捷運公館站", "福和橋(林森路)", "捷運淡水站", "藝香公園(果菜市場)", "四海站", "景美國中", "復興派出所", "伴山別墅(一)"}
+NORTH_STATIONS = {"台北", "臺北", "台北車站", "南港", "板橋", "桃園", "高鐵桃園站", "新竹", "基隆", "七堵", "汐止", "汐科", "松山", "萬華", "樹林", "鶯歌", "中壢", "中壢火車站", "楊梅", "內壢", "西門", "市政府", "忠孝復興", "忠孝新生", "古亭", "公館", "象山", "大安森林公園", "西湖", "港墘", "松江南京", "中山", "北投", "淡水", "南港展覽館", "頂溪", "永安市場", "景安", "府中", "亞東醫院", "新埔", "新埔民生", "江子翠", "大安", "新北產業園區", "幸福", "頭前庄", "中原", "橋和", "中和", "紅樹林", "濱海義山", "淡江大學", "台北小城", "十四張", "市府轉運站", "台北轉運站", "板橋客運站", "南港轉運站", "基隆轉運站", "綜合市場(捷運石牌站)", "榮總", "東吳大學(錢穆故居)", "捷運士林站(中正)", "捷運士林站", "捷運公館站", "福和橋(林森路)", "捷運淡水站", "藝香公園(果菜市場)", "四海站", "景美國中", "復興派出所", "伴山別墅(一)", "瑞芳", "瑞芳火車站", "瑞芳車站", "十分", "猴硐", "九份老街", "金瓜石"}
 CENTRAL_STATIONS = {"苗栗", "苗栗火車站", "台中", "臺中", "台中轉運站", "彰化", "雲林", "豐原", "新烏日", "員林", "斗六", "竹南"}
 SOUTH_STATIONS = {"嘉義", "台南", "臺南", "左營", "新左營", "高雄", "高雄車站", "鳳山", "屏東", "潮州", "新營", "巨蛋", "三多商圈", "美麗島", "中央公園", "文化中心", "凹子底", "後驛", "都會公園", "楠梓科學園區", "油廠國小", "橋頭火車站", "橋頭糖廠", "信義國小", "哈瑪星", "駁二大義"}
 EAST_STATIONS = {"宜蘭", "羅東", "礁溪", "花蓮", "台東", "臺東", "宜蘭轉運站", "羅東轉運站", "礁溪轉運站"}
@@ -513,6 +520,16 @@ def main():
     add_corridor("tra", "臺鐵", "#3B82F6", "宜蘭", "羅東", 240000, pax_type="tourist", commuter_idx=0.85, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
     add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "花蓮", 215000, pax_type="tourist", commuter_idx=0.60, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
     add_corridor("tra", "臺鐵", "#3B82F6", "花蓮", "臺東", 125000, pax_type="tourist", commuter_idx=0.58, region="East", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+
+    # 3.1 補充新北東北角觀光鐵公路走廊 (瑞芳-平溪支線觀光廊帶與九份接駁)
+    add_corridor("tra", "臺鐵", "#3B82F6", "臺北", "瑞芳", 237380, pax_type="tourist", commuter_idx=0.68, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "瑞芳", "臺北", 195471, pax_type="tourist", commuter_idx=0.68, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "瑞芳", "十分", 70358, pax_type="tourist", commuter_idx=0.45, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "十分", "瑞芳", 92707, pax_type="tourist", commuter_idx=0.45, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "松山", "瑞芳", 74402, pax_type="tourist", commuter_idx=0.70, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("tra", "臺鐵", "#3B82F6", "瑞芳", "松山", 83033, pax_type="tourist", commuter_idx=0.70, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("nwt_bus", "新北公車", "#0284C7", "瑞芳火車站", "九份老街", 87873, pax_type="tourist", commuter_idx=0.42, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
+    add_corridor("nwt_bus", "新北公車", "#0284C7", "九份老街", "瑞芳火車站", 85000, pax_type="tourist", commuter_idx=0.42, region="North", custom_curve=tra_we, curve_wd=tra_wd, curve_we=tra_we)
 
     # 4. 補充公路客運 (THB) 全國走廊
     thb_wd = normalize_curve(study_data.get("公路客運 (THB Bus TO3A)", {}).get('hourly_profile', {}).get('Weekday', {}))

@@ -13,9 +13,9 @@
       "south",
       "east"
     ],
-    "hubs_count": 76,
+    "hubs_count": 77,
     "regional_hubs_count": {
-      "north": 46,
+      "north": 47,
       "central": 18,
       "south": 6,
       "east": 6
@@ -5925,6 +5925,83 @@
         }
       ],
       "name": "成功"
+    },
+    {
+      "BoardingStopName": "瑞芳火車站",
+      "name": "瑞芳火車站",
+      "region": "north",
+      "region_label": "北部都會區 (基北北桃竹 - 東北角觀光走廊)",
+      "lat": 25.1088,
+      "lng": 121.8058,
+      "transfer_volume": 32597,
+      "subsidized_ntd": 260776.0,
+      "from_metro": 365,
+      "from_trunk": 2609,
+      "from_bus": 20152,
+      "from_train": 9471,
+      "persona_pct": {
+        "commuter": 35.2,
+        "tpass": 22.1,
+        "regular_adult": 41.5,
+        "student": 11.2,
+        "senior": 28.5
+      },
+      "top_feeder_routes": [
+        {
+          "RouteName": "965(台灣好行-九份金瓜石線)",
+          "count": 37845
+        },
+        {
+          "RouteName": "787(往基隆/八堵)",
+          "count": 22248
+        },
+        {
+          "RouteName": "1062(往金瓜石/台北)",
+          "count": 10936
+        },
+        {
+          "RouteName": "846(往平溪老街)",
+          "count": 3715
+        }
+      ],
+      "top_destinations": [
+        {
+          "DeboardingStopName": "九份老街",
+          "count": 24890,
+          "latlng": [
+            25.1099,
+            121.8452
+          ],
+          "name": "九份老街"
+        },
+        {
+          "DeboardingStopName": "十分車站",
+          "count": 16300,
+          "latlng": [
+            25.0428,
+            121.7766
+          ],
+          "name": "十分車站"
+        },
+        {
+          "DeboardingStopName": "捷運北門站",
+          "count": 15819,
+          "latlng": [
+            25.0492,
+            121.511
+          ],
+          "name": "捷運北門站"
+        },
+        {
+          "DeboardingStopName": "新北板橋公車站",
+          "count": 4159,
+          "latlng": [
+            25.0135,
+            121.4625
+          ],
+          "name": "新北板橋公車站"
+        }
+      ]
     }
   ]
 }
