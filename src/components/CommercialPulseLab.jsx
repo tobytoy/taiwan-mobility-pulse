@@ -723,18 +723,27 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
 
           {/* 客群身分比率結構 */}
           <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            fontSize: '10px',
-            color: '#94a3b8',
             background: 'rgba(0,0,0,0.25)',
             padding: '6px 8px',
-            borderRadius: '6px'
+            borderRadius: '6px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px'
           }}>
-            <span>💼 上班族: <strong style={{ color: '#38BDF8' }}>{selectedDistrict.persona_pct?.commuter}%</strong></span>
-            <span>🎓 學生族: <strong style={{ color: '#10B981' }}>{selectedDistrict.persona_pct?.student}%</strong></span>
-            <span>👵 樂齡族: <strong style={{ color: '#F43F5E' }}>{selectedDistrict.persona_pct?.senior}%</strong></span>
-            <span>💳 TPASS: <strong style={{ color: '#A855F7' }}>{selectedDistrict.persona_pct?.tpass}%</strong></span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#94a3b8' }}>
+              <span>🎫 票種身分結構（合計 100%）：</span>
+              <span style={{ color: '#38BDF8', fontWeight: 'bold' }}>💼 通勤剛需計 {selectedDistrict.persona_pct?.commuter}%</span>
+            </div>
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontSize: '10px'
+            }}>
+              <span>💼 自費通勤: <strong style={{ color: '#38BDF8' }}>{selectedDistrict.persona_pct?.regular_adult || Math.max(0, (selectedDistrict.persona_pct?.commuter || 0) - (selectedDistrict.persona_pct?.tpass || 0))}%</strong></span>
+              <span>💳 TPASS: <strong style={{ color: '#A855F7' }}>{selectedDistrict.persona_pct?.tpass}%</strong></span>
+              <span>🎓 學生族: <strong style={{ color: '#10B981' }}>{selectedDistrict.persona_pct?.student}%</strong></span>
+              <span>👵 樂齡族: <strong style={{ color: '#F43F5E' }}>{selectedDistrict.persona_pct?.senior}%</strong></span>
+            </div>
           </div>
 
           {/* 周邊 500m 現有實體機能統計 */}
