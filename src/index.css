@@ -363,4 +363,22 @@ input[type=range]::-webkit-slider-thumb {
   border-top-color: rgba(15, 23, 42, 0.94) !important;
 }
 
+/* Commercial District & Night Market / Old Street Pulse Tooltip */
+.commercial-pulse-tooltip {
+  background: rgba(15, 23, 42, 0.96) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.75) !important;
+  padding: 0 !important;
+  color: #f8fafc !important;
+  pointer-events: none !important;
+}
+
+.commercial-pulse-tooltip::before {
+  border-top-color: rgba(15, 23, 42, 0.96) !important;
+}
+
+
 

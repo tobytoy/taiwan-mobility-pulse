@@ -4,7 +4,8 @@ import {
   TrendingUp, CloudRain, Moon, Sparkles, Building2, Store,
   Compass, Search, ArrowUpRight, ArrowDownRight, Layers,
   ShoppingBag, Coffee, ShieldCheck, AlertTriangle, Flame,
-  DollarSign, Users, Award, MapPin, X
+  DollarSign, Users, Award, MapPin, X, Utensils, Landmark,
+  Car, Clock, Waves, Navigation
 } from 'lucide-react';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 
@@ -47,6 +48,13 @@ const REGIONS = [
   { id: 'east', label: '🌊 東部生活圈', center: [24.300, 121.650], zoom: 10 }
 ];
 
+const CATEGORIES = [
+  { id: 'all', label: '全部商業熱點', icon: Layers, countKey: 'total_districts', prefix: '🌐' },
+  { id: 'night_market', label: '全台旗艦夜市', icon: Flame, countKey: 'night_markets_count', prefix: '🍢' },
+  { id: 'old_street', label: '歷史老街名勝', icon: Landmark, countKey: 'old_streets_count', prefix: '🏛️' },
+  { id: 'general', label: '交通商務樞紐', icon: Store, countKey: 'general_districts_count', prefix: '🏬' }
+];
+
 const COMMERCIAL_DIMENSIONS = [
   {
     id: 'vitality',
@@ -82,11 +90,15 @@ const COMMERCIAL_DIMENSIONS = [
   }
 ];
 
+// 跨縣市人流比例條漸層調色盤
+const ORIGIN_PALETTE = ['#38BDF8', '#A855F7', '#F59E0B', '#10B981', '#EC4899'];
+
 export default function CommercialPulseLab({ basemap = 'emap' }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [activeDimension, setActiveDimension] = useState('vitality');
   const [selectedRegion, setSelectedRegion] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedDistrict, setSelectedDistrict] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentZoom, setCurrentZoom] = useState(8);
@@ -191,7 +203,28 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
     }
   };
 
-  // 5. 渲染商圈標記、影響半徑與關鍵 POI
+  // 5. 分類視角切換
+  const handleSelectCategory = (catId) => {
+    setSelectedCategory(catId);
+    if (!data?.districts) return;
+
+    // 若切換分類後，當前選中的商圈不在該類別內，自動選中第一筆該類別商圈並鏡頭跟隨
+    const matching = data.districts.filter(d => {
+      const matchCat = catId === 'all' || d.category_type === catId;
+      const matchReg = selectedRegion === 'all' || d.region === selectedRegion;
+      return matchCat && matchReg;
+    });
+
+    if (matching.length > 0 && (!selectedDistrict || (catId !== 'all' && selectedDistrict.category_type !== catId))) {
+      const target = matching[0];
+      setSelectedDistrict(target);
+      if (mapRef.current) {
+        mapRef.current.flyTo([target.lat, target.lng], Math.max(mapRef.current.getZoom(), 12), { duration: 0.9 });
+      }
+    }
+  };
+
+  // 6. 渲染商圈標記、影響半徑、微型 POI 與互動 Tooltip
   useEffect(() => {
     if (!mapRef.current || !data) return;
 
@@ -205,80 +238,85 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
 
     const allDistricts = data.districts || [];
 
-    // 篩選商圈
+    // 複合篩選：類別 + 生活圈 + 搜尋詞（支援搜尋商圈名、美食、景點、廟宇）
+    const q = searchQuery.toLowerCase().trim();
     const filtered = allDistricts.filter(d => {
+      const matchCategory = selectedCategory === 'all' || d.category_type === selectedCategory;
       const matchRegion = selectedRegion === 'all' || d.region === selectedRegion;
-      const matchSearch = searchQuery === '' ||
-        d.hub_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        d.commercial_title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        d.region_label.toLowerCase().includes(searchQuery.toLowerCase());
-      return matchRegion && matchSearch;
+      const matchSearch = q === '' ||
+        d.hub_name.toLowerCase().includes(q) ||
+        d.commercial_title.toLowerCase().includes(q) ||
+        d.region_label.toLowerCase().includes(q) ||
+        (d.local_specialties?.food || []).some(f => f.toLowerCase().includes(q)) ||
+        (d.local_specialties?.attractions || []).some(a => a.toLowerCase().includes(q)) ||
+        (d.local_specialties?.temples || []).some(t => t.toLowerCase().includes(q));
+      return matchCategory && matchRegion && matchSearch;
     });
 
     filtered.forEach(d => {
       const isSelected = selectedDistrict?.hub_name === d.hub_name;
 
-      // 依當前維度決定主題色、主指標數值與狀態標籤
+      // 依當前維度決定主題色與數值
       let dimColor = '#38BDF8';
       let mainBadgeValue = '';
-      let subBadgeText = '';
 
       if (activeDimension === 'vitality') {
         dimColor = d.vitality.color;
         mainBadgeValue = `${d.vitality.score}分`;
-        subBadgeText = `WWR ${d.vitality.wwr_ratio}x`;
       } else if (activeDimension === 'weather') {
         dimColor = d.weather_resilience.color;
         const shift = d.weather_resilience.rain_shift_pct;
         mainBadgeValue = shift > 0 ? `+${shift}%` : `${shift}%`;
-        subBadgeText = shift > 0 ? '避雨庇護' : '露天受創';
       } else if (activeDimension === 'night') {
         dimColor = d.night_economy.color;
         mainBadgeValue = `${d.night_economy.night_share_pct}%`;
-        subBadgeText = '夜間客流';
       } else if (activeDimension === 'tod') {
         dimColor = d.tod_opportunity.color;
-        mainBadgeValue = `供需比 ${d.tod_opportunity.mismatch_ratio}`;
-        subBadgeText = d.tod_opportunity.category === 'high_opportunity' ? '🚀 展店窪地' : '均衡成熟';
+        mainBadgeValue = `比 ${d.tod_opportunity.mismatch_ratio}`;
       }
 
-      // 500m 商圈核心影響光環 (Influence Walkshed)
+      // 類別識別 Emoji 與標籤色
+      let catIcon = '🏬';
+      let catBorderGlow = dimColor;
+      if (d.category_type === 'night_market') {
+        catIcon = '🍢';
+        catBorderGlow = '#F43F5E';
+      } else if (d.category_type === 'old_street') {
+        catIcon = '🏛️';
+        catBorderGlow = '#10B981';
+      }
+
+      // 500m 商圈核心影響光環 (Walkshed Halo)
       const halo = L.circle([d.lat, d.lng], {
         radius: 500,
-        color: dimColor,
+        color: catBorderGlow,
         weight: isSelected ? 2.5 : 1.0,
-        fillColor: dimColor,
-        fillOpacity: isSelected ? 0.18 : 0.05,
+        fillColor: catBorderGlow,
+        fillOpacity: isSelected ? 0.22 : 0.05,
         dashArray: isSelected ? '4, 4' : '6, 6'
       }).addTo(mapRef.current);
       haloLayersRef.current.push(halo);
 
-      // 商圈標記 DivIcon
+      // 商圈膠囊標記 DivIcon
       const markerHtml = `
         <div style="
           display: flex;
           align-items: center;
           gap: 5px;
-          background: rgba(15, 23, 42, 0.94);
-          border: 1.5px solid ${isSelected ? '#FFFFFF' : dimColor};
+          background: rgba(15, 23, 42, 0.95);
+          border: 1.5px solid ${isSelected ? '#FFFFFF' : catBorderGlow};
           border-radius: 20px;
           padding: 3px 9px;
-          box-shadow: ${isSelected ? `0 0 16px ${dimColor}` : '0 4px 12px rgba(0,0,0,0.55)'};
+          box-shadow: ${isSelected ? `0 0 18px ${catBorderGlow}` : '0 4px 12px rgba(0,0,0,0.65)'};
           cursor: pointer;
           white-space: nowrap;
           position: relative;
           transition: all 0.2s ease;
-          transform: ${isSelected ? 'scale(1.12)' : 'scale(1)'};
+          transform: ${isSelected ? 'scale(1.14)' : 'scale(1)'};
         ">
-          <div style="
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: ${dimColor};
-            box-shadow: 0 0 8px ${dimColor};
-          "></div>
+          <span style="font-size: 11px;">${catIcon}</span>
           <span style="
-            font-size: 11px;
+            font-size: 11.5px;
             font-weight: 800;
             color: #FFFFFF;
           ">${d.hub_name}</span>
@@ -297,22 +335,154 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
       const customIcon = L.divIcon({
         className: 'commercial-hub-marker',
         html: markerHtml,
-        iconSize: [120, 26],
-        iconAnchor: [60, 13]
+        iconSize: [124, 28],
+        iconAnchor: [62, 14]
       });
 
       const marker = L.marker([d.lat, d.lng], { icon: customIcon, zIndexOffset: isSelected ? 1000 : 100 });
+
+      // 構建精美互動 Tooltip (Hover 即展現「人流來源溯源」與「在地美食名勝」)
+      const origins = d.mobility_origin_analysis?.intercity_origins || [];
+      const originPreviewHtml = origins.slice(0, 3).map((o, idx) => `
+        <span style="
+          background: rgba(56, 189, 248, 0.12);
+          border: 1px solid rgba(56, 189, 248, 0.3);
+          color: #7DD3FC;
+          padding: 1px 5px;
+          border-radius: 4px;
+          font-size: 9.5px;
+          font-weight: 700;
+        ">
+          ${o.city} <strong style="color: #FFFFFF; font-family: JetBrains Mono, monospace;">${o.pct}%</strong>
+        </span>
+      `).join(' ');
+
+      const foods = d.local_specialties?.food || [];
+      const foodPillsHtml = foods.slice(0, 3).map(f => `
+        <span style="
+          background: rgba(244, 63, 94, 0.15);
+          border: 1px solid rgba(244, 63, 94, 0.35);
+          color: #FDA4AF;
+          padding: 1px 6px;
+          border-radius: 4px;
+          font-size: 9.5px;
+          font-weight: 600;
+        ">🥢 ${f}</span>
+      `).join(' ');
+
+      const attractions = [
+        ...(d.local_specialties?.attractions || []).slice(0, 2),
+        ...(d.local_specialties?.temples || []).slice(0, 1)
+      ];
+      const attrPillsHtml = attractions.slice(0, 2).map(a => `
+        <span style="
+          background: rgba(16, 185, 129, 0.15);
+          border: 1px solid rgba(16, 185, 129, 0.35);
+          color: #6EE7B7;
+          padding: 1px 6px;
+          border-radius: 4px;
+          font-size: 9.5px;
+          font-weight: 600;
+        ">🏞️ ${a}</span>
+      `).join(' ');
+
+      const catBadgeText = d.category_type === 'night_market'
+        ? '<span style="background: rgba(244,63,94,0.2); color:#F43F5E; border:1px solid #F43F5E55; padding:1px 6px; border-radius:10px; font-size:9.5px; font-weight:800;">🍢 旗艦夜市</span>'
+        : d.category_type === 'old_street'
+        ? '<span style="background: rgba(16,185,129,0.2); color:#10B981; border:1px solid #10B98155; padding:1px 6px; border-radius:10px; font-size:9.5px; font-weight:800;">🏛️ 老街名勝</span>'
+        : '<span style="background: rgba(56,189,248,0.2); color:#38BDF8; border:1px solid #38BDF855; padding:1px 6px; border-radius:10px; font-size:9.5px; font-weight:800;">🏬 商業樞紐</span>';
+
+      const tooltipHtml = `
+        <div style="
+          padding: 11px 13px;
+          font-family: 'Outfit', 'Noto Sans TC', -apple-system, sans-serif;
+          min-width: 270px;
+          max-width: 320px;
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        ">
+          <!-- 抬頭與分類標籤 -->
+          <div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">
+            <span style="font-size: 10px; color: #94A3B8; font-weight: 600;">📍 ${d.region_label}</span>
+            ${catBadgeText}
+          </div>
+          
+          <div style="font-size: 14px; font-weight: 900; color: #FFFFFF; line-height: 1.25;">
+            ${d.commercial_title}
+          </div>
+
+          <!-- 人流來源解構速覽 -->
+          <div style="
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(56, 189, 248, 0.25);
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          ">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+              <span style="font-size: 10px; font-weight: 800; color: #38BDF8; display: flex; align-items: center; gap: 4px;">
+                🚀 人流來源溯源 (OD)
+              </span>
+              <span style="font-size: 9px; color: #CBD5E1; font-weight: 700; font-family: JetBrains Mono, monospace;">
+                WWR ${d.vitality.wwr_ratio}x
+              </span>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px;">
+              ${originPreviewHtml}
+            </div>
+            <div style="font-size: 9.5px; color: #94A3B8; line-height: 1.35;">
+              ⏰ ${d.mobility_origin_analysis?.peak_hours_desc || ''}
+            </div>
+          </div>
+
+          <!-- 在地美食與名勝速覽 -->
+          <div style="
+            background: rgba(15, 23, 42, 0.85);
+            border: 1px solid rgba(244, 63, 94, 0.25);
+            border-radius: 8px;
+            padding: 6px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          ">
+            <span style="font-size: 10px; font-weight: 800; color: #F43F5E;">
+              🍢 在地特色小吃與古剎勝景
+            </span>
+            <div style="display: flex; flex-wrap: wrap; gap: 3px;">
+              ${foodPillsHtml}
+            </div>
+            ${attrPillsHtml ? `<div style="display: flex; flex-wrap: wrap; gap: 3px;">${attrPillsHtml}</div>` : ''}
+          </div>
+
+          <div style="display: flex; align-items: center; justify-content: space-between; font-size: 8.5px; color: #64748B; margin-top: 1px;">
+            <span>週運量: ${d.weekly_transfer_volume.toLocaleString()} 人次</span>
+            <span>💡 點擊展開深度商業 HUD 面板</span>
+          </div>
+        </div>
+      `;
+
+      marker.bindTooltip(tooltipHtml, {
+        direction: 'top',
+        offset: [0, -14],
+        opacity: 1,
+        className: 'commercial-pulse-tooltip'
+      });
+
       marker.on('click', () => {
         setSelectedDistrict(d);
         if (mapRef.current) {
           mapRef.current.flyTo([d.lat, d.lng], Math.max(mapRef.current.getZoom(), 13), { duration: 0.8 });
         }
       });
+
       marker.addTo(mapRef.current);
       markerLayersRef.current.push(marker);
     });
 
-    // 6. 若選中特定商圈且 Zoom 較大，渲染周邊實體店家微型標記
+    // 7. 若選中特定商圈且 Zoom 較大，渲染周邊實體店家微型標記
     if (selectedDistrict && mapRef.current.getZoom() >= 13) {
       const np = selectedDistrict.nearest_pois || {};
       const allPois = [
@@ -372,9 +542,8 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
       });
     }
 
-  }, [data, activeDimension, selectedRegion, selectedDistrict, searchQuery, currentZoom]);
+  }, [data, activeDimension, selectedRegion, selectedCategory, selectedDistrict, searchQuery, currentZoom]);
 
-  const districtsList = data?.districts || [];
   const currentDimConfig = COMMERCIAL_DIMENSIONS.find(d => d.id === activeDimension) || COMMERCIAL_DIMENSIONS[0];
 
   return (
@@ -397,11 +566,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
           color: '#38BDF8'
         }}>
           <div style={{ width: '36px', height: '36px', border: '3px solid rgba(56, 189, 248, 0.2)', borderTopColor: '#38BDF8', borderRadius: '50%', animation: 'spin 1s linear infinite', marginBottom: '12px' }} />
-          <div style={{ fontSize: '14px', fontWeight: '700' }}>載入全台商圈商業脈動與投資決策大數據...</div>
+          <div style={{ fontSize: '14px', fontWeight: '700' }}>載入全台商圈、夜市與老街脈動商業大數據...</div>
         </div>
       )}
 
-      {/* 2. 頂部左側懸浮控制列：四大商業維度 + 生活圈切換 (top: 68px 避免遮擋全域模式列) */}
+      {/* 2. 頂部左側懸浮控制列：商圈商業脈動地圖 + 類別分頁 + 四大商業維度 + 生活圈切換 */}
       <div style={{
         position: 'absolute',
         top: '68px',
@@ -428,16 +597,58 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 商圈商業脈動與投資決策地圖
               </h3>
             </div>
-            <span style={{ fontSize: '10px', background: 'rgba(244, 63, 94, 0.15)', color: '#F43F5E', padding: '2px 6px', borderRadius: '4px', fontWeight: '800' }}>
-              80 商圈 · 4大商業洞察
+            <span style={{ fontSize: '10px', background: 'rgba(244, 63, 94, 0.15)', color: '#F43F5E', padding: '2px 7px', borderRadius: '4px', fontWeight: '800' }}>
+              {data?.macro_stats?.total_districts || 102} 熱點 · 全台夜市老街深度解析
             </span>
           </div>
-          <p style={{ margin: 0, fontSize: '11px', color: '#94a3b8', lineHeight: '1.45' }}>
-            融合<strong>大眾交通票證、氣象降雨衝擊與 OSM 街道店家</strong>，推估商圈繁榮衰退、晴雨抗跌韌性、深夜夜經濟與 TOD 展店商機。
+          <p style={{ margin: '0 0 10px 0', fontSize: '11px', color: '#94a3b8', lineHeight: '1.45' }}>
+            融合<strong>多模態大眾票證、氣象降雨衝擊與文化民俗觀光</strong>，深度解構全台商圈、旗艦夜市與歷史老街的人流來源、在地特色與投資決策。
           </p>
 
+          {/* 類別過濾切換條 (全部 / 旗艦夜市 / 歷史老街 / 商業樞紐) */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(4, 1fr)',
+            gap: '4px',
+            marginBottom: '10px',
+            background: 'rgba(0, 0, 0, 0.35)',
+            padding: '4px',
+            borderRadius: '8px',
+            border: '1px solid rgba(255, 255, 255, 0.06)'
+          }}>
+            {CATEGORIES.map(cat => {
+              const isSel = selectedCategory === cat.id;
+              const count = data?.macro_stats?.[cat.countKey] || (cat.id === 'all' ? 102 : cat.id === 'night_market' ? 11 : cat.id === 'old_street' ? 10 : 81);
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => handleSelectCategory(cat.id)}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    padding: '5px 2px',
+                    borderRadius: '6px',
+                    border: isSel ? '1.5px solid #38BDF8' : 'none',
+                    background: isSel ? 'rgba(56, 189, 248, 0.2)' : 'transparent',
+                    color: isSel ? '#FFFFFF' : '#94A3B8',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span style={{ fontSize: '12px' }}>{cat.prefix}</span>
+                  <span style={{ fontSize: '10px', fontWeight: isSel ? '800' : '600' }}>{cat.label.slice(2)}</span>
+                  <span style={{ fontSize: '8.5px', fontFamily: 'JetBrains Mono, monospace', color: isSel ? '#38BDF8' : '#64748B' }}>
+                    {count} 處
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
           {/* 四大商業維度切換器 */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px', marginTop: '10px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
             {COMMERCIAL_DIMENSIONS.map(dim => {
               const isSel = activeDimension === dim.id;
               const Icon = dim.icon;
@@ -470,7 +681,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
           </div>
         </div>
 
-        {/* 生活圈地域選擇與搜尋列 */}
+        {/* 生活圈地域選擇與全域搜尋列 */}
         <div style={{
           background: 'rgba(15, 23, 42, 0.9)',
           backdropFilter: 'blur(10px)',
@@ -505,14 +716,14 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             <Search size={12} color="#64748b" />
             <input
               type="text"
-              placeholder="搜尋商圈、捷運或景點..."
+              placeholder="搜尋夜市、老街、特產、廟宇..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               style={{
                 background: 'transparent',
                 border: 'none',
                 color: '#fff',
-                fontSize: '10.5px',
+                fontSize: '10px',
                 outline: 'none',
                 width: '100%',
                 marginLeft: '4px'
@@ -522,16 +733,16 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
         </div>
       </div>
 
-      {/* 3. 右側深度商業決策 HUD 面板 (Commercial Intelligence HUD Panel) */}
+      {/* 3. 右側深度商業決策 HUD 面板 (Commercial Intelligence HUD Panel - 深度解構人流來源與在地特色) */}
       {selectedDistrict && (
         <div style={{
           position: 'absolute',
           top: '68px',
           right: '16px',
-          width: '380px',
+          width: '395px',
           maxHeight: 'calc(100vh - 100px)',
           zIndex: 400,
-          background: 'rgba(15, 23, 42, 0.94)',
+          background: 'rgba(15, 23, 42, 0.95)',
           backdropFilter: 'blur(16px)',
           border: `1px solid ${currentDimConfig.color}44`,
           borderRadius: '14px',
@@ -542,12 +753,29 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
           flexDirection: 'column',
           gap: '12px'
         }}>
-          {/* 商圈抬頭與定位 */}
+          {/* 商圈抬頭與分類徽章 */}
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <span style={{ fontSize: '11px', color: '#64748b', fontWeight: '600' }}>
-                📍 {selectedDistrict.region_label}
-              </span>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <span style={{ fontSize: '11px', color: '#94a3b8', fontWeight: '600' }}>
+                  📍 {selectedDistrict.region_label}
+                </span>
+                {selectedDistrict.category_type === 'night_market' && (
+                  <span style={{ fontSize: '9.5px', background: 'rgba(244, 63, 94, 0.2)', color: '#F43F5E', border: '1px solid rgba(244, 63, 94, 0.5)', padding: '1px 6px', borderRadius: '10px', fontWeight: '800' }}>
+                    🍢 旗艦夜市
+                  </span>
+                )}
+                {selectedDistrict.category_type === 'old_street' && (
+                  <span style={{ fontSize: '9.5px', background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', border: '1px solid rgba(16, 185, 129, 0.5)', padding: '1px 6px', borderRadius: '10px', fontWeight: '800' }}>
+                    🏛️ 歷史老街名勝
+                  </span>
+                )}
+                {selectedDistrict.category_type === 'general' && (
+                  <span style={{ fontSize: '9.5px', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', border: '1px solid rgba(56, 189, 248, 0.5)', padding: '1px 6px', borderRadius: '10px', fontWeight: '800' }}>
+                    🏬 商業樞紐
+                  </span>
+                )}
+              </div>
               <span style={{
                 fontSize: '10px',
                 padding: '2px 8px',
@@ -560,12 +788,200 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
                 週運量: {selectedDistrict.weekly_transfer_volume.toLocaleString()} 人次
               </span>
             </div>
-            <h2 style={{ margin: '4px 0 2px 0', fontSize: '18px', fontWeight: '900', color: '#F8FAFC' }}>
+            <h2 style={{ margin: '4px 0 2px 0', fontSize: '18px', fontWeight: '900', color: '#F8FAFC', lineHeight: '1.3' }}>
               {selectedDistrict.commercial_title}
             </h2>
             <div style={{ fontSize: '11px', color: '#94a3b8' }}>
               {selectedDistrict.district_type}
             </div>
+          </div>
+
+          {/* 🌟 核心新功能 A：人流來源溯源與時空結構 (Mobility Origin & Dynamics) */}
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.75)',
+            borderRadius: '11px',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
+            padding: '12px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '800', color: '#38BDF8' }}>
+                <Navigation size={14} color="#38BDF8" />
+                <span>🚀 人流來源溯源 (Mobility OD 分解)</span>
+              </div>
+              <span style={{ fontSize: '10px', color: '#CBD5E1', fontFamily: 'JetBrains Mono, monospace', background: 'rgba(56, 189, 248, 0.15)', padding: '1px 6px', borderRadius: '4px' }}>
+                WWR {selectedDistrict.vitality.wwr_ratio}x
+              </span>
+            </div>
+
+            {/* 跨縣市人流比例長條進度條 */}
+            <div style={{ width: '100%', height: '8px', borderRadius: '4px', overflow: 'hidden', display: 'flex', background: 'rgba(255,255,255,0.08)' }}>
+              {(selectedDistrict.mobility_origin_analysis?.intercity_origins || []).map((o, idx) => (
+                <div
+                  key={idx}
+                  title={`${o.city}: ${o.pct}%`}
+                  style={{
+                    width: `${o.pct}%`,
+                    height: '100%',
+                    background: ORIGIN_PALETTE[idx % ORIGIN_PALETTE.length],
+                    transition: 'width 0.3s ease'
+                  }}
+                />
+              ))}
+            </div>
+
+            {/* 來源縣市分佈徽章 */}
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+              {(selectedDistrict.mobility_origin_analysis?.intercity_origins || []).map((o, idx) => (
+                <div
+                  key={idx}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '4px',
+                    fontSize: '10px',
+                    background: 'rgba(30, 41, 59, 0.6)',
+                    padding: '2px 6px',
+                    borderRadius: '4px',
+                    borderLeft: `2.5px solid ${ORIGIN_PALETTE[idx % ORIGIN_PALETTE.length]}`
+                  }}
+                >
+                  <span style={{ color: '#E2E8F0' }}>{o.city}</span>
+                  <span style={{ color: ORIGIN_PALETTE[idx % ORIGIN_PALETTE.length], fontWeight: '800', fontFamily: 'JetBrains Mono, monospace' }}>
+                    {o.pct}%
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            {/* 尖峰時段與主要進出走廊 */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '3px', fontSize: '10px', color: '#94A3B8', borderTop: '1px solid rgba(255,255,255,0.06)', paddingTop: '6px' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <Clock size={11} color="#F59E0B" style={{ flexShrink: 0 }} />
+                <span><strong style={{ color: '#F1F5F9' }}>尖峰湧動：</strong>{selectedDistrict.mobility_origin_analysis?.peak_hours_desc}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <Car size={11} color="#38BDF8" style={{ flexShrink: 0 }} />
+                <span><strong style={{ color: '#F1F5F9' }}>抵達走廊：</strong>{selectedDistrict.mobility_origin_analysis?.primary_transit_modes}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                <CloudRain size={11} color="#A855F7" style={{ flexShrink: 0 }} />
+                <span><strong style={{ color: '#F1F5F9' }}>天候敏感：</strong>{selectedDistrict.mobility_origin_analysis?.weather_sensitivity_desc}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* 🍢 核心新功能 B：在地必吃特產與名勝古剎 (Local Gastronomy & Heritage) */}
+          <div style={{
+            background: 'rgba(15, 23, 42, 0.75)',
+            borderRadius: '11px',
+            border: '1px solid rgba(244, 63, 94, 0.3)',
+            padding: '12px',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '8px'
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '12px', fontWeight: '800', color: '#F43F5E' }}>
+              <Utensils size={14} color="#F43F5E" />
+              <span>🍢 在地必吃特產與名勝古剎</span>
+            </div>
+
+            {/* 體驗主題口號 */}
+            {selectedDistrict.local_specialties?.experience_tag && (
+              <div style={{
+                background: 'rgba(244, 63, 94, 0.1)',
+                border: '1px solid rgba(244, 63, 94, 0.25)',
+                borderRadius: '6px',
+                padding: '5px 8px',
+                fontSize: '10.5px',
+                color: '#FDA4AF',
+                fontWeight: '700',
+                lineHeight: '1.4'
+              }}>
+                {selectedDistrict.local_specialties.experience_tag}
+              </div>
+            )}
+
+            {/* 必吃特產小吃 */}
+            <div>
+              <div style={{ fontSize: '10px', color: '#94A3B8', fontWeight: '700', marginBottom: '3px' }}>
+                🥢 必吃名產小吃：
+              </div>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                {(selectedDistrict.local_specialties?.food || []).map((f, idx) => (
+                  <span
+                    key={idx}
+                    style={{
+                      fontSize: '10px',
+                      padding: '2px 7px',
+                      borderRadius: '5px',
+                      background: 'rgba(244, 63, 94, 0.12)',
+                      border: '1px solid rgba(244, 63, 94, 0.3)',
+                      color: '#FECDD3',
+                      fontWeight: '600'
+                    }}
+                  >
+                    {f}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* 玩的名勝/風景/泛舟 */}
+            {(selectedDistrict.local_specialties?.attractions || []).length > 0 && (
+              <div>
+                <div style={{ fontSize: '10px', color: '#94A3B8', fontWeight: '700', marginBottom: '3px' }}>
+                  🏞️ 玩的名勝景觀 / 泛舟遊程：
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  {selectedDistrict.local_specialties.attractions.map((a, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        fontSize: '10px',
+                        padding: '2px 7px',
+                        borderRadius: '5px',
+                        background: 'rgba(56, 189, 248, 0.12)',
+                        border: '1px solid rgba(56, 189, 248, 0.3)',
+                        color: '#BAE6FD',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {a}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* 廟宇信仰古剎 */}
+            {(selectedDistrict.local_specialties?.temples || []).length > 0 && (
+              <div>
+                <div style={{ fontSize: '10px', color: '#94A3B8', fontWeight: '700', marginBottom: '3px' }}>
+                  ⛩️ 國寶古剎與廟宇文化：
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  {selectedDistrict.local_specialties.temples.map((t, idx) => (
+                    <span
+                      key={idx}
+                      style={{
+                        fontSize: '10px',
+                        padding: '2px 7px',
+                        borderRadius: '5px',
+                        background: 'rgba(245, 158, 11, 0.12)',
+                        border: '1px solid rgba(245, 158, 11, 0.3)',
+                        color: '#FDE68A',
+                        fontWeight: '600'
+                      }}
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* 四大商業雷達指標卡 (4-Axis Commercial Radar Scores) */}
@@ -721,7 +1137,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             </div>
           </div>
 
-          {/* 客群身分比率結構 */}
+          {/* 客群身分比率結構 (合計 100%) */}
           <div style={{
             background: 'rgba(0,0,0,0.25)',
             padding: '6px 8px',
@@ -793,8 +1209,17 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
         gap: '6px',
         boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
       }}>
-        <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px' }}>
-          🏬 商圈決策圖例（維度：{activeDimension === 'vitality' ? '生命週期與活力 WWR' : activeDimension === 'weather' ? '天候衝擊抗跌韌性' : activeDimension === 'night' ? '夜經濟活力分級' : 'TOD 供需缺口與窪地'}）
+        <div style={{ fontWeight: '700', color: '#f8fafc', fontSize: '10.5px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+          <span>🏬 商圈決策圖例（維度：{activeDimension === 'vitality' ? '生命週期與活力 WWR' : activeDimension === 'weather' ? '天候衝擊抗跌韌性' : activeDimension === 'night' ? '夜經濟活力分級' : 'TOD 供需缺口與窪地'}）</span>
+          <span style={{ fontSize: '9px', color: '#38BDF8' }}>當前分類: {selectedCategory === 'all' ? '全部' : selectedCategory === 'night_market' ? '旗艦夜市' : selectedCategory === 'old_street' ? '歷史老街' : '商業樞紐'}</span>
+        </div>
+
+        {/* 類別標記符號提示 */}
+        <div style={{ display: 'flex', gap: '10px', alignItems: 'center', fontSize: '10px', borderBottom: '1px solid rgba(255,255,255,0.06)', paddingBottom: '4px' }}>
+          <span style={{ color: '#E2E8F0' }}>標記符號：</span>
+          <span>🍢 全台旗艦夜市</span>
+          <span>🏛️ 歷史老街名勝</span>
+          <span>🏬 交通商務樞紐</span>
         </div>
 
         {activeDimension === 'vitality' && (
@@ -870,7 +1295,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
         )}
 
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '4px', fontSize: '9px', color: '#64748B' }}>
-          * 外圈 500m 虛線光環代表商圈核心徒步吸引半徑 (Walkshed Buffer)；膠囊標記數值為該維度量化指標。
+          * 滑鼠懸停標記即可查看「人流來源溯源」與「在地名產勝景」卡片；外圈 500m 虛線光環為核心徒步吸引半徑。
         </div>
       </div>
 
