@@ -506,7 +506,7 @@ export default function HeatmapView({
       const isMetroHub = /台北車站|臺北車站|臺北$|板橋|市政府|市府轉運站|南港(?!軟體)|左營|新左營|高雄|高雄車站|臺中|桃園|新竹|臺南/.test(stName);
       const isSeniorHub = /醫院|榮總|長庚|振興|新光|三總|馬偕|亞東|雙和|龍山寺|石牌|萬華|大安森林公園|果菜市場|中山市場|永安市場/.test(stName);
       const isStudentHub = /公館|劍潭|士林|忠孝新生|古亭|景美|文化大學|東吳|師大|政大|政治大學|銘傳|致理|輔大|輔仁|臺灣大學|台大(?!醫院)|建中|北一女|附中|成功高中|松山高中|逢甲|中興大學|東海大學|成大|中山大學|東華大學|宜蘭大學/.test(stName) && !isSeniorHub;
-      const isTouristHub = /淡水|新北投|紅樹林|西門|美麗島|101|巨蛋|三多商圈|凹子底|花蓮|臺東|平溪|九份|安平|礁溪/.test(stName);
+      const isTouristHub = /淡水|新北投|紅樹林|西門|美麗島|101|巨蛋|三多商圈|凹子底|花蓮|臺東|平溪|九份|安平|礁溪|瑞芳/.test(stName);
 
       if (isRain && diffPct >= 10) {
         color = '#F43F5E';

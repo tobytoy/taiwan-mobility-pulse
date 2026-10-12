@@ -2,7 +2,7 @@
   "metadata": {
     "title": "台灣商圈商業脈動與投資決策大數據矩陣 (Commercial District Pulse Lab)",
     "generated_at": "2026-10-08",
-    "total_districts_analyzed": 80,
+    "total_districts_analyzed": 81,
     "data_sources": [
       "台灣高鐵/台鐵/捷運/公路客運 票證人流時空矩陣",
       "交通部中央氣象署 氣候衝擊與降雨彈性模型",
@@ -21,7 +21,7 @@
       "捷運公館站",
       "捷運西門站",
       "景美國中",
-      "台電大樓"
+      "瑞芳火車站"
     ],
     "top_rain_resilient_hubs": [
       "臺北車站(忠孝)",
@@ -736,6 +736,112 @@
           }
         ]
       }
+    },
+    {
+      "hub_name": "瑞芳火車站",
+      "commercial_title": "瑞芳車站 · 站前美食廣場與東北角山城門戶",
+      "district_type": "山城觀光轉運與地方民生特色商圈",
+      "lat": 25.1088,
+      "lng": 121.8058,
+      "region": "north",
+      "region_label": "北部生活圈 (新北東北角山城)",
+      "weekly_transfer_volume": 32597,
+      "persona_pct": {
+        "commuter": 35.2,
+        "student": 11.2,
+        "senior": 28.5,
+        "tpass": 22.1
+      },
+      "amenity_summary": {
+        "convenience_count": 9,
+        "healthcare_count": 6,
+        "education_count": 3,
+        "supermarket_count": 2,
+        "total_pois_500m": 20,
+        "tod_living_score": 74.2,
+        "grade": "B+ 地方生活兼觀光轉運心臟",
+        "grade_color": "#10B981",
+        "radar": {
+          "retail_convenience": 82.0,
+          "healthcare_access": 76.5,
+          "education_access": 70.0,
+          "grocery_daily": 75.0,
+          "transit_density": 88.0
+        }
+      },
+      "vitality": {
+        "score": 88.9,
+        "category": "booming_trendy",
+        "label": "🔥 爆發擴張商圈 (假日吸客磁鐵)",
+        "color": "#F43F5E",
+        "wwr_ratio": 1.92,
+        "description": "週末人流為平日 1.92 倍，具強大跨區消費力場與青年觀光聚客能力。"
+      },
+      "weather_resilience": {
+        "score": 58,
+        "rain_shift_pct": -31.5,
+        "category": "weather_vulnerable",
+        "label": "☔ 露天重創脆弱商圈 (大雨人流雪崩)",
+        "color": "#EF4444",
+        "shelter_infrastructure": "站前美食廣場室內連鎖與傳統騎樓，站後歷史街區；戶外觀光接駁區雨天較脆弱",
+        "description": "缺乏遮雨走廊或屬純戶外街道，暴雨天人潮崩跌 -31.5%，露天攤商與戶外消費受創最劇。"
+      },
+      "night_economy": {
+        "score": 59.1,
+        "night_share_pct": 19.5,
+        "category": "evening_lively",
+        "label": "🌙 溫和小夜商圈 (晚餐至十點活力)",
+        "color": "#38BDF8",
+        "night_tag": "傳統美食廣場夜市小吃與歸途補給",
+        "description": "21:00 後人流佔比約 19.5%，餐飲外帶與超市採買活躍，午夜前逐步安靜。"
+      },
+      "tod_opportunity": {
+        "score": 50.3,
+        "mismatch_ratio": 0.81,
+        "category": "balanced_equilibrium",
+        "label": "⚖️ 供需健康均衡商圈 (穩健營收型)",
+        "color": "#10B981",
+        "recommended_tenants": [
+          "🍽️ 連鎖主題餐飲 / 平價家庭餐廳"
+        ],
+        "description": "人流規模 (32,597 週人次) 與現有機能設施 (20 處) 達到良好平衡，客源穩定。"
+      },
+      "radar": {
+        "vitality": 88.9,
+        "weatherproof": 58,
+        "nightlife": 59.1,
+        "opportunity": 50.3
+      },
+      "nearest_pois": [
+        {
+          "category": "醫療院所",
+          "name": "瑞芳礦工醫院",
+          "distance_m": 280,
+          "lat": 25.1092,
+          "lng": 121.8035
+        },
+        {
+          "category": "民生市集",
+          "name": "瑞芳美食廣場/第一市場",
+          "distance_m": 160,
+          "lat": 25.1082,
+          "lng": 121.8065
+        },
+        {
+          "category": "日常超市",
+          "name": "全聯福利中心(瑞芳民生店)",
+          "distance_m": 350,
+          "lat": 25.1075,
+          "lng": 121.808
+        },
+        {
+          "category": "中等教育",
+          "name": "市立瑞芳高工",
+          "distance_m": 420,
+          "lat": 25.1115,
+          "lng": 121.802
+        }
+      ]
     },
     {
       "hub_name": "台電大樓",

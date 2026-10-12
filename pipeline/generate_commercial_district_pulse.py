@@ -175,6 +175,16 @@ COMMERCIAL_OVERRIDE_PROFILES = {
         "base_wwr": 1.88,
         "base_night_share": 28.5,
         "night_tag": "瑞豐夜市與巨蛋演唱會深夜潮人"
+    },
+    "瑞芳火車站": {
+        "commercial_name": "瑞芳車站 · 站前美食廣場與東北角山城門戶",
+        "district_type": "山城觀光轉運與地方民生特色商圈",
+        "shelter_infrastructure": "站前美食廣場室內連鎖與傳統騎樓，站後歷史街區；戶外觀光接駁區雨天較脆弱",
+        "indoor_shelter_score": 58,
+        "is_underground_connected": False,
+        "base_wwr": 1.92,
+        "base_night_share": 19.5,
+        "night_tag": "傳統美食廣場夜市小吃與歸途補給"
     }
 }
 
