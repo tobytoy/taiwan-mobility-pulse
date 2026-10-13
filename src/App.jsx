@@ -119,6 +119,35 @@ export default function App() {
       });
   }, []);
 
+  // URL Hash Deep-link Routing
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '').toLowerCase();
+      if (!hash) return;
+      if (hash === 'flows' || hash === 'flowmap') {
+        setActiveTab('gis_map');
+        setMapViewType('flows');
+      } else if (hash === 'heatmap' || hash === 'etag-halos') {
+        setActiveTab('gis_map');
+        setMapViewType('heatmap');
+      } else if (hash === 'commercial-lab' || hash === 'commercial' || hash === 'ai_lab') {
+        setActiveTab('ai_lab');
+      } else if (hash === 'personas' || hash === 'weather-lab') {
+        setActiveTab('personas');
+      } else if (hash === 'analytics' || hash === 'od') {
+        setActiveTab('analytics');
+      } else if (hash === 'telecom' || hash === 'strategy') {
+        setActiveTab('telecom');
+      } else if (hash === 'tpass') {
+        setActiveTab('tpass');
+      }
+    };
+
+    handleHashChange();
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   // Time playback loop
   useEffect(() => {
     if (!isPlaying || activeTab !== 'gis_map' || mapViewType !== 'flows') return;
