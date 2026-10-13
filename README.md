@@ -12,7 +12,7 @@
 [![PyArrow](https://img.shields.io/badge/PyArrow%20ZSTD-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://arrow.apache.org/)
 [![Leaflet](https://img.shields.io/badge/Leaflet%20GIS-19.4-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 
-[**🌐 線上即時體驗 (Live Interactive Demo) ➔**](https://tobytoy.github.io/taiwan-mobility-pulse/)
+[**🌐 線上即時體驗 (Live Interactive Demo) ➔**](https://tobytoy.github.io/taiwan-mobility-pulse/) &nbsp;|&nbsp; [**📚 互動專著全書導讀 (Interactive Book) ➔**](docs/README.md) &nbsp;|&nbsp; [**📥 下載全書完整 PDF (31頁精裝版) ➔**](docs/taiwan_mobility_pulse_guidebook.pdf)
 
 </div>
 
