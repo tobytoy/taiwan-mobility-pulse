@@ -3,7 +3,8 @@ import {
   Radio, Ticket, ShieldCheck, AlertTriangle, Layers, 
   Sparkles, ArrowRight, Zap, Target, Globe, Compass, 
   TrendingUp, Users, CheckCircle2, XCircle, RefreshCw,
-  Building, MapPin, Store, Database, Flame
+  Building, MapPin, Store, Database, Flame,
+  Car, Truck, GitMerge, ShieldAlert, Cpu
 } from 'lucide-react';
 
 export default function TelecomComparisonView() {
@@ -73,6 +74,7 @@ export default function TelecomComparisonView() {
       <div style={{ display: 'flex', gap: '8px', marginBottom: '20px', background: 'rgba(30, 41, 59, 0.6)', padding: '5px', borderRadius: '12px', border: '1px solid rgba(255, 255, 255, 0.08)', width: 'fit-content' }}>
         {[
           { id: 'comparison', label: '⚖️ 核心維度深度對比 (Matrix)', icon: Layers },
+          { id: 'strategy_trio', label: '🛡️ eTag + 票證 vs. 信令 數據戰略深度解析 (Data Strategy)', icon: ShieldCheck },
           { id: 'fusion', label: '🧬 雙方數據合作融合優化藍圖 (Data Fusion)', icon: Sparkles },
           { id: 'use_cases', label: '💼 商業與政策落地選型指南 (Use Cases)', icon: Target }
         ].map(t => {
@@ -301,6 +303,233 @@ export default function TelecomComparisonView() {
                   </tr>
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* SUBTAB: eTag + 票證 vs. 信令 數據戰略深度解析 */}
+      {activeSubTab === 'strategy_trio' && (
+        <div>
+          {/* Strategy Hero Banner */}
+          <div style={{ 
+            background: 'linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(56, 189, 248, 0.15))', 
+            border: '1px solid rgba(16, 185, 129, 0.3)', 
+            borderRadius: '14px', 
+            padding: '22px 26px', 
+            marginBottom: '24px' 
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+              <ShieldCheck size={24} color="#10B981" />
+              <h3 style={{ fontSize: '18px', fontWeight: '900', color: '#F8FAFC', margin: 0 }}>
+                數據戰略核心定調：為什麼「eTag + 票證」是不可撼動的地面物理剛性骨架，而「信令數據」是空間彈性肌肉？
+              </h3>
+            </div>
+            <p style={{ fontSize: '13px', color: '#cbd5e1', lineHeight: '1.7', margin: 0 }}>
+              在現代交通運輸與都市決策中，最稀缺的資產從來不是「粗放推估的龐大海量訊號」，而是<strong>「零空間漂移（Zero Spatial Drift）」</strong>、<strong>「無爭議的物理身分契約（Ground Truth Persona）」</strong>與<strong>「天然嚴格互斥性（Mutual Exclusivity）」</strong>。
+              剖析三大數據源在資料工程、去識別化約束與重複計算上的本質差異，確立最科學的國家級數據戰略藍圖。
+            </p>
+          </div>
+
+          {/* 4 Core Pillars Grid */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '16px', marginBottom: '24px' }}>
+            
+            {/* Pillar 1: 空間漂移與前處理 */}
+            <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <MapPin size={17} color="#38BDF8" /> 1. 空間漂移與前處理工程負擔
+                </span>
+                <span style={{ fontSize: '11px', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>
+                  eTag + 票證 徹底輾壓
+                </span>
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                <strong style={{ color: '#38BDF8' }}>🚆 票證 & 🛣️ eTag：絕對零漂移 (0m Drift)</strong><br />
+                門架架設於國道精確公里樁號、閘門固定於各站月台。讀取即刻入庫，資料結構為純淨的交易日誌 (Transaction Log)。前處理僅需時間戳記對齊與格式檢核，<strong>ETL 成本極低、100% 可重複驗證</strong>。
+              </div>
+              <div style={{ fontSize: '12px', color: '#94a3b8', lineHeight: '1.6', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
+                <strong style={{ color: '#C084FC' }}>📡 電信信令：基地台水平漂移 200~500m，高程混淆</strong><br />
+                信令捕捉的是基地台 Cell ID，經常在相鄰基站間產生「乒乓交遞 (Ping-pong handover)」。行經高架橋、平面巷弄或地下捷運時發生嚴重投影混淆。需投入 80% 算力執行卡爾曼濾波、路網吸附 (Map Matching) 與聚類清洗，<strong>極度依賴演算法假設，易產生路徑幻覺</strong>。
+              </div>
+            </div>
+
+            {/* Pillar 2: 身分真實契約 vs 角色推估 */}
+            <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <Users size={17} color="#10B981" /> 2. 身分真實契約 vs. 角色推估與洗亂困境
+                </span>
+                <span style={{ fontSize: '11px', background: 'rgba(16, 185, 129, 0.2)', color: '#10B981', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>
+                  票證直接真理 / 信令黑箱
+                </span>
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                <strong style={{ color: '#10B981' }}>🎫 票證票種：100% 法律事實身分標籤</strong><br />
+                每筆刷卡自帶法定票種代碼：<strong>TPASS 月票、學生票、敬老愛心卡 (65+ 享有法定補貼)、單程 Token/QR (觀光客)</strong>。無需推估，直接反映政策受惠族群與財務補貼精算。
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                <strong style={{ color: '#38BDF8' }}>🚛 eTag 車種：監理認證客貨分類</strong><br />
+                依車籍精確拆解小客車 (31)、小貨車 (32)、客運 (41)、大貨車 (42)、聯結車 (51/52)，<strong>產業物流 vs. 觀光自駕一清二楚</strong>。
+              </div>
+              <div style={{ fontSize: '12px', color: '#94a3b8', lineHeight: '1.6', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '10px' }}>
+                <strong style={{ color: '#C084FC' }}>📡 信令角色：去識別化 (UID 定期洗亂) 導致追蹤困難</strong><br />
+                信令無票種，僅能以「夜間停留猜家、白天停留 &gt;4h 猜公司」。為符合個資法，電信 UID 定期 Hash 洗亂或加入差分隱私微擾，無法跨週跨月追蹤同一人，更分不清學生、長者或外籍客。
+              </div>
+            </div>
+
+            {/* Pillar 3: 天然互斥性 */}
+            <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <GitMerge size={17} color="#F59E0B" /> 3. 天然精準互斥性與運具分擔率
+                </span>
+                <span style={{ fontSize: '11px', background: 'rgba(245, 158, 11, 0.2)', color: '#F59E0B', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>
+                  零重複相加 (Q_total = Q_1 + Q_2)
+                </span>
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                <strong style={{ color: '#F59E0B' }}>⚖️ eTag 與 票證是「天然嚴格互斥集合」</strong><br />
+                一個人在同一秒鐘，<strong>絕不可能既在國道一號開車自駕，又在台北捷運車廂刷卡進站</strong>！兩者在物理空間與行為上 100% 互斥。
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6' }}>
+                <strong style={{ color: '#10B981' }}>📊 運具分擔率 (Modal Split) 具備黃金可加性</strong><br />
+                總城際旅次 Q_Total = Q_eTag (公路汽客貨) + Q_Ticket (高鐵/台鐵/捷運/客運)。兩者直接相加零重複，能精準量化油價波動、連假高乘載管制或 TPASS 政策促成的<strong>「公路轉軌道移轉率」</strong>！
+              </div>
+            </div>
+
+            {/* Pillar 4: 票證+信令的重複計算噩夢 */}
+            <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', padding: '18px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <ShieldAlert size={17} color="#F43F5E" /> 4. 票證 + 信令的「重複計算」與去重噩夢
+                </span>
+                <span style={{ fontSize: '11px', background: 'rgba(244, 63, 94, 0.2)', color: '#F43F5E', padding: '2px 8px', borderRadius: '4px', fontWeight: '700' }}>
+                  重複計數 (Double-Counting)
+                </span>
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6', marginBottom: '12px' }}>
+                <strong style={{ color: '#F43F5E' }}>⚠️ 嚴重重疊：同一人被信令與閘門雙重計算</strong><br />
+                當乘客拿著手機搭捷運時：信令基地台偵測手機位移（乘以市占率擴推為 2.6 人次），捷運閘門又記錄刷卡 1 人次。若不加思考直接相加，<strong>大眾運輸旅客全部被重複計算！</strong>
+              </div>
+              <div style={{ fontSize: '12px', color: '#cbd5e1', lineHeight: '1.6' }}>
+                <strong style={{ color: '#94a3b8' }}>🧩 模糊去重 (Probabilistic De-duplication) 難題</strong><br />
+                因為雙方個資嚴格遮蔽，無法做身分證或卡號的明文 Join。若要扣除重複，必須建立「時空機率卷積模型」猜測信令中有多少比例是在搭捷運，<strong>去重過程本身引入了第二次統計誤差</strong>。
+              </div>
+            </div>
+
+          </div>
+
+          {/* Three-Way Benchmark Master Table */}
+          <div style={{ background: 'rgba(15, 23, 42, 0.7)', border: '1px solid rgba(255, 255, 255, 0.1)', borderRadius: '14px', overflow: 'hidden', marginBottom: '24px' }}>
+            <div style={{ padding: '14px 20px', borderBottom: '1px solid rgba(255, 255, 255, 0.1)', background: 'rgba(30, 41, 59, 0.4)', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <Database size={18} color="#38BDF8" />
+                <span style={{ fontSize: '14px', fontWeight: '800', color: '#F8FAFC' }}>
+                  三大數據源（eTag vs. 票證 vs. 信令）全戰略維度三向對照總表
+                </span>
+              </div>
+              <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '4px' }}>
+                決策者推薦架構
+              </span>
+            </div>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '12px', textAlign: 'left' }}>
+                <thead>
+                  <tr style={{ background: 'rgba(30, 41, 59, 0.7)', color: '#94a3b8', borderBottom: '1px solid rgba(255, 255, 255, 0.1)' }}>
+                    <th style={{ padding: '12px 16px', width: '150px' }}>評估維度</th>
+                    <th style={{ padding: '12px 16px', color: '#F59E0B' }}>🛣️ eTag 高速公路車流</th>
+                    <th style={{ padding: '12px 16px', color: '#38BDF8' }}>🚆 TICP 交通票證大數據</th>
+                    <th style={{ padding: '12px 16px', color: '#C084FC' }}>📡 電信公司信令大數據</th>
+                    <th style={{ padding: '12px 16px', width: '180px' }}>工程與戰略結論</th>
+                  </tr>
+                </thead>
+                <tbody style={{ color: '#cbd5e1' }}>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>空間定位精度</td>
+                    <td style={{ padding: '12px 16px' }}><strong>0m 門架樁號固定</strong></td>
+                    <td style={{ padding: '12px 16px' }}><strong>公分級閘門/驗票機</strong></td>
+                    <td style={{ padding: '12px 16px' }}>200~500m 基地台半徑</td>
+                    <td style={{ padding: '12px 16px', color: '#38BDF8' }}>前兩者為絕對物理座標</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>空間漂移 (Drift)</td>
+                    <td style={{ padding: '12px 16px' }}>✅ <strong>完全無漂移</strong></td>
+                    <td style={{ padding: '12px 16px' }}>✅ <strong>完全無漂移</strong></td>
+                    <td style={{ padding: '12px 16px' }}>❌ 頻繁乒乓跳躍與高程混淆</td>
+                    <td style={{ padding: '12px 16px', color: '#10B981' }}>eTag+票證前處理極簡</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>身分標籤來源</td>
+                    <td style={{ padding: '12px 16px' }}>✅ <strong>監理車種 (31/32/41/42/51)</strong></td>
+                    <td style={{ padding: '12px 16px' }}>✅ <strong>法定票種/TPASS/敬老/單程</strong></td>
+                    <td style={{ padding: '12px 16px' }}>❌ 無票種，滯留時長黑箱推估</td>
+                    <td style={{ padding: '12px 16px', color: '#38BDF8' }}>前兩者為 100% 契約真理</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>去識別化干擾</td>
+                    <td style={{ padding: '12px 16px' }}>低 (車流匯總量無個資)</td>
+                    <td style={{ padding: '12px 16px' }}>低 (卡號 Hash 固定，可長追蹤)</td>
+                    <td style={{ padding: '12px 16px' }}>❌ <strong>高 (UID 定期重洗，長週期失真)</strong></td>
+                    <td style={{ padding: '12px 16px', color: '#F43F5E' }}>信令難以追蹤常客旅次鏈</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>運具互斥性</td>
+                    <td style={{ padding: '12px 16px', background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', fontWeight: '700' }}>
+                      ⚡ 兩者天然嚴格互斥
+                    </td>
+                    <td style={{ padding: '12px 16px', background: 'rgba(16, 185, 129, 0.1)', color: '#10B981', fontWeight: '700' }}>
+                      ⚡ 兩者天然嚴格互斥
+                    </td>
+                    <td style={{ padding: '12px 16px' }}>與公共運輸全域重疊</td>
+                    <td style={{ padding: '12px 16px', color: '#10B981' }}>eTag+票證可直接無痛相加</td>
+                  </tr>
+                  <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>重複計算風險</td>
+                    <td style={{ padding: '12px 16px' }}><strong>0 重複計算</strong></td>
+                    <td style={{ padding: '12px 16px' }}><strong>0 重複計算</strong></td>
+                    <td style={{ padding: '12px 16px' }}>❌ <strong>嚴重 (搭捷運被雙重計數)</strong></td>
+                    <td style={{ padding: '12px 16px', color: '#F43F5E' }}>信令+票證需複雜去重演算法</td>
+                  </tr>
+                  <tr>
+                    <td style={{ padding: '12px 16px', fontWeight: '700', color: '#F8FAFC' }}>戰略定位</td>
+                    <td style={{ padding: '12px 16px' }}>城際幹線與產業物流脈搏</td>
+                    <td style={{ padding: '12px 16px' }}>公共運輸與政策補貼基石</td>
+                    <td style={{ padding: '12px 16px' }}>無收費設施之商圈與露天景點</td>
+                    <td style={{ padding: '12px 16px', color: '#10B981' }}><strong>剛性骨架 ＋ 彈性肌肉</strong></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* Architecture Blueprint: Dual-Layer Hybrid Model */}
+          <div style={{ background: 'rgba(30, 41, 59, 0.5)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '14px', padding: '24px' }}>
+            <div style={{ fontSize: '15px', fontWeight: '800', color: '#10B981', marginBottom: '14px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Cpu size={19} /> 最優國家級大數據融合架構：「剛性骨架＋彈性外殼 (Rigid Backbone & Flexible Shell)」
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '14px' }}>
+              <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '10px', padding: '16px' }}>
+                <div style={{ fontSize: '12px', color: '#38BDF8', fontWeight: '800', marginBottom: '6px' }}>第 1 層：底層剛性真理骨架</div>
+                <div style={{ fontSize: '14px', fontWeight: '700', color: '#F8FAFC' }}>eTag 車流 ＋ TICP 票證大數據</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px', lineHeight: '1.6' }}>
+                  作為全台城際移動與公共走廊的「物理真理基準點（Census Baseline）」，鎖定 100% 精準運具分擔率、真實 TPASS 人數與客貨車種比例，徹底免除空間漂移與重複計算。
+                </div>
+              </div>
+              <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '10px', padding: '16px' }}>
+                <div style={{ fontSize: '12px', color: '#C084FC', fontWeight: '800', marginBottom: '6px' }}>第 2 層：外層連續空間肌肉</div>
+                <div style={{ fontSize: '14px', fontWeight: '700', color: '#F8FAFC' }}>電信信令 (Cellular Signaling)</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px', lineHeight: '1.6' }}>
+                  專注描繪「出站後周邊商圈 1km 滯留時間」、「無收費閘門之自然風景區密度」與「最後一哩路步行」。
+                </div>
+              </div>
+              <div style={{ background: 'rgba(15, 23, 42, 0.8)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '10px', padding: '16px' }}>
+                <div style={{ fontSize: '12px', color: '#10B981', fontWeight: '800', marginBottom: '6px' }}>第 3 層：錨點反向校準閉環</div>
+                <div style={{ fontSize: '14px', fontWeight: '700', color: '#F8FAFC' }}>以 eTag/票證作為硬錨點 (Anchoring)</div>
+                <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '6px', lineHeight: '1.6' }}>
+                  用票證刷卡人數與國道門架量，反向校正電信信令的擴推係數（Expansion Factor），自動消除電信漫遊黑數與路網吸附偏誤，達成 1 + 1 &gt; 2。
+                </div>
+              </div>
             </div>
           </div>
         </div>
