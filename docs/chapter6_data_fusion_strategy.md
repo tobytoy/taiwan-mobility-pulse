@@ -23,10 +23,12 @@
 
 ```mermaid
 flowchart LR
-    S1["STAGE 1 (電信主導)<br>永和家出發 ➔ 步行400m"] --> S2["STAGE 2 (票證硬錨點)<br>08:15 刷 TPASS 進頂溪站"]
-    S2 --> S3["STAGE 3 (票證硬錨點)<br>08:42 抵達西湖站刷卡出站"]
-    S3 --> S4["STAGE 4 (電信主導)<br>瑞光路咖啡廳 ➔ 辦公9小時"]
-    S4 --> S5["STAGE 5 (雙數據融合)<br>18:10 YouBike 河濱騎乘返家"]
+    classDef default fill:#1e293b,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc,padding:14px 35px;
+
+    S1["&emsp;STAGE 1 (電信主導)&emsp;<br/>&emsp;永和家出發 ➔ 步行400m&emsp;"] --> S2["&emsp;STAGE 2 (票證硬錨點)&emsp;<br/>&emsp;08:15 刷 TPASS 進頂溪站&emsp;"]
+    S2 --> S3["&emsp;STAGE 3 (票證硬錨點)&emsp;<br/>&emsp;08:42 抵達西湖站刷卡出站&emsp;"]
+    S3 --> S4["&emsp;STAGE 4 (電信主導)&emsp;<br/>&emsp;瑞光路咖啡廳 ➔ 辦公9小時&emsp;"]
+    S4 --> S5["&emsp;STAGE 5 (雙數據融合)&emsp;<br/>&emsp;18:10 YouBike 河濱騎乘返家&emsp;"]
 ```
 
 ### 1. STAGE 1：電信主導（家出發 ➔ 步行出門）

@@ -82,22 +82,24 @@
 
 ```mermaid
 flowchart TD
+    classDef default fill:#1e293b,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc,padding:14px 45px;
+
     subgraph Backbone ["第 1 層：底層剛性真理骨架 (Census Baseline)"]
         direction LR
-        ETAG["🛣️ eTag 車流<br>0m 門架 / 監理車種 / 客貨分流"]
-        TICP["🚆 TICP 票證<br>公分級閘門 / 法定票種 / TPASS 契約"]
+        ETAG["&emsp;🛣️ eTag 車流&emsp;<br/>&emsp;0m 門架 / 監理車種 / 客貨分流&emsp;"]
+        TICP["&emsp;🚆 TICP 票證&emsp;<br/>&emsp;公分級閘門 / 法定票種 / TPASS 契約&emsp;"]
     end
 
     subgraph Mutual ["⚡ 天然嚴格互斥集合 (Zero Double-Counting)"]
-        SPLIT["100% 精準運具分擔率 (Modal Split) 與政策移轉彈性"]
+        SPLIT["&emsp;100% 精準運具分擔率 (Modal Split)&emsp;<br/>&emsp;公路自駕 vs 軌道政策移轉彈性&emsp;"]
     end
 
     subgraph Muscle ["第 2 層：外層連續空間肌肉 (Flexible Shell)"]
-        TEL["📡 電信信令 (Cellular Signaling)<br>無閘門露天景點 / 商圈停留時長 / 步行最後一哩"]
+        TEL["&emsp;📡 電信信令 (Cellular Signaling)&emsp;<br/>&emsp;無閘門露天景點 / 商圈停留時長 / 步行最後一哩&emsp;"]
     end
 
     subgraph Anchor ["⚓ 硬錨點反向閉環校準 (Anchoring Calibration)"]
-        CALIB["以 eTag 門架量與票證刷卡人數作為【硬性真理錨點】<br>反向修正電信信令的擴推係數與路徑分配偏誤！"]
+        CALIB["&emsp;以 eTag 門架量與票證刷卡人數作為【硬性真理錨點】&emsp;<br/>&emsp;反向修正電信信令的擴推係數與路徑分配偏誤！&emsp;"]
     end
 
     ETAG --> Mutual
