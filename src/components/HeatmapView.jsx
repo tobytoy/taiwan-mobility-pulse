@@ -6,9 +6,10 @@ import {
   Flame, ArrowDownRight, ArrowUpRight, Waves, 
   Users, Briefcase, Compass, Play, Pause, RotateCcw, 
   Calendar, Clock, MapPin, Zap, ChevronRight, ChevronDown, ChevronUp, TrendingUp, Info, Sparkles, Heart, GraduationCap,
-  CloudRain, Sun, Car, AlertTriangle
+  CloudRain, Sun, Car, AlertTriangle, Truck
 } from 'lucide-react';
 import { PERSONA_TOKENS, ALERT_STATE_TOKENS } from '../utils/semanticTokens';
+import { ETAG_INTERCHANGES } from '../data/etagInterchangeHeatmapData';
 
 const BASEMAP_TILES = {
   emap: {
@@ -69,6 +70,7 @@ export default function HeatmapView({
   const [showInsightPanel, setShowInsightPanel] = useState(true);
   const [currentZoom, setCurrentZoom] = useState(8);
   const [isLegendOpen, setIsLegendOpen] = useState(false); // 左下角圖例說明展開/縮起狀態
+  const [showEtagInterchanges, setShowEtagInterchanges] = useState(true); // 🛣️ eTag 國道交流道下匝道車流注入光暈層開關
 
   // 同步外部傳入之客群類別與時空天候情境
   useEffect(() => {
@@ -754,7 +756,131 @@ export default function HeatmapView({
       circle.addTo(mapRef.current);
       markersRef.current.push(circle);
     });
-  }, [heatmapData, timeScope, currentHour, flowMode, paxType, selectedRegion, selectedStation, expertParams, currentZoom]);
+
+    // === 8. 繪製 eTag 國道交流道下匝道車流注入輻射光暈 (Off-Ramp Discharge Catchment Halos) ===
+    if (showEtagInterchanges) {
+      ETAG_INTERCHANGES.forEach(ic => {
+        if (selectedRegion !== 'all' && ic.region !== selectedRegion) return;
+
+        // 當切換客群時依主導類型加權或過濾
+        if (paxType === 'freight' && ic.dominant_type !== 'freight') return;
+        if (paxType === 'tourist' && ic.dominant_type !== 'tourist') return;
+
+        const isHoliday = timeScope.startsWith('holiday') || timeScope === 'weekend';
+        const baseDailyVol = isHoliday ? ic.holiday_vol : ic.workday_vol;
+        const curveFactor = ic.hourly_curve[currentHour] || 0.5;
+        // 計算該時段每小時下匝道湧入車流量 (輛/小時)
+        const hourlyDischarge = Math.round((baseDailyVol / 12) * curveFactor);
+
+        const isSelected = selectedStation === ic.name;
+        const color = ic.color;
+
+        // 依車流動態計算光暈半徑 (動態縮放)
+        const zoomFactor = currentZoom <= 8 ? 0.75 : currentZoom <= 10 ? 1.0 : 1.35;
+        const haloRadius = Math.min(52, Math.max(16, (hourlyDischarge / 160) * zoomFactor));
+
+        // 1. 外層水波脈衝光暈 (Outer Pulsing Catchment Halo)
+        const outerHalo = L.circleMarker([ic.lat, ic.lng], {
+          radius: isSelected ? haloRadius + 8 : haloRadius,
+          color: color,
+          weight: isSelected ? 2.5 : 1.2,
+          fillColor: color,
+          fillOpacity: isSelected ? 0.55 : (isHoliday && ic.dominant_type === 'tourist' ? 0.40 : 0.28),
+          className: 'etag-discharge-halo-pulse'
+        });
+
+        // 2. 核心實心注入點門戶 (Inner Core Injection Gateway)
+        const innerCore = L.circleMarker([ic.lat, ic.lng], {
+          radius: isSelected ? 8.5 : 5.5,
+          color: '#FFFFFF',
+          weight: isSelected ? 3.0 : 1.8,
+          fillColor: color,
+          fillOpacity: 1.0
+        });
+
+        const dominantLabel = ic.dominant_type === 'freight' 
+          ? '🚛 產業物流門戶' 
+          : ic.dominant_type === 'tourist' 
+          ? '🧳 觀光休閒門戶' 
+          : '💼 都會通勤門戶';
+
+        const parkingStress = isHoliday ? ic.parking_stress_pct.holiday : ic.parking_stress_pct.workday;
+        const parkingStressColor = parkingStress >= 90 ? '#EF4444' : parkingStress >= 75 ? '#F59E0B' : '#10B981';
+
+        const icTooltipHtml = `
+          <div style="font-family: Inter, sans-serif; min-width: 260px; padding: 6px 8px; color: #f8fafc;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.15); padding-bottom: 5px; margin-bottom: 6px;">
+              <div style="font-weight: 800; font-size: 13.5px; color: ${color}; display: flex; align-items: center; gap: 5px;">
+                <span>🛣️</span> ${esc(ic.short_name)}
+              </div>
+              <span style="font-size: 9.5px; background: ${color}25; color: ${color}; border: 1px solid ${color}50; padding: 2px 6px; border-radius: 4px; font-weight: 700;">
+                ${dominantLabel}
+              </span>
+            </div>
+
+            <div style="font-size: 11px; color: #94A3B8; margin-bottom: 4px;">
+              門架代碼：<code style="color: #E2E8F0;">${ic.gantry_code}</code> · ${ic.name}
+            </div>
+            <div style="font-size: 11px; color: #E2E8F0; margin-bottom: 6px;">
+              📍 注入商圈/園區：<strong style="color: #38BDF8;">${ic.target_area}</strong>
+            </div>
+
+            <div style="background: rgba(15, 23, 42, 0.85); border: 1px solid rgba(255,255,255,0.12); border-radius: 6px; padding: 6px 8px; margin-bottom: 6px;">
+              <div style="display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 4px;">
+                <span style="color: #cbd5e1;">🌊 每小時下匝道湧入量:</span>
+                <strong style="color: ${color}; font-size: 13.5px;">${hourlyDischarge.toLocaleString()} 輛/h</strong>
+              </div>
+              <div style="display: flex; justify-content: space-between; font-size: 10.5px; color: #94a3b8;">
+                <span>日型情境: <strong style="color: #fff;">${isHoliday ? '🏖️ 放假日' : '💼 上班日'}</strong></span>
+                <span>時段: <strong style="color: #fff;">${currentHour}:00 - ${currentHour + 1}:00</strong></span>
+              </div>
+            </div>
+
+            <!-- 車種結構條 -->
+            <div style="margin-bottom: 6px; font-size: 10.5px;">
+              <div style="color: #94a3b8; margin-bottom: 3px; font-weight: 700;">🚗 eTag 車種構成：</div>
+              <div style="display: flex; justify-content: space-between; color: #E2E8F0; font-size: 10px;">
+                <span>小客車(31): <strong>${ic.vehicle_mix.type31_car}%</strong></span>
+                <span>貨物車(32/42/52): <strong>${ic.vehicle_mix.type32_small_truck + ic.vehicle_mix.type42_big_truck + ic.vehicle_mix.type51_52_trailer}%</strong></span>
+                <span>大客車(41): <strong>${ic.vehicle_mix.type41_tour_bus}%</strong></span>
+              </div>
+            </div>
+
+            <!-- TDX 停車場承載壓力 -->
+            <div style="background: rgba(255,255,255,0.03); border-radius: 6px; padding: 5px 7px; margin-bottom: 6px; display: flex; justify-content: space-between; align-items: center; font-size: 11px;">
+              <span style="color: #cbd5e1;">🅿️ 周邊 TDX 停車壓力:</span>
+              <span style="color: ${parkingStressColor}; font-weight: 800; font-size: 12px;">
+                ${parkingStress}% 飽和度 ${parkingStress >= 90 ? '⚠️ 爆滿' : parkingStress >= 75 ? '⚡ 吃緊' : '🟢 順暢'}
+              </span>
+            </div>
+
+            <div style="font-size: 9.5px; color: #94a3b8; line-height: 1.35; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 4px;">
+              💡 ${ic.commercial_desc}
+            </div>
+          </div>
+        `;
+
+        outerHalo.bindTooltip(icTooltipHtml, {
+          className: 'custom-leaflet-tooltip',
+          direction: 'top',
+          offset: [0, -haloRadius]
+        });
+        innerCore.bindTooltip(icTooltipHtml, {
+          className: 'custom-leaflet-tooltip',
+          direction: 'top',
+          offset: [0, -8]
+        });
+
+        outerHalo.on('click', () => setSelectedStation(ic.name));
+        innerCore.on('click', () => setSelectedStation(ic.name));
+
+        outerHalo.addTo(mapRef.current);
+        innerCore.addTo(mapRef.current);
+        markersRef.current.push(outerHalo);
+        markersRef.current.push(innerCore);
+      });
+    }
+  }, [heatmapData, timeScope, currentHour, flowMode, paxType, selectedRegion, selectedStation, expertParams, currentZoom, showEtagInterchanges]);
 
   const weatherDiagnostic = heatmapData?.weather_diagnostic_summary;
 
@@ -878,6 +1004,7 @@ export default function HeatmapView({
               { id: 'all', label: '🔘 全體', icon: Users, color: '#F8FAFC' },
               { id: 'commuter', label: '💼 通勤剛需', icon: Briefcase, color: '#38BDF8' },
               { id: 'tourist', label: '🧳 觀光旅客', icon: Compass, color: '#F97316' },
+              { id: 'freight', label: '🚛 產業物流 (eTag)', icon: Truck, color: '#10B981' },
               { id: 'senior', label: '👵 銀髮長者', icon: Heart, color: '#F43F5E' },
               { id: 'student', label: '🎓 學生通學', icon: GraduationCap, color: '#10B981' },
               { id: 'personas', label: '🧬 四維時空人群像', icon: Sparkles, color: '#C084FC' }
@@ -904,6 +1031,30 @@ export default function HeatmapView({
               );
             })}
           </div>
+
+          {/* 🛣️ eTag 下匝道車流注入層獨立開關 */}
+          <button
+            onClick={() => setShowEtagInterchanges(prev => !prev)}
+            style={{
+              background: 'rgba(15, 23, 42, 0.92)',
+              backdropFilter: 'blur(12px)',
+              border: showEtagInterchanges ? '1px solid #10B981' : '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '10px',
+              padding: '6px 12px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              cursor: 'pointer',
+              color: showEtagInterchanges ? '#34D399' : '#94A3B8',
+              fontSize: '11px',
+              fontWeight: '700',
+              boxShadow: showEtagInterchanges ? '0 0 12px rgba(16, 185, 129, 0.25)' : 'none',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Truck size={13} color={showEtagInterchanges ? '#34D399' : '#94A3B8'} />
+            <span>🛣️ eTag 下匝道車流光暈: {showEtagInterchanges ? 'ON' : 'OFF'}</span>
+          </button>
 
           {/* 時空天候情境 (上班日/放假日 x 4 段天氣) */}
           <div style={{
@@ -1795,7 +1946,17 @@ export default function HeatmapView({
             </button>
           </div>
 
-          {paxType === 'student' ? (
+          {paxType === 'freight' ? (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#059669', border: '1px solid #10B981', flexShrink: 0 }} />
+                <span style={{ color: '#E2E8F0', fontWeight: '600' }}>翡翠綠：國道產業物流門戶 (eTag 32/42/51/52)</span>
+              </div>
+              <div style={{ color: '#A7F3D0', fontSize: '10px', lineHeight: '1.4' }}>
+                🚛 高雄港第七貨櫃、台北港、中科大雅、林口與竹科交流道，平日聯結車與重載貨車高密度注入產業園區
+              </div>
+            </div>
+          ) : paxType === 'student' ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', fontSize: '11px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#059669', border: '1px solid #10B981', flexShrink: 0 }} />
@@ -1916,6 +2077,9 @@ export default function HeatmapView({
             </div>
             <div style={{ color: '#FCD34D', marginTop: '3px' }}>
               3. <strong>族群數據註記</strong>：長者與學生人次已全面與全台 76 大轉乘樞紐之真實刷卡優惠減免代碼（TransferCode）進行交叉校驗驗證。
+            </div>
+            <div style={{ color: '#34D399', marginTop: '4px', borderTop: '1px dashed rgba(255,255,255,0.1)', paddingTop: '4px' }}>
+              4. <strong>🛣️ eTag 下匝道車流光暈</strong>：外圈雙層波紋光圈代表車流從國道注入商圈，半徑隨下匝道車流（輛/h）縮放；顏色代表物流（綠）、觀光（橘）或通勤（藍）。
             </div>
           </div>
         </div>
