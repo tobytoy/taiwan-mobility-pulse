@@ -218,7 +218,13 @@ export default function PersonaAnalyticsView({ onSwitchToTransferMap, onSwitchTo
         </div>
       </div>
 
-      {activeSubTab === 'transfer' && <TransferSection data={transferData} onSwitchToTransferMap={onSwitchToTransferMap} />}
+      {activeSubTab === 'transfer' && (
+        <TransferSection 
+          data={transferData} 
+          onSwitchToTransferMap={onSwitchToTransferMap} 
+          onSwitchToAmenityMap={onSwitchToAmenityMap} 
+        />
+      )}
       {activeSubTab === 'commuter' && <CommuterSection data={commuterData} />}
       {activeSubTab === 'senior' && <SeniorSection data={seniorData} />}
       {activeSubTab === 'student' && <StudentSection data={studentData} />}
@@ -984,7 +990,7 @@ function StudentSection({ data }) {
 // =========================================================================
 // 4. 跨運具轉乘與身分接駁應用 (Transfer & Persona Policy Section)
 // =========================================================================
-function TransferSection({ data, onSwitchToTransferMap }) {
+function TransferSection({ data, onSwitchToTransferMap, onSwitchToAmenityMap }) {
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [activePersonaTab, setActivePersonaTab] = useState('all');
