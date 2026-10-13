@@ -129,6 +129,27 @@ export default function App() {
     return () => clearInterval(timer);
   }, [isPlaying, playSpeed, activeTab, mapViewType]);
 
+  const rawModesMeta = data?.modes_meta || [];
+  const modesMeta = useMemo(() => {
+    const hasFreight = rawModesMeta.some(m => m.id === 'freight_highway');
+    if (hasFreight) return rawModesMeta;
+    return [...rawModesMeta, ...FREIGHT_AND_TOURISM_MODES_META];
+  }, [rawModesMeta]);
+
+  const studyData = data?.study_data || {};
+
+  const rawCorridors = data?.map_corridors || [];
+  const corridors = useMemo(() => {
+    return [...rawCorridors, ...FREIGHT_AND_TOURISM_CORRIDORS];
+  }, [rawCorridors]);
+
+  const rawStationsGeo = data?.stations_geo || {};
+  const stationsGeo = useMemo(() => {
+    return { ...rawStationsGeo, ...FREIGHT_AND_TOURISM_STATIONS };
+  }, [rawStationsGeo]);
+
+  const progressData = data?.progress_data || {};
+
   if (loading) {
     return (
       <div style={{
@@ -199,27 +220,6 @@ export default function App() {
       </div>
     );
   }
-
-  const rawModesMeta = data?.modes_meta || [];
-  const modesMeta = useMemo(() => {
-    const hasFreight = rawModesMeta.some(m => m.id === 'freight_highway');
-    if (hasFreight) return rawModesMeta;
-    return [...rawModesMeta, ...FREIGHT_AND_TOURISM_MODES_META];
-  }, [rawModesMeta]);
-
-  const studyData = data?.study_data || {};
-
-  const rawCorridors = data?.map_corridors || [];
-  const corridors = useMemo(() => {
-    return [...rawCorridors, ...FREIGHT_AND_TOURISM_CORRIDORS];
-  }, [rawCorridors]);
-
-  const rawStationsGeo = data?.stations_geo || {};
-  const stationsGeo = useMemo(() => {
-    return { ...rawStationsGeo, ...FREIGHT_AND_TOURISM_STATIONS };
-  }, [rawStationsGeo]);
-
-  const progressData = data?.progress_data || {};
 
   const getHourPhase = (h) => {
     if (h >= 7 && h <= 9) return { text: '早尖峰通勤狂潮 (Morning Rush Peak)', color: '#38BDF8', bg: 'rgba(56, 189, 248, 0.2)' };
