@@ -49,16 +49,16 @@ flowchart TD
 
 ## 🎯 互動地圖快速導航總表 (Interactive Map Quick Index)
 
-透過點擊下列網頁超連結，系統將直接在瀏覽器中為您跳轉至對應的互動實驗室：
+透過點擊下列網頁超連結，將直接在新分頁為您開啟線上實時系統並定位至該互動實驗室：
 
-| 章節主題 | 核心探索概念 | 互動地圖傳送門 | 必看關鍵亮點 (Key Highlights) |
+| 章節主題 | 核心探索概念 | 互動地圖傳送門 (點擊直接開啟系統) | 必看關鍵亮點 (Key Highlights) |
 | :--- | :--- | :--- | :--- |
-| **第一章** 數據哲學 | 空間漂移對比、身分真理標籤、互斥可加性 | [👉 三大數據戰略矩陣](#telecom) | 查閱 Master Table 三向深度對照矩陣，理解前處理成本差異 |
-| **第二章** 走廊動脈 | 111 條走廊粒子、產業物流 vs. 觀光快線 | [👉 動態走廊流向圖 (FlowMap)](#flows) | 切換「平日」與「假日」，拉動時間軸看竹科與國五潮汐 |
-| **第三章** 下匝道光暈 | eTag 16 大交流道注入、TDX 停車位壓力 | [👉 時空熱點與注入圈 (Heatmap)](#heatmap) | 開啟「🛣️ eTag 交流道注入圈」，點擊「愛蘭/日月潭」看停車壓力 |
-| **第四章** 人群與天候 | 四大微觀人群像、晴天/豪大雨脆弱性移轉 | [👉 人群像與天候實驗室](#personas) | 切換「悠遊銀髮族」，選取「豪大雨」，看台北車站長者退潮與移轉 |
-| **第五章** 商業脈搏 | 30 大樞紐生活圈、EV 充電缺口、快銷時段 | [👉 商業脈搏實驗室 (Commercial Lab)](#commercial-lab) | 點選「台北車站」或「板橋」，查看右側 HUD 面板之商機與充電缺口 |
-| **第六章** 全域融合 | 門到門 5 階段閉環、硬錨點反向校正 | [👉 跨源融合與落地選型](#telecom) | 查閱永和 ➔ 內科西湖之門到門還原圖，以及 TOD 實戰選型建議 |
+| **第一章** 數據哲學 | 空間漂移對比、身分真理標籤、互斥可加性 | [👉 三大數據戰略矩陣](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | 查閱 Master Table 三向深度對照矩陣，理解前處理成本差異 |
+| **第二章** 走廊動脈 | 111 條走廊粒子、產業物流 vs. 觀光快線 | [👉 動態走廊流向圖 (FlowMap)](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | 切換「平日」與「假日」，拉動時間軸看竹科與國五潮汐 |
+| **第三章** 下匝道光暈 | eTag 16 大交流道注入、TDX 停車位壓力 | [👉 時空熱點與注入圈 (Heatmap)](https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap) | 開啟「🛣️ eTag 交流道注入圈」，點擊「愛蘭/日月潭」看停車壓力 |
+| **第四章** 人群與天候 | 四大微觀人群像、晴天/豪大雨脆弱性移轉 | [👉 人群像與天候實驗室](https://tobytoy.github.io/taiwan-mobility-pulse/#personas) | 切換「悠遊銀髮族」，選取「豪大雨」，看台北車站長者退潮與移轉 |
+| **第五章** 商業脈搏 | 30 大樞紐生活圈、EV 充電缺口、快銷時段 | [👉 商業脈搏實驗室 (Commercial Lab)](https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab) | 點選「台北車站」或「板橋」，查看右側 HUD 面板之商機與充電缺口 |
+| **第六章** 全域融合 | 門到門 5 階段閉環、硬錨點反向校正 | [👉 跨源融合與落地選型](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | 查閱永和 ➔ 內科西湖之門到門還原圖，以及 TOD 實戰選型建議 |
 
 ---
 

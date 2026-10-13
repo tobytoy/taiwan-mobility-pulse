@@ -121,7 +121,7 @@ flowchart LR
 
 ## 6.6 🛠️ 互動操作實戰指引：如何在系統中查閱
 
-* **[👉 立即跳轉至：跨源數據融合藍圖與選型指南 (Data Strategy)](#telecom)**
+* **[👉 立即跳轉至線上系統：跨源數據融合藍圖與選型指南 (Data Strategy)](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom)**
 
 ### 操作步驟：
 1. 點擊上方超連結或點擊頂部導覽列 **【電信與票證】**。

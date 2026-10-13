@@ -114,7 +114,7 @@ flowchart TD
 
 想要親自體驗本章所論述的「三大數據戰略對決矩陣」嗎？請依以下步驟操作：
 
-* **[👉 立即跳轉至：三大數據戰略矩陣 (Master Matrix)](#telecom)**
+* **[👉 立即跳轉至線上系統：三大數據戰略矩陣 (Master Matrix)](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom)**
 
 ### 操作步驟：
 1. 點擊上方超連結或點擊系統頂部導覽列 **【電信與票證】**。

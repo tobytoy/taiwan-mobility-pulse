@@ -82,7 +82,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 
 ## 3.5 🛠️ 互動操作實戰指引：如何在熱點圖中調校
 
-* **[👉 立即跳轉至：全台時空熱點圖與下匝道注入圈 (Heatmap)](#heatmap)**
+* **[👉 立即跳轉至線上系統：全台時空熱點圖與下匝道注入圈 (Heatmap)](https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap)**
 
 ### 操作步驟：
 1. 點擊上方超連結或點擊頂部導覽列 **【GIS 空間地圖】➔【時空熱點分佈】**。

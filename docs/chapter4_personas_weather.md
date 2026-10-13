@@ -84,7 +84,7 @@
 
 ## 4.4 🛠️ 互動操作實戰指引：如何在系統中體驗
 
-* **[👉 立即跳轉至：微觀人群像與天候模擬實驗室 (Personas Lab)](#personas)**
+* **[👉 立即跳轉至線上系統：微觀人群像與天候模擬實驗室 (Personas Lab)](https://tobytoy.github.io/taiwan-mobility-pulse/#personas)**
 
 ### 操作步驟：
 1. 點擊上方超連結或點擊頂部導覽列 **【微觀人群像】**。

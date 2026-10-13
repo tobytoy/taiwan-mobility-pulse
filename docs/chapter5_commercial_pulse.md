@@ -80,7 +80,7 @@
 
 ## 5.5 🛠️ 互動操作實戰指引：如何在實驗室中探勘商機
 
-* **[👉 立即跳轉至：商業脈搏與樞紐商機實驗室 (Commercial Lab)](#commercial-lab)**
+* **[👉 立即跳轉至線上系統：商業脈搏與樞紐商機實驗室 (Commercial Lab)](https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab)**
 
 ### 操作步驟：
 1. 點擊上方超連結或點擊頂部導覽列 **【商業脈搏實驗室】**。
