@@ -26,24 +26,26 @@ OUTPUT_PDF = os.path.join(DOCS_DIR, "taiwan_mobility_pulse_guidebook.pdf")
 CHAPTERS = [
     ("README.md", "序言與全書導讀", "README"),
     ("chapter1_data_philosophy.md", "第一章：數據哲學與選型抉擇", "chapter1_data_philosophy"),
-    ("chapter2_flow_arteries.md", "第二章：全台城際與都會走廊大動脈", "chapter2_flow_arteries"),
-    ("chapter3_etag_halos_heatmap.md", "第三章：熱點輻射與下匝道光暈", "chapter3_etag_halos_heatmap"),
-    ("chapter4_personas_weather.md", "第四章：四大微觀人群像與天候彈性", "chapter4_personas_weather"),
-    ("chapter5_commercial_pulse.md", "第五章：商業脈搏與站點商機評估", "chapter5_commercial_pulse"),
-    ("chapter6_data_fusion_strategy.md", "第六章：國家級大數據融合戰略", "chapter6_data_fusion_strategy"),
+    ("chapter2_data_dictionary_and_samples.md", "第二章：國家級數據底座與欄位實體解剖", "chapter2_data_dictionary_and_samples"),
+    ("chapter3_flow_arteries.md", "第三章：全台城際與都會走廊大動脈", "chapter3_flow_arteries"),
+    ("chapter4_etag_halos_heatmap.md", "第四章：熱點輻射與下匝道光暈", "chapter4_etag_halos_heatmap"),
+    ("chapter5_personas_weather.md", "第五章：四大微觀人群像與天候彈性", "chapter5_personas_weather"),
+    ("chapter6_commercial_pulse.md", "第六章：商業脈搏與站點商機評估", "chapter6_commercial_pulse"),
+    ("chapter7_data_fusion_strategy.md", "第七章：國家級大數據融合戰略", "chapter7_data_fusion_strategy"),
 ]
 
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts."""
-    if "C1" in code and "C6" in code:
+    if "C1" in code and ("C6" in code or "C7" in code):
         # Chapter overview flowchart
         steps = [
             ("第一章：數據哲學與選型抉擇", "剛性骨架 vs. 彈性肌肉", "chapter1_data_philosophy"),
-            ("第二章：全台城際與都會走廊大動脈", "111 條動態走廊與客貨潮汐", "chapter2_flow_arteries"),
-            ("第三章：熱點輻射與下匝道光暈", "eTag 車流注入與停車壓力連動", "chapter3_etag_halos_heatmap"),
-            ("第四章：四大微觀人群像與天候彈性", "誰在移動？風雨如何改寫動線？", "chapter4_personas_weather"),
-            ("第五章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter5_commercial_pulse"),
-            ("第六章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter6_data_fusion_strategy"),
+            ("第二章：國家級數據底座與欄位實體解剖", "時間跨度、欄位字典與真實樣本", "chapter2_data_dictionary_and_samples"),
+            ("第三章：全台城際與都會走廊大動脈", "111 條動態走廊與客貨潮汐", "chapter3_flow_arteries"),
+            ("第四章：熱點輻射與下匝道光暈", "eTag 車流注入與停車壓力連動", "chapter4_etag_halos_heatmap"),
+            ("第五章：四大微觀人群像與天候彈性", "誰在移動？風雨如何改寫動線？", "chapter5_personas_weather"),
+            ("第六章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter6_commercial_pulse"),
+            ("第七章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter7_data_fusion_strategy"),
         ]
         html = ['<div class="flowchart-container">']
         for i, (title, sub, cid) in enumerate(steps, 1):
@@ -139,7 +141,7 @@ def process_markdown(content: str, current_chapter_id: str) -> str:
 
     for line in lines:
         # Skip raw inline "👉 **[進入第...章](...)" at bottom since .chapter-nav handles it
-        if re.search(r'👉\s*\*\*\[進入第[一二三四五六]章', line):
+        if re.search(r'👉\s*\*\*\[進入第[一二三四五六七]章', line):
             continue
 
         if '|' in line and 'https://tobytoy.github.io/taiwan-mobility-pulse/' in line:
@@ -195,7 +197,7 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.1.0)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
@@ -205,10 +207,10 @@ def build_html():
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.0 (全景精裝專著版)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.1.0 (全景精裝專著版 · 7巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
             <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.1.0)</div>
         </div>
     </div>
     ''')
@@ -257,7 +259,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @top-right {
-            content: "國家級多源動態移動全書指南";
+            content: "國家級多源動態移動全書指南 · v1.1.0";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
             color: #94a3b8;
@@ -265,7 +267,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @bottom-left {
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/";
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.1.0)";
             font-family: -apple-system, sans-serif;
             font-size: 7.5pt;
             color: #94a3b8;
@@ -457,8 +459,28 @@ def build_html():
         padding-left: 20pt;
     }
 
-    li {
-        margin-bottom: 4pt;
+    /* Screenshots & Figures */
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+        border: 1px solid #cbd5e1;
+        margin: 14pt auto 6pt auto;
+        display: block;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    p > em:only-child {
+        display: block;
+        text-align: center;
+        color: #475569;
+        font-size: 8.8pt;
+        margin-top: -3pt;
+        margin-bottom: 14pt;
+        font-style: normal;
+        line-height: 1.45;
     }
 
     /* Links */

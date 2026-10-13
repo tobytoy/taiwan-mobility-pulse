@@ -4,7 +4,7 @@ import {
   Sparkles, Target, Compass, 
   TrendingUp, Users, Database,
   Car, Truck, GitMerge, ShieldAlert, Cpu,
-  MapPin, CheckCircle2, ArrowRight
+  MapPin, CheckCircle2, ArrowRight, Zap
 } from 'lucide-react';
 
 export default function TelecomComparisonView() {

@@ -130,7 +130,10 @@ export default function App() {
       } else if (hash === 'heatmap' || hash === 'etag-halos') {
         setActiveTab('gis_map');
         setMapViewType('heatmap');
-      } else if (hash === 'commercial-lab' || hash === 'commercial' || hash === 'ai_lab') {
+      } else if (hash === 'commercial-lab' || hash === 'commercial') {
+        setActiveTab('gis_map');
+        setMapViewType('commercial');
+      } else if (hash === 'ai_lab' || hash === 'rail-lab') {
         setActiveTab('ai_lab');
       } else if (hash === 'personas' || hash === 'weather-lab') {
         setActiveTab('personas');
