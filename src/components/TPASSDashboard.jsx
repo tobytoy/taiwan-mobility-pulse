@@ -7,7 +7,6 @@ import {
   MapPin, Search, FileText, Layers, Car, Fuel, Trees, Globe,
   Activity, Zap, Info, Compass, Share2, Check
 } from 'lucide-react';
-import CarbonShiftMap from './CarbonShiftMap';
 
 // 100% Verified Real Data Extracted from TICP Parquet Records (SubTicketType & Discount Columns)
 export const TPASS_PRODUCTS_DATA = [
@@ -474,7 +473,7 @@ export const CURATED_ETAG_DISTRICT_ESG = [
 
 export default function TPASSDashboard() {
   // Navigation Section Pills
-  const [activeViewSection, setActiveViewSection] = useState('all'); // 'all', 'etag_matrix', 'gis_map', 'hubs_carbon', 'products', 'calculator'
+  const [activeViewSection, setActiveViewSection] = useState('all'); // 'all', 'etag_matrix', 'hubs_carbon', 'products', 'calculator'
 
   // Region filter for Products table
   const [selectedRegion, setSelectedRegion] = useState('all');
@@ -483,10 +482,6 @@ export default function TPASSDashboard() {
   const [districtData, setDistrictData] = useState([]);
   const [districtSearch, setDistrictSearch] = useState('');
   const [districtRegionFilter, setDistrictRegionFilter] = useState('all');
-
-  // GIS Map zone and mode shift controls
-  const [gisZoneKey, setGisZoneKey] = useState('mega_taipei');
-  const [gisModeShiftRate, setGisModeShiftRate] = useState(20);
 
   // Interactive Commuter Calculator State
   const [calcProductCode, setCalcProductCode] = useState('#NOR-1200');
@@ -623,7 +618,6 @@ export default function TPASSDashboard() {
           {[
             { id: 'all', label: '🌐 完整全域整合視圖 (All Unified)' },
             { id: 'etag_matrix', label: '🚗 國道 eTag 監測與運具轉移 (Highway Shift)' },
-            { id: 'gis_map', label: '🗺️ GIS 時空減碳模擬地圖 (Carbon Map)' },
             { id: 'hubs_carbon', label: '🏢 50+ 生活圈 eTag 減碳盤查 (Hubs Carbon)' },
             { id: 'products', label: '💳 10 款月票方案與轉乘鏈 (Products & Transfers)' },
             { id: 'calculator', label: '🧮 個人回本試算與企業 Scope 3 (Calculator & ESG)' }
@@ -867,44 +861,6 @@ export default function TPASSDashboard() {
         </div>
       )}
 
-      {/* =========================================================================
-          SECTION 2: GIS 空間地理生活圈自駕減量與綠色軌道碳匯模擬地圖 (CarbonShiftMap)
-          ========================================================================= */}
-      {(activeViewSection === 'all' || activeViewSection === 'gis_map') && (
-        <div style={{
-          background: 'rgba(15, 23, 42, 0.85)',
-          border: '1px solid rgba(255,255,255,0.08)',
-          borderRadius: '16px',
-          padding: '22px',
-          marginBottom: '24px'
-        }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '14px' }}>
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <Globe size={20} color="#34D399" />
-                <h2 style={{ fontSize: '18px', fontWeight: '900', color: '#f8fafc', margin: 0 }}>
-                  🗺️ 全台各大都會生活圈自駕減量與綠色軌道 GIS 時空減碳模擬地圖
-                </h2>
-              </div>
-              <p style={{ fontSize: '12px', color: '#94a3b8', margin: '4px 0 0 0' }}>
-                即時視覺化展示國道私家車減量路段（灰虛線）、綠色大眾運輸激增走廊（發光綠線）與都會森林自然碳匯生態節點（🌳）
-              </p>
-            </div>
-            <span style={{ fontSize: '11px', background: 'rgba(56, 189, 248, 0.15)', color: '#38BDF8', padding: '4px 10px', borderRadius: '6px', fontWeight: '700' }}>
-              Leaflet 空間交互拓撲引擎
-            </span>
-          </div>
-
-          {/* Embedded Interactive CarbonShiftMap Component */}
-          <CarbonShiftMap 
-            selectedZoneKey={gisZoneKey}
-            onZoneChange={setGisZoneKey}
-            modeShiftRate={gisModeShiftRate}
-            onShiftRateChange={setGisModeShiftRate}
-            tpassPrice={1200}
-          />
-        </div>
-      )}
 
       {/* =========================================================================
           SECTION 3: 全台 50+ 生活圈與商圈走廊 eTag 減碳盤查速查矩陣
