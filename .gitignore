@@ -9,7 +9,8 @@ dist-ssr/
 raw_datas/
 history-datas/
 processed_parquets/
-data/
+/data/
+!src/data/
 *.parquet
 *.zip
 *.csv

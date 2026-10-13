@@ -1056,6 +1056,27 @@ export default function TPASSDashboard() {
             </div>
           </div>
 
+          {/* eTag Commercial Extension Banner (跨界商用串聯) */}
+          <div style={{
+            background: 'linear-gradient(90deg, rgba(236, 72, 153, 0.12), rgba(16, 185, 129, 0.12))',
+            border: '1px solid rgba(236, 72, 153, 0.3)',
+            borderRadius: '10px',
+            padding: '10px 14px',
+            marginBottom: '16px',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            flexWrap: 'wrap',
+            gap: '8px'
+          }}>
+            <div style={{ fontSize: '11.5px', color: '#F1F5F9' }}>
+              💡 <strong>eTag 高階商用決策落地：</strong>已在 GIS 地圖上線「<strong>🏢 12 大旗艦 Outlet/好市多跨縣市自駕引力水系 (方案 A)</strong>」與「<strong>⚡ 全台國道 EV 高速超充選址 ROI 互動模擬器 (方案 B)</strong>」！
+            </div>
+            <div style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700', background: 'rgba(56, 189, 248, 0.15)', padding: '3px 8px', borderRadius: '6px', border: '1px solid rgba(56, 189, 248, 0.3)' }}>
+              導航路徑：🗺️ GIS 時空地圖 ➔ 🏬 商圈脈動與投資決策
+            </div>
+          </div>
+
           {/* Top 4 Freight KPIs */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(230px, 1fr))', gap: '12px', marginBottom: '20px' }}>
             <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '14px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.06)' }}>

@@ -8,6 +8,11 @@ import {
   Car, Clock, Waves, Navigation, BarChart3, Leaf, Zap, Sun, Gauge, Route
 } from 'lucide-react';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
+import {
+  RETAIL_GRAVITY_HUBS,
+  EV_CHARGING_SITING_HUBS
+} from '../data/commercialRetailAndEVData';
+import { RetailGravityHUD, EVChargingSitingHUD } from './CommercialHUDPanels';
 
 const BASEMAP_TILES = {
   emap: {
@@ -95,6 +100,22 @@ const COMMERCIAL_DIMENSIONS = [
     icon: Car,
     color: '#F97316',
     desc: '結合高公局門架百萬車流大數據 (2026 實測)，突破公共運輸票證盲區，精確解構自駕客群比例、假日車流暴增比與停車壓力'
+  },
+  {
+    id: 'retail_gravity',
+    label: '🏢 旗艦零售自駕引力',
+    subLabel: 'Outlet/好市多客源水系',
+    icon: ShoppingBag,
+    color: '#EC4899',
+    desc: '解構全台 12 大大型商場、Outlet 與好市多的跨縣市自駕車流、OD 飛線光束、各縣市顧客佔比與消費力標籤 (方案 A)'
+  },
+  {
+    id: 'ev_charging',
+    label: '⚡ EV 高速超充黃金選址',
+    subLabel: 'CPO 投資 ROI 模擬器',
+    icon: Zap,
+    color: '#10B981',
+    desc: '結合國道門架日均車流、長途跨縣市里程與剛需指數，評估全台 10 大關鍵節點建置 360kW 超充站之設備稼動率與動態投資回收期 (方案 B)'
   }
 ];
 
@@ -108,6 +129,11 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
   const [selectedRegion, setSelectedRegion] = useState('all');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedDistrict, setSelectedDistrict] = useState(null);
+  const [selectedRetailHub, setSelectedRetailHub] = useState(RETAIL_GRAVITY_HUBS[0]);
+  const [selectedEVHub, setSelectedEVHub] = useState(EV_CHARGING_SITING_HUBS[0]);
+  const [evStalls, setEvStalls] = useState(4);
+  const [evTariff, setEvTariff] = useState(10.8);
+  const [evPowerCost, setEvPowerCost] = useState(5.2);
   const [searchQuery, setSearchQuery] = useState('');
   const [currentZoom, setCurrentZoom] = useState(8);
   const [etagSubTab, setEtagSubTab] = useState('weather');
@@ -212,6 +238,25 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
     if (mapRef.current) {
       mapRef.current.flyTo(cfg.center, cfg.zoom, { duration: 1.0 });
     }
+    if (activeDimension === 'retail_gravity') {
+      const matchHub = RETAIL_GRAVITY_HUBS.find(h => regId === 'all' || h.region === regId);
+      if (matchHub) setSelectedRetailHub(matchHub);
+    } else if (activeDimension === 'ev_charging') {
+      const matchEV = EV_CHARGING_SITING_HUBS.find(h => regId === 'all' || h.region === regId);
+      if (matchEV) setSelectedEVHub(matchEV);
+    }
+  };
+
+  // 維度視角切換
+  const handleSelectDimension = (dimId) => {
+    setActiveDimension(dimId);
+    if (dimId === 'retail_gravity' && selectedRetailHub && mapRef.current) {
+      mapRef.current.flyTo([selectedRetailHub.lat, selectedRetailHub.lng], 11, { duration: 0.8 });
+    } else if (dimId === 'ev_charging' && selectedEVHub && mapRef.current) {
+      mapRef.current.flyTo([selectedEVHub.lat, selectedEVHub.lng], 12, { duration: 0.8 });
+    } else if (selectedDistrict && mapRef.current) {
+      mapRef.current.flyTo([selectedDistrict.lat, selectedDistrict.lng], 12, { duration: 0.8 });
+    }
   };
 
   // 5. 分類視角切換
@@ -248,6 +293,230 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
     poiLayersRef.current = [];
     rayLayersRef.current.forEach(l => mapRef.current.removeLayer(l));
     rayLayersRef.current = [];
+
+    // =========================================================================
+    // 專屬模式 A: 🏢 旗艦零售與 Outlet 跨縣市自駕引力水系 (Retail Gravity Catchment)
+    // =========================================================================
+    if (activeDimension === 'retail_gravity') {
+      const q = searchQuery.toLowerCase().trim();
+      const filteredRetail = RETAIL_GRAVITY_HUBS.filter(hub => {
+        const matchRegion = selectedRegion === 'all' || hub.region === selectedRegion;
+        const matchSearch = q === '' ||
+          hub.name.toLowerCase().includes(q) ||
+          hub.regionLabel.toLowerCase().includes(q) ||
+          hub.corridorName.toLowerCase().includes(q);
+        return matchRegion && matchSearch;
+      });
+
+      filteredRetail.forEach(hub => {
+        const isSelected = selectedRetailHub?.id === hub.id;
+
+        // 30km / 60km 吸附引力光環 (Catchment Halos)
+        const halo30 = L.circle([hub.lat, hub.lng], {
+          radius: Math.min(45000, hub.catchmentRadiusKm * 650),
+          color: hub.brandColor,
+          weight: isSelected ? 2.0 : 0.8,
+          fillColor: hub.brandColor,
+          fillOpacity: isSelected ? 0.12 : 0.03,
+          dashArray: '5, 5'
+        }).addTo(mapRef.current);
+        haloLayersRef.current.push(halo30);
+
+        // 旗艦商場自定義標記
+        const markerHtml = `
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1.8px solid ${isSelected ? '#FFFFFF' : hub.brandColor};
+            border-radius: 20px;
+            padding: 3px 10px;
+            box-shadow: ${isSelected ? `0 0 20px ${hub.brandColor}` : '0 4px 12px rgba(0,0,0,0.65)'};
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            transform: ${isSelected ? 'scale(1.14)' : 'scale(1)'};
+          ">
+            <span style="font-size: 13px;">${hub.brandTag.slice(0, 2)}</span>
+            <span style="font-size: 11.5px; font-weight: 800; color: #FFFFFF;">${hub.name.split(' ')[0]}</span>
+            <span style="
+              font-size: 9.5px;
+              font-weight: 800;
+              font-family: JetBrains Mono, monospace;
+              color: ${hub.brandColor};
+              background: ${hub.brandColor}22;
+              padding: 1px 5px;
+              border-radius: 4px;
+            ">引力 ${hub.gravityScore}分</span>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: markerHtml,
+          className: 'retail-gravity-marker',
+          iconSize: [190, 30],
+          iconAnchor: [95, 15]
+        });
+
+        const marker = L.marker([hub.lat, hub.lng], {
+          icon: customIcon,
+          zIndexOffset: isSelected ? 1000 : 400
+        });
+
+        marker.on('click', () => {
+          setSelectedRetailHub(hub);
+          mapRef.current.flyTo([hub.lat, hub.lng], Math.max(mapRef.current.getZoom(), 11), { duration: 0.8 });
+        });
+
+        marker.bindTooltip(`
+          <div style="font-size: 11px; font-family: Outfit, sans-serif; padding: 4px 8px; background: rgba(15,23,42,0.96); border: 1px solid ${hub.brandColor}; border-radius: 6px; color: #FFF;">
+            <strong style="color: ${hub.brandColor};">${hub.name}</strong><br/>
+            <span>週末自駕: <strong style="color: #38BDF8;">${hub.weekendCars.toLocaleString()}</strong> 輛/日 (${hub.driveSharePct}%)</span><br/>
+            <span>車均消費: <strong style="color: #34D399;">NT$ ${hub.avgTicketSpend.toLocaleString()}</strong> · 平均車程 ${hub.avgDriveTimeMin} 分鐘</span>
+          </div>
+        `, { sticky: true });
+
+        marker.addTo(mapRef.current);
+        markerLayersRef.current.push(marker);
+      });
+
+      // 繪製選中商場的跨縣市 OD 來源飛線光束 (Catchment OD Rays)
+      if (selectedRetailHub && selectedRetailHub.catchmentFlowRays) {
+        selectedRetailHub.catchmentFlowRays.forEach(ray => {
+          const midLat = (ray.originLat + selectedRetailHub.lat) / 2 + (ray.originLng - selectedRetailHub.lng) * 0.04;
+          const midLng = (ray.originLng + selectedRetailHub.lng) / 2 - (ray.originLat - selectedRetailHub.lat) * 0.04;
+
+          const curvePoints = [
+            [ray.originLat, ray.originLng],
+            [midLat, midLng],
+            [selectedRetailHub.lat, selectedRetailHub.lng]
+          ];
+
+          const rayLine = L.polyline(curvePoints, {
+            color: '#EC4899',
+            weight: Math.max(2.2, Math.min(5.5, ray.flowPct * 0.1)),
+            opacity: 0.82,
+            dashArray: '6, 8'
+          });
+
+          rayLine.bindTooltip(`
+            <div style="font-size: 10.5px; font-family: Outfit, sans-serif; padding: 4px 8px; background: rgba(15,23,42,0.96); border: 1px solid #EC4899; border-radius: 6px; color: #FFF;">
+              <strong style="color: #EC4899;">🛣️ ${ray.originName} &rarr; ${selectedRetailHub.name.split(' ')[0]}</strong><br/>
+              <span>車流貢獻佔比: <strong style="color: #38BDF8;">${ray.flowPct}%</strong> (${ray.estDistanceKm} km)</span><br/>
+              <span style="color: #94A3B8;">行駛路廊: ${ray.route}</span>
+            </div>
+          `, { sticky: true });
+
+          rayLine.addTo(mapRef.current);
+          rayLayersRef.current.push(rayLine);
+        });
+      }
+
+      return;
+    }
+
+    // =========================================================================
+    // 專屬模式 B: ⚡ EV 高速超充黃金選址與 CPO 投資 ROI 模擬器
+    // =========================================================================
+    if (activeDimension === 'ev_charging') {
+      const q = searchQuery.toLowerCase().trim();
+      const filteredEV = EV_CHARGING_SITING_HUBS.filter(hub => {
+        const matchRegion = selectedRegion === 'all' || hub.region === selectedRegion;
+        const matchSearch = q === '' ||
+          hub.name.toLowerCase().includes(q) ||
+          hub.regionLabel.toLowerCase().includes(q) ||
+          hub.interchangeCode.toLowerCase().includes(q) ||
+          hub.gantryCode.toLowerCase().includes(q);
+        return matchRegion && matchSearch;
+      });
+
+      filteredEV.forEach(hub => {
+        const isSelected = selectedEVHub?.id === hub.id;
+
+        // 繪製 3分鐘 (1.8km) 與 5分鐘 (3.5km) 等時圈 (Isochrones)
+        const isochrone3m = L.circle([hub.lat, hub.lng], {
+          radius: 1800,
+          color: '#38BDF8',
+          weight: isSelected ? 2.0 : 1.0,
+          fillColor: '#38BDF8',
+          fillOpacity: isSelected ? 0.12 : 0.04,
+          dashArray: '4, 6'
+        }).addTo(mapRef.current);
+        haloLayersRef.current.push(isochrone3m);
+
+        const isochrone5m = L.circle([hub.lat, hub.lng], {
+          radius: 3500,
+          color: '#10B981',
+          weight: isSelected ? 1.5 : 0.8,
+          fillColor: '#10B981',
+          fillOpacity: isSelected ? 0.08 : 0.02,
+          dashArray: '6, 8'
+        }).addTo(mapRef.current);
+        haloLayersRef.current.push(isochrone5m);
+
+        // EV 超充站自定義發光標記
+        const markerHtml = `
+          <div style="
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(15, 23, 42, 0.95);
+            border: 1.8px solid ${isSelected ? '#FFFFFF' : hub.tierColor};
+            border-radius: 20px;
+            padding: 3px 10px;
+            box-shadow: ${isSelected ? `0 0 20px ${hub.tierColor}` : '0 4px 12px rgba(0,0,0,0.65)'};
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+            transform: ${isSelected ? 'scale(1.14)' : 'scale(1)'};
+          ">
+            <span style="font-size: 13px;">⚡</span>
+            <span style="font-size: 11.5px; font-weight: 800; color: #FFFFFF;">${hub.name.split(' ')[1] || hub.name}</span>
+            <span style="
+              font-size: 9.5px;
+              font-weight: 800;
+              font-family: JetBrains Mono, monospace;
+              color: ${hub.tierColor};
+              background: ${hub.tierColor}22;
+              padding: 1px 5px;
+              border-radius: 4px;
+            ">ROI ${hub.baselinePaybackYears}年</span>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: markerHtml,
+          className: 'ev-siting-marker',
+          iconSize: [210, 30],
+          iconAnchor: [105, 15]
+        });
+
+        const marker = L.marker([hub.lat, hub.lng], {
+          icon: customIcon,
+          zIndexOffset: isSelected ? 1000 : 400
+        });
+
+        marker.on('click', () => {
+          setSelectedEVHub(hub);
+          mapRef.current.flyTo([hub.lat, hub.lng], Math.max(mapRef.current.getZoom(), 12), { duration: 0.8 });
+        });
+
+        marker.bindTooltip(`
+          <div style="font-size: 11px; font-family: Outfit, sans-serif; padding: 4px 8px; background: rgba(15,23,42,0.96); border: 1px solid ${hub.tierColor}; border-radius: 6px; color: #FFF;">
+            <strong style="color: ${hub.tierColor};">${hub.name}</strong><br/>
+            <span>下匝道時長: <strong style="color: #34D399;">${hub.driveTimeToExitMin} 分鐘</strong> (${hub.exitDistanceMeters}m)</span><br/>
+            <span>門架日車流: <strong style="color: #38BDF8;">${hub.dailyTrafficCars.toLocaleString()}</strong> 輛 · 長途佔比 ${hub.longDistanceRatioPct}%</span><br/>
+            <span style="color: #FBBF24;">評級: ${hub.tier} · 基準回本 ${hub.baselinePaybackYears} 年</span>
+          </div>
+        `, { sticky: true });
+
+        marker.addTo(mapRef.current);
+        markerLayersRef.current.push(marker);
+      });
+
+      return;
+    }
 
     const allDistricts = data.districts || [];
 
@@ -742,38 +1011,51 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             })}
           </div>
 
-          {/* 五大商業決策維度切換器 */}
+          {/* 七大商業決策維度切換器 */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
             {COMMERCIAL_DIMENSIONS.map(dim => {
               const isSel = activeDimension === dim.id;
               const Icon = dim.icon;
               const isHighway = dim.id === 'etag_highway';
+              const isRetail = dim.id === 'retail_gravity';
+              const isEV = dim.id === 'ev_charging';
+              const isFullWidth = isHighway || isRetail || isEV;
               return (
                 <button
                   key={dim.id}
-                  onClick={() => setActiveDimension(dim.id)}
+                  onClick={() => handleSelectDimension(dim.id)}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
                     padding: '6px 8px',
                     borderRadius: '8px',
-                    border: isSel ? `1.5px solid ${dim.color}` : isHighway ? '1px solid rgba(249, 115, 22, 0.3)' : '1px solid rgba(255,255,255,0.08)',
-                    background: isSel ? `${dim.color}22` : isHighway ? 'rgba(249, 115, 22, 0.08)' : 'rgba(30, 41, 59, 0.6)',
+                    border: isSel ? `1.5px solid ${dim.color}` : isFullWidth ? `1px solid ${dim.color}44` : '1px solid rgba(255,255,255,0.08)',
+                    background: isSel ? `${dim.color}25` : isFullWidth ? `${dim.color}0a` : 'rgba(30, 41, 59, 0.6)',
                     color: isSel ? '#FFFFFF' : '#94a3b8',
                     cursor: 'pointer',
                     textAlign: 'left',
                     transition: 'all 0.15s ease',
-                    gridColumn: isHighway ? '1 / -1' : 'auto'
+                    gridColumn: isFullWidth ? '1 / -1' : 'auto'
                   }}
                 >
-                  <Icon size={14} color={isSel ? dim.color : isHighway ? '#FB923C' : '#64748b'} />
+                  <Icon size={14} color={isSel ? dim.color : isFullWidth ? dim.color : '#64748b'} />
                   <div style={{ flex: 1 }}>
                     <div style={{ fontSize: '11px', fontWeight: isSel ? '800' : '600', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                       <span>{dim.label}</span>
                       {isHighway && (
                         <span style={{ fontSize: '8.5px', background: 'rgba(249, 115, 22, 0.25)', color: '#FDBA74', padding: '1px 5px', borderRadius: '4px', fontFamily: 'JetBrains Mono, monospace' }}>
                           2026 實測
+                        </span>
+                      )}
+                      {isRetail && (
+                        <span style={{ fontSize: '8.5px', background: 'rgba(236, 72, 153, 0.25)', color: '#F472B6', padding: '1px 5px', borderRadius: '4px', fontFamily: 'JetBrains Mono, monospace' }}>
+                          方案 A · 飛線水系
+                        </span>
+                      )}
+                      {isEV && (
+                        <span style={{ fontSize: '8.5px', background: 'rgba(16, 185, 129, 0.25)', color: '#34D399', padding: '1px 5px', borderRadius: '4px', fontFamily: 'JetBrains Mono, monospace' }}>
+                          方案 B · ROI 模擬
                         </span>
                       )}
                     </div>
@@ -838,7 +1120,65 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
       </div>
 
       {/* 3. 右側深度商業決策 HUD 面板 (Commercial Intelligence HUD Panel - 深度解構人流來源與在地特色) */}
-      {selectedDistrict && (
+      {activeDimension === 'retail_gravity' ? (
+        <div style={{
+          position: 'absolute',
+          top: '68px',
+          right: '16px',
+          width: '395px',
+          maxHeight: 'calc(100vh - 100px)',
+          zIndex: 400,
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(236, 72, 153, 0.44)',
+          borderRadius: '14px',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.7)',
+          overflowY: 'auto',
+          padding: '16px'
+        }}>
+          <RetailGravityHUD
+            hub={selectedRetailHub}
+            onSelectHub={(h) => {
+              setSelectedRetailHub(h);
+              if (mapRef.current) {
+                mapRef.current.flyTo([h.lat, h.lng], 11, { duration: 0.8 });
+              }
+            }}
+          />
+        </div>
+      ) : activeDimension === 'ev_charging' ? (
+        <div style={{
+          position: 'absolute',
+          top: '68px',
+          right: '16px',
+          width: '395px',
+          maxHeight: 'calc(100vh - 100px)',
+          zIndex: 400,
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(16px)',
+          border: '1px solid rgba(56, 189, 248, 0.44)',
+          borderRadius: '14px',
+          boxShadow: '0 16px 48px rgba(0,0,0,0.7)',
+          overflowY: 'auto',
+          padding: '16px'
+        }}>
+          <EVChargingSitingHUD
+            hub={selectedEVHub}
+            stalls={evStalls}
+            setStalls={setEvStalls}
+            tariff={evTariff}
+            setTariff={setEvTariff}
+            powerCost={evPowerCost}
+            setPowerCost={setEvPowerCost}
+            onSelectHub={(h) => {
+              setSelectedEVHub(h);
+              if (mapRef.current) {
+                mapRef.current.flyTo([h.lat, h.lng], 12, { duration: 0.8 });
+              }
+            }}
+          />
+        </div>
+      ) : selectedDistrict ? (
         <div style={{
           position: 'absolute',
           top: '68px',
@@ -1777,7 +2117,7 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             </div>
           </div>
         </div>
-      )}
+      ) : null}
 
       {/* 4. 底部左側：動態圖例說明 */}
       <div style={{
@@ -1895,6 +2235,40 @@ export default function CommercialPulseLab({ basemap = 'emap' }) {
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
               <span>🚆 捷運大眾運輸為主 (&lt; 40%，雙北捷運沿線)</span>
+            </div>
+          </div>
+        )}
+
+        {activeDimension === 'retail_gravity' && (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EC4899', display: 'inline-block' }}></span>
+              <span>🏢 暢貨 Outlet & 巨型購物中心 (引力半徑 30~70km)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
+              <span>🛒 巨型倉儲量販店 (Costco/IKEA)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '12px', height: '2px', background: '#EC4899', display: 'inline-block' }}></span>
+              <span>🛣️ 國道跨縣市客源射線 (OD Catchment Flow Rays)</span>
+            </div>
+          </div>
+        )}
+
+        {activeDimension === 'ev_charging' && (
+          <div style={{ display: 'flex', gap: '12px', alignItems: 'center', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8', display: 'inline-block' }}></span>
+              <span>💎 Tier 1 鑽石級首選站 (長途剛需極高 · 回本 &le; 1.8 年)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B', display: 'inline-block' }}></span>
+              <span>🥇 Tier 2 黃金級高收益站 (回本 1.9 ~ 2.2 年)</span>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <span style={{ width: '10px', height: '10px', borderRadius: '50%', border: '1.5px dashed #38BDF8', display: 'inline-block' }}></span>
+              <span>⭕ 3分鐘 / 5分鐘 下交流道行車等時圈 (Isochrones)</span>
             </div>
           </div>
         )}
