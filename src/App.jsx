@@ -1,6 +1,11 @@
-import React, { useState, useEffect, Suspense, lazy } from 'react';
+import React, { useState, useEffect, Suspense, lazy, useMemo } from 'react';
 import FlowMap from './components/FlowMap';
 import ErrorBoundary from './components/ErrorBoundary';
+import { 
+  FREIGHT_AND_TOURISM_CORRIDORS, 
+  FREIGHT_AND_TOURISM_STATIONS, 
+  FREIGHT_AND_TOURISM_MODES_META 
+} from './data/freightAndTourismCorridors';
 
 const ComparisonDashboard = lazy(() => import('./components/ComparisonDashboard'));
 const HeatmapView = lazy(() => import('./components/HeatmapView'));
@@ -18,7 +23,7 @@ import {
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
   Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store, Building2,
-  Cloud, CloudRain, CloudLightning, ChevronDown
+  Cloud, CloudRain, CloudLightning, ChevronDown, Truck
 } from 'lucide-react';
 
 const WEATHER_STAGES = [
@@ -29,8 +34,8 @@ const WEATHER_STAGES = [
 ];
 
 const DAY_TYPES = [
-  { id: 'workday', label: '💼 工作日', desc: '常態通勤' },
-  { id: 'holiday', label: '🏖️ 放假日', desc: '生活觀光' }
+  { id: 'workday', label: '💼 上班日 (工作日)', desc: '🚛 產業物流全線巔峰 (145%) · 💼 都會通勤早晚雙尖峰 · 🧳 跨城觀光低溫休止' },
+  { id: 'holiday', label: '🏖️ 放假日 (週末)', desc: '🧳 觀光旅遊大爆發 (320% 狂飆) · 國五/國六景點高度飽和 · 🚛 產業物流休眠' }
 ];
 
 const BASEMAP_OPTIONS = [
@@ -50,11 +55,12 @@ const REGION_OPTIONS = [
 ];
 
 const PAX_OPTIONS = [
-  { id: 'all', label: '全體人流', icon: '🔘' },
-  { id: 'commuter', label: '💼 通勤族走廊', icon: '💼' },
-  { id: 'tourist', label: '🧳 觀光旅客走廊', icon: '🧳' },
-  { id: 'senior', label: '👵 銀髮長者走廊', icon: '👵' },
-  { id: 'student', label: '🎓 學生通學走廊', icon: '🎓' }
+  { id: 'all', label: '全體流向', icon: '🔘' },
+  { id: 'commuter', label: '💼 都會通勤', icon: '💼' },
+  { id: 'tourist', label: '🧳 觀光旅遊', icon: '🧳' },
+  { id: 'freight', label: '🚛 產業物流', icon: '🚛' },
+  { id: 'senior', label: '👵 銀髮長者', icon: '👵' },
+  { id: 'student', label: '🎓 學生通學', icon: '🎓' }
 ];
 
 export default function App() {
@@ -194,10 +200,25 @@ export default function App() {
     );
   }
 
-  const modesMeta = data?.modes_meta || [];
+  const rawModesMeta = data?.modes_meta || [];
+  const modesMeta = useMemo(() => {
+    const hasFreight = rawModesMeta.some(m => m.id === 'freight_highway');
+    if (hasFreight) return rawModesMeta;
+    return [...rawModesMeta, ...FREIGHT_AND_TOURISM_MODES_META];
+  }, [rawModesMeta]);
+
   const studyData = data?.study_data || {};
-  const corridors = data?.map_corridors || [];
-  const stationsGeo = data?.stations_geo || {};
+
+  const rawCorridors = data?.map_corridors || [];
+  const corridors = useMemo(() => {
+    return [...rawCorridors, ...FREIGHT_AND_TOURISM_CORRIDORS];
+  }, [rawCorridors]);
+
+  const rawStationsGeo = data?.stations_geo || {};
+  const stationsGeo = useMemo(() => {
+    return { ...rawStationsGeo, ...FREIGHT_AND_TOURISM_STATIONS };
+  }, [rawStationsGeo]);
+
   const progressData = data?.progress_data || {};
 
   const getHourPhase = (h) => {
@@ -573,8 +594,9 @@ export default function App() {
                     const isSel = selectedPaxType === p.id;
                     const pColor = p.id === 'commuter' ? '#38BDF8'
                                  : p.id === 'tourist' ? '#F97316'
+                                 : p.id === 'freight' ? '#10B981'
                                  : p.id === 'senior' ? '#F43F5E'
-                                 : p.id === 'student' ? '#10B981'
+                                 : p.id === 'student' ? '#14B8A6'
                                  : '#A855F7';
                     return (
                       <button
@@ -631,20 +653,22 @@ export default function App() {
                 }}>
                   {DAY_TYPES.map(dt => {
                     const isSel = dayType === dt.id;
+                    const dtColor = dt.id === 'holiday' ? '#F97316' : '#10B981';
                     return (
                       <button
                         key={dt.id}
                         onClick={() => setDayType(dt.id)}
                         title={dt.desc}
                         style={{
-                          padding: '5px 10px',
+                          padding: '5px 12px',
                           borderRadius: '7px',
                           fontSize: '11px',
-                          fontWeight: isSel ? '700' : '500',
-                          border: isSel ? '1px solid rgba(56, 189, 248, 0.4)' : '1px solid transparent',
-                          background: isSel ? 'rgba(56, 189, 248, 0.18)' : 'transparent',
-                          color: isSel ? '#38BDF8' : '#94A3B8',
+                          fontWeight: isSel ? '800' : '500',
+                          border: isSel ? `1px solid ${dtColor}` : '1px solid transparent',
+                          background: isSel ? `${dtColor}26` : 'transparent',
+                          color: isSel ? dtColor : '#94A3B8',
                           cursor: 'pointer',
+                          boxShadow: isSel ? `0 0 10px ${dtColor}40` : 'none',
                           transition: 'all 0.15s ease'
                         }}
                       >

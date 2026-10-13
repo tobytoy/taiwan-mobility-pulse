@@ -1,7 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import { esc } from '../utils/sanitize';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
+import { Truck, Compass, ArrowRight, X, Sparkles, Navigation, Layers, ChevronRight, Activity, Calendar } from 'lucide-react';
+
 const BASEMAP_TILES = {
   emap: {
     name: '臺灣繁中',
@@ -56,8 +58,8 @@ export default function FlowMap({
   stationsGeo = {},
   selectedMode = 'all',
   selectedRegion = 'all',
-  selectedPaxType = 'all', // 'all', 'commuter', 'tourist'
-  selectedDayType = 'workday_clear', // 'workday_clear', 'workday_rain', 'holiday_clear', 'holiday_rain'
+  selectedPaxType = 'all', // 'all', 'commuter', 'tourist', 'freight', 'senior', 'student'
+  selectedDayType = 'workday_sunny', // 'workday_sunny', 'holiday_sunny', etc.
   basemap = 'dark',
   currentHour = 8,
   onSelectStation,
@@ -66,6 +68,9 @@ export default function FlowMap({
   selectedCorridor
 }) {
   const [currentZoom, setCurrentZoom] = useState(8);
+  const [corridorFilterTab, setCorridorFilterTab] = useState('all'); // 'all', 'freight', 'tourist', 'commuter'
+  const [isQuickNavOpen, setIsQuickNavOpen] = useState(true);
+
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const tileLayerRef = useRef(null);
@@ -73,6 +78,12 @@ export default function FlowMap({
   const animFrameIdRef = useRef(null);
   const particlesRef = useRef([]);
   const markersRef = useRef([]);
+
+  const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
+  const isHeavyRain = selectedDayType.includes('heavy_rain');
+  const isRain = selectedDayType.includes('rainy') || (selectedDayType.endsWith('rain') && !isHeavyRain);
+  const isCloudy = selectedDayType.includes('cloudy');
+  const isSunny = selectedDayType.includes('sunny') || selectedDayType.endsWith('clear');
 
   // 1. 初始化 Leaflet 地圖
   useEffect(() => {
@@ -154,7 +165,7 @@ export default function FlowMap({
     });
   }, [selectedRegion]);
 
-  // 4. 繪製車站標記點 (Station Markers) - 隨縮放等級動態調校半徑與防重疊
+  // 4. 繪製車站/樞紐標記點 (Station Markers) - 隨縮放等級動態調校半徑，並凸顯貨運樞紐與觀光名勝
   useEffect(() => {
     if (!mapRef.current) return;
 
@@ -169,10 +180,10 @@ export default function FlowMap({
       const matchPax = selectedPaxType === 'all' || c.pax_type === selectedPaxType;
       if (!matchMode || !matchRegion || !matchPax) return false;
 
-      // 全島宏觀視角 LOD：隱藏短距走廊避免大台北擠成發光團塊；區域放大時展開完整微觀接駁
+      // 全島宏觀視角 LOD：隱藏短距走廊避免擠成發光團塊；區域放大時展開完整微觀接駁
       if (isMacroView && c.origin_coord && c.dest_coord) {
         const dKm = Math.hypot((c.origin_coord[0] - c.dest_coord[0]) * 111, (c.origin_coord[1] - c.dest_coord[1]) * 102);
-        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra') return false;
+        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra' && c.pax_type !== 'freight') return false;
       }
       return true;
     });
@@ -189,18 +200,30 @@ export default function FlowMap({
       if (activeStations.size > 0 && !activeStations.has(name)) return;
 
       const isSelected = selectedStation === name;
+      const isFreightHub = name.includes('港') || name.includes('物流') || name.includes('科學園區') || name.includes('中科') || name.includes('南科') || name.includes('工業') || name.includes('園區') || name.includes('貨運');
+      const isTourismHub = name.includes('礁溪') || name.includes('溫泉') || name.includes('夜市') || name.includes('太魯閣') || name.includes('七星潭') || name.includes('大溪') || name.includes('九份') || name.includes('日月潭') || name.includes('鹿港') || name.includes('阿里山') || name.includes('墾丁');
+
+      const markerColor = isSelected ? '#38BDF8' 
+        : isFreightHub ? '#10B981' 
+        : isTourismHub ? '#F97316' 
+        : '#F8FAFC';
+
+      const hubBadge = isFreightHub ? '<span style="color: #10B981; font-weight:700;">[🚛 產業物流樞紐]</span>'
+        : isTourismHub ? '<span style="color: #F97316; font-weight:700;">[🧳 觀光名勝]</span>'
+        : '<span style="color: #38BDF8;">●</span>';
+
       const marker = L.circleMarker(coords, {
-        radius: isSelected ? baseRadius + 3.5 : baseRadius,
-        fillColor: isSelected ? '#38BDF8' : '#F8FAFC',
+        radius: isSelected ? baseRadius + 4.0 : (isFreightHub || isTourismHub) ? baseRadius + 1.2 : baseRadius,
+        fillColor: markerColor,
         color: isSelected ? '#38BDF8' : '#0F172A',
-        weight: isSelected ? 2.5 : 1.2,
-        opacity: 0.9,
-        fillOpacity: isSelected ? 1 : 0.75
+        weight: isSelected ? 2.8 : 1.2,
+        opacity: 0.95,
+        fillOpacity: isSelected ? 1 : 0.85
       });
 
       marker.bindTooltip(`
         <div style="font-family: Outfit, sans-serif; font-size: 12px; font-weight: 600; padding: 2px 4px;">
-          <span style="color: #38BDF8;">●</span> ${esc(name)}
+          ${hubBadge} ${esc(name)}
         </div>
       `, { className: 'custom-leaflet-tooltip', direction: 'top', offset: [0, -6] });
 
@@ -213,7 +236,7 @@ export default function FlowMap({
     });
   }, [corridors, stationsGeo, selectedMode, selectedRegion, selectedPaxType, selectedStation, currentZoom]);
 
-  // 5. 隨時間 (currentHour)、日型與天候情境 (selectedDayType) 動態粒子渲染
+  // 5. 隨時間 (currentHour)、日型 (isHoliday) 與天候 (selectedDayType) 動態粒子與弧線渲染
   useEffect(() => {
     if (!mapRef.current || !canvasRef.current) return;
 
@@ -227,37 +250,47 @@ export default function FlowMap({
 
       if (isMacroView && c.origin_coord && c.dest_coord) {
         const dKm = Math.hypot((c.origin_coord[0] - c.dest_coord[0]) * 111, (c.origin_coord[1] - c.dest_coord[1]) * 102);
-        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra') return false;
+        if (dKm < 2.5 && c.mode_id !== 'thsr' && c.mode_id !== 'tra' && c.pax_type !== 'freight') return false;
       }
       return true;
     });
-
-    const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
-    const isHeavyRain = selectedDayType.includes('heavy_rain');
-    const isRain = selectedDayType.includes('rainy') || (selectedDayType.endsWith('rain') && !isHeavyRain);
-    const isCloudy = selectedDayType.includes('cloudy');
-    const isSunny = selectedDayType.includes('sunny') || selectedDayType.endsWith('clear');
 
     const particles = [];
     filteredCorridors.forEach((corr) => {
       let hourFactor = corr.hourly_curve ? corr.hourly_curve[currentHour] : 0.5;
       
-      // 日型身分彈性
-      if (isHoliday) {
-        if (corr.pax_type === 'commuter') hourFactor *= 0.35; // 假日通勤線量大減
+      // === 日型與流向彈性係數 (上班日 vs 假日巨大差異機制) ===
+      if (corr.day_type_factor) {
+        // 自定義日型倍率
+        hourFactor *= isHoliday ? (corr.day_type_factor.holiday ?? 1) : (corr.day_type_factor.workday ?? 1);
+      } else if (isHoliday) {
+        // 放假日 (Holiday)
+        if (corr.pax_type === 'commuter') hourFactor *= 0.35; // 假日通勤降 65%
         if (corr.pax_type === 'tourist') {
-          hourFactor *= isHeavyRain ? 0.22 : isRain ? 0.38 : isCloudy ? 1.25 : 1.45;  // 豪雨觀光重創 (-78%)，常規雨凍結 (-62%)，陰晴熱絡
+          hourFactor *= isHeavyRain ? 0.45 : isRain ? 0.85 : isCloudy ? 2.50 : 3.20; // 假日觀光全線大爆發 (3.2x)
+        }
+        if (corr.pax_type === 'freight') {
+          hourFactor *= 0.22; // 假日工廠海關休眠，貨物流大幅減少 (-78%)
         }
         if (corr.pax_type === 'senior') {
-          hourFactor *= isHeavyRain ? 0.28 : isRain ? 0.44 : isCloudy ? 0.95 : 0.85;  // 長者豪雨高度避險不出門 (-72%)
+          hourFactor *= isHeavyRain ? 0.28 : isRain ? 0.44 : isCloudy ? 0.95 : 0.85;
         }
-        if (corr.pax_type === 'student') hourFactor *= (isHeavyRain ? 0.12 : 0.20);  // 假日學校停課
+        if (corr.pax_type === 'student') hourFactor *= (isHeavyRain ? 0.12 : 0.20);
       } else {
-        if (corr.pax_type === 'tourist') hourFactor *= (isHeavyRain ? 0.35 : 0.55);  // 平日觀光線略降
+        // 上班日 (Workday)
+        if (corr.pax_type === 'freight') {
+          hourFactor *= 1.45; // 上班日全台產業物流全力奔馳 (+45%)
+        }
+        if (corr.pax_type === 'tourist') {
+          hourFactor *= (isHeavyRain ? 0.15 : isRain ? 0.20 : 0.28); // 上班日觀光低溫休止 (-72%)
+        }
+        if (corr.pax_type === 'commuter') {
+          hourFactor *= 1.15; // 上班日常態通勤雙尖峰滿載
+        }
         if (corr.pax_type === 'senior') {
-          if (isHeavyRain) hourFactor *= 0.45; // 豪雨平日非緊急就醫大幅延期 (-55%)
-          else if (isRain) hourFactor *= 0.72; // 常規雨延期 (-28%)
-          else if (isCloudy) hourFactor *= 1.05; // 陰天宜出行
+          if (isHeavyRain) hourFactor *= 0.45;
+          else if (isRain) hourFactor *= 0.72;
+          else if (isCloudy) hourFactor *= 1.05;
         }
       }
 
@@ -269,8 +302,8 @@ export default function FlowMap({
           hourFactor *= 1.14; // 公車承接短程避雨 (+14%)
         } else if (corr.mode_id === 'trtc' || corr.mode_id === 'metro' || /metro|trtc/i.test(corr.mode_id || '')) {
           hourFactor *= 1.22; // 地下捷運避雨大聚集 (+22%)
-        } else if (corr.mode_id === 'thb_bus') {
-          hourFactor *= 0.75; // 國道受積水與視線不良大幅壅塞延誤 (-25%)
+        } else if (corr.mode_id === 'thb_bus' || corr.pax_type === 'freight') {
+          hourFactor *= 0.75; // 豪雨視線差，國道大車減速延誤 (-25%)
         }
       } else if (isRain) {
         if (corr.mode_id === 'taipei_bike' || corr.mode_id === 'bike' || /bike|ubike|youbike/i.test(corr.corridor_id || corr.name || '')) {
@@ -288,17 +321,23 @@ export default function FlowMap({
         }
       }
 
-      const maxCount = Math.min(14, Math.max(3, Math.floor(Math.log10(corr.total_vol || 10000) * 2.8)));
-      const activeCount = Math.round(maxCount * Math.min(1.2, hourFactor));
+      const isFocused = selectedCorridor && (
+        selectedCorridor.corridor_id === corr.corridor_id ||
+        (selectedCorridor.origin === corr.origin && selectedCorridor.destination === corr.destination)
+      );
 
-      for (let i = 0; i < activeCount; i++) {
+      const maxCount = Math.min(16, Math.max(3, Math.floor(Math.log10(corr.total_vol || 10000) * 3.2)));
+      const activeCount = Math.round(maxCount * Math.min(1.5, Math.max(0.15, hourFactor)));
+
+      for (let i = 0; i < (isFocused ? activeCount * 1.5 : activeCount); i++) {
         particles.push({
           corridor: corr,
           progress: Math.random(),
-          speed: (0.003 + Math.random() * 0.004) * (0.6 + hourFactor * 0.8) * (isHeavyRain ? 0.75 : isRain ? 0.88 : isCloudy ? 0.98 : 1.0),
+          speed: (0.003 + Math.random() * 0.004) * (0.6 + hourFactor * 0.8) * (isHeavyRain ? 0.75 : isRain ? 0.88 : isCloudy ? 0.98 : 1.0) * (isFocused ? 1.4 : 1.0),
           color: corr.color || '#38BDF8',
           paxType: corr.pax_type,
-          hourFactor: hourFactor
+          hourFactor: hourFactor,
+          isFocused: isFocused
         });
       }
     });
@@ -321,13 +360,18 @@ export default function FlowMap({
       // 繪製 OD 弧線背景光暈
       filteredCorridors.forEach(corr => {
         let hourFactor = corr.hourly_curve ? corr.hourly_curve[currentHour] : 0.5;
-        if (isHoliday) {
+        if (corr.day_type_factor) {
+          hourFactor *= isHoliday ? (corr.day_type_factor.holiday ?? 1) : (corr.day_type_factor.workday ?? 1);
+        } else if (isHoliday) {
           if (corr.pax_type === 'commuter') hourFactor *= 0.35;
-          if (corr.pax_type === 'tourist') hourFactor *= isRain ? 0.38 : 1.45;
+          if (corr.pax_type === 'tourist') hourFactor *= isRain ? 0.85 : 3.20;
+          if (corr.pax_type === 'freight') hourFactor *= 0.22;
           if (corr.pax_type === 'senior') hourFactor *= isRain ? 0.44 : 0.85;
           if (corr.pax_type === 'student') hourFactor *= 0.20;
         } else {
-          if (corr.pax_type === 'tourist') hourFactor *= 0.55;
+          if (corr.pax_type === 'freight') hourFactor *= 1.45;
+          if (corr.pax_type === 'tourist') hourFactor *= 0.28;
+          if (corr.pax_type === 'commuter') hourFactor *= 1.15;
           if (corr.pax_type === 'senior' && isRain) hourFactor *= 0.72;
         }
 
@@ -351,12 +395,12 @@ export default function FlowMap({
         const y2 = p2.y - nw.y;
 
         const isFocused = selectedCorridor && (
-          selectedCorridor.origin === corr.origin && selectedCorridor.destination === corr.destination
+          selectedCorridor.corridor_id === corr.corridor_id ||
+          (selectedCorridor.origin === corr.origin && selectedCorridor.destination === corr.destination)
         );
 
         const dx = x2 - x1;
         const dy = y2 - y1;
-        // 雙向走廊分離：A->B 與 B->A 分居左右兩側，消除重合干涉
         const side = (corr.origin || '') > (corr.destination || '') ? 1 : -1;
         const cx = (x1 + x2) / 2 - dy * 0.15 * side;
         const cy = (y1 + y2) / 2 + dx * 0.15 * side;
@@ -365,14 +409,13 @@ export default function FlowMap({
         ctx.moveTo(x1, y1);
         ctx.quadraticCurveTo(cx, cy, x2, y2);
 
-        // 通勤走廊採藍/綠光，觀光走廊採粉/橘光微調
-        const alpha = isFocused ? 'ee' : Math.floor(Math.min(255, Math.max(30, hourFactor * 160))).toString(16).padStart(2, '0');
-        ctx.strokeStyle = isFocused ? 'rgba(255, 255, 255, 0.95)' : (corr.color + alpha);
-        ctx.lineWidth = isFocused ? 4.0 : Math.min(3.5, Math.max(0.8, hourFactor * 3.0));
+        const alpha = isFocused ? 'ff' : Math.floor(Math.min(255, Math.max(30, hourFactor * 160))).toString(16).padStart(2, '0');
+        ctx.strokeStyle = isFocused ? '#FFFFFF' : (corr.color + alpha);
+        ctx.lineWidth = isFocused ? 4.5 : Math.min(3.6, Math.max(0.8, hourFactor * 3.0));
         ctx.stroke();
       });
 
-      // 繪製時間與乘客身分動態粒子
+      // 繪製動態粒子
       particlesRef.current.forEach(p => {
         p.progress += p.speed;
         if (p.progress > 1) p.progress = 0;
@@ -396,11 +439,11 @@ export default function FlowMap({
         const py = (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * cy + t * t * y2;
 
         ctx.beginPath();
-        const pRadius = 1.8 + p.hourFactor * 1.5;
+        const pRadius = (p.isFocused ? 3.0 : 2.0) + p.hourFactor * 1.5;
         ctx.arc(px, py, pRadius, 0, Math.PI * 2);
-        ctx.fillStyle = p.color;
+        ctx.fillStyle = p.isFocused ? '#FFFFFF' : p.color;
         ctx.shadowColor = p.color;
-        ctx.shadowBlur = 4 + p.hourFactor * 4;
+        ctx.shadowBlur = (p.isFocused ? 12 : 5) + p.hourFactor * 5;
         ctx.fill();
       });
 
@@ -415,6 +458,25 @@ export default function FlowMap({
     };
   }, [corridors, selectedMode, selectedRegion, selectedPaxType, selectedDayType, currentHour, selectedCorridor, currentZoom]);
 
+  // 篩選出代表性走廊清單供快捷雷達選取
+  const spotlightCorridors = useMemo(() => {
+    return corridors.filter(c => {
+      if (corridorFilterTab === 'freight') return c.pax_type === 'freight';
+      if (corridorFilterTab === 'tourist') return c.pax_type === 'tourist';
+      if (corridorFilterTab === 'commuter') return c.pax_type === 'commuter';
+      return c.pax_type === 'freight' || c.pax_type === 'tourist';
+    });
+  }, [corridors, corridorFilterTab]);
+
+  const handleCorridorClick = (corr) => {
+    if (onSelectCorridor) onSelectCorridor(corr);
+    if (mapRef.current && corr.origin_coord && corr.dest_coord) {
+      const midLat = (corr.origin_coord[0] + corr.dest_coord[0]) / 2;
+      const midLng = (corr.origin_coord[1] + corr.dest_coord[1]) / 2;
+      mapRef.current.flyTo([midLat, midLng], 10, { duration: 1.0 });
+    }
+  };
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: '380px', overflow: 'hidden' }}>
       <div 
@@ -425,53 +487,253 @@ export default function FlowMap({
         style={{ width: '100%', height: '100%', minHeight: '380px', background: '#07090E' }} 
       />
 
-      {/* LOD 縮放過濾提示標籤 */}
-      {currentZoom <= 9 && selectedRegion === 'all' && (
+      {/* Floating Top Banner: Workday vs Holiday Flow Dynamic Alert */}
+      <div style={{
+        position: 'absolute',
+        top: '68px',
+        left: '16px',
+        zIndex: 390,
+        background: isHoliday ? 'rgba(249, 115, 22, 0.16)' : 'rgba(16, 185, 129, 0.16)',
+        backdropFilter: 'blur(10px)',
+        border: isHoliday ? '1px solid rgba(249, 115, 22, 0.45)' : '1px solid rgba(16, 185, 129, 0.45)',
+        borderRadius: '10px',
+        padding: '6px 14px',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '9px',
+        fontSize: '11.5px',
+        color: '#F8FAFC',
+        boxShadow: isHoliday ? '0 4px 16px rgba(249, 115, 22, 0.25)' : '0 4px 16px rgba(16, 185, 129, 0.25)',
+        pointerEvents: 'none'
+      }}>
+        <span style={{ fontSize: '14px' }}>{isHoliday ? '🏖️' : '💼'}</span>
+        <div>
+          <strong style={{ color: isHoliday ? '#FB923C' : '#34D399' }}>
+            {isHoliday ? '【放假日流向實證】' : '【上班日流向實證】'}
+          </strong>
+          <span style={{ color: '#E2E8F0', marginLeft: '6px' }}>
+            {isHoliday 
+              ? '🧳 觀光旅遊大爆發 (320% 狂飆噴發) · 國五雪隧/日月潭景點高度飽和 · 🚛 產業物流休眠熄火 (-78%)'
+              : '🚛 國道產業物流全線巔峰奔馳 (145%) · 💼 都會通勤早晚雙尖峰 · 🧳 跨城觀光旅遊降至低溫基期 (28%)'}
+          </span>
+        </div>
+      </div>
+
+      {/* 🧭 核心流向觀測台 (Corridor Quick Selector Strip) */}
+      <div style={{
+        position: 'absolute',
+        bottom: '88px',
+        left: '16px',
+        zIndex: 400,
+        maxWidth: 'calc(100% - 32px)',
+        background: 'rgba(15, 23, 42, 0.92)',
+        backdropFilter: 'blur(12px)',
+        border: '1px solid rgba(255, 255, 255, 0.12)',
+        borderRadius: '12px',
+        padding: '8px 12px',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '6px',
+        boxShadow: '0 8px 24px rgba(0,0,0,0.5)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '8px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <Navigation size={13} color="#38BDF8" />
+            <span style={{ fontSize: '11px', fontWeight: '800', color: '#F8FAFC' }}>🧭 核心動態流向觀測台：</span>
+            <div style={{ display: 'flex', gap: '4px' }}>
+              {[
+                { id: 'all', label: '全部重點' },
+                { id: 'freight', label: '🚛 產業貨物 (eTag)', color: '#10B981' },
+                { id: 'tourist', label: '🧳 觀光旅遊 (eTag)', color: '#F97316' },
+                { id: 'commuter', label: '💼 都會通勤', color: '#38BDF8' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setCorridorFilterTab(tab.id)}
+                  style={{
+                    padding: '2px 7px',
+                    borderRadius: '5px',
+                    fontSize: '10px',
+                    fontWeight: corridorFilterTab === tab.id ? '700' : '500',
+                    border: corridorFilterTab === tab.id ? `1px solid ${tab.color || '#38BDF8'}` : '1px solid transparent',
+                    background: corridorFilterTab === tab.id ? `${tab.color || '#38BDF8'}25` : 'rgba(255,255,255,0.04)',
+                    color: corridorFilterTab === tab.id ? (tab.color || '#38BDF8') : '#94A3B8',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <button 
+            onClick={() => setIsQuickNavOpen(!isQuickNavOpen)}
+            style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', fontSize: '10px' }}
+          >
+            {isQuickNavOpen ? '▲ 收合' : '▼ 展開'}
+          </button>
+        </div>
+
+        {isQuickNavOpen && (
+          <div style={{
+            display: 'flex',
+            gap: '6px',
+            overflowX: 'auto',
+            paddingBottom: '2px',
+            maxWidth: '920px'
+          }}>
+            {spotlightCorridors.slice(0, 10).map(corr => {
+              const isSelected = selectedCorridor && selectedCorridor.corridor_id === corr.corridor_id;
+              const isFreight = corr.pax_type === 'freight';
+              return (
+                <button
+                  key={corr.corridor_id}
+                  onClick={() => handleCorridorClick(corr)}
+                  style={{
+                    flexShrink: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '5px',
+                    padding: '4px 10px',
+                    borderRadius: '6px',
+                    border: isSelected ? `1.5px solid ${corr.color}` : '1px solid rgba(255,255,255,0.08)',
+                    background: isSelected ? `${corr.color}35` : 'rgba(30, 41, 59, 0.6)',
+                    color: isSelected ? '#FFFFFF' : '#CBD5E1',
+                    fontSize: '10.5px',
+                    cursor: 'pointer',
+                    transition: 'all 0.15s ease'
+                  }}
+                >
+                  <span>{isFreight ? '🚛' : corr.pax_type === 'tourist' ? '🧳' : '🚆'}</span>
+                  <span style={{ fontWeight: isSelected ? '700' : '500' }}>{corr.origin} ➔ {corr.destination}</span>
+                  <span style={{ 
+                    fontSize: '9px', 
+                    color: corr.color, 
+                    background: `${corr.color}20`, 
+                    padding: '1px 4px', 
+                    borderRadius: '3px' 
+                  }}>
+                    {isHoliday ? (isFreight ? '休眠' : '🔥爆發') : (isFreight ? '⚡滿載' : '常態')}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Selected Corridor Inspector Modal HUD */}
+      {selectedCorridor && (
         <div style={{
           position: 'absolute',
-          top: '16px',
-          right: '16px',
-          zIndex: 400,
-          background: 'rgba(15, 23, 42, 0.85)',
-          backdropFilter: 'blur(8px)',
-          border: '1px solid rgba(56, 189, 248, 0.3)',
-          borderRadius: '20px',
-          padding: '5px 12px',
-          fontSize: '11px',
-          color: '#38BDF8',
+          top: '124px',
+          left: '16px',
+          zIndex: 420,
+          width: '340px',
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(16px)',
+          border: `1.5px solid ${selectedCorridor.color || '#38BDF8'}88`,
+          borderRadius: '14px',
+          padding: '14px 16px',
+          boxShadow: `0 12px 36px ${selectedCorridor.color || '#38BDF8'}33`,
           display: 'flex',
-          alignItems: 'center',
-          gap: '6px',
-          pointerEvents: 'none'
+          flexDirection: 'column',
+          gap: '10px'
         }}>
-          <span>🌐 全島城際主幹線視圖</span>
-          <span style={{ color: '#94a3b8', fontSize: '10px' }}>(放大或切換區域以展開微觀短程接駁)</span>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                <span style={{
+                  padding: '1px 6px',
+                  borderRadius: '4px',
+                  fontSize: '9.5px',
+                  fontWeight: '800',
+                  background: `${selectedCorridor.color}25`,
+                  color: selectedCorridor.color,
+                  border: `1px solid ${selectedCorridor.color}50`
+                }}>
+                  {selectedCorridor.pax_type === 'freight' ? '🚛 國道產業物流 (eTag)' : selectedCorridor.pax_type === 'tourist' ? '🧳 觀光旅遊走廊 (eTag)' : '🚆 都會公共運輸'}
+                </span>
+                <span style={{ fontSize: '10px', color: '#94A3B8' }}>{selectedCorridor.region} 走廊</span>
+              </div>
+              <h4 style={{ fontSize: '13.5px', fontWeight: '800', color: '#F8FAFC', margin: 0 }}>
+                {selectedCorridor.name}
+              </h4>
+            </div>
+            <button
+              onClick={() => onSelectCorridor && onSelectCorridor(null)}
+              style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', padding: '2px' }}
+            >
+              <X size={15} />
+            </button>
+          </div>
+
+          {/* 車種分配與門架路段 */}
+          <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '8px', padding: '8px 10px', fontSize: '11px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+            <div style={{ color: '#94A3B8' }}>
+              🛣️ <strong>門架/路段</strong>：<span style={{ color: '#E2E8F0' }}>{selectedCorridor.highway_tag || '全台主要幹線'}</span>
+            </div>
+            {selectedCorridor.vehicle_mix && (
+              <div style={{ color: '#94A3B8' }}>
+                🚗 <strong>車種結構</strong>：<span style={{ color: '#38BDF8' }}>{selectedCorridor.vehicle_mix}</span>
+              </div>
+            )}
+          </div>
+
+          {/* 上班日 vs 假日車流對比條 */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
+              <span style={{ color: '#94A3B8' }}>💼 上班日運量：</span>
+              <strong style={{ color: '#34D399' }}>
+                {(selectedCorridor.volume_workday || selectedCorridor.volume || 0).toLocaleString()} 輛/日
+              </strong>
+            </div>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px' }}>
+              <span style={{ color: '#94A3B8' }}>🏖️ 放假日運量：</span>
+              <strong style={{ color: '#FB923C' }}>
+                {(selectedCorridor.volume_holiday || (selectedCorridor.volume ? selectedCorridor.volume * 0.4 : 0)).toLocaleString()} 輛/日
+              </strong>
+            </div>
+            <div style={{
+              background: isHoliday ? 'rgba(249, 115, 22, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+              border: isHoliday ? '1px solid rgba(249, 115, 22, 0.3)' : '1px solid rgba(16, 185, 129, 0.3)',
+              borderRadius: '6px',
+              padding: '4px 8px',
+              fontSize: '10px',
+              color: isHoliday ? '#FB923C' : '#34D399',
+              fontWeight: '700'
+            }}>
+              {selectedCorridor.pax_type === 'freight' 
+                ? (isHoliday ? '⚠️ 放假日貨運熄火：工廠海關休假，車流僅平日 22%' : '⚡ 上班日貨運全載：跨區貨櫃與半導體物流奔馳 (145%)')
+                : (isHoliday ? '🔥 放假日觀光噴發：跨城自駕與遊覽車湧入 (+320%)' : '💤 上班日觀光低溫：景點車流降至低基期 (28%)')}
+            </div>
+          </div>
+
+          {/* 商業/交通洞察 */}
+          {selectedCorridor.commercial_desc && (
+            <div style={{ fontSize: '10.5px', color: '#CBD5E1', lineHeight: '1.45', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '6px' }}>
+              💡 {selectedCorridor.commercial_desc}
+            </div>
+          )}
         </div>
       )}
 
-      {/* Floating Bottom-Left Weather Impact Diagnostic Badge */}
+      {/* Floating Bottom-Left Weather Impact & Day Type Diagnostic Badge */}
       {(() => {
-        const isHol = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
-        const isHvy = selectedDayType.includes('heavy_rain');
-        const isRn = selectedDayType.includes('rainy') || (selectedDayType.endsWith('rain') && !isHvy);
-        const isCld = selectedDayType.includes('cloudy');
-        
-        const badgeColor = isHvy ? '#F43F5E' : isRn ? '#38BDF8' : isCld ? '#94A3B8' : '#F59E0B';
-        const badgeTitle = isHvy ? '⛈️ 豪大雨交通斷層實證診斷 (≥10mm/h)'
-          : isRn ? '🌧️ 常規雨天交通轉移診斷 (0.1~10mm/h)'
-          : isCld ? '☁️ 陰天微氣候通勤基準 (時雨量 0mm)'
-          : '☀️ 晴朗天常態交通基準 (日照充足)';
-        
-        const badgeScenario = `${isHol ? '假日' : '上班日'}·${isHvy ? '豪大雨' : isRn ? '常規雨' : isCld ? '陰天' : '晴天'}`;
+        const badgeColor = isHeavyRain ? '#F43F5E' : isRain ? '#38BDF8' : isCloudy ? '#94A3B8' : isHoliday ? '#F97316' : '#10B981';
+        const badgeTitle = isHoliday 
+          ? '🏖️ 放假日觀光與休閒流向特徵'
+          : '💼 上班日產業動脈與通勤特徵';
+        const badgeScenario = `${isHoliday ? '放假日' : '上班日'}·${isHeavyRain ? '豪大雨' : isRain ? '常規雨' : isCloudy ? '陰天' : '晴天'}`;
 
         return (
           <div style={{
             position: 'absolute',
             bottom: '24px',
             left: '16px',
-            zIndex: 400,
-            maxWidth: '470px',
-            background: isHvy ? 'rgba(30, 15, 25, 0.95)' : isRn ? 'rgba(15, 23, 42, 0.94)' : 'rgba(15, 23, 42, 0.88)',
+            zIndex: 380,
+            maxWidth: '520px',
+            background: 'rgba(15, 23, 42, 0.94)',
             backdropFilter: 'blur(12px)',
             border: `1px solid ${badgeColor}55`,
             borderRadius: '12px',
@@ -483,7 +745,7 @@ export default function FlowMap({
             pointerEvents: 'auto'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <div style={{ fontSize: '11px', fontWeight: '800', color: badgeColor, display: 'flex', alignItems: 'center', gap: '5px' }}>
+              <div style={{ fontSize: '11px', fontWeight: '800', color: badgeColor, display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span>{badgeTitle}</span>
                 <span style={{ fontSize: '9px', background: `${badgeColor}25`, color: badgeColor, padding: '1px 6px', borderRadius: '4px', border: `1px solid ${badgeColor}40` }}>
                   {badgeScenario}
@@ -491,35 +753,18 @@ export default function FlowMap({
               </div>
             </div>
 
-            <div style={{ fontSize: '10.5px', color: '#cbd5e1', lineHeight: '1.45' }}>
-              {isHvy && !isHol ? (
+            <div style={{ fontSize: '10.5px', color: '#CBD5E1', lineHeight: '1.45' }}>
+              {isHoliday ? (
                 <>
-                  • <strong>💼 極端天候通勤斷層</strong>：自駕與叫車需求爆量導致主要幹道嚴重回堵；YouBike 幾近停擺 (<span style={{ color: '#EF4444', fontWeight: '700' }}>-81%</span>)，人潮全面湧入地下捷運 (<span style={{ color: '#10B981', fontWeight: '700' }}>+22% 避雨方舟</span>)；國道客運受視線與塞車嚴重延誤 (<span style={{ color: '#EF4444', fontWeight: '700' }}>-25%</span>)。<br/>
-                  • <strong>👵 長者非緊急活動全面取消</strong>：常規就醫門診取消與延期率突破 <span style={{ color: '#F43F5E', fontWeight: '700' }}>55%</span>。
-                </>
-              ) : isHvy && isHol ? (
-                <>
-                  • <strong>👵 長者防跌極限不出門</strong>：天雨路滑高度避險，外出人次全日崩跌 <span style={{ color: '#EF4444', fontWeight: '700' }}>-72%</span>。<br/>
-                  • <strong>🧳 戶外景點急凍癱瘓</strong>：淡水/駁二等戶外景點急凍 <span style={{ color: '#EF4444', fontWeight: '700' }}>-78%</span>，人流全面轉入室內地下街與共構百貨。
-                </>
-              ) : isRn && !isHol ? (
-                <>
-                  • <strong>💼 上班族自駕/叫車激增</strong>：有車族轉為<strong>自己開車</strong>，引發幹道與聯外橋樑回堵；無車族放棄 YouBike (<span style={{ color: '#EF4444', fontWeight: '700' }}>-54%</span>) 湧入地下捷運 (<span style={{ color: '#10B981', fontWeight: '700' }}>+10%</span>) 與市區公車 (<span style={{ color: '#10B981', fontWeight: '700' }}>+15%</span>)。<br/>
-                  • <strong>👵 退休長者非急迫就醫延期</strong>：常規門診延期率達 <span style={{ color: '#F43F5E', fontWeight: '700' }}>38.5%</span>。
-                </>
-              ) : isRn && isHol ? (
-                <>
-                  • <strong>👵 退休長者防跌大幅不出門</strong>：長者天雨路滑高度避險，外出人次全日急跌 <span style={{ color: '#EF4444', fontWeight: '700' }}>-56%</span>。<br/>
-                  • <strong>🧳 戶外景點急凍 / 百貨聚集</strong>：戶外景點急凍 <span style={{ color: '#EF4444', fontWeight: '700' }}>-62%</span>，人潮倒灌捷運共構室內大型商場 (<span style={{ color: '#10B981', fontWeight: '700' }}>+25%</span>)。
-                </>
-              ) : isCld ? (
-                <>
-                  • <strong>🚲 體感涼爽最佳騎乘微氣候</strong>：時雨量 0mm 無日曬，微型移動 YouBike 騎乘意願最高 (<span style={{ color: '#10B981', fontWeight: '700' }}>+5%</span>)。<br/>
-                  • <strong>🏙️ 跨區走廊均衡穩定</strong>：{isHol ? '各風景區與市集活動熱絡，舒適氣候吸引家庭外出。' : '早晚尖峰通勤順暢，公車與捷運運轉準點率最高。'}
+                  • <strong>🧳 跨城觀光旅遊大爆發 (320% 狂飆)</strong>：國道 5 號雪隧、國 6 日月潭、墾丁南灣湧現巨大自駕與遊覽車潮，風景區停車場午前即達飽和。<br/>
+                  • <strong>🚛 產業物流熄火休眠 (-78%)</strong>：海關保稅倉週末休關、工廠排休與國道大貨車特定時段管制，貨物流降至全週最低谷。<br/>
+                  • <strong>💼 都會通勤全面消退 (-70%)</strong>：跨城通勤高鐵與都會捷運人潮由通勤轉為生活休閒。
                 </>
               ) : (
                 <>
-                  • <strong>💼 晴朗天全台常態基準</strong>：{isHol ? '跨區觀光出遊高峰，淡水老街、新北投、駁二及東部鐵路全日高載客。' : '早尖峰 (07:30~08:30) 與晚尖峰 (17:30~19:00) 捷運、公車與 YouBike 高效協同運轉。'}
+                  • <strong>🚛 國道產業物流全線巔峰 (145% 奔馳)</strong>：基隆港/台北港/高雄港國際貨櫃進出拆櫃、竹科-中科-南科半導體氣墊專車密集對開，重卡與貨車為國道主力。<br/>
+                  • <strong>💼 都會通勤早晚雙尖峰 (115%)</strong>：捷運、幹線公車與聯外幹道高乘載運轉。<br/>
+                  • <strong>🧳 觀光休閒流向低溫 (28%)</strong>：風景區車流平緩，無假性排隊壅塞。
                 </>
               )}
             </div>
@@ -545,44 +790,44 @@ export default function FlowMap({
         fontSize: '11px',
         pointerEvents: 'none'
       }}>
-        <div style={{ fontWeight: '700', color: '#f8fafc', marginBottom: '2px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span>🚆 運具流向動態圖例</span>
+        <div style={{ fontWeight: '700', color: '#F8FAFC', marginBottom: '2px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span>🚆 運具與動脈流向圖例</span>
           {selectedPaxType !== 'all' && (
             <span style={{ fontSize: '9.5px', background: 'rgba(56, 189, 248, 0.2)', color: '#38BDF8', padding: '1px 5px', borderRadius: '4px' }}>
-              {selectedPaxType === 'commuter' ? '💼 通勤' : selectedPaxType === 'tourist' ? '🧳 觀光' : selectedPaxType === 'senior' ? '👵 銀髮' : '🎓 學生'}走廊
+              {selectedPaxType === 'commuter' ? '💼 通勤' : selectedPaxType === 'tourist' ? '🧳 觀光' : selectedPaxType === 'freight' ? '🚛 物流' : selectedPaxType === 'senior' ? '👵 銀髮' : '🎓 學生'}走廊
             </span>
           )}
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4px 10px', fontSize: '10.5px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#F97316' }} />
-            <span style={{ color: '#E2E8F0' }}>高鐵 (THSR)</span>
+            <span style={{ width: '12px', height: '3.5px', borderRadius: '2px', background: '#10B981', boxShadow: '0 0 6px #10B981' }} />
+            <span style={{ color: '#E2E8F0', fontWeight: '700' }}>🚛 國道物流 (eTag)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '12px', height: '3.5px', borderRadius: '2px', background: '#F97316', boxShadow: '0 0 6px #F97316' }} />
+            <span style={{ color: '#E2E8F0', fontWeight: '700' }}>🧳 觀光旅遊 (eTag)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#3B82F6' }} />
-            <span style={{ color: '#E2E8F0' }}>臺鐵 (TRA)</span>
+            <span style={{ color: '#CBD5E1' }}>臺鐵 (TRA)</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#F97316' }} />
+            <span style={{ color: '#CBD5E1' }}>高鐵 (THSR)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#10B981' }} />
-            <span style={{ color: '#E2E8F0' }}>北捷 (TRTC)</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#F43F5E' }} />
-            <span style={{ color: '#E2E8F0' }}>高捷 (KRTC)</span>
+            <span style={{ color: '#CBD5E1' }}>北捷 (TRTC)</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
             <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#0284C7' }} />
-            <span style={{ color: '#E2E8F0' }}>市區公車</span>
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <span style={{ width: '10px', height: '3px', borderRadius: '2px', background: '#EAB308' }} />
-            <span style={{ color: '#E2E8F0' }}>YouBike</span>
+            <span style={{ color: '#CBD5E1' }}>市區公車/客運</span>
           </div>
         </div>
         <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '5px', fontSize: '9px', color: '#94A3B8', lineHeight: '1.4' }}>
-          <div>✨ <strong>動態粒子意涵</strong>：</div>
-          <div>1. <strong>流動方向</strong>：沿 OD 弧線從起點站流向終點站。</div>
-          <div>2. <strong>流速與密度</strong>：粒子數量與速度隨當前時段運量曲線即時增減。</div>
+          <div>✨ <strong>動態粒子特徵</strong>：</div>
+          <div>1. <strong>上班日</strong>：綠色貨物流速與密度拉滿 (145%)，觀光流微弱。</div>
+          <div>2. <strong>放假日</strong>：橘色觀光粒子成倍爆發 (320%)，貨物流熄火。</div>
         </div>
       </div>
     </div>
