@@ -1846,6 +1846,401 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
         <div style={{ padding: '16px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
           {/* ============================================================ */}
+          {/* OPENDATA INUNDATION & MOBILITY NEXUS PANEL                   */}
+          {/* ============================================================ */}
+          {activeMode === 'inundation_opendata' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              {/* Tri-Force Nexus Summary Banner */}
+              <div style={{
+                background: 'linear-gradient(135deg, rgba(2, 132, 199, 0.25), rgba(15, 23, 42, 0.8))',
+                border: '1px solid rgba(56, 189, 248, 0.4)',
+                borderRadius: '10px',
+                padding: '14px',
+                boxShadow: '0 4px 16px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '16px' }}>🌊</span>
+                    <span style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC' }}>
+                      政府開放資料 (OpenData) 氣候與交通三向印證閉環
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '10px',
+                    fontWeight: '800',
+                    background: '#0284C7',
+                    color: '#FFFFFF',
+                    padding: '2px 6px',
+                    borderRadius: '4px'
+                  }}>
+                    OpenData Verified
+                  </span>
+                </div>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px', marginTop: '10px' }}>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '6px', padding: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ fontSize: '10px', color: '#38BDF8', fontWeight: '700' }}>① 暴雨因果 (Cause)</div>
+                    <div style={{ fontSize: '11px', color: '#FFFFFF', fontWeight: '800', marginTop: '2px' }}>CODiS 氣象署測站</div>
+                    <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>時雨量 &gt; 50mm / 24h 累積</div>
+                  </div>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '6px', padding: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ fontSize: '10px', color: '#F59E0B', fontWeight: '700' }}>② 災情實體 (Effect)</div>
+                    <div style={{ fontSize: '11px', color: '#FFFFFF', fontWeight: '800', marginTop: '2px' }}>水利署 / NCDR 開放資料</div>
+                    <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>25770 淹水面 · 130016 災點</div>
+                  </div>
+                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '6px', padding: '8px', border: '1px solid rgba(255,255,255,0.06)' }}>
+                    <div style={{ fontSize: '10px', color: '#EF4444', fontWeight: '700' }}>③ 交通衝擊 (Impact)</div>
+                    <div style={{ fontSize: '11px', color: '#FFFFFF', fontWeight: '800', marginTop: '2px' }}>eTag & TICP 大數據</div>
+                    <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>車速驟跌 · 匝道閉鎖 · 公車停駛</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* 0A. Historical Typhoon Flood Zones Details */}
+              {inundationSubTab === 'zones' && selectedInundationTyphoon && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    background: 'rgba(15, 23, 42, 0.7)',
+                    borderRadius: '10px',
+                    padding: '14px',
+                    border: '1px solid rgba(56, 189, 248, 0.25)'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '15px', fontWeight: '900', color: '#38BDF8' }}>
+                        🌀 {selectedInundationTyphoon.name}
+                      </span>
+                      <span style={{ fontSize: '11px', color: '#94A3B8' }}>
+                        提供機關: {selectedInundationTyphoon.agency} (代碼 {selectedInundationTyphoon.opendata_id})
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px', marginTop: '12px' }}>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px', borderRadius: '7px' }}>
+                        <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>全台淹水總面積</div>
+                        <div style={{ fontSize: '18px', fontWeight: '900', color: '#FFFFFF', marginTop: '2px' }}>
+                          {selectedInundationTyphoon.total_inundated_km2} <span style={{ fontSize: '11px', color: '#38BDF8' }}>km²</span>
+                        </div>
+                      </div>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px', borderRadius: '7px' }}>
+                        <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>最大積淹水深度</div>
+                        <div style={{ fontSize: '18px', fontWeight: '900', color: '#EF4444', marginTop: '2px' }}>
+                          {selectedInundationTyphoon.max_depth_cm} <span style={{ fontSize: '11px', color: '#EF4444' }}>cm</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Peak CODiS Rain Box */}
+                    {selectedInundationTyphoon.codis_peak_station && (
+                      <div style={{
+                        marginTop: '10px',
+                        background: 'rgba(239, 68, 68, 0.12)',
+                        border: '1px solid rgba(239, 68, 68, 0.3)',
+                        borderRadius: '7px',
+                        padding: '10px'
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '12px', fontWeight: '800', color: '#EF4444' }}>
+                            ⛈️ 對應 CODiS 測站暴雨記錄: {selectedInundationTyphoon.codis_peak_station.station_name}測站
+                          </span>
+                          <span style={{ fontSize: '10.5px', color: '#FCA5A5' }}>
+                            時雨量 {selectedInundationTyphoon.codis_peak_station.max_hourly_rain_mm}mm/h
+                          </span>
+                        </div>
+                        <div style={{ fontSize: '10.5px', color: '#E2E8F0', marginTop: '4px' }}>
+                          {selectedInundationTyphoon.codis_peak_station.surge_note} (24h 累積 {selectedInundationTyphoon.codis_peak_station.max_24h_rain_mm} mm)
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Mobility Impacts */}
+                    <div style={{ marginTop: '12px' }}>
+                      <div style={{ fontSize: '12px', fontWeight: '800', color: '#F8FAFC', marginBottom: '6px' }}>
+                        🚗 多模態交通中斷與大數據衝擊矩陣:
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                        <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '8px', borderRadius: '6px', fontSize: '11px', color: '#CBD5E1' }}>
+                          <span style={{ fontWeight: '800', color: '#F59E0B' }}>🛣️ 高快速公路: </span>
+                          {selectedInundationTyphoon.mobility_impact?.highway_disruption}
+                        </div>
+                        <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '8px', borderRadius: '6px', fontSize: '11px', color: '#CBD5E1' }}>
+                          <span style={{ fontWeight: '800', color: '#38BDF8' }}>🚆 軌道運輸: </span>
+                          {selectedInundationTyphoon.mobility_impact?.railway_disruption}
+                        </div>
+                        <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '8px', borderRadius: '6px', fontSize: '11px', color: '#CBD5E1' }}>
+                          <span style={{ fontWeight: '800', color: '#10B981' }}>🚌 公車與市區: </span>
+                          {selectedInundationTyphoon.mobility_impact?.bus_metro_effect}
+                        </div>
+                        <div style={{ background: 'rgba(239, 68, 68, 0.15)', padding: '8px', borderRadius: '6px', fontSize: '11.5px', color: '#FCA5A5', fontWeight: '800', display: 'flex', justifyContent: 'space-between' }}>
+                          <span>📉 國道 eTag 平均車速驟挫幅:</span>
+                          <span style={{ color: '#EF4444' }}>{selectedInundationTyphoon.mobility_impact?.etag_speed_drop_pct}%</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Polygon list */}
+                    <div style={{ marginTop: '12px' }}>
+                      <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#94A3B8', marginBottom: '6px' }}>
+                        地圖淹水多邊形圖層 (點選縮放定位):
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                        {(selectedInundationTyphoon.polygons || []).map((p, idx) => (
+                          <div
+                            key={idx}
+                            onClick={() => {
+                              if (mapInstanceRef.current && p.coordinates && p.coordinates[0]) {
+                                mapInstanceRef.current.flyTo(p.coordinates[0], 11, { duration: 1.2 });
+                              }
+                            }}
+                            style={{
+                              padding: '6px 10px',
+                              background: 'rgba(30, 41, 59, 0.5)',
+                              borderRadius: '5px',
+                              border: '1px solid rgba(56, 189, 248, 0.15)',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              fontSize: '11px'
+                            }}
+                          >
+                            <span style={{ color: '#FFFFFF', fontWeight: '700' }}>📍 {p.zone_name}</span>
+                            <span style={{ color: '#38BDF8', fontWeight: '800' }}>均深 {p.avg_depth_cm}cm</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 0B. NCDR Flood Hotspots Details */}
+              {inundationSubTab === 'hotspots' && selectedHotspot && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  <div style={{
+                    background: 'rgba(15, 23, 42, 0.7)',
+                    borderRadius: '10px',
+                    padding: '14px',
+                    border: '1px solid rgba(245, 158, 11, 0.3)'
+                  }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: '14px', fontWeight: '900', color: '#F59E0B' }}>
+                        📍 {selectedHotspot.name}
+                      </span>
+                      <span style={{
+                        fontSize: '10px',
+                        fontWeight: '800',
+                        background: '#1E293B',
+                        color: '#94A3B8',
+                        padding: '2px 6px',
+                        borderRadius: '4px'
+                      }}>
+                        {selectedHotspot.source}
+                      </span>
+                    </div>
+
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '6px', marginTop: '10px' }}>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '8px', borderRadius: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>近5年通報</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#EF4444', marginTop: '2px' }}>
+                          {selectedHotspot.flood_count_5y} <span style={{ fontSize: '10px' }}>次</span>
+                        </div>
+                      </div>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '8px', borderRadius: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>致災降雨門檻</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#F59E0B', marginTop: '2px' }}>
+                          {selectedHotspot.threshold_rain_mm_hr} <span style={{ fontSize: '10px' }}>mm/h</span>
+                        </div>
+                      </div>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '8px', borderRadius: '6px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>典型積水深度</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#38BDF8', marginTop: '2px' }}>
+                          {selectedHotspot.typical_depth_cm} <span style={{ fontSize: '10px' }}>cm</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div style={{ marginTop: '10px', fontSize: '11px', color: '#CBD5E1', background: 'rgba(30, 41, 59, 0.4)', padding: '8px', borderRadius: '6px' }}>
+                      <div style={{ fontWeight: '800', color: '#38BDF8' }}>🚇 鄰近重大交通設施: {selectedHotspot.adjacent_transit}</div>
+                      <div style={{ marginTop: '4px', color: '#94A3B8' }}>⚠️ 交通衝擊延誤: {selectedHotspot.transit_impact}</div>
+                      <div style={{ marginTop: '4px', color: '#64748B', fontSize: '10px' }}>對應鄰近 CODiS 測站: {selectedHotspot.nearest_codis}</div>
+                    </div>
+
+                    {/* Hotspot List */}
+                    <div style={{ marginTop: '12px' }}>
+                      <div style={{ fontSize: '11.5px', fontWeight: '800', color: '#94A3B8', marginBottom: '6px' }}>
+                        全台高頻淹水災點清單 (點選定位):
+                      </div>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', maxHeight: '180px', overflowY: 'auto' }}>
+                        {floodHotspots.map(h => (
+                          <div
+                            key={h.fid}
+                            onClick={() => {
+                              setSelectedHotspotFid(h.fid);
+                              if (mapInstanceRef.current) mapInstanceRef.current.flyTo([h.lat, h.lng], 12, { duration: 1.2 });
+                            }}
+                            style={{
+                              padding: '6px 8px',
+                              background: selectedHotspotFid === h.fid ? 'rgba(245, 158, 11, 0.2)' : 'rgba(30, 41, 59, 0.4)',
+                              border: selectedHotspotFid === h.fid ? '1px solid #F59E0B' : '1px solid rgba(255, 255, 255, 0.05)',
+                              borderRadius: '5px',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              cursor: 'pointer',
+                              fontSize: '10.5px'
+                            }}
+                          >
+                            <span style={{ color: '#FFFFFF', fontWeight: '700' }}>{h.county} {h.name.split('(')[0]}</span>
+                            <span style={{ color: h.flood_count_5y >= 12 ? '#EF4444' : '#F59E0B', fontWeight: '800' }}>5年 {h.flood_count_5y}次</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* 0C. IoW Road Flood Sensors Details */}
+              {inundationSubTab === 'sensors' && selectedSensor && (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {(() => {
+                    const scen = selectedSensor.scenarios[sensorScenario] || selectedSensor.scenarios.sunny;
+                    const isClosed = scen.depth_cm >= selectedSensor.closure_threshold_cm;
+                    const isWarning = scen.depth_cm >= selectedSensor.warning_threshold_cm;
+                    const statusColor = isClosed ? '#EF4444' : isWarning ? '#F59E0B' : '#10B981';
+
+                    return (
+                      <div style={{
+                        background: 'rgba(15, 23, 42, 0.7)',
+                        borderRadius: '10px',
+                        padding: '14px',
+                        border: `1px solid ${statusColor}55`
+                      }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <span style={{ fontSize: '14px', fontWeight: '900', color: '#F8FAFC' }}>
+                            📡 {selectedSensor.name}
+                          </span>
+                          <span style={{ fontSize: '10.5px', color: '#94A3B8' }}>{selectedSensor.county}</span>
+                        </div>
+                        <div style={{ fontSize: '11px', color: '#64748B', marginTop: '2px' }}>
+                          幹道: {selectedSensor.base_road} · 感測設備: {selectedSensor.installation_type}
+                        </div>
+
+                        {/* Real-time Depth Meter */}
+                        <div style={{
+                          marginTop: '12px',
+                          background: 'rgba(30, 41, 59, 0.6)',
+                          borderRadius: '8px',
+                          padding: '12px',
+                          border: `1px solid ${statusColor}44`
+                        }}>
+                          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <div>
+                              <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>即時模擬路面水深</div>
+                              <div style={{ fontSize: '24px', fontWeight: '900', color: statusColor, marginTop: '2px' }}>
+                                {scen.depth_cm} <span style={{ fontSize: '12px', color: '#94A3B8' }}>cm</span>
+                              </div>
+                            </div>
+                            <div style={{ textAlign: 'right' }}>
+                              <div style={{
+                                padding: '4px 10px',
+                                borderRadius: '6px',
+                                background: `${statusColor}22`,
+                                border: `1px solid ${statusColor}`,
+                                color: statusColor,
+                                fontWeight: '800',
+                                fontSize: '12px'
+                              }}>
+                                {scen.status}
+                              </div>
+                              <div style={{ fontSize: '10px', color: '#94A3B8', marginTop: '4px' }}>
+                                車速折損: <span style={{ color: statusColor, fontWeight: '800' }}>{scen.drop_pct}%</span> ({scen.speed_kmh}km/h)
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Depth Bar Progress */}
+                          <div style={{ marginTop: '10px' }}>
+                            <div style={{ height: '8px', background: 'rgba(255,255,255,0.08)', borderRadius: '4px', overflow: 'hidden', position: 'relative' }}>
+                              <div style={{
+                                height: '100%',
+                                width: `${Math.min(100, (scen.depth_cm / 60) * 100)}%`,
+                                background: `linear-gradient(90deg, #10B981, ${statusColor})`,
+                                transition: 'width 0.4s ease'
+                              }}></div>
+                            </div>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '9px', color: '#64748B', marginTop: '3px' }}>
+                              <span>0cm (安全)</span>
+                              <span>警戒線 {selectedSensor.warning_threshold_cm}cm</span>
+                              <span>封路門檻 {selectedSensor.closure_threshold_cm}cm</span>
+                              <span>60cm+</span>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Scenario comparative table */}
+                        <div style={{ marginTop: '12px' }}>
+                          <div style={{ fontSize: '11px', fontWeight: '800', color: '#94A3B8', marginBottom: '6px' }}>
+                            4 種雨量情境即時感測水位對照:
+                          </div>
+                          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '4px' }}>
+                            {Object.entries(selectedSensor.scenarios).map(([scKey, scVal]) => (
+                              <div
+                                key={scKey}
+                                onClick={() => setSensorScenario(scKey)}
+                                style={{
+                                  padding: '6px 4px',
+                                  textAlign: 'center',
+                                  borderRadius: '5px',
+                                  background: sensorScenario === scKey ? 'rgba(56, 189, 248, 0.2)' : 'rgba(30, 41, 59, 0.4)',
+                                  border: sensorScenario === scKey ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.05)',
+                                  cursor: 'pointer'
+                                }}
+                              >
+                                <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>{scKey === 'sunny' ? '晴天' : scKey === 'drizzle' ? '細雨' : scKey === 'heavy_rain' ? '豪雨' : '破紀錄'}</div>
+                                <div style={{ fontSize: '12px', fontWeight: '800', color: '#FFFFFF', marginTop: '2px' }}>{scVal.depth_cm}cm</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              )}
+
+              {/* Flood Potential (Dataset 25766) & Warnings (Dataset 5982) Standard */}
+              {floodPotential.return_period_scenarios && (
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.6)',
+                  borderRadius: '10px',
+                  padding: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.08)'
+                }}>
+                  <div style={{ fontSize: '12px', fontWeight: '800', color: '#F8FAFC', marginBottom: '6px' }}>
+                    🛡️ 經濟部水利署 淹水潛勢圖 (Dataset 25766) 重現期衝擊標準
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {floodPotential.return_period_scenarios.map((rp, idx) => (
+                      <div key={idx} style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '8px', borderRadius: '6px', fontSize: '10.5px' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', color: '#38BDF8', fontWeight: '800' }}>
+                          <span>{rp.period} ({rp.rainfall_intensity})</span>
+                          <span>淹水潛勢: {rp.flood_risk_area_km2} km²</span>
+                        </div>
+                        <div style={{ color: '#94A3B8', marginTop: '3px' }}>
+                          • 易淹交流道: {rp.at_risk_interchanges.join('、')}
+                        </div>
+                        <div style={{ color: '#E2E8F0', marginTop: '2px' }}>
+                          • 交通系統狀態: {rp.mobility_system_status}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* ============================================================ */}
           {/* CATEGORY 4: RETAIL CONVECTION SUBTAB                         */}
           {/* ============================================================ */}
           {activeMode === 'retail_solar' && retailSolarTab === 'retail' && selectedDistrict && (
