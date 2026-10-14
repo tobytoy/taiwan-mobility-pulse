@@ -30,22 +30,24 @@ CHAPTERS = [
     ("chapter3_flow_arteries.md", "第三章：全台城際與都會走廊大動脈", "chapter3_flow_arteries"),
     ("chapter4_etag_halos_heatmap.md", "第四章：熱點輻射與下匝道光暈", "chapter4_etag_halos_heatmap"),
     ("chapter5_personas_weather.md", "第五章：四大微觀人群像與天候彈性", "chapter5_personas_weather"),
-    ("chapter6_commercial_pulse.md", "第六章：商業脈搏與站點商機評估", "chapter6_commercial_pulse"),
-    ("chapter7_data_fusion_strategy.md", "第七章：國家級大數據融合戰略", "chapter7_data_fusion_strategy"),
+    ("chapter6_climate_pulse.md", "第六章：全島氣候脈動與微氣候宜居圖譜", "chapter6_climate_pulse"),
+    ("chapter7_commercial_pulse.md", "第七章：商業脈搏與站點商機評估", "chapter7_commercial_pulse"),
+    ("chapter8_data_fusion_strategy.md", "第八章：國家級大數據融合戰略", "chapter8_data_fusion_strategy"),
 ]
 
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts."""
-    if "C1" in code and ("C6" in code or "C7" in code):
+    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code):
         # Chapter overview flowchart
         steps = [
             ("第一章：數據哲學與選型抉擇", "剛性骨架 vs. 彈性肌肉", "chapter1_data_philosophy"),
-            ("第二章：國家級數據底座與欄位實體解剖", "時間跨度、欄位字典與真實樣本", "chapter2_data_dictionary_and_samples"),
+            ("第二章：國家級數據底座與欄位實體解剖", "時間跨度、欄位字典與 CODiS 氣象規格", "chapter2_data_dictionary_and_samples"),
             ("第三章：全台城際與都會走廊大動脈", "111 條動態走廊與客貨潮汐", "chapter3_flow_arteries"),
             ("第四章：熱點輻射與下匝道光暈", "eTag 車流注入與停車壓力連動", "chapter4_etag_halos_heatmap"),
             ("第五章：四大微觀人群像與天候彈性", "誰在移動？風雨如何改寫動線？", "chapter5_personas_weather"),
-            ("第六章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter6_commercial_pulse"),
-            ("第七章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter7_data_fusion_strategy"),
+            ("第六章：全島氣候脈動與微氣候宜居圖譜", "30 年變異、極端排行與四季潮汐", "chapter6_climate_pulse"),
+            ("第七章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter7_commercial_pulse"),
+            ("第八章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter8_data_fusion_strategy"),
         ]
         html = ['<div class="flowchart-container">']
         for i, (title, sub, cid) in enumerate(steps, 1):
@@ -562,20 +564,20 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.1.1)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.2.0)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
-            融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 停車與空間機能 API，<br>
-            解構台灣地表上最震撼的 111 條動態走廊、微觀生活圈輻射光暈與全域閉環數據戰略。
+            融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 空間機能 API、中央氣象署 CODiS 30 年氣候觀測，<br>
+            解構台灣地表上最震撼的 111 條動態走廊、全島微氣候潮汐、輻射光暈與全域閉環數據戰略。
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.1.1 (全景精裝專著版 · 7巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.2.0 (全景精裝專著版 · 8巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
-            <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.1.1)</div>
+            <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.2.0)</div>
         </div>
     </div>
     ''')
@@ -625,7 +627,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @top-right {
-            content: "國家級多源動態移動全書指南 · v1.1.1";
+            content: "國家級多源動態移動全書指南 · v1.2.0";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
             color: #64748b;
@@ -633,7 +635,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @bottom-left {
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.1.1)";
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.2.0)";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 7.5pt;
             color: #64748b;

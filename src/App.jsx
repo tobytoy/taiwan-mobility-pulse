@@ -17,6 +17,7 @@ const PersonaAnalyticsView = lazy(() => import('./components/PersonaAnalyticsVie
 const UnsupervisedRailLab = lazy(() => import('./components/UnsupervisedRailLab'));
 const UrbanAmenityAccessibilityLab = lazy(() => import('./components/UrbanAmenityAccessibilityLab'));
 const CommercialPulseLab = lazy(() => import('./components/CommercialPulseLab'));
+const ClimatePulseLab = lazy(() => import('./components/ClimatePulseLab'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
@@ -307,14 +308,15 @@ export default function App() {
         </div>
 
         {/* Navigation Tabs (整併為 5 大頂級核心模組) */}
-        <div style={{ display: 'flex', gap: '6px', background: 'rgba(30, 41, 59, 0.5)', padding: '4px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+        <div style={{ display: 'flex', gap: '5px', background: 'rgba(30, 41, 59, 0.5)', padding: '3px 5px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
-            { id: 'ai_lab', label: '🤖 AI客群畫像與軌道決策', icon: Sparkles },
-            { id: 'personas', label: '👥 客群畫像與轉乘應用 (通勤/銀髮/學生/轉乘)', icon: Users },
+            { id: 'climate', label: '🌤️ 氣候脈動與宜居地圖', icon: Sun },
+            { id: 'ai_lab', label: '🤖 AI客群與軌道決策', icon: Sparkles },
+            { id: 'personas', label: '👥 客群轉乘應用', icon: Users },
             { id: 'analytics', label: '📊 運具對比與商業角色', icon: BarChart3 },
-            { id: 'telecom', label: '📡 數據戰略：票證 vs 電信', icon: Radio },
-            { id: 'tpass', label: '💳 TPASS 月票效益監測', icon: CreditCard }
+            { id: 'telecom', label: '📡 票證 vs 電信', icon: Radio },
+            { id: 'tpass', label: '💳 TPASS 月票效益', icon: CreditCard }
           ].map(tab => {
             const isSelected = activeTab === tab.id;
             const Icon = tab.icon;
@@ -1190,6 +1192,15 @@ export default function App() {
         <div style={{ height: '100%', overflowY: 'auto' }}>
           <ErrorBoundary>
             <TPASSDashboard />
+          </ErrorBoundary>
+        </div>
+      )}
+
+      {/* VIEW 7: Taiwan Climate Pulse & Microclimate Livability Lab */}
+      {activeTab === 'climate' && (
+        <div style={{ height: '100%', overflow: 'hidden' }}>
+          <ErrorBoundary>
+            <ClimatePulseLab basemap={basemap} />
           </ErrorBoundary>
         </div>
       )}

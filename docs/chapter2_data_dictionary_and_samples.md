@@ -247,7 +247,87 @@
 
 ---
 
-## 2.5 🛠️ 數據前處理工程挑戰與安全保護 (Data Pipeline Nuances)
+## 2.5 🌦️ 中央氣象署 CODiS 歷史氣候觀測大數據規格 (CWA CODiS Climate Big Data)
+
+除了交通刷卡與國道收費外，氣候是改寫地表人流與車流阻抗的第一外生變數。本專案透過中央氣象署「氣候觀測資料查詢服務（CODiS, Climate Observation Data Inquire Service）」官方 OpenAPI，直連全台灣近 30 年（1998–2024 年）逐時、逐日與逐月微氣候連續歷史實測大數據庫。
+
+### 1. 氣象署站網分級架構 (Station Hierarchy)
+氣象署觀測網由三大階層構成，本專案聚焦於指標一級站與高代表性自動測站：
+* **有人氣象站（一級指標站，29 站）**：具備百年以上歷史或連續 30 年以上無中斷之嚴格人工校驗測站（如臺北 466920、基隆 466940、鞍部 466910、臺中 467490、臺南 467410、恆春 467590、阿里山 467530、玉山 467550、澎湖 467350 等），具備全維度觀測能力與極高公信力。
+* **自動氣象站（C0 系列，全台 1,236 站）**：分布於各鄉鎮市區與高山林道，提供高空間解析度之即時溫濕雨監控。
+
+### 2. CODiS 核心觀測維度字典 (CODiS Field Dictionary)
+
+| 欄位名稱 (Field Name) | 資料型態 (Type) | 實體物理意義與工程計算邏輯 (Definition & Calculation Logic) |
+|:---|:---:|:---|
+| `StationID` | `VARCHAR(10)` | **測站國際代碼**：如 `466920` 代表臺北站，`467490` 代表臺中站。 |
+| `StationName` | `VARCHAR(32)` | **測站法定名稱**：中央氣象署登記之測站中文名稱。 |
+| `County` | `VARCHAR(16)` | **所屬行政區**：測站所在直轄市/縣市。 |
+| `AltitudeM` | `DECIMAL(6,1)` | **測站海拔高度 (m)**：從平原 6.3m (臺北) 至高山 3,844.8m (玉山)，決定氣溫垂直減率。 |
+| `Archetype` | `VARCHAR(32)` | **微氣候人格分類**：如「熱島盆地」、「沉鬱雨港」、「抗颱晴都」、「世界風極」等 22 種微氣候特徵。 |
+| `TempDelta30Y` | `DECIMAL(4,2)` | **30 年均溫淨變異 (°C)**：近十年均溫 (2015–2024) 減去基期均溫 (1998–2007)，全台平均升溫 +0.72°C。 |
+| `Hot35DaysDelta` | `DECIMAL(5,1)` | **高溫日數淨增量 (天/年)**：日最高溫 $\ge 35^\circ\text{C}$ 之年均天數 30 年增幅（雙北與縱谷暴增逾 18 天）。 |
+| `RainDaysDelta` | `DECIMAL(5,1)` | **年降雨日數增減 (天/年)**：年降雨日數之 30 年趨勢，呈現「總雨量不減但日數減縮」之暴雨極端化特徵。 |
+| `MoldIndex` | `TINYINT` | **空間發霉指數 (0–100)**：年累積「相對濕度 $> 80\%$ 且氣溫介於 $20\sim 30^\circ\text{C}$」之天數綜合標準化評分。 |
+| `TyphoonDefense` | `TINYINT` | **天選抗颱防護評分 (0–100)**：基於中央山脈地形背風遮蔽、歷史平均陣風與氣壓驟降之綜合抗風災評分。 |
+| `UmbrellaProbPct` | `DECIMAL(4,1)` | **通勤開傘機率 (%)**：通勤時段（07:00–09:00, 17:00–19:00）遇雨機率，測量民眾日常生活防雨阻抗。 |
+| `AnnualSunshineH` | `DECIMAL(6,1)` | **年均日照時數 (hours/year)**：全年中太陽直接輻射照度達標之累計時數，評估太陽能與抗鬱陽光資本。 |
+| `AnnualRainMM` | `DECIMAL(6,1)` | **年均降雨量 (mm/year)**：歷史常態年累積降雨量（基隆達 3,828mm，澎湖僅約 980mm）。 |
+| `MonthlyClimatology` | `JSON` | **1–12 月常態氣候律動陣列**：包含各月均溫、月雨量、降雨日數、日照、濕度與天氣型態符號代碼。 |
+
+### 3. 品質檢核標籤與缺失值補正 (Data Quality Flags)
+CODiS API 針對所有觀測值賦予標準品質碼（Quality Control Flag）：
+* `0`：正常觀測值（Valid Record）。
+* `1`：儀器故障或校驗期間（Instrument Calibration / Error）。
+* `2`：空間插值推定值（Kriging / IDW Interpolated Estimate）。
+* `-99.9 / -999`：觀測缺失值，管線內自動透過鄰近測站之海拔減率與反距離權重法（IDW）進行標準化填補。
+
+### 4. CODiS 測站微氣候 JSON 實體資料樣本 (Station Payload Sample)
+
+```json
+{
+  "id": "466920",
+  "name": "臺北",
+  "county": "臺北市",
+  "lat": 25.0377,
+  "lng": 121.5149,
+  "alt_m": 6.3,
+  "archetype": "熱島盆地",
+  "badge": "雙北熱島·夜間升溫之冠",
+  "metrics_30y": {
+    "baseline_temp": 23.40,
+    "recent_temp": 23.94,
+    "temp_delta": 0.54,
+    "hot35_days_delta": 21.9,
+    "rain_days_delta": -10.4
+  },
+  "livability": {
+    "avg_temp": 23.6,
+    "annual_rain_mm": 2405.0,
+    "annual_rain_days": 158.5,
+    "annual_sunshine_h": 1305.2,
+    "avg_humidity_pct": 75.8,
+    "umbrella_prob_pct": 43.4,
+    "mold_index": 58,
+    "radar": {
+      "rain_defense": 45,
+      "thermal_comfort": 62,
+      "typhoon_defense": 65,
+      "sunshine": 48,
+      "anti_mold": 42,
+      "night_cool": 38
+    }
+  },
+  "monthly_climatology": [
+    { "month": 1, "temp": 16.7, "rain_mm": 88.0, "icon": "☁️", "label": "陰霾天" },
+    { "month": 7, "temp": 30.1, "rain_mm": 245.2, "icon": "☀️", "label": "晴朗天" }
+  ]
+}
+```
+
+---
+
+## 2.6 🛠️ 數據前處理工程挑戰與安全保護 (Data Pipeline Nuances)
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -282,7 +362,7 @@
 
 ---
 
-## 2.6 🎯 互動傳送門與系統對映 (Interactive Portal)
+## 2.7 🎯 互動傳送門與系統對映 (Interactive Portal)
 
 想要親自查閱由上述 4.48 億筆資料與 325 座 eTag 門架所提煉出之全維度戰略對照矩陣嗎？請透過下方傳送門進入系統：
 

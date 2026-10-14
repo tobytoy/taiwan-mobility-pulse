@@ -582,12 +582,12 @@ export default function FlowMap({
             paddingBottom: '2px',
             maxWidth: '920px'
           }}>
-            {spotlightCorridors.slice(0, 10).map(corr => {
+            {spotlightCorridors.slice(0, 10).map((corr, idx) => {
               const isSelected = selectedCorridor && selectedCorridor.corridor_id === corr.corridor_id;
               const isFreight = corr.pax_type === 'freight';
               return (
                 <button
-                  key={corr.corridor_id}
+                  key={`${corr.corridor_id || 'corr'}-${idx}`}
                   onClick={() => handleCorridorClick(corr)}
                   style={{
                     flexShrink: 0,
