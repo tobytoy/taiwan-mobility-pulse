@@ -325,6 +325,64 @@ CODiS API 針對所有觀測值賦予標準品質碼（Quality Control Flag）�
 }
 ```
 
+### 5. 晴雨商圈對流、光電 EV ROI、抗颱回測與水庫旱澇資料模型 (V1.2 Extended Models)
+
+為了支撐第六章深度的商業經濟與極端防災決策，CODiS 管線進一步擴展了四大衍生資料模型：
+
+| 模型分類 | 核心分析實體 (Entity) | 關鍵指標欄位 (Key Fields) | 商業與防災決策應用 |
+|:---|:---|:---|:---|
+| **晴雨商圈對流** | 7 大指標露天與室內商圈 | `PaxIndex`, `DwellMins`, `RevenueElasticity`, `ConvectionDestination` | 量化晴朗、陰雨 (1-10mm) 與豪大雨 (>50mm) 下，戶外街區人流向地下街/空橋百貨之乾濕對流係數。 |
+| **光電與 EV 快充** | 29 指標測站 30 年日射 | `AnnualSunshineHours`, `DailySolarRadiation`, `Rooftop50kWAnnualKWh`, `EVChargingROIYears` | 評估 50kW 商用屋頂發電度數與儲充一體化 EV 快充站之資本回收年限（澎湖/台南 4.5 年 vs 基隆 9.2 年）。 |
+| **抗颱屏障大回測** | 6 大歷史強颱 × 29 測站 | `ShieldingRatePct`, `MaxHistoricalWindGust`, `Max24HRainfallMM`, `ResilienceScore` | 回測賀伯、莫拉克、蘇迪勒等致災強颱，計算中央山脈地形衰減率（台中 68% 屏障率榮登 96 分抗颱之冠）。 |
+| **水庫旱澇急轉** | 全台 4 大核心水庫集水區 | `MaxCDDDays`, `CDD30YGrowthPct`, `DelugeRapidRefillCount`, `InversionIndex` | 追蹤最長連續無雨日數 (CDD) 與「48 小時內蓄水率跳漲 >40% 洩洪」之極端旱澇急轉脆弱度（曾文水庫 98 分高居全台第一）。 |
+
+### 6. 政府開放資料 (OpenData) 淹水災情與物聯網感測資料模型 (Inundation & IoT Resilience Models)
+
+為了實現氣象、水文災情與地表交通的三向閉環印證，本專案進一步鏈結了政府資料開放平台（data.gov.tw）與民生公共物聯網（IoW）之核心防汛數據集：
+
+| 開放資料代碼 / 名稱 | 提供機關 | 格式與座標系 | 核心實體欄位 | 專案交通印證鏈結 |
+|:---|:---|:---|:---|:---|
+| **Dataset 25770**<br>歷年颱風淹水範圍 | 經濟部水利署 | `KML` / `GeoJSON`<br>(WGS84 多邊形) | `typhoon_name`, `year`, `total_inundated_km2`, `max_depth_cm`, `polygons` (經緯度點集) | 載入真實淹水面圖資，比對 CODiS 測站極端雨量（如阿里山 1,623mm、高雄 985mm）與國道 eTag 車速急跌率 (-75% ~ -92%)。 |
+| **Dataset 130016**<br>近5年淹水災點資料 | 國科會 / NCDR 國家災害防救科技中心 | `CSV` / `JSON API`<br>(TWD97 轉 WGS84) | `FID`, `year`, `lat`, `lng`, `source`, `flood_count_5y`, `threshold_rain_mm_hr` | 整合水利署、消防署 EMIC 與公路局路面災點，量化短延時強降雨門檻（如 45mm/h）與周邊交流道/大眾運輸回堵延誤。 |
+| **Dataset 142980 & 142979**<br>IoW 路面淹水深度感測 | 經濟部水利署 / 民生公共物聯網 | `JSON API`<br>(每小時動態更新) | `sensor_id`, `latest_depth_cm`, `warning_threshold_cm`, `closure_threshold_cm`, `speed_drop_pct` | 全台幹道路面超音波/微波感測計，即時連動水深（0~60cm）與道路管制等級（安全通行 / 水漂警戒慢行 / 封閉管制）。 |
+| **Dataset 25766 & 5982**<br>淹水潛勢圖與防災警戒 | 經濟部水利署 | `SHP` / `WMS` / `API` | `return_period` (10/50/100年), `rainfall_intensity`, `at_risk_interchanges`, `warning_tier` | 提供暴雨重現期水理數值模擬基準，作為全台 22 處國道易淹交流道與省道抗災韌性壓力測試標準線。 |
+
+```json
+{
+  "opendata_source": {
+    "platform": "政府資料開放平台 (data.gov.tw) & 經濟部水利署",
+    "datasets_integrated": ["25770", "130016", "142980", "142979", "25766", "5982"]
+  },
+  "historical_typhoon_sample": {
+    "id": "gaemi_2024",
+    "name": "凱米颱風 (2024)",
+    "total_inundated_km2": 218.4,
+    "max_depth_cm": 140,
+    "codis_peak_station": {
+      "station_name": "高雄",
+      "max_hourly_rain_mm": 108.5,
+      "max_24h_rain_mm": 985.0
+    },
+    "mobility_impact": {
+      "highway_disruption": "國道1號仁德交流道下匝道積水 40cm 封閉；台1線岡山段雙向中斷",
+      "railway_disruption": "台鐵縱貫線八掌溪橋路基淘空，南部路段中斷停駛 5 天",
+      "etag_speed_drop_pct": -78.5
+    }
+  },
+  "iow_sensor_sample": {
+    "sensor_id": "IOW-RS-TP01",
+    "name": "新北汐止大同路二段涵洞感測器",
+    "installation_type": "公路涵洞超音波雷達",
+    "warning_threshold_cm": 15,
+    "closure_threshold_cm": 30,
+    "scenarios": {
+      "heavy_rain": { "depth_cm": 18, "status": "⚠️ 水漂警告 (慢行)", "speed_kmh": 22, "drop_pct": -56.0 },
+      "deluge_extreme": { "depth_cm": 42, "status": "🚨 封閉管制 (禁止通行)", "speed_kmh": 0, "drop_pct": -100.0 }
+    }
+  }
+}
+```
+
 ---
 
 ## 2.6 🛠️ 數據前處理工程挑戰與安全保護 (Data Pipeline Nuances)

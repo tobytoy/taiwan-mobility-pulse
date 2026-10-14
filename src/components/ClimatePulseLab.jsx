@@ -4,7 +4,8 @@ import {
   Sun, CloudRain, Flame, Shield, Compass, Thermometer, Droplets, 
   Wind, Umbrella, RefreshCw, ChevronRight, Award, Zap, Sparkles, 
   Layers, MapPin, Eye, ArrowUpRight, BarChart3, TrendingUp, AlertTriangle,
-  Info, Maximize2, Check, Scale, Play, Pause, ChevronLeft, Calendar, Clock
+  Info, Maximize2, Check, Scale, Play, Pause, ChevronLeft, Calendar, Clock,
+  Store, BatteryCharging, Waves, Skull, Building2, Radio
 } from 'lucide-react';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
 
@@ -70,7 +71,9 @@ const LIVABILITY_RANK_CATEGORIES = [
 export default function ClimatePulseLab({ basemap = 'dark' }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [activeMode, setActiveMode] = useState('seasons'); // 'seasons' (12個月四季潮汐動態播放), 'change' (30年氣候變異), 'livability' (微氣候宜居榜)
+  
+  // Active Modes: 'seasons', 'retail_solar', 'typhoon_reservoir', 'change', 'livability'
+  const [activeMode, setActiveMode] = useState('seasons');
   const [selectedMonth, setSelectedMonth] = useState(7); // 1 ~ 12
   const [isPlaying, setIsPlaying] = useState(false);
   const [playSpeed, setPlaySpeed] = useState(1); // 0.5, 1, 2
@@ -79,6 +82,26 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
   const [selectedStationId, setSelectedStationId] = useState('466920'); // 臺北 default
   const [compareStationId, setCompareStationId] = useState('467490'); // 臺中 default for PK
   const [searchFilter, setSearchFilter] = useState('');
+
+  // Category 4 state: Retail Convection & Solar EV
+  const [retailSolarTab, setRetailSolarTab] = useState('retail'); // 'retail' or 'solar'
+  const [weatherScenario, setWeatherScenario] = useState('sunny'); // 'sunny', 'rain_drizzle', 'heavy_rain'
+  const [selectedDistrictId, setSelectedDistrictId] = useState('ximen_pedestrian');
+  const [selectedSolarStationId, setSelectedSolarStationId] = useState('467350');
+
+  // Category 5 state: Typhoon Resilience & Reservoirs
+  const [typhoonReservoirTab, setTyphoonReservoirTab] = useState('typhoon'); // 'typhoon' or 'reservoir'
+  const [selectedTyphoonId, setSelectedTyphoonId] = useState('herb_1996');
+  const [selectedReservoirId, setSelectedReservoirId] = useState('tsengwen');
+
+  // OpenData Inundation & Mobility Nexus state
+  const [inundationSubTab, setInundationSubTab] = useState('zones'); // 'zones', 'hotspots', 'sensors'
+  const [selectedInundationTyphoonId, setSelectedInundationTyphoonId] = useState('gaemi_2024');
+  const [selectedHotspotFid, setSelectedHotspotFid] = useState('NCDR-FL-001');
+  const [selectedSensorId, setSelectedSensorId] = useState('IOW-RS-TP01');
+  const [sensorScenario, setSensorScenario] = useState('heavy_rain'); // 'sunny', 'drizzle', 'heavy_rain', 'deluge_extreme'
+  const [hotspotAgencyFilter, setHotspotAgencyFilter] = useState('all');
+  const polygonsRef = useRef([]);
   
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
@@ -111,6 +134,29 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
   }, []);
 
   const stations = data?.stations || [];
+  const retailDistricts = data?.retail_weather_convection || [];
+  const solarStations = data?.solar_ev_potential || [];
+  const typhoonData = data?.typhoon_resilience_backtest || { historical_typhoons: [], station_rankings: [] };
+  const reservoirs = data?.reservoir_drought_deluge || [];
+  
+  // OpenData Inundation extracts
+  const opendataNexus = data?.opendata_inundation_mobility_nexus || {};
+  const floodTyphoons = opendataNexus.historical_typhoon_flood_zones || [];
+  const floodHotspots = opendataNexus.ncdr_flood_incident_hotspots || [];
+  const floodSensors = opendataNexus.iow_road_flood_sensors || [];
+  const floodPotential = opendataNexus.flood_potential_summary || {};
+
+  const selectedInundationTyphoon = useMemo(() => {
+    return floodTyphoons.find(t => t.id === selectedInundationTyphoonId) || floodTyphoons[0];
+  }, [floodTyphoons, selectedInundationTyphoonId]);
+
+  const selectedHotspot = useMemo(() => {
+    return floodHotspots.find(h => h.fid === selectedHotspotFid) || floodHotspots[0];
+  }, [floodHotspots, selectedHotspotFid]);
+
+  const selectedSensor = useMemo(() => {
+    return floodSensors.find(s => s.sensor_id === selectedSensorId) || floodSensors[0];
+  }, [floodSensors, selectedSensorId]);
 
   // Filtered stations for search
   const filteredStations = useMemo(() => {
@@ -139,16 +185,35 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
     return stations.find(s => s.id === compareStationId) || stations[10] || stations[0] || dummyStation;
   }, [stations, compareStationId]);
 
+  // Selected Retail District & Scenario
+  const selectedDistrict = useMemo(() => {
+    return retailDistricts.find(d => d.district_id === selectedDistrictId) || retailDistricts[0];
+  }, [retailDistricts, selectedDistrictId]);
+
+  // Selected Solar Station
+  const selectedSolarStation = useMemo(() => {
+    return solarStations.find(s => s.stn_id === selectedSolarStationId) || solarStations[0];
+  }, [solarStations, selectedSolarStationId]);
+
+  // Selected Typhoon
+  const selectedTyphoon = useMemo(() => {
+    return typhoonData.historical_typhoons?.find(t => t.id === selectedTyphoonId) || typhoonData.historical_typhoons?.[0];
+  }, [typhoonData, selectedTyphoonId]);
+
+  // Selected Reservoir
+  const selectedReservoir = useMemo(() => {
+    return reservoirs.find(r => r.reservoir_id === selectedReservoirId) || reservoirs[0];
+  }, [reservoirs, selectedReservoirId]);
+
   // Rankings
   const rankings = useMemo(() => {
     if (!stations.length) {
       return { topTemp: [], stableTemp: [], topHot: [], dropRainDays: [], topList: [], bottomList: [], category: LIVABILITY_RANK_CATEGORIES[0] };
     }
     if (activeMode === 'change') {
-      // 30y Climate change rankings
       const sortedByTemp = [...stations].sort((a, b) => b.metrics_30y.temp_delta - a.metrics_30y.temp_delta);
       const sortedByHot = [...stations].sort((a, b) => b.metrics_30y.hot35_days_delta - a.metrics_30y.hot35_days_delta);
-      const sortedByRainDelta = [...stations].sort((a, b) => a.metrics_30y.rain_days_delta - b.metrics_30y.rain_days_delta); // 最多減少雨天
+      const sortedByRainDelta = [...stations].sort((a, b) => a.metrics_30y.rain_days_delta - b.metrics_30y.rain_days_delta);
       return {
         topTemp: sortedByTemp.slice(0, 5),
         stableTemp: sortedByTemp.slice(-5).reverse(),
@@ -156,7 +221,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
         dropRainDays: sortedByRainDelta.slice(0, 5)
       };
     } else {
-      // Livability rankings
       const cat = LIVABILITY_RANK_CATEGORIES.find(c => c.id === activeRankCat) || LIVABILITY_RANK_CATEGORIES[0];
       const getVal = (s) => {
         if (cat.key.startsWith('radar.')) {
@@ -242,7 +306,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
 
     mapInstanceRef.current = map;
 
-    // Force size recomputation
     const resizeTimer = setTimeout(() => {
       map.invalidateSize();
     }, 150);
@@ -255,8 +318,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
     return () => {
       clearTimeout(resizeTimer);
       window.removeEventListener('resize', handleResize);
-      map.remove();
-      mapInstanceRef.current = null;
     };
   }, [loading]);
 
@@ -277,45 +338,628 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
     }).addTo(map);
   }, [basemap]);
 
-  // Draw Station Markers with dynamic values
+  // Fly to target station
+  const flyToStation = (stn) => {
+    if (!mapInstanceRef.current || !stn) return;
+    setSelectedStationId(stn.id || stn.stn_id);
+    mapInstanceRef.current.flyTo([stn.lat, stn.lng], 10, { duration: 1.2 });
+  };
+
+  // Fly to target district
+  const flyToDistrict = (d) => {
+    if (!mapInstanceRef.current || !d) return;
+    setSelectedDistrictId(d.district_id);
+    mapInstanceRef.current.flyTo([d.lat, d.lng], 13, { duration: 1.2 });
+  };
+
+  // Fly to reservoir
+  const flyToReservoir = (r) => {
+    if (!mapInstanceRef.current || !r) return;
+    setSelectedReservoirId(r.reservoir_id);
+    mapInstanceRef.current.flyTo([r.lat, r.lng], 11, { duration: 1.2 });
+  };
+
+  // Draw Dynamic Map Markers according to activeMode & subtabs
   useEffect(() => {
-    if (!mapInstanceRef.current || !stations.length) return;
+    if (!mapInstanceRef.current) return;
     const map = mapInstanceRef.current;
 
-    // Clear existing markers
+    // Clear existing markers & polygons
     Object.values(markersRef.current).forEach(m => map.removeLayer(m));
     markersRef.current = {};
+    if (polygonsRef.current) {
+      polygonsRef.current.forEach(p => map.removeLayer(p));
+      polygonsRef.current = [];
+    }
 
+    // 0. OPENDATA INUNDATION & MOBILITY NEXUS MODE
+    if (activeMode === 'inundation_opendata') {
+      // 0A. Historical Typhoon Flood Zones (Dataset 25770)
+      if (inundationSubTab === 'zones' && selectedInundationTyphoon) {
+        // Draw polygons
+        (selectedInundationTyphoon.polygons || []).forEach(p => {
+          const poly = L.polygon(p.coordinates, {
+            color: '#38BDF8',
+            weight: 2.5,
+            dashArray: '6, 6',
+            fillColor: p.severity === 'disaster' ? '#EF4444' : p.severity === 'extreme' ? '#0284C7' : '#0EA5E9',
+            fillOpacity: 0.38
+          }).addTo(map);
+
+          poly.bindTooltip(`<b>${p.zone_name}</b><br/>平均積水深度: ${p.avg_depth_cm}cm`, {
+            direction: 'center',
+            className: 'flood-polygon-tooltip'
+          });
+          polygonsRef.current.push(poly);
+
+          // Add center label marker
+          const centerLat = p.coordinates.reduce((sum, c) => sum + c[0], 0) / p.coordinates.length;
+          const centerLng = p.coordinates.reduce((sum, c) => sum + c[1], 0) / p.coordinates.length;
+
+          const iconHtml = `
+            <div style="
+              background: rgba(11, 17, 32, 0.95);
+              border: 1.5px solid #38BDF8;
+              border-radius: 6px;
+              padding: 3px 8px;
+              color: #FFFFFF;
+              font-size: 11px;
+              font-weight: 800;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.7);
+              white-space: nowrap;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+            ">
+              <span>🌊</span>
+              <span>${p.zone_name.split('(')[0]}</span>
+              <span style="color: #38BDF8; font-weight: 900;">${p.avg_depth_cm}cm</span>
+            </div>
+          `;
+          const customIcon = L.divIcon({
+            html: iconHtml,
+            className: 'flood-zone-center-marker',
+            iconSize: [120, 28],
+            iconAnchor: [60, 14]
+          });
+          const centerMarker = L.marker([centerLat, centerLng], { icon: customIcon }).addTo(map);
+          markersRef.current[`poly_${p.zone_name}`] = centerMarker;
+        });
+
+        // Add Peak CODiS Weather Station
+        if (selectedInundationTyphoon.codis_peak_station) {
+          const stn = selectedInundationTyphoon.codis_peak_station;
+          // Find station lat/lng from stations list or fallback
+          const stationObj = stations.find(s => s.id === stn.station_id || s.name === stn.station_name);
+          const sLat = stationObj ? stationObj.lat : 23.5;
+          const sLng = stationObj ? stationObj.lng : 120.8;
+
+          const iconHtml = `
+            <div style="
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              cursor: pointer;
+              transform: scale(1.3);
+              z-index: 1000;
+            ">
+              <div style="
+                position: absolute;
+                top: -8px; left: -8px; right: -8px; bottom: 8px;
+                border-radius: 50%;
+                background: rgba(239, 68, 68, 0.45);
+                animation: pulse-halo 1.6s infinite;
+              "></div>
+              <div style="
+                width: 42px;
+                height: 42px;
+                border-radius: 50%;
+                background: #0B1120;
+                border: 3px solid #EF4444;
+                box-shadow: 0 4px 16px rgba(239, 68, 68, 0.7);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+              ">
+                ⛈️
+              </div>
+              <div style="
+                margin-top: 3px;
+                background: rgba(11, 17, 32, 0.95);
+                border: 1px solid #EF4444;
+                border-radius: 6px;
+                padding: 2px 8px;
+                display: flex;
+                gap: 4px;
+                white-space: nowrap;
+              ">
+                <span style="font-size: 11px; font-weight: 900; color: #FFFFFF;">${stn.station_name}暴雨極值</span>
+                <span style="font-size: 11px; font-weight: 900; color: #EF4444;">${stn.max_hourly_rain_mm}mm/h</span>
+              </div>
+            </div>
+          `;
+          const customIcon = L.divIcon({
+            html: iconHtml,
+            className: 'climate-codis-peak-marker',
+            iconSize: [120, 60],
+            iconAnchor: [60, 50]
+          });
+          const peakMarker = L.marker([sLat, sLng], { icon: customIcon }).addTo(map);
+          markersRef.current['codis_peak'] = peakMarker;
+        }
+        return;
+      }
+
+      // 0B. NCDR 5-Year Flood Hotspots (Dataset 130016)
+      if (inundationSubTab === 'hotspots') {
+        const filtered = floodHotspots.filter(h => {
+          if (hotspotAgencyFilter === 'all') return true;
+          return h.source.includes(hotspotAgencyFilter);
+        });
+
+        filtered.forEach(h => {
+          const isSelected = h.fid === selectedHotspotFid;
+          const color = h.flood_count_5y >= 12 ? '#EF4444' : h.flood_count_5y >= 8 ? '#F59E0B' : '#0EA5E9';
+
+          const iconHtml = `
+            <div style="
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              cursor: pointer;
+              transform: ${isSelected ? 'scale(1.28)' : 'scale(1)'};
+              transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+              z-index: ${isSelected ? 1000 : 500};
+            ">
+              ${isSelected ? `<div style="
+                position: absolute;
+                top: -6px; left: -6px; right: -6px; bottom: 8px;
+                border-radius: 50%;
+                background: ${color}44;
+                animation: pulse-halo 1.8s infinite;
+              "></div>` : ''}
+
+              <div style="
+                width: 36px;
+                height: 36px;
+                border-radius: 50%;
+                background: #0B1120;
+                border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${color}`};
+                box-shadow: 0 4px 14px rgba(0,0,0,0.7), 0 0 14px ${color}66;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+              ">
+                ⚠️
+              </div>
+
+              <div style="
+                margin-top: 3px;
+                background: rgba(11, 17, 32, 0.95);
+                border: 1px solid ${color};
+                border-radius: 5px;
+                padding: 1px 6px;
+                display: flex;
+                gap: 4px;
+                white-space: nowrap;
+              ">
+                <span style="font-size: 10px; font-weight: 800; color: #FFFFFF;">${h.name.split('(')[0]}</span>
+                <span style="font-size: 10px; font-weight: 900; color: ${color};">${h.flood_count_5y}次</span>
+              </div>
+            </div>
+          `;
+
+          const customIcon = L.divIcon({
+            html: iconHtml,
+            className: 'ncdr-hotspot-marker',
+            iconSize: [90, 52],
+            iconAnchor: [45, 44]
+          });
+
+          const marker = L.marker([h.lat, h.lng], { icon: customIcon }).addTo(map);
+          marker.on('click', () => {
+            setSelectedHotspotFid(h.fid);
+            map.flyTo([h.lat, h.lng], 12, { duration: 1.2 });
+          });
+          markersRef.current[h.fid] = marker;
+        });
+        return;
+      }
+
+      // 0C. IoW Road Flood Sensors (Dataset 142980)
+      if (inundationSubTab === 'sensors') {
+        floodSensors.forEach(s => {
+          const isSelected = s.sensor_id === selectedSensorId;
+          const scen = s.scenarios[sensorScenario] || s.scenarios.sunny;
+          const color = scen.depth_cm >= s.closure_threshold_cm ? '#EF4444' : scen.depth_cm >= s.warning_threshold_cm ? '#F59E0B' : '#10B981';
+
+          const iconHtml = `
+            <div style="
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              cursor: pointer;
+              transform: ${isSelected ? 'scale(1.28)' : 'scale(1)'};
+              transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+              z-index: ${isSelected ? 1000 : 500};
+            ">
+              ${isSelected ? `<div style="
+                position: absolute;
+                top: -6px; left: -6px; right: -6px; bottom: 8px;
+                border-radius: 50%;
+                background: ${color}44;
+                animation: pulse-halo 1.8s infinite;
+              "></div>` : ''}
+
+              <div style="
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: #0B1120;
+                border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${color}`};
+                box-shadow: 0 4px 14px rgba(0,0,0,0.7), 0 0 16px ${color}66;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+              ">
+                📡
+              </div>
+
+              <div style="
+                margin-top: 3px;
+                background: rgba(11, 17, 32, 0.95);
+                border: 1px solid ${color};
+                border-radius: 5px;
+                padding: 1px 6px;
+                display: flex;
+                gap: 4px;
+                white-space: nowrap;
+              ">
+                <span style="font-size: 10px; font-weight: 800; color: #FFFFFF;">${s.county} ${s.name.split('(')[0].slice(0, 6)}</span>
+                <span style="font-size: 10.5px; font-weight: 900; color: ${color};">${scen.depth_cm}cm</span>
+              </div>
+            </div>
+          `;
+
+          const customIcon = L.divIcon({
+            html: iconHtml,
+            className: 'iow-sensor-marker',
+            iconSize: [90, 54],
+            iconAnchor: [45, 46]
+          });
+
+          const marker = L.marker([s.lat, s.lng], { icon: customIcon }).addTo(map);
+          marker.on('click', () => {
+            setSelectedSensorId(s.sensor_id);
+            map.flyTo([s.lat, s.lng], 13, { duration: 1.2 });
+          });
+          markersRef.current[s.sensor_id] = marker;
+        });
+        return;
+      }
+    }
+
+    // 1. RETAIL CONVECTION MODE
+    if (activeMode === 'retail_solar' && retailSolarTab === 'retail') {
+      retailDistricts.forEach(d => {
+        const isSelected = d.district_id === selectedDistrictId;
+        const scen = d.scenarios[weatherScenario] || d.scenarios.sunny;
+        const isIndoorShelter = d.type.includes('underground') || d.type.includes('skybridge') || d.type.includes('mall');
+        
+        // Color coding based on whether rain causes collapse or spike
+        let markerColor = '#38BDF8';
+        if (weatherScenario === 'heavy_rain') {
+          markerColor = isIndoorShelter ? '#10B981' : '#EF4444';
+        } else if (weatherScenario === 'rain_drizzle') {
+          markerColor = isIndoorShelter ? '#06B6D4' : '#F59E0B';
+        } else {
+          markerColor = '#F59E0B';
+        }
+
+        const iconHtml = `
+          <div style="
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transform: ${isSelected ? 'scale(1.28)' : 'scale(1)'};
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: ${isSelected ? 1000 : 500};
+          ">
+            ${isSelected ? `<div style="
+              position: absolute;
+              top: -6px; left: -6px; right: -6px; bottom: 8px;
+              border-radius: 50%;
+              background: ${markerColor}44;
+              animation: pulse-halo 1.8s infinite;
+            "></div>` : ''}
+
+            <div style="
+              width: 38px;
+              height: 38px;
+              border-radius: 50%;
+              background: #0B1120;
+              border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${markerColor}`};
+              box-shadow: 0 4px 14px rgba(0,0,0,0.7), 0 0 16px ${markerColor}66;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 16px;
+            ">
+              ${isIndoorShelter ? '🏢' : '🛍️'}
+            </div>
+
+            <div style="
+              margin-top: 3px;
+              background: rgba(11, 17, 32, 0.95);
+              border: 1px solid ${markerColor};
+              border-radius: 6px;
+              padding: 2px 7px;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              box-shadow: 0 4px 10px rgba(0,0,0,0.6);
+              white-space: nowrap;
+            ">
+              <span style="font-size: 11px; font-weight: 800; color: #FFFFFF;">${d.name.split(' ')[0]}</span>
+              <span style="
+                font-size: 10.5px;
+                font-weight: 900;
+                color: ${markerColor};
+              ">${scen.pax_index}%</span>
+            </div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'climate-retail-marker',
+          iconSize: [80, 56],
+          iconAnchor: [40, 48]
+        });
+
+        const marker = L.marker([d.lat, d.lng], { icon: customIcon }).addTo(map);
+        marker.on('click', () => flyToDistrict(d));
+        markersRef.current[d.district_id] = marker;
+      });
+      return;
+    }
+
+    // 2. SOLAR EV ROI MODE
+    if (activeMode === 'retail_solar' && retailSolarTab === 'solar') {
+      solarStations.forEach(s => {
+        const isSelected = s.stn_id === selectedSolarStationId;
+        const tierColor = s.tier.startsWith('S') ? '#F59E0B' : s.tier.startsWith('A') ? '#10B981' : s.tier.startsWith('B') ? '#06B6D4' : '#64748B';
+
+        const iconHtml = `
+          <div style="
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transform: ${isSelected ? 'scale(1.25)' : 'scale(1)'};
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: ${isSelected ? 1000 : 500};
+          ">
+            <div style="
+              width: 34px;
+              height: 34px;
+              border-radius: 50%;
+              background: #0B1120;
+              border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${tierColor}`};
+              box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 12px ${tierColor}66;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 15px;
+            ">
+              ☀️
+            </div>
+            <div style="
+              margin-top: 3px;
+              background: rgba(11, 17, 32, 0.95);
+              border: 1px solid ${tierColor};
+              border-radius: 5px;
+              padding: 1px 6px;
+              display: flex;
+              gap: 3px;
+              white-space: nowrap;
+            ">
+              <span style="font-size: 10px; font-weight: 800; color: #FFFFFF;">${s.name}</span>
+              <span style="font-size: 10px; font-weight: 900; color: ${tierColor};">${s.annual_sunshine_h}h</span>
+            </div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'climate-solar-marker',
+          iconSize: [70, 50],
+          iconAnchor: [35, 42]
+        });
+
+        const marker = L.marker([s.lat, s.lng], { icon: customIcon }).addTo(map);
+        marker.on('click', () => {
+          setSelectedSolarStationId(s.stn_id);
+          map.flyTo([s.lat, s.lng], 10, { duration: 1.2 });
+        });
+        markersRef.current[s.stn_id] = marker;
+      });
+      return;
+    }
+
+    // 3. TYPHOON RESILIENCE BACKTEST MODE
+    if (activeMode === 'typhoon_reservoir' && typhoonReservoirTab === 'typhoon') {
+      (typhoonData.station_rankings || []).forEach(s => {
+        const isSelected = s.stn_id === selectedStationId;
+        const shieldColor = s.shielding_rate_pct >= 50 ? '#10B981' : s.shielding_rate_pct >= 25 ? '#F59E0B' : '#EF4444';
+
+        const iconHtml = `
+          <div style="
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transform: ${isSelected ? 'scale(1.25)' : 'scale(1)'};
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: ${isSelected ? 1000 : 500};
+          ">
+            <div style="
+              width: 34px;
+              height: 34px;
+              border-radius: 50%;
+              background: #0B1120;
+              border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${shieldColor}`};
+              box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 14px ${shieldColor}66;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 15px;
+            ">
+              ${s.shielding_rate_pct >= 50 ? '🛡️' : s.shielding_rate_pct <= 5 ? '💥' : '🌀'}
+            </div>
+            <div style="
+              margin-top: 3px;
+              background: rgba(11, 17, 32, 0.95);
+              border: 1px solid ${shieldColor};
+              border-radius: 5px;
+              padding: 1px 6px;
+              display: flex;
+              gap: 3px;
+              white-space: nowrap;
+            ">
+              <span style="font-size: 10.5px; font-weight: 800; color: #FFFFFF;">${s.name}</span>
+              <span style="font-size: 10px; font-weight: 900; color: ${shieldColor};">屏障${s.shielding_rate_pct}%</span>
+            </div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'climate-typhoon-marker',
+          iconSize: [80, 52],
+          iconAnchor: [40, 44]
+        });
+
+        const marker = L.marker([s.lat, s.lng], { icon: customIcon }).addTo(map);
+        marker.on('click', () => {
+          setSelectedStationId(s.stn_id);
+          map.flyTo([s.lat, s.lng], 10, { duration: 1.2 });
+        });
+        markersRef.current[s.stn_id] = marker;
+      });
+      return;
+    }
+
+    // 4. RESERVOIR DROUGHT & DELUGE MODE
+    if (activeMode === 'typhoon_reservoir' && typhoonReservoirTab === 'reservoir') {
+      reservoirs.forEach(r => {
+        const isSelected = r.reservoir_id === selectedReservoirId;
+        const color = r.inversion_index >= 85 ? '#EF4444' : r.inversion_index >= 60 ? '#F59E0B' : '#10B981';
+
+        const iconHtml = `
+          <div style="
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transform: ${isSelected ? 'scale(1.28)' : 'scale(1)'};
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: ${isSelected ? 1000 : 500};
+          ">
+            ${isSelected ? `<div style="
+              position: absolute;
+              top: -8px; left: -8px; right: -8px; bottom: 8px;
+              border-radius: 50%;
+              background: ${color}44;
+              animation: pulse-halo 1.8s infinite;
+            "></div>` : ''}
+
+            <div style="
+              width: 40px;
+              height: 40px;
+              border-radius: 50%;
+              background: #0B1120;
+              border: ${isSelected ? '3px solid #FFFFFF' : `2px solid ${color}`};
+              box-shadow: 0 4px 14px rgba(0,0,0,0.7), 0 0 16px ${color}66;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 18px;
+            ">
+              💧
+            </div>
+            <div style="
+              margin-top: 3px;
+              background: rgba(11, 17, 32, 0.95);
+              border: 1px solid ${color};
+              border-radius: 6px;
+              padding: 2px 7px;
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              white-space: nowrap;
+            ">
+              <span style="font-size: 11px; font-weight: 800; color: #FFFFFF;">${r.name}</span>
+              <span style="font-size: 10px; font-weight: 900; color: ${color};">${r.capacity_million_m3}億噸</span>
+            </div>
+          </div>
+        `;
+
+        const customIcon = L.divIcon({
+          html: iconHtml,
+          className: 'climate-reservoir-marker',
+          iconSize: [85, 58],
+          iconAnchor: [42, 50]
+        });
+
+        const marker = L.marker([r.lat, r.lng], { icon: customIcon }).addTo(map);
+        marker.on('click', () => flyToReservoir(r));
+        markersRef.current[r.reservoir_id] = marker;
+      });
+      return;
+    }
+
+    // 5. STANDARD SEASONS, CHANGE & LIVABILITY MODES (29 STATIONS)
+    if (!stations.length) return;
     stations.forEach(s => {
       const isSelected = s.id === selectedStationId;
       const isCompare = s.id === compareStationId;
 
-      // Determine color and label based on mode and metric
       let displayValue = '';
       let markerColor = '#38BDF8';
       let haloColor = 'rgba(56, 189, 248, 0.35)';
 
       if (activeMode === 'seasons') {
         const mData = s.monthly_climatology?.find(m => m.month === selectedMonth) || s.monthly_climatology?.[selectedMonth - 1];
-        const icon = mData?.icon || '🌤️';
         const temp = mData ? `${mData.temp.toFixed(1)}°` : '';
         const rain = mData ? `${Math.round(mData.rain_mm)}mm` : '';
         displayValue = `${temp} · ${rain}`;
 
         if (mData?.rain_mm >= 320) {
-          markerColor = '#818CF8'; // Indigo for torrential
+          markerColor = '#818CF8';
           haloColor = 'rgba(129, 140, 248, 0.45)';
         } else if (mData?.rain_mm >= 160) {
-          markerColor = '#38BDF8'; // Rain blue
+          markerColor = '#38BDF8';
           haloColor = 'rgba(56, 189, 248, 0.4)';
         } else if (mData?.temp >= 28) {
-          markerColor = '#EF4444'; // Hot red
+          markerColor = '#EF4444';
           haloColor = 'rgba(239, 68, 68, 0.45)';
         } else if (mData?.temp <= 16) {
-          markerColor = '#06B6D4'; // Cold cyan
+          markerColor = '#06B6D4';
           haloColor = 'rgba(6, 182, 212, 0.4)';
         } else {
-          markerColor = '#F59E0B'; // Amber sunny/mild
+          markerColor = '#F59E0B';
           haloColor = 'rgba(245, 158, 11, 0.35)';
         }
       } else if (activeMode === 'change') {
@@ -336,7 +980,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
           haloColor = 'rgba(139, 92, 246, 0.35)';
         }
       } else {
-        // Livability mode
         if (activeRankCat === 'mold') {
           displayValue = `霉${s.livability.mold_index}`;
           markerColor = s.livability.mold_index >= 70 ? '#A855F7' : s.livability.mold_index >= 50 ? '#38BDF8' : '#10B981';
@@ -356,7 +999,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
       const ringBorder = isSelected ? '3px solid #FFFFFF' : isCompare ? '2px dashed #F59E0B' : '1px solid rgba(255, 255, 255, 0.4)';
       const scaleTransform = isSelected ? 'scale(1.25)' : 'scale(1)';
       const zIndex = isSelected ? 1000 : 500;
-
       const currentMonthIcon = s.monthly_climatology?.find(m => m.month === selectedMonth)?.icon || '🌤️';
 
       const iconHtml = `
@@ -370,7 +1012,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
           transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: ${zIndex};
         ">
-          <!-- Pulsing Halo for selected -->
           ${isSelected ? `<div style="
             position: absolute;
             top: -6px; left: -6px; right: -6px; bottom: 8px;
@@ -379,311 +1020,112 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             animation: pulse-halo 1.8s infinite;
           "></div>` : ''}
 
-          <!-- Badge Node -->
           <div style="
-            background: #0F172A;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #0B1120;
             border: ${ringBorder};
-            color: ${markerColor};
-            padding: 2px 7px;
-            border-radius: 12px;
-            font-size: 11px;
-            font-weight: 800;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px ${markerColor}66;
             display: flex;
             align-items: center;
-            gap: 4px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6), 0 0 10px ${haloColor};
-            white-space: nowrap;
+            justify-content: center;
+            font-size: 15px;
           ">
-            ${activeMode === 'seasons' 
-              ? `<span style="font-size: 12.5px; line-height: 1;">${currentMonthIcon}</span>`
-              : `<span style="display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: ${markerColor};"></span>`
-            }
-            <span>${s.name}</span>
-            <span style="color: #F8FAFC; font-weight: 700; font-size: 10px;">${displayValue}</span>
+            ${activeMode === 'seasons' ? currentMonthIcon : '📍'}
           </div>
 
-          <!-- Bottom pointer -->
           <div style="
-            width: 0; height: 0;
-            border-left: 4px solid transparent;
-            border-right: 4px solid transparent;
-            border-top: 5px solid #0F172A;
-            margin-top: -1px;
-          "></div>
+            margin-top: 3px;
+            background: rgba(11, 17, 32, 0.92);
+            border: 1px solid ${markerColor};
+            border-radius: 5px;
+            padding: 1px 6px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+            white-space: nowrap;
+          ">
+            <span style="font-size: 10.5px; font-weight: 800; color: #FFFFFF;">${s.name}</span>
+            <span style="font-size: 9.5px; font-weight: 700; color: ${markerColor};">${displayValue}</span>
+          </div>
         </div>
       `;
 
       const customIcon = L.divIcon({
-        className: 'custom-climate-station-icon',
         html: iconHtml,
-        iconSize: [80, 32],
-        iconAnchor: [40, 26]
+        className: 'climate-station-marker',
+        iconSize: [64, 48],
+        iconAnchor: [32, 40]
       });
 
       const marker = L.marker([s.lat, s.lng], { icon: customIcon }).addTo(map);
-
-      marker.on('click', () => {
-        setSelectedStationId(s.id);
-      });
-
+      marker.on('click', () => flyToStation(s));
       markersRef.current[s.id] = marker;
     });
 
-  }, [stations, selectedStationId, compareStationId, activeMode, selectedMetric, activeRankCat, selectedMonth]);
-
-  // Center on selected station
-  const flyToStation = (stn) => {
-    setSelectedStationId(stn.id);
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([stn.lat, stn.lng], 10, { duration: 1.2 });
-    }
-  };
-
-  // Zoom preset regions
-  const zoomRegion = (lat, lng, z) => {
-    if (mapInstanceRef.current) {
-      mapInstanceRef.current.flyTo([lat, lng], z, { duration: 1.0 });
-    }
-  };
-
-  // SVG 12-Month Climatology Timeline Chart for a station
-  const renderMonthlyTimeline = (station, currentMonth, onSelectMonth) => {
-    if (!station?.monthly_climatology?.length) return null;
-    const months = station.monthly_climatology;
-    const maxRain = Math.max(...months.map(m => m.rain_mm), 350);
-    const minTemp = Math.min(...months.map(m => m.temp), 10);
-    const maxTemp = Math.max(...months.map(m => m.temp), 32);
-
-    const svgWidth = 360;
-    const svgHeight = 160;
-    const paddingLeft = 32;
-    const paddingRight = 20;
-    const paddingTop = 24;
-    const paddingBottom = 26;
-    const chartWidth = svgWidth - paddingLeft - paddingRight;
-    const chartHeight = svgHeight - paddingTop - paddingBottom;
-    const colWidth = chartWidth / 12;
-
-    const tempPoints = months.map((m, i) => {
-      const x = paddingLeft + i * colWidth + colWidth / 2;
-      const y = paddingTop + chartHeight - ((m.temp - minTemp) / (maxTemp - minTemp)) * (chartHeight - 12);
-      return { x, y, temp: m.temp, month: m.month };
-    });
-
-    const tempPath = tempPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
-
-    return (
-      <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '9px', padding: '12px 14px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <Calendar size={13} color="#38BDF8" />
-            <span style={{ fontSize: '12px', fontWeight: '800', color: '#F8FAFC' }}>
-              {station.name} 1–12 月四季氣候律動雙軸走勢
-            </span>
-          </div>
-          <div style={{ display: 'flex', gap: '10px', fontSize: '10.5px' }}>
-            <span style={{ color: '#38BDF8', display: 'flex', alignItems: 'center', gap: '3px' }}>
-              <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#38BDF8', borderRadius: '2px' }}></span>
-              月降雨 (mm)
-            </span>
-            <span style={{ color: '#F59E0B', display: 'flex', alignItems: 'center', gap: '3px' }}>
-              <span style={{ display: 'inline-block', width: '8px', height: '8px', background: '#F59E0B', borderRadius: '50%' }}></span>
-              月均溫 (°C)
-            </span>
-          </div>
-        </div>
-
-        <svg width="100%" height={svgHeight} viewBox={`0 0 ${svgWidth} ${svgHeight}`} style={{ overflow: 'visible' }}>
-          {/* Reference grids */}
-          {[0, 0.5, 1].map((pct, idx) => {
-            const y = paddingTop + chartHeight * (1 - pct);
-            return (
-              <line key={idx} x1={paddingLeft} y1={y} x2={svgWidth - paddingRight} y2={y} stroke="rgba(255, 255, 255, 0.08)" strokeDasharray="2,2" />
-            );
-          })}
-
-          {/* Month Columns & Rain Bars */}
-          {months.map((m, i) => {
-            const x = paddingLeft + i * colWidth;
-            const barH = Math.max(4, (m.rain_mm / maxRain) * chartHeight);
-            const barY = paddingTop + chartHeight - barH;
-            const isSelected = m.month === currentMonth;
-
-            return (
-              <g 
-                key={m.month} 
-                onClick={() => onSelectMonth(m.month)} 
-                style={{ cursor: 'pointer' }}
-              >
-                {/* Active Column Highlight Glow */}
-                {isSelected && (
-                  <rect
-                    x={x + 1}
-                    y={paddingTop - 6}
-                    width={colWidth - 2}
-                    height={chartHeight + 30}
-                    fill="rgba(56, 189, 248, 0.16)"
-                    stroke="#38BDF8"
-                    strokeWidth="1.2"
-                    rx="4"
-                  />
-                )}
-
-                {/* Weather emoji */}
-                <text
-                  x={x + colWidth / 2}
-                  y={paddingTop - 9}
-                  textAnchor="middle"
-                  fontSize="10"
-                >
-                  {m.icon}
-                </text>
-
-                {/* Rain Bar */}
-                <rect
-                  x={x + 3}
-                  y={barY}
-                  width={colWidth - 6}
-                  height={barH}
-                  fill={isSelected ? '#38BDF8' : 'rgba(56, 189, 248, 0.35)'}
-                  rx="2"
-                />
-
-                {/* Month label */}
-                <text
-                  x={x + colWidth / 2}
-                  y={svgHeight - 6}
-                  textAnchor="middle"
-                  fill={isSelected ? '#38BDF8' : '#94A3B8'}
-                  fontSize="9.5"
-                  fontWeight={isSelected ? '800' : '500'}
-                >
-                  {m.month}月
-                </text>
-              </g>
-            );
-          })}
-
-          {/* Temperature Curve */}
-          <path
-            d={tempPath}
-            fill="none"
-            stroke="#F59E0B"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-
-          {/* Temperature Vertex dots */}
-          {tempPoints.map(p => {
-            const isSelected = p.month === currentMonth;
-            return (
-              <circle
-                key={p.month}
-                cx={p.x}
-                cy={p.y}
-                r={isSelected ? 4.5 : 2.5}
-                fill={isSelected ? '#FFFFFF' : '#F59E0B'}
-                stroke={isSelected ? '#F59E0B' : '#0F172A'}
-                strokeWidth={isSelected ? 2 : 1}
-              />
-            );
-          })}
-        </svg>
-      </div>
-    );
-  };
+  }, [
+    activeMode, retailSolarTab, weatherScenario, selectedDistrictId, selectedSolarStationId,
+    typhoonReservoirTab, selectedTyphoonId, selectedReservoirId, selectedMonth, selectedMetric,
+    activeRankCat, selectedStationId, compareStationId, stations, retailDistricts, solarStations,
+    typhoonData, reservoirs
+  ]);
 
   // SVG Radar generator helper
   const renderRadarChart = (stationA, stationB = null) => {
     if (!stationA) return null;
     const r = 85;
-    const cx = 130;
-    const cy = 115;
+    const cx = 110;
+    const cy = 105;
     const axes = [
-      { key: 'rain_defense', label: '降雨防禦力 (少雨)' },
-      { key: 'thermal_comfort', label: '溫度舒適度' },
-      { key: 'typhoon_defense', label: '天選抗颱防護' },
-      { key: 'sunshine', label: '日光充足度' },
-      { key: 'anti_mold', label: '乾爽防霉度' },
-      { key: 'night_cool', label: '夏夜涼爽度' }
+      { key: 'rain_defense', label: '降雨防禦' },
+      { key: 'thermal_comfort', label: '溫度舒適' },
+      { key: 'typhoon_defense', label: '抗颱韌性' },
+      { key: 'sunshine', label: '陽光充足' },
+      { key: 'anti_mold', label: '乾爽防霉' },
+      { key: 'night_cool', label: '夜間清涼' }
     ];
 
-    const getCoord = (score, idx) => {
-      const angle = (idx * (2 * Math.PI / axes.length)) - (Math.PI / 2);
-      const dist = (score / 100) * r;
+    const getCoord = (idx, value) => {
+      const angle = (Math.PI * 2 / axes.length) * idx - Math.PI / 2;
+      const dist = (value / 100.0) * r;
       return [cx + dist * Math.cos(angle), cy + dist * Math.sin(angle)];
     };
 
-    // Station A polygon
-    const ptsA = axes.map((a, i) => getCoord(stationA.livability.radar[a.key] || 50, i));
-    const pathA = ptsA.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') + ' Z';
+    const polyA = axes.map((a, i) => getCoord(i, stationA.livability?.radar?.[a.key] || 50));
+    const polyB = stationB ? axes.map((a, i) => getCoord(i, stationB.livability?.radar?.[a.key] || 50)) : null;
 
-    // Station B polygon (if comparing)
-    let pathB = null;
-    if (stationB && stationB.id !== stationA.id) {
-      const ptsB = axes.map((a, i) => getCoord(stationB.livability.radar[a.key] || 50, i));
-      pathB = ptsB.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') + ' Z';
-    }
+    const pathA = polyA.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') + ' Z';
+    const pathB = polyB ? polyB.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') + ' Z' : '';
 
     return (
-      <svg width="260" height="230" viewBox="0 0 260 230" style={{ overflow: 'visible' }}>
-        {/* Background Grids */}
-        {[0.25, 0.5, 0.75, 1.0].map((level, lvlIdx) => {
-          const gridPts = axes.map((_, i) => getCoord(level * 100, i));
+      <svg width="220" height="210" style={{ overflow: 'visible' }}>
+        {[0.25, 0.5, 0.75, 1.0].map((level, lIdx) => {
+          const gridPts = axes.map((_, i) => getCoord(i, level * 100));
           const gridPath = gridPts.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p[0]} ${p[1]}`).join(' ') + ' Z';
           return (
-            <path key={lvlIdx} d={gridPath} fill="none" stroke="rgba(255, 255, 255, 0.08)" strokeDasharray={level === 1 ? '' : '2,2'} />
+            <path key={lIdx} d={gridPath} fill="none" stroke="rgba(255, 255, 255, 0.1)" strokeWidth="1" strokeDasharray="2,2" />
           );
         })}
-
-        {/* Axis Lines & Labels */}
-        {axes.map((ax, i) => {
-          const edgePt = getCoord(100, i);
-          const labelDist = r + 18;
-          const angle = (i * (2 * Math.PI / axes.length)) - (Math.PI / 2);
-          const lx = cx + labelDist * Math.cos(angle);
-          const ly = cy + labelDist * Math.sin(angle);
+        {axes.map((a, i) => {
+          const [ax, ay] = getCoord(i, 100);
+          const [labelX, labelY] = getCoord(i, 118);
           return (
-            <g key={i}>
-              <line x1={cx} y1={cy} x2={edgePt[0]} y2={edgePt[1]} stroke="rgba(255, 255, 255, 0.12)" />
-              <text 
-                x={lx} 
-                y={ly} 
-                textAnchor="middle" 
-                dominantBaseline="central" 
-                fill="#94A3B8" 
-                fontSize="9.5" 
-                fontWeight="600"
-              >
-                {ax.label}
+            <g key={a.key}>
+              <line x1={cx} y1={cy} x2={ax} y2={ay} stroke="rgba(255, 255, 255, 0.15)" strokeWidth="1" />
+              <text x={labelX} y={labelY + 3} textAnchor="middle" fill="#94A3B8" fontSize="10" fontWeight="600">
+                {a.label}
               </text>
             </g>
           );
         })}
-
-        {/* Station B (Comparison) Polygon */}
-        {pathB && (
-          <path 
-            d={pathB} 
-            fill="rgba(245, 158, 11, 0.25)" 
-            stroke="#F59E0B" 
-            strokeWidth="1.8" 
-            strokeDasharray="4,2" 
-          />
+        {polyB && (
+          <path d={pathB} fill="rgba(245, 158, 11, 0.25)" stroke="#F59E0B" strokeWidth="2" strokeDasharray="3,3" />
         )}
-
-        {/* Station A Polygon */}
-        <path 
-          d={pathA} 
-          fill="rgba(56, 189, 248, 0.35)" 
-          stroke="#38BDF8" 
-          strokeWidth="2.2" 
-        />
-
-        {/* Station A Vertex dots */}
-        {ptsA.map((p, i) => (
-          <circle key={i} cx={p[0]} cy={p[1]} r="3" fill="#38BDF8" stroke="#0F172A" strokeWidth="1.5" />
+        <path d={pathA} fill="rgba(56, 189, 248, 0.35)" stroke="#38BDF8" strokeWidth="2" />
+        {polyA.map((p, i) => (
+          <circle key={i} cx={p[0]} cy={p[1]} r="3.5" fill="#38BDF8" stroke="#0F172A" strokeWidth="1.5" />
         ))}
       </svg>
     );
@@ -716,10 +1158,8 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
           <span>2024年 ({history[history.length - 1].temp}°C)</span>
         </div>
         <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} style={{ overflow: 'visible' }}>
-          {/* Baseline gradient fill */}
           <path d={`${pathD} L ${w - pad} ${h - pad} L ${pad} ${h - pad} Z`} fill="url(#tempGrad)" opacity="0.3" />
           <path d={pathD} fill="none" stroke="#F43F5E" strokeWidth="2.2" />
-          {/* Start and end dots */}
           <circle cx={points[0][0]} cy={points[0][1]} r="3" fill="#38BDF8" />
           <circle cx={points[points.length - 1][0]} cy={points[points.length - 1][1]} r="4" fill="#F43F5E" />
           <defs>
@@ -738,11 +1178,8 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
       
       {/* LEFT STAGE: GIS Exploration Map (64% Width) */}
       <div style={{ flex: '1 1 64%', position: 'relative', height: '100%' }}>
-        
-        {/* Leaflet Map DOM */}
         <div ref={mapRef} style={{ width: '100%', height: '100%', background: '#0a0f1d' }} />
 
-        {/* Loading overlay if fetching */}
         {loading && (
           <div style={{
             position: 'absolute',
@@ -767,12 +1204,12 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
           left: '16px',
           right: '16px',
           display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          flexDirection: 'column',
+          gap: '8px',
           pointerEvents: 'none',
           zIndex: 800
         }}>
-          {/* Mode Switcher Pill */}
+          {/* Main Mode Switcher Pill */}
           <div style={{
             display: 'flex',
             background: 'rgba(15, 23, 42, 0.94)',
@@ -782,27 +1219,87 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             border: '1px solid rgba(255, 255, 255, 0.12)',
             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
             pointerEvents: 'auto',
-            gap: '4px'
+            gap: '4px',
+            width: 'fit-content'
           }}>
             <button
               onClick={() => setActiveMode('seasons')}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '8px 14px',
-                borderRadius: '8px',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
                 border: 'none',
                 background: activeMode === 'seasons' ? 'linear-gradient(135deg, #0284C7, #38BDF8)' : 'transparent',
                 color: activeMode === 'seasons' ? '#0F172A' : '#94A3B8',
                 fontWeight: '800',
-                fontSize: '12.5px',
-                cursor: 'pointer',
-                transition: 'all 0.18s'
+                fontSize: '12px',
+                cursor: 'pointer'
               }}
             >
-              <Clock size={14} />
-              <span>⏱️ 四季動態潮汐 (12個月播放)</span>
+              <Clock size={13} />
+              <span>⏱️ 四季動態潮汐</span>
+            </button>
+
+            <button
+              onClick={() => setActiveMode('retail_solar')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
+                border: 'none',
+                background: activeMode === 'retail_solar' ? 'linear-gradient(135deg, #F59E0B, #EAB308)' : 'transparent',
+                color: activeMode === 'retail_solar' ? '#0F172A' : '#94A3B8',
+                fontWeight: '800',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              <Store size={13} />
+              <span>🏬 晴雨商圈與光電EV (類別4)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveMode('inundation_opendata')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
+                border: 'none',
+                background: activeMode === 'inundation_opendata' ? 'linear-gradient(135deg, #0284C7, #06B6D4)' : 'transparent',
+                color: activeMode === 'inundation_opendata' ? '#FFFFFF' : '#94A3B8',
+                fontWeight: '800',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              <Waves size={13} />
+              <span>🌊 淹水災點與路網韌性 (OpenData)</span>
+            </button>
+
+            <button
+              onClick={() => setActiveMode('typhoon_reservoir')}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
+                border: 'none',
+                background: activeMode === 'typhoon_reservoir' ? 'linear-gradient(135deg, #8B5CF6, #6366F1)' : 'transparent',
+                color: activeMode === 'typhoon_reservoir' ? '#FFFFFF' : '#94A3B8',
+                fontWeight: '800',
+                fontSize: '12px',
+                cursor: 'pointer'
+              }}
+            >
+              <Shield size={13} />
+              <span>🌪️ 抗颱神仙與水庫旱澇 (類別5)</span>
             </button>
 
             <button
@@ -810,20 +1307,19 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '8px 14px',
-                borderRadius: '8px',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
                 border: 'none',
                 background: activeMode === 'change' ? 'linear-gradient(135deg, #EF4444, #F97316)' : 'transparent',
                 color: activeMode === 'change' ? '#FFFFFF' : '#94A3B8',
                 fontWeight: '700',
-                fontSize: '12.5px',
-                cursor: 'pointer',
-                transition: 'all 0.18s'
+                fontSize: '12px',
+                cursor: 'pointer'
               }}
             >
-              <TrendingUp size={14} />
-              <span>📈 30年氣候變異 (升溫/暴雨)</span>
+              <TrendingUp size={13} />
+              <span>📈 30年升溫</span>
             </button>
 
             <button
@@ -831,69 +1327,332 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '6px',
-                padding: '8px 14px',
-                borderRadius: '8px',
+                gap: '5px',
+                padding: '7px 12px',
+                borderRadius: '7px',
                 border: 'none',
                 background: activeMode === 'livability' ? 'linear-gradient(135deg, #10B981, #059669)' : 'transparent',
                 color: activeMode === 'livability' ? '#0F172A' : '#94A3B8',
                 fontWeight: '700',
-                fontSize: '12.5px',
-                cursor: 'pointer',
-                transition: 'all 0.18s'
+                fontSize: '12px',
+                cursor: 'pointer'
               }}
             >
-              <Award size={14} />
-              <span>🏆 微氣候宜居極端榜</span>
+              <Award size={13} />
+              <span>🏆 宜居榜</span>
             </button>
           </div>
 
-          {/* Region Quick Zoom Buttons */}
-          <div style={{
-            display: 'flex',
-            gap: '6px',
-            background: 'rgba(15, 23, 42, 0.88)',
-            padding: '4px 8px',
-            borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            pointerEvents: 'auto'
-          }}>
-            {[
-              { label: '全台總覽', lat: 23.85, lng: 120.95, z: 8 },
-              { label: '雙北盆地', lat: 25.04, lng: 121.52, z: 11 },
-              { label: '中部台中', lat: 24.15, lng: 120.68, z: 10 },
-              { label: '南台灣', lat: 22.80, lng: 120.35, z: 9 },
-              { label: '東海岸', lat: 23.90, lng: 121.50, z: 9 },
-              { label: '外島前哨', lat: 24.00, lng: 119.50, z: 8 }
-            ].map(r => (
-              <button
-                key={r.label}
-                onClick={() => zoomRegion(r.lat, r.lng, r.z)}
-                style={{
-                  background: 'transparent',
-                  border: 'none',
-                  color: '#94A3B8',
-                  fontSize: '11px',
-                  fontWeight: '600',
-                  padding: '4px 8px',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  transition: 'background 0.15s'
-                }}
-                onMouseEnter={e => e.currentTarget.style.color = '#38BDF8'}
-                onMouseLeave={e => e.currentTarget.style.color = '#94A3B8'}
-              >
-                {r.label}
-              </button>
-            ))}
-          </div>
+          {/* Sub Control Strip for OpenData Inundation & Mobility */}
+          {activeMode === 'inundation_opendata' && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: 'rgba(15, 23, 42, 0.94)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '9px',
+              padding: '6px 12px',
+              border: '1px solid rgba(2, 132, 199, 0.4)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+              pointerEvents: 'auto',
+              width: 'fit-content'
+            }}>
+              <div style={{ display: 'flex', gap: '4px', background: 'rgba(30, 41, 59, 0.6)', padding: '2px', borderRadius: '6px' }}>
+                <button
+                  onClick={() => setInundationSubTab('zones')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: inundationSubTab === 'zones' ? '#0284C7' : 'transparent',
+                    color: inundationSubTab === 'zones' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🌀 歷年強颱淹水面 (水利署 25770)
+                </button>
+                <button
+                  onClick={() => setInundationSubTab('hotspots')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: inundationSubTab === 'hotspots' ? '#0284C7' : 'transparent',
+                    color: inundationSubTab === 'hotspots' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  📍 NCDR 淹水災點 (國科會 130016)
+                </button>
+                <button
+                  onClick={() => setInundationSubTab('sensors')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: inundationSubTab === 'sensors' ? '#0284C7' : 'transparent',
+                    color: inundationSubTab === 'sensors' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  📡 IoT 路面水深 (水利署 142980)
+                </button>
+              </div>
+
+              {inundationSubTab === 'zones' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700' }}>選擇颱風:</span>
+                  <select
+                    value={selectedInundationTyphoonId}
+                    onChange={e => {
+                      setSelectedInundationTyphoonId(e.target.value);
+                      const t = floodTyphoons.find(item => item.id === e.target.value);
+                      if (t && t.polygons && t.polygons[0]) {
+                        const c = t.polygons[0].coordinates[0];
+                        if (mapInstanceRef.current) mapInstanceRef.current.flyTo(c, 10, { duration: 1.2 });
+                      }
+                    }}
+                    style={{
+                      background: '#1E293B',
+                      border: '1px solid rgba(56, 189, 248, 0.4)',
+                      borderRadius: '5px',
+                      color: '#F8FAFC',
+                      fontSize: '11px',
+                      padding: '3px 8px',
+                      outline: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {floodTyphoons.map(t => (
+                      <option key={t.id} value={t.id}>{t.name} (淹水 {t.total_inundated_km2}km²)</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {inundationSubTab === 'hotspots' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700' }}>機關來源:</span>
+                  <select
+                    value={hotspotAgencyFilter}
+                    onChange={e => setHotspotAgencyFilter(e.target.value)}
+                    style={{
+                      background: '#1E293B',
+                      border: '1px solid rgba(56, 189, 248, 0.4)',
+                      borderRadius: '5px',
+                      color: '#F8FAFC',
+                      fontSize: '11px',
+                      padding: '3px 8px',
+                      outline: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    <option value="all">全台所有部會 (水利署/EMIC/公路局)</option>
+                    <option value="水利署">經濟部水利署</option>
+                    <option value="EMIC">內政部消防署 (EMIC)</option>
+                    <option value="公路局">交通部公路局</option>
+                  </select>
+                </div>
+              )}
+
+              {inundationSubTab === 'sensors' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700' }}>暴雨強度模擬:</span>
+                  <div style={{ display: 'flex', gap: '3px' }}>
+                    {[
+                      { id: 'sunny', label: '☀️ 晴天', color: '#10B981' },
+                      { id: 'drizzle', label: '🌧️ 細雨', color: '#38BDF8' },
+                      { id: 'heavy_rain', label: '⛈️ 豪雨', color: '#F59E0B' },
+                      { id: 'deluge_extreme', label: '🌊 破紀錄暴雨', color: '#EF4444' }
+                    ].map(sc => (
+                      <button
+                        key={sc.id}
+                        onClick={() => setSensorScenario(sc.id)}
+                        style={{
+                          padding: '3px 7px',
+                          borderRadius: '4px',
+                          border: 'none',
+                          background: sensorScenario === sc.id ? sc.color : 'rgba(30, 41, 59, 0.8)',
+                          color: sensorScenario === sc.id ? '#0F172A' : '#94A3B8',
+                          fontSize: '10.5px',
+                          fontWeight: '700',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        {sc.label}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Sub Control Strip for Category 4 (Retail & Solar) */}
+          {activeMode === 'retail_solar' && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: 'rgba(15, 23, 42, 0.94)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '9px',
+              padding: '6px 12px',
+              border: '1px solid rgba(245, 158, 11, 0.35)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+              pointerEvents: 'auto',
+              width: 'fit-content'
+            }}>
+              <div style={{ display: 'flex', gap: '4px', background: 'rgba(30, 41, 59, 0.6)', padding: '2px', borderRadius: '6px' }}>
+                <button
+                  onClick={() => setRetailSolarTab('retail')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: retailSolarTab === 'retail' ? '#F59E0B' : 'transparent',
+                    color: retailSolarTab === 'retail' ? '#0F172A' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🛍️ 晴雨商圈對流模型
+                </button>
+                <button
+                  onClick={() => setRetailSolarTab('solar')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: retailSolarTab === 'solar' ? '#F59E0B' : 'transparent',
+                    color: retailSolarTab === 'solar' ? '#0F172A' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  ☀️ 全島光電與 EV 快充 ROI
+                </button>
+              </div>
+
+              {retailSolarTab === 'retail' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', color: '#CBD5E1', fontWeight: '700' }}>模擬天候：</span>
+                  {[
+                    { id: 'sunny', label: '☀️ 晴朗', color: '#EAB308' },
+                    { id: 'rain_drizzle', label: '🌧️ 陰雨 1-10mm', color: '#38BDF8' },
+                    { id: 'heavy_rain', label: '⛈️ 豪大雨 >50mm', color: '#EF4444' }
+                  ].map(sc => (
+                    <button
+                      key={sc.id}
+                      onClick={() => setWeatherScenario(sc.id)}
+                      style={{
+                        padding: '4px 9px',
+                        borderRadius: '5px',
+                        border: weatherScenario === sc.id ? `1px solid ${sc.color}` : '1px solid rgba(255, 255, 255, 0.1)',
+                        background: weatherScenario === sc.id ? `${sc.color}33` : 'rgba(30, 41, 59, 0.4)',
+                        color: weatherScenario === sc.id ? '#FFFFFF' : '#94A3B8',
+                        fontSize: '11px',
+                        fontWeight: '700',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {sc.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Sub Control Strip for Category 5 (Typhoon & Reservoir) */}
+          {activeMode === 'typhoon_reservoir' && (
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '12px',
+              background: 'rgba(15, 23, 42, 0.94)',
+              backdropFilter: 'blur(12px)',
+              borderRadius: '9px',
+              padding: '6px 12px',
+              border: '1px solid rgba(139, 92, 246, 0.35)',
+              boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5)',
+              pointerEvents: 'auto',
+              width: 'fit-content'
+            }}>
+              <div style={{ display: 'flex', gap: '4px', background: 'rgba(30, 41, 59, 0.6)', padding: '2px', borderRadius: '6px' }}>
+                <button
+                  onClick={() => setTyphoonReservoirTab('typhoon')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: typhoonReservoirTab === 'typhoon' ? '#8B5CF6' : 'transparent',
+                    color: typhoonReservoirTab === 'typhoon' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  🛡️ 中央山脈 30 年抗颱回測
+                </button>
+                <button
+                  onClick={() => setTyphoonReservoirTab('reservoir')}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: '5px',
+                    border: 'none',
+                    background: typhoonReservoirTab === 'reservoir' ? '#8B5CF6' : 'transparent',
+                    color: typhoonReservoirTab === 'reservoir' ? '#FFFFFF' : '#94A3B8',
+                    fontSize: '11px',
+                    fontWeight: '700',
+                    cursor: 'pointer'
+                  }}
+                >
+                  💧 四大水庫連續乾旱與旱澇急轉
+                </button>
+              </div>
+
+              {typhoonReservoirTab === 'typhoon' && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                  <span style={{ fontSize: '11px', color: '#CBD5E1', fontWeight: '700' }}>回測颱風：</span>
+                  <select
+                    value={selectedTyphoonId}
+                    onChange={e => setSelectedTyphoonId(e.target.value)}
+                    style={{
+                      background: '#1E293B',
+                      border: '1px solid rgba(139, 92, 246, 0.4)',
+                      borderRadius: '5px',
+                      color: '#F8FAFC',
+                      fontSize: '11px',
+                      padding: '3px 8px',
+                      outline: 'none',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {typhoonData.historical_typhoons?.map(t => (
+                      <option key={t.id} value={t.id}>{t.name} ({t.year})</option>
+                    ))}
+                  </select>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
-        {/* BOTTOM FLOATING BAR: Seasonal Player OR Metric Filters */}
-        {activeMode === 'seasons' ? (
+        {/* Bottom Floating Season Player (When in 'seasons' mode) */}
+        {activeMode === 'seasons' && (
           <div style={{
             position: 'absolute',
-            bottom: '24px',
+            bottom: '20px',
             left: '20px',
             right: '20px',
             background: 'rgba(15, 23, 42, 0.95)',
@@ -907,7 +1666,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             flexDirection: 'column',
             gap: '10px'
           }}>
-            {/* Upper row: Play/Pause, Month stepper, Speed, Season info */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                 <button
@@ -940,9 +1698,7 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                       color: '#F8FAFC',
                       borderRadius: '6px',
                       padding: '5px 8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center'
+                      cursor: 'pointer'
                     }}
                   >
                     <ChevronLeft size={15} />
@@ -958,17 +1714,14 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                       color: '#F8FAFC',
                       borderRadius: '6px',
                       padding: '5px 8px',
-                      cursor: 'pointer',
-                      display: 'flex',
-                      alignItems: 'center'
+                      cursor: 'pointer'
                     }}
                   >
                     <ChevronRight size={15} />
                   </button>
                 </div>
 
-                {/* Speed selectors */}
-                <div style={{ display: 'flex', background: 'rgba(30, 41, 59, 0.8)', borderRadius: '6px', padding: '2px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+                <div style={{ display: 'flex', background: 'rgba(30, 41, 59, 0.8)', borderRadius: '6px', padding: '2px' }}>
                   {[0.5, 1, 2].map(speed => (
                     <button
                       key={speed}
@@ -990,7 +1743,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                 </div>
               </div>
 
-              {/* Season badge & narration */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{
                   background: 'rgba(56, 189, 248, 0.18)',
@@ -998,189 +1750,37 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                   color: '#38BDF8',
                   padding: '3px 9px',
                   borderRadius: '6px',
-                  fontSize: '12px',
+                  fontSize: '11.5px',
                   fontWeight: '800'
                 }}>
                   {SEASON_NARRATIVES[selectedMonth]?.season}
                 </span>
-                <span style={{ fontSize: '11.5px', color: '#CBD5E1', maxWidth: '440px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                <span style={{ color: '#E2E8F0', fontSize: '12px', fontWeight: '500' }}>
                   {SEASON_NARRATIVES[selectedMonth]?.desc}
                 </span>
               </div>
             </div>
 
-            {/* Lower row: Interactive Month Slider & Month quick jump chips */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <input
-                type="range"
-                min="1"
-                max="12"
-                step="1"
-                value={selectedMonth}
-                onChange={e => setSelectedMonth(parseInt(e.target.value, 10))}
-                style={{
-                  flex: 1,
-                  accentColor: '#38BDF8',
-                  cursor: 'pointer'
-                }}
-              />
-              <div style={{ display: 'flex', gap: '4px' }}>
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map(m => (
-                  <button
-                    key={m}
-                    onClick={() => setSelectedMonth(m)}
-                    style={{
-                      background: selectedMonth === m ? '#38BDF8' : 'rgba(255, 255, 255, 0.06)',
-                      color: selectedMonth === m ? '#0F172A' : '#94A3B8',
-                      border: 'none',
-                      borderRadius: '4px',
-                      padding: '3px 6px',
-                      fontSize: '10.5px',
-                      fontWeight: selectedMonth === m ? '800' : '500',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {m}月
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        ) : (
-          <div style={{
-            position: 'absolute',
-            bottom: '24px',
-            left: '16px',
-            display: 'flex',
-            gap: '8px',
-            background: 'rgba(15, 23, 42, 0.94)',
-            backdropFilter: 'blur(10px)',
-            padding: '8px 12px',
-            borderRadius: '10px',
-            border: '1px solid rgba(255, 255, 255, 0.12)',
-            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
-            zIndex: 800
-          }}>
-            {activeMode === 'change' ? (
-              <>
-                <span style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', marginRight: '4px' }}>
-                  <Layers size={13} style={{ marginRight: '4px' }} /> 變異指標:
-                </span>
-                {[
-                  { id: 'temp_delta', label: '🌡️ 30年升溫幅度 (+°C)' },
-                  { id: 'hot35_delta', label: '🔥 高溫天數暴增 (+天/年)' },
-                  { id: 'rain_days_delta', label: '📉 降雨日數遞減 (-天/年)' }
-                ].map(opt => (
-                  <button
-                    key={opt.id}
-                    onClick={() => setSelectedMetric(opt.id)}
-                    style={{
-                      padding: '5px 11px',
-                      borderRadius: '6px',
-                      border: 'none',
-                      background: selectedMetric === opt.id ? '#EF4444' : 'rgba(255, 255, 255, 0.05)',
-                      color: selectedMetric === opt.id ? '#FFFFFF' : '#CBD5E1',
-                      fontSize: '11.5px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </>
-            ) : (
-              <>
-                <span style={{ fontSize: '11px', color: '#64748B', display: 'flex', alignItems: 'center', marginRight: '4px' }}>
-                  <Compass size={13} style={{ marginRight: '4px' }} /> 宜居極值:
-                </span>
-                {LIVABILITY_RANK_CATEGORIES.map(cat => (
-                  <button
-                    key={cat.id}
-                    onClick={() => setActiveRankCat(cat.id)}
-                    style={{
-                      padding: '5px 10px',
-                      borderRadius: '6px',
-                      border: 'none',
-                      background: activeRankCat === cat.id ? '#0284C7' : 'rgba(255, 255, 255, 0.05)',
-                      color: activeRankCat === cat.id ? '#FFFFFF' : '#CBD5E1',
-                      fontSize: '11.5px',
-                      fontWeight: '700',
-                      cursor: 'pointer'
-                    }}
-                  >
-                    {cat.label.split(' ')[0]} {cat.label.split(' ')[1]}
-                  </button>
-                ))}
-              </>
-            )}
+            {/* Month Slider */}
+            <input
+              type="range"
+              min="1"
+              max="12"
+              step="1"
+              value={selectedMonth}
+              onChange={e => setSelectedMonth(Number(e.target.value))}
+              style={{
+                width: '100%',
+                accentColor: '#38BDF8',
+                cursor: 'pointer'
+              }}
+            />
           </div>
         )}
 
-        {/* Map Legend (Bottom-right above zoom control) */}
-        <div style={{
-          position: 'absolute',
-          bottom: activeMode === 'seasons' ? '108px' : '24px',
-          right: '56px',
-          background: 'rgba(15, 23, 42, 0.92)',
-          backdropFilter: 'blur(10px)',
-          padding: '8px 12px',
-          borderRadius: '8px',
-          border: '1px solid rgba(255, 255, 255, 0.08)',
-          fontSize: '10.5px',
-          color: '#94A3B8',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          zIndex: 800
-        }}>
-          <div style={{ fontWeight: '700', color: '#F8FAFC' }}>
-            {activeMode === 'seasons' ? '🌤️ 四季月氣候符號色階' : activeMode === 'change' ? '🌡️ 30年氣候變異色階' : '📊 數值極端色彩標示'}
-          </div>
-          {activeMode === 'seasons' ? (
-            <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ fontSize: '12px' }}>☀️ / 🌤️</span>
-                <span>晴朗乾爽 / 陽光充足</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444' }}></span>
-                <span>酷暑高溫 (&gt;28°C)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#38BDF8' }}></span>
-                <span>連綿降雨 (&gt;160mm)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#818CF8' }}></span>
-                <span>極端豪大雨 (&gt;320mm 梅雨/颱風)</span>
-              </div>
-            </>
-          ) : (
-            <>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#EF4444' }}></span>
-                <span>極高溫 / 劇烈升溫 (&gt;+0.8°C)</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#F59E0B' }}></span>
-                <span>中度升溫 / 陽光充足</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10B981' }}></span>
-                <span>氣候穩定 / 抗颱結界防護</span>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#8B5CF6' }}></span>
-                <span>極端高濕 / 多雨發霉重災區</span>
-              </div>
-            </>
-          )}
-        </div>
-
       </div>
 
-      {/* RIGHT STAGE: Ranking Leaderboard & Radar Inspector (36% Width) */}
+      {/* RIGHT STAGE: Inspector & Leaderboard Panel (36% Width) */}
       <div style={{
         flex: '0 0 36%',
         height: '100%',
@@ -1190,7 +1790,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
         flexDirection: 'column',
         overflowY: 'auto'
       }}>
-        
         {/* Panel Header */}
         <div style={{
           padding: '16px 20px',
@@ -1201,22 +1800,31 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <span style={{ fontSize: '18px' }}>
-                  {activeMode === 'seasons' ? '⏱️' : activeMode === 'change' ? '🌡️' : '🏆'}
+                  {activeMode === 'inundation_opendata' ? '🌊' : activeMode === 'retail_solar' ? '🏬' : activeMode === 'typhoon_reservoir' ? '🌪️' : activeMode === 'seasons' ? '⏱️' : activeMode === 'change' ? '🌡️' : '🏆'}
                 </span>
                 <h2 style={{ fontSize: '16px', fontWeight: '800', color: '#F8FAFC', margin: 0 }}>
-                  {activeMode === 'seasons' ? '全島四季氣候潮汐動態看板' : activeMode === 'change' ? '全台 30 年氣候變遷戰略報告' : '全台微氣候宜居極值排行'}
+                  {activeMode === 'inundation_opendata'
+                    ? (inundationSubTab === 'zones' ? '歷年強颱淹水範圍與路網衝擊 (水利署 25770)' : inundationSubTab === 'hotspots' ? '全台近5年淹水災點與交通延誤 (NCDR 130016)' : 'IoT 路面淹水深度即時監測 (IoW 142980)')
+                    : activeMode === 'retail_solar' 
+                    ? (retailSolarTab === 'retail' ? '晴雨商圈乾濕人流對流模型' : '全島 30 年光電與 EV 快充 ROI')
+                    : activeMode === 'typhoon_reservoir'
+                    ? (typhoonReservoirTab === 'typhoon' ? '中央山脈 30 年抗颱屏障大回測' : '四大水庫連續乾旱與旱澇急轉')
+                    : activeMode === 'seasons' 
+                    ? '全島四季氣候潮汐動態看板' 
+                    : activeMode === 'change' 
+                    ? '全台 30 年氣候變遷戰略報告' 
+                    : '全台微氣候宜居極值排行'}
                 </h2>
               </div>
               <p style={{ margin: '4px 0 0', fontSize: '11.5px', color: '#64748B' }}>
-                中央氣象署 CODiS 1998–2024 近 30 年連續實測大數據庫
+                交通部中央氣象署 CODiS 1998–2024 近 30 年連續實測大數據庫
               </p>
             </div>
 
-            {/* Station Search Input */}
-            <div style={{ width: '130px' }}>
+            <div style={{ width: '120px' }}>
               <input
                 type="text"
-                placeholder="搜尋測站..."
+                placeholder="搜尋點位..."
                 value={searchFilter}
                 onChange={e => setSearchFilter(e.target.value)}
                 style={{
@@ -1237,7 +1845,582 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
         {/* Scrollable Content Container */}
         <div style={{ padding: '16px 20px', flex: 1, display: 'flex', flexDirection: 'column', gap: '20px' }}>
 
-          {/* MODE 0: SEASONAL CLIMATOLOGY PLAYER */}
+          {/* ============================================================ */}
+          {/* CATEGORY 4: RETAIL CONVECTION SUBTAB                         */}
+          {/* ============================================================ */}
+          {activeMode === 'retail_solar' && retailSolarTab === 'retail' && selectedDistrict && (
+            <>
+              {/* Selected District Card */}
+              <div style={{
+                background: 'rgba(15, 23, 42, 0.8)',
+                borderRadius: '10px',
+                padding: '16px',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <span style={{
+                      background: 'rgba(245, 158, 11, 0.2)',
+                      color: '#F59E0B',
+                      fontSize: '10.5px',
+                      fontWeight: '800',
+                      padding: '2px 7px',
+                      borderRadius: '4px'
+                    }}>
+                      {selectedDistrict.type_label}
+                    </span>
+                    <h3 style={{ fontSize: '17px', fontWeight: '900', color: '#F8FAFC', margin: '6px 0 2px' }}>
+                      {selectedDistrict.name}
+                    </h3>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+                      {selectedDistrict.city} · 晴天基準客流 {(selectedDistrict.sunny_daily_pax / 10000).toFixed(1)}萬人次/日
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>遮雨防護評級</div>
+                    <div style={{ color: '#F59E0B', fontSize: '14px', fontWeight: '800', marginTop: '2px' }}>
+                      {'⭐'.repeat(selectedDistrict.rain_shield_rating)} ({selectedDistrict.rain_shield_rating}/5星)
+                    </div>
+                  </div>
+                </div>
+
+                {/* Scenario Metric Cards */}
+                {(() => {
+                  const scen = selectedDistrict.scenarios[weatherScenario] || selectedDistrict.scenarios.sunny;
+                  const isPositive = scen.pax_index >= 100;
+                  const diff = scen.pax_index - 100;
+                  return (
+                    <div style={{ marginTop: '14px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>人流指數</div>
+                        <div style={{ fontSize: '17px', fontWeight: '900', color: isPositive ? '#10B981' : '#EF4444', margin: '2px 0' }}>
+                          {scen.pax_index}%
+                        </div>
+                        <div style={{ fontSize: '9.5px', color: isPositive ? '#10B981' : '#EF4444' }}>
+                          {diff >= 0 ? `+${diff}%` : `${diff}%`}
+                        </div>
+                      </div>
+
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>預估日客流</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', margin: '2px 0' }}>
+                          {(scen.daily_pax / 10000).toFixed(1)}萬
+                        </div>
+                        <div style={{ fontSize: '9.5px', color: '#64748B' }}>人次/日</div>
+                      </div>
+
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>停留時長</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#38BDF8', margin: '2px 0' }}>
+                          {scen.dwell_mins}
+                        </div>
+                        <div style={{ fontSize: '9.5px', color: '#64748B' }}>分鐘</div>
+                      </div>
+
+                      <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>客單消費</div>
+                        <div style={{ fontSize: '16px', fontWeight: '900', color: '#F59E0B', margin: '2px 0' }}>
+                          ${scen.avg_spend}
+                        </div>
+                        <div style={{ fontSize: '9.5px', color: '#64748B' }}>NTD</div>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Convection Destination Callout */}
+                <div style={{
+                  marginTop: '12px',
+                  background: 'rgba(56, 189, 248, 0.08)',
+                  border: '1px dashed rgba(56, 189, 248, 0.35)',
+                  borderRadius: '7px',
+                  padding: '9px 12px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px'
+                }}>
+                  <ArrowUpRight size={16} color="#38BDF8" />
+                  <div style={{ fontSize: '11.5px', color: '#E2E8F0' }}>
+                    <strong style={{ color: '#38BDF8' }}>人流乾濕對流樞紐：</strong> {selectedDistrict.convection_destination}
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '10px', fontSize: '11px', color: '#94A3B8', lineHeight: '1.5' }}>
+                  💡 <strong>大數據洞察：</strong> {selectedDistrict.insight}
+                </div>
+              </div>
+
+              {/* 7 Districts Convection Comparison Table */}
+              <div>
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  📊 全台 7 大指標商圈【{weatherScenario === 'sunny' ? '☀️ 晴朗' : weatherScenario === 'rain_drizzle' ? '🌧️ 陰雨 1-10mm' : '⛈️ 豪大雨 >50mm'}】即時對照
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {retailDistricts.map(d => {
+                    const isSelected = d.district_id === selectedDistrictId;
+                    const scen = d.scenarios[weatherScenario] || d.scenarios.sunny;
+                    const isUp = scen.pax_index >= 100;
+                    return (
+                      <div
+                        key={d.district_id}
+                        onClick={() => flyToDistrict(d)}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '8px 12px',
+                          background: isSelected ? 'rgba(245, 158, 11, 0.18)' : 'rgba(30, 41, 59, 0.35)',
+                          border: isSelected ? '1px solid #F59E0B' : '1px solid rgba(255, 255, 255, 0.06)',
+                          borderRadius: '7px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                            <span style={{ fontSize: '13px', fontWeight: '700', color: '#F8FAFC' }}>{d.name}</span>
+                            <span style={{ fontSize: '10px', color: '#94A3B8' }}>({d.city})</span>
+                          </div>
+                          <div style={{ fontSize: '10px', color: '#64748B' }}>{d.type_label}</div>
+                        </div>
+
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ fontSize: '15px', fontWeight: '900', color: isUp ? '#10B981' : '#EF4444' }}>
+                            {scen.pax_index}%
+                          </span>
+                          <span style={{ fontSize: '10px', color: '#64748B', marginLeft: '4px' }}>
+                            ({(scen.daily_pax / 10000).toFixed(1)}萬人)
+                          </span>
+                          <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>
+                            營業額彈性: {scen.revenue_elasticity}x
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ============================================================ */}
+          {/* CATEGORY 4: SOLAR & EV CHARGING ROI SUBTAB                   */}
+          {/* ============================================================ */}
+          {activeMode === 'retail_solar' && retailSolarTab === 'solar' && selectedSolarStation && (
+            <>
+              {/* Selected Solar Station Profile */}
+              <div style={{
+                background: 'rgba(15, 23, 42, 0.8)',
+                borderRadius: '10px',
+                padding: '16px',
+                border: '1px solid rgba(245, 158, 11, 0.35)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <span style={{
+                      background: 'rgba(245, 158, 11, 0.2)',
+                      color: '#F59E0B',
+                      fontSize: '10.5px',
+                      fontWeight: '800',
+                      padding: '2px 7px',
+                      borderRadius: '4px'
+                    }}>
+                      {selectedSolarStation.tier}
+                    </span>
+                    <h3 style={{ fontSize: '17px', fontWeight: '900', color: '#F8FAFC', margin: '6px 0 2px' }}>
+                      {selectedSolarStation.name} 氣象站
+                    </h3>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+                      {selectedSolarStation.county} · 全國日照排行第 {selectedSolarStation.rank} 名
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>日照資本評星</div>
+                    <div style={{ color: '#F59E0B', fontSize: '13px', fontWeight: '800' }}>
+                      {'⭐'.repeat(selectedSolarStation.stars)}
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '14px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>年日照時數</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#F59E0B', margin: '2px 0' }}>
+                      {selectedSolarStation.annual_sunshine_h}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>小時/年</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>每日平均日射</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', margin: '2px 0' }}>
+                      {selectedSolarStation.daily_radiation_kwh}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>kWh/m²</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>50kW 屋頂年發</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#10B981', margin: '2px 0' }}>
+                      {(selectedSolarStation.rooftop_50kw_kwh_yr / 1000).toFixed(1)}k
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>度/年</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>EV快充ROI</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#38BDF8', margin: '2px 0' }}>
+                      {selectedSolarStation.ev_charging_roi_years}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>年回本</div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '12px', fontSize: '11px', color: '#94A3B8', lineHeight: '1.5' }}>
+                  🌿 <strong>清潔能源潛力：</strong> 年減碳量高達 <strong>{selectedSolarStation.co2_reduction_tons_yr} 噸 CO₂e</strong>。{selectedSolarStation.desc}
+                </div>
+              </div>
+
+              {/* Solar Leaderboard Top 10 */}
+              <div>
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  ☀️ 全台 30 年日照資本與光電 ROI 排行榜 (Top 10)
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {solarStations.slice(0, 10).map((s, idx) => {
+                    const isSelected = s.stn_id === selectedSolarStationId;
+                    return (
+                      <div
+                        key={s.stn_id}
+                        onClick={() => {
+                          setSelectedSolarStationId(s.stn_id);
+                          mapInstanceRef.current?.flyTo([s.lat, s.lng], 10, { duration: 1.2 });
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '8px 12px',
+                          background: isSelected ? 'rgba(245, 158, 11, 0.18)' : 'rgba(30, 41, 59, 0.35)',
+                          border: isSelected ? '1px solid #F59E0B' : '1px solid rgba(255, 255, 255, 0.06)',
+                          borderRadius: '7px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{
+                            width: '20px', height: '20px', borderRadius: '50%',
+                            background: idx === 0 ? '#F59E0B' : idx === 1 ? '#94A3B8' : idx === 2 ? '#B45309' : 'rgba(255, 255, 255, 0.1)',
+                            color: '#FFFFFF', fontSize: '11px', fontWeight: '800',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                          }}>
+                            {idx + 1}
+                          </span>
+                          <div>
+                            <span style={{ fontSize: '13px', fontWeight: '700', color: '#F8FAFC' }}>{s.name}</span>
+                            <span style={{ fontSize: '10.5px', color: '#94A3B8', marginLeft: '6px' }}>({s.county})</span>
+                            <div style={{ fontSize: '10px', color: '#F59E0B' }}>{s.tier}</div>
+                          </div>
+                        </div>
+
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ fontSize: '15px', fontWeight: '900', color: '#F8FAFC' }}>
+                            {s.annual_sunshine_h}
+                          </span>
+                          <span style={{ fontSize: '10px', color: '#64748B', marginLeft: '3px' }}>小時</span>
+                          <div style={{ fontSize: '9.5px', color: '#10B981' }}>
+                            回本年限: {s.ev_charging_roi_years} 年
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ============================================================ */}
+          {/* CATEGORY 5: TYPHOON RESILIENCE BACKTEST SUBTAB               */}
+          {/* ============================================================ */}
+          {activeMode === 'typhoon_reservoir' && typhoonReservoirTab === 'typhoon' && (
+            <>
+              {/* Selected Typhoon Dossier */}
+              {selectedTyphoon && (
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.8)',
+                  borderRadius: '10px',
+                  padding: '14px',
+                  border: '1px solid rgba(139, 92, 246, 0.35)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{
+                      background: 'rgba(139, 92, 246, 0.25)',
+                      color: '#C084FC',
+                      fontSize: '11px',
+                      fontWeight: '800',
+                      padding: '2px 8px',
+                      borderRadius: '4px'
+                    }}>
+                      {selectedTyphoon.intensity}
+                    </span>
+                    <span style={{ fontSize: '11px', color: '#94A3B8' }}>登陸年份: {selectedTyphoon.year}</span>
+                  </div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', margin: '6px 0 4px' }}>
+                    🌀 {selectedTyphoon.name}
+                  </h3>
+                  <div style={{ fontSize: '11.5px', color: '#F43F5E', fontWeight: '700' }}>
+                    極值紀錄：{selectedTyphoon.max_rain_record}
+                  </div>
+                  <div style={{ fontSize: '11px', color: '#94A3B8', marginTop: '4px', lineHeight: '1.4' }}>
+                    {selectedTyphoon.damage_summary}
+                  </div>
+                </div>
+              )}
+
+              {/* Selected Station 30-Year Resilience Dossier */}
+              {selectedStation && (
+                <div style={{
+                  background: 'rgba(15, 23, 42, 0.8)',
+                  borderRadius: '10px',
+                  padding: '14px',
+                  border: '1px solid rgba(56, 189, 248, 0.35)'
+                }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                    <div>
+                      <span style={{
+                        background: selectedStation.livability?.radar?.typhoon_defense >= 80 ? 'rgba(16, 185, 129, 0.2)' : 'rgba(239, 68, 68, 0.2)',
+                        color: selectedStation.livability?.radar?.typhoon_defense >= 80 ? '#10B981' : '#EF4444',
+                        fontSize: '10.5px',
+                        fontWeight: '800',
+                        padding: '2px 7px',
+                        borderRadius: '4px'
+                      }}>
+                        {selectedStation.badge}
+                      </span>
+                      <h3 style={{ fontSize: '16px', fontWeight: '900', color: '#F8FAFC', margin: '6px 0 2px' }}>
+                        {selectedStation.name} 抗颱綜合評級
+                      </h3>
+                      <div style={{ fontSize: '11px', color: '#94A3B8' }}>{selectedStation.county}</div>
+                    </div>
+
+                    <div style={{ textAlign: 'right' }}>
+                      <div style={{ fontSize: '11px', color: '#94A3B8' }}>抗颱防護分</div>
+                      <div style={{
+                        fontSize: '22px', fontWeight: '900',
+                        color: selectedStation.livability?.radar?.typhoon_defense >= 80 ? '#10B981' : selectedStation.livability?.radar?.typhoon_defense >= 60 ? '#F59E0B' : '#EF4444'
+                      }}>
+                        {selectedStation.livability?.radar?.typhoon_defense || 60}分
+                      </div>
+                    </div>
+                  </div>
+
+                  <div style={{ marginTop: '10px', fontSize: '11px', color: '#CBD5E1', lineHeight: '1.5' }}>
+                    {selectedStation.id === '467490' 
+                      ? '🛡️ 台中盆地受雪山與中央山脈雙重屏蔽，歷次強颱風雨衰減近七成，全台最安全避風港。'
+                      : selectedStation.id === '466920'
+                      ? '🌊 台北盆地風力受擋，但納莉級慢速颱風時河川外水倒灌壓力極大。'
+                      : selectedStation.id === '467060'
+                      ? '💥 蘇澳岬角迎風多雨，蘇迪勒颱風瞬間狂風飆破 17 級破表，全台風暴重災最前線。'
+                      : selectedStation.id === '467440_merged'
+                      ? '🌀 傳統避開西北颱，但山陀兒極罕見登陸高屏，市區連遭 17 級風橫掃 6 小時。'
+                      : '中央山脈地形效應顯著影響該地風雨分佈。'}
+                  </div>
+                </div>
+              )}
+
+              {/* Typhoon Station Rankings */}
+              <div>
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  🛡️ 全台中央山脈抗颱屏障度排行榜 (Top 8)
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  {typhoonData.station_rankings?.slice(0, 8).map((s, idx) => {
+                    const isSelected = s.stn_id === selectedStationId;
+                    return (
+                      <div
+                        key={s.stn_id}
+                        onClick={() => {
+                          setSelectedStationId(s.stn_id);
+                          mapInstanceRef.current?.flyTo([s.lat, s.lng], 10, { duration: 1.2 });
+                        }}
+                        style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'space-between',
+                          padding: '8px 12px',
+                          background: isSelected ? 'rgba(139, 92, 246, 0.2)' : 'rgba(30, 41, 59, 0.35)',
+                          border: isSelected ? '1px solid #8B5CF6' : '1px solid rgba(255, 255, 255, 0.06)',
+                          borderRadius: '7px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                          <span style={{
+                            width: '20px', height: '20px', borderRadius: '50%',
+                            background: idx === 0 ? '#10B981' : idx === 1 ? '#059669' : 'rgba(255, 255, 255, 0.1)',
+                            color: '#FFFFFF', fontSize: '11px', fontWeight: '800',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center'
+                          }}>
+                            {idx + 1}
+                          </span>
+                          <div>
+                            <span style={{ fontSize: '13px', fontWeight: '700', color: '#F8FAFC' }}>{s.name}</span>
+                            <span style={{ fontSize: '10.5px', color: '#94A3B8', marginLeft: '6px' }}>({s.county})</span>
+                            <div style={{ fontSize: '10px', color: '#C084FC' }}>{s.shield_badge}</div>
+                          </div>
+                        </div>
+
+                        <div style={{ textAlign: 'right' }}>
+                          <span style={{ fontSize: '15px', fontWeight: '900', color: '#10B981' }}>
+                            {s.shielding_rate_pct}%
+                          </span>
+                          <span style={{ fontSize: '10px', color: '#64748B', marginLeft: '3px' }}>屏障衰減</span>
+                          <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>
+                            綜合防護: {s.resilience_score}分
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ============================================================ */}
+          {/* CATEGORY 5: RESERVOIR DROUGHT & DELUGE SUBTAB               */}
+          {/* ============================================================ */}
+          {activeMode === 'typhoon_reservoir' && typhoonReservoirTab === 'reservoir' && selectedReservoir && (
+            <>
+              {/* Selected Reservoir Dossier */}
+              <div style={{
+                background: 'rgba(15, 23, 42, 0.8)',
+                borderRadius: '10px',
+                padding: '16px',
+                border: '1px solid rgba(56, 189, 248, 0.35)',
+                boxShadow: '0 8px 24px rgba(0,0,0,0.4)'
+              }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+                  <div>
+                    <span style={{
+                      background: 'rgba(56, 189, 248, 0.2)',
+                      color: '#38BDF8',
+                      fontSize: '10.5px',
+                      fontWeight: '800',
+                      padding: '2px 7px',
+                      borderRadius: '4px'
+                    }}>
+                      {selectedReservoir.region}
+                    </span>
+                    <h3 style={{ fontSize: '17px', fontWeight: '900', color: '#F8FAFC', margin: '6px 0 2px' }}>
+                      💧 {selectedReservoir.name}
+                    </h3>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>
+                      {selectedReservoir.service_area}
+                    </div>
+                  </div>
+
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: '11px', color: '#94A3B8' }}>旱澇急轉指數</div>
+                    <div style={{
+                      fontSize: '22px', fontWeight: '900',
+                      color: selectedReservoir.inversion_index >= 85 ? '#EF4444' : selectedReservoir.inversion_index >= 60 ? '#F59E0B' : '#10B981'
+                    }}>
+                      {selectedReservoir.inversion_index}分
+                    </div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '14px', display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '8px' }}>
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>庫容總量</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#38BDF8', margin: '2px 0' }}>
+                      {selectedReservoir.capacity_million_m3}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>億立方米</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>最長CDD無雨</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#EF4444', margin: '2px 0' }}>
+                      {selectedReservoir.max_cdd_days}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>連續天數</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>CDD 30年增幅</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#F59E0B', margin: '2px 0' }}>
+                      +{selectedReservoir.cdd_30y_growth_pct}%
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>乾旱延長</div>
+                  </div>
+
+                  <div style={{ background: 'rgba(30, 41, 59, 0.5)', padding: '10px 8px', borderRadius: '7px', textAlign: 'center' }}>
+                    <div style={{ fontSize: '10px', color: '#94A3B8' }}>48hr暴雨驟滿</div>
+                    <div style={{ fontSize: '16px', fontWeight: '900', color: '#10B981', margin: '2px 0' }}>
+                      {selectedReservoir.deluge_rapid_refill_count}
+                    </div>
+                    <div style={{ fontSize: '9.5px', color: '#64748B' }}>次 (30年)</div>
+                  </div>
+                </div>
+
+                <div style={{ marginTop: '12px', fontSize: '11px', color: '#CBD5E1', lineHeight: '1.5' }}>
+                  🌊 <strong>補給水文特徵：</strong> {selectedReservoir.water_source_pattern}
+                </div>
+                <div style={{ marginTop: '6px', fontSize: '11px', color: '#F43F5E', lineHeight: '1.4' }}>
+                  🚨 <strong>歷史驚悚極限：</strong> {selectedReservoir.historical_extreme}
+                </div>
+              </div>
+
+              {/* 4 Reservoirs Comparison List */}
+              <div>
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  💧 全台四大核心水庫旱澇急轉脆弱度橫向評估
+                </h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  {reservoirs.map(r => {
+                    const isSelected = r.reservoir_id === selectedReservoirId;
+                    const color = r.inversion_index >= 85 ? '#EF4444' : r.inversion_index >= 60 ? '#F59E0B' : '#10B981';
+                    return (
+                      <div
+                        key={r.reservoir_id}
+                        onClick={() => flyToReservoir(r)}
+                        style={{
+                          padding: '10px 12px',
+                          background: isSelected ? 'rgba(56, 189, 248, 0.18)' : 'rgba(30, 41, 59, 0.35)',
+                          border: isSelected ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.06)',
+                          borderRadius: '8px',
+                          cursor: 'pointer'
+                        }}
+                      >
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                          <div>
+                            <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#F8FAFC' }}>{r.name}</span>
+                            <span style={{ fontSize: '11px', color: '#94A3B8', marginLeft: '6px' }}>({r.region})</span>
+                            <div style={{ fontSize: '10.5px', color }}>{r.vulnerability_tier}</div>
+                          </div>
+
+                          <div style={{ textAlign: 'right' }}>
+                            <div style={{ fontSize: '16px', fontWeight: '900', color }}>{r.inversion_index}分</div>
+                            <div style={{ fontSize: '10px', color: '#64748B' }}>庫容 {r.capacity_million_m3}億噸</div>
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* ============================================================ */}
+          {/* MODE 0: SEASONAL CLIMATOLOGY PLAYER                          */}
+          {/* ============================================================ */}
           {activeMode === 'seasons' && islandMonthlyStats && (
             <>
               {/* Island-wide Monthly Macro Stat Cards */}
@@ -1248,141 +2431,87 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                     {islandMonthlyStats.avgTemp}°C
                   </div>
                   <div style={{ fontSize: '10px', color: '#94A3B8' }}>
-                    {selectedMonth}月 全島常態平均
+                    最高: {islandMonthlyStats.hottest?.station.name} ({islandMonthlyStats.hottest?.temp}°C)
                   </div>
                 </div>
 
-                <div style={{ background: 'rgba(99, 102, 241, 0.08)', border: '1px solid rgba(99, 102, 241, 0.25)', padding: '10px 12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '11px', color: '#818CF8', fontWeight: '700' }}>全島平均月雨量</div>
+                <div style={{ background: 'rgba(129, 140, 248, 0.08)', border: '1px solid rgba(129, 140, 248, 0.25)', padding: '10px 12px', borderRadius: '8px' }}>
+                  <div style={{ fontSize: '11px', color: '#818CF8', fontWeight: '700' }}>全島月降雨量</div>
                   <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', margin: '4px 0 2px' }}>
-                    {islandMonthlyStats.avgRain} <span style={{ fontSize: '12px' }}>mm</span>
+                    {islandMonthlyStats.avgRain}mm
                   </div>
                   <div style={{ fontSize: '10px', color: '#94A3B8' }}>
-                    雨量冠軍: {islandMonthlyStats.rainiest?.station?.name} ({Math.round(islandMonthlyStats.rainiest?.rain_mm)}mm)
+                    雨極: {islandMonthlyStats.rainiest?.station.name} ({Math.round(islandMonthlyStats.rainiest?.rain_mm)}mm)
                   </div>
                 </div>
 
                 <div style={{ background: 'rgba(245, 158, 11, 0.08)', border: '1px solid rgba(245, 158, 11, 0.25)', padding: '10px 12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700' }}>全島平均日照</div>
+                  <div style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700' }}>全島日照時數</div>
                   <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', margin: '4px 0 2px' }}>
-                    {islandMonthlyStats.avgSun} <span style={{ fontSize: '12px' }}>h</span>
+                    {islandMonthlyStats.avgSun}h
                   </div>
                   <div style={{ fontSize: '10px', color: '#94A3B8' }}>
-                    陽光之都: {islandMonthlyStats.sunniest?.station?.name} ({Math.round(islandMonthlyStats.sunniest?.sunshine_h)}h)
+                    陽光: {islandMonthlyStats.sunniest?.station.name} ({Math.round(islandMonthlyStats.sunniest?.sunshine_h)}h)
                   </div>
                 </div>
               </div>
 
-              {/* Weather Distribution across Taiwan in this month */}
-              <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '8px', padding: '10px 14px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
-                <div style={{ fontSize: '11px', color: '#94A3B8', marginBottom: '8px', fontWeight: '700', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>全島 29 測站 {selectedMonth} 月天氣型態分佈</span>
-                  <span style={{ color: '#38BDF8' }}>最熱: {islandMonthlyStats.hottest?.station?.name} ({islandMonthlyStats.hottest?.temp}°C) · 最冷: {islandMonthlyStats.coldest?.station?.name} ({islandMonthlyStats.coldest?.temp}°C)</span>
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '6px' }}>
-                  {[
-                    { icon: '☀️', label: '晴朗艷陽', count: islandMonthlyStats.iconCounts['☀️'] || 0, color: '#F59E0B' },
-                    { icon: '🌤️', label: '多雲晴', count: islandMonthlyStats.iconCounts['🌤️'] || 0, color: '#10B981' },
-                    { icon: '☁️', label: '陰霾天', count: islandMonthlyStats.iconCounts['☁️'] || 0, color: '#94A3B8' },
-                    { icon: '🌧️', label: '多雨天', count: islandMonthlyStats.iconCounts['🌧️'] || 0, color: '#38BDF8' },
-                    { icon: '⛈️', label: '豪大雨', count: islandMonthlyStats.iconCounts['⛈️'] || 0, color: '#818CF8' }
-                  ].map(w => (
-                    <div key={w.label} style={{ background: 'rgba(30, 41, 59, 0.5)', borderRadius: '6px', padding: '6px 4px', textAlign: 'center', border: '1px solid rgba(255, 255, 255, 0.05)' }}>
-                      <div style={{ fontSize: '15px' }}>{w.icon}</div>
-                      <div style={{ fontSize: '14px', fontWeight: '900', color: w.color, margin: '2px 0' }}>{w.count} 站</div>
-                      <div style={{ fontSize: '9.5px', color: '#64748B' }}>{w.label}</div>
-                    </div>
-                  ))}
+              {/* Mobility Safety Advisory */}
+              <div style={{
+                background: 'rgba(239, 68, 68, 0.08)',
+                border: '1px solid rgba(239, 68, 68, 0.25)',
+                borderRadius: '8px',
+                padding: '10px 14px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px'
+              }}>
+                <AlertTriangle size={18} color="#EF4444" style={{ flexShrink: 0 }} />
+                <div style={{ fontSize: '11.5px', color: '#E2E8F0', lineHeight: '1.4' }}>
+                  <strong style={{ color: '#EF4444' }}>交通安全與移動提醒：</strong>
+                  {SEASON_NARRATIVES[selectedMonth]?.mobility}
                 </div>
               </div>
-
-              {/* Selected Station 12-Month Climatology Trend */}
-              {renderMonthlyTimeline(selectedStation, selectedMonth, setSelectedMonth)}
-
-              {/* Selected Station's Current Month Metrics Breakdown */}
-              {(() => {
-                const curM = selectedStation.monthly_climatology?.find(m => m.month === selectedMonth) || selectedStation.monthly_climatology?.[selectedMonth - 1];
-                if (!curM) return null;
-                return (
-                  <div style={{ background: 'rgba(15, 23, 42, 0.7)', borderRadius: '8px', padding: '12px', border: '1px solid rgba(56, 189, 248, 0.2)' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                        <span style={{ fontSize: '18px' }}>{curM.icon}</span>
-                        <span style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC' }}>
-                          {selectedStation.name} · {selectedMonth} 月氣候觀測特徵 ({curM.label})
-                        </span>
-                      </div>
-                      <span style={{ fontSize: '10.5px', color: '#64748B' }}>
-                        {selectedStation.archetype} ({selectedStation.county})
-                      </span>
-                    </div>
-
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px', marginBottom: '10px' }}>
-                      <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '6px 8px', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>月均溫</div>
-                        <div style={{ fontSize: '15px', fontWeight: '800', color: '#F59E0B' }}>{curM.temp.toFixed(1)}°C</div>
-                      </div>
-                      <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '6px 8px', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>月累積雨量</div>
-                        <div style={{ fontSize: '15px', fontWeight: '800', color: '#38BDF8' }}>{Math.round(curM.rain_mm)}mm</div>
-                      </div>
-                      <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '6px 8px', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>降雨日數</div>
-                        <div style={{ fontSize: '15px', fontWeight: '800', color: '#818CF8' }}>{curM.rain_days}天</div>
-                      </div>
-                      <div style={{ background: 'rgba(30, 41, 59, 0.4)', padding: '6px 8px', borderRadius: '6px' }}>
-                        <div style={{ fontSize: '10px', color: '#94A3B8' }}>日照時數</div>
-                        <div style={{ fontSize: '15px', fontWeight: '800', color: '#EAB308' }}>{Math.round(curM.sunshine_h)}h</div>
-                      </div>
-                    </div>
-
-                    {/* Transportation & Mobility Resilience Advice */}
-                    <div style={{ background: 'rgba(56, 189, 248, 0.08)', borderRadius: '6px', padding: '8px 10px', borderLeft: '3px solid #38BDF8', fontSize: '11px', color: '#E2E8F0', display: 'flex', alignItems: 'flex-start', gap: '8px' }}>
-                      <AlertTriangle size={15} color="#38BDF8" style={{ flexShrink: 0, marginTop: '1px' }} />
-                      <div>
-                        <strong style={{ color: '#38BDF8' }}>交通安全與人流阻抗叮嚀:</strong> {SEASON_NARRATIVES[selectedMonth]?.mobility}
-                      </div>
-                    </div>
-                  </div>
-                );
-              })()}
             </>
           )}
 
-          {/* MODE 1: CLIMATE CHANGE REPORT */}
+          {/* ============================================================ */}
+          {/* MODE 1: 30-YEAR CLIMATE CHANGE HERO                          */}
+          {/* ============================================================ */}
           {activeMode === 'change' && (
             <>
-              {/* National Macro Stat Cards */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '10px' }}>
-                <div style={{ background: 'rgba(239, 68, 68, 0.08)', border: '1px solid rgba(239, 68, 68, 0.25)', padding: '12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '11px', color: '#EF4444', fontWeight: '700' }}>全台均溫淨升溫</div>
-                  <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', margin: '4px 0 2px' }}>+0.72°C</div>
-                  <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>雙北都會區突破 +0.8°C</div>
-                </div>
-
-                <div style={{ background: 'rgba(249, 115, 22, 0.08)', border: '1px solid rgba(249, 115, 22, 0.25)', padding: '12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '11px', color: '#F97316', fontWeight: '700' }}>&ge;35°C 高溫暴增</div>
-                  <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', margin: '4px 0 2px' }}>+18.4 天</div>
-                  <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>近十年夏日酷熱翻倍</div>
-                </div>
-
-                <div style={{ background: 'rgba(56, 189, 248, 0.08)', border: '1px solid rgba(56, 189, 248, 0.25)', padding: '12px', borderRadius: '8px' }}>
-                  <div style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '700' }}>降雨天數減縮</div>
-                  <div style={{ fontSize: '20px', fontWeight: '900', color: '#F8FAFC', margin: '4px 0 2px' }}>-12.6 天</div>
-                  <div style={{ fontSize: '10.5px', color: '#94A3B8' }}>總雨量不減·暴雨集中</div>
-                </div>
+              {/* Metric filter buttons */}
+              <div style={{ display: 'flex', gap: '8px' }}>
+                {[
+                  { id: 'temp_delta', label: '🌡️ 均溫攀升 (°C)', color: '#EF4444' },
+                  { id: 'hot35_delta', label: '🔥 酷熱天增加 (天)', color: '#F97316' },
+                  { id: 'rain_days_delta', label: '🌧️ 雨天縮減 (天)', color: '#8B5CF6' }
+                ].map(m => (
+                  <button
+                    key={m.id}
+                    onClick={() => setSelectedMetric(m.id)}
+                    style={{
+                      flex: 1,
+                      padding: '8px 10px',
+                      borderRadius: '7px',
+                      border: selectedMetric === m.id ? `1px solid ${m.color}` : '1px solid rgba(255, 255, 255, 0.08)',
+                      background: selectedMetric === m.id ? 'rgba(30, 41, 59, 0.8)' : 'rgba(30, 41, 59, 0.3)',
+                      color: selectedMetric === m.id ? '#FFFFFF' : '#94A3B8',
+                      fontSize: '11px',
+                      fontWeight: '700',
+                      cursor: 'pointer'
+                    }}
+                  >
+                    {m.label}
+                  </button>
+                ))}
               </div>
 
-              {/* Top Temperature Rise vs Stability Rankings */}
+              {/* Temperature Warming Leaderboard */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', margin: 0, display: 'flex', alignItems: 'center', gap: '6px' }}>
-                    <Flame size={14} color="#EF4444" />
-                    全台 30 年升溫最劇烈 Top 5 (熱島效應核心)
-                  </h3>
-                  <span style={{ fontSize: '10.5px', color: '#64748B' }}>點擊測站直達空間視角</span>
-                </div>
-
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  🔥 全台 30 年均溫升溫最劇烈測站 (Top 5)
+                </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {rankings.topTemp?.map((s, idx) => (
                     <div
@@ -1392,19 +2521,18 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'space-between',
-                        padding: '9px 12px',
-                        background: selectedStationId === s.id ? 'rgba(56, 189, 248, 0.15)' : 'rgba(30, 41, 59, 0.4)',
-                        border: selectedStationId === s.id ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.05)',
+                        padding: '8px 12px',
+                        background: selectedStationId === s.id ? 'rgba(239, 68, 68, 0.2)' : 'rgba(30, 41, 59, 0.35)',
+                        border: selectedStationId === s.id ? '1px solid #EF4444' : '1px solid rgba(255, 255, 255, 0.06)',
                         borderRadius: '7px',
-                        cursor: 'pointer',
-                        transition: 'all 0.15s'
+                        cursor: 'pointer'
                       }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ 
-                          width: '18px', height: '18px', borderRadius: '50%', 
-                          background: idx === 0 ? '#EF4444' : idx === 1 ? '#F97316' : '#64748B',
-                          color: '#FFFFFF', fontSize: '11px', fontWeight: '800',
+                        <span style={{
+                          width: '18px', height: '18px', borderRadius: '50%',
+                          background: idx === 0 ? '#EF4444' : '#F97316',
+                          color: '#FFFFFF', fontSize: '10.5px', fontWeight: '800',
                           display: 'flex', alignItems: 'center', justifyContent: 'center'
                         }}>
                           {idx + 1}
@@ -1412,60 +2540,14 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                         <div>
                           <span style={{ fontSize: '13px', fontWeight: '700', color: '#F8FAFC' }}>{s.name}</span>
                           <span style={{ fontSize: '10.5px', color: '#64748B', marginLeft: '6px' }}>({s.county})</span>
-                          <div style={{ fontSize: '10px', color: '#94A3B8' }}>{s.badge}</div>
+                          <div style={{ fontSize: '10px', color: '#EF4444' }}>{s.badge}</div>
                         </div>
                       </div>
-
                       <div style={{ textAlign: 'right' }}>
-                        <span style={{ fontSize: '14px', fontWeight: '800', color: '#EF4444' }}>
+                        <span style={{ fontSize: '14px', fontWeight: '900', color: '#EF4444' }}>
                           +{s.metrics_30y.temp_delta}°C
                         </span>
-                        <div style={{ fontSize: '10px', color: '#F59E0B' }}>
-                          高溫日 +{s.metrics_30y.hot35_days_delta}天
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Climate Stability List (定海神針) */}
-              <div>
-                <h3 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Shield size={14} color="#10B981" />
-                  氣候定海神針：全台 30 年均溫最穩定地區 Top 5
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-                  {rankings.stableTemp?.map((s, idx) => (
-                    <div
-                      key={s.id}
-                      onClick={() => flyToStation(s)}
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'space-between',
-                        padding: '8px 12px',
-                        background: selectedStationId === s.id ? 'rgba(56, 189, 248, 0.15)' : 'rgba(30, 41, 59, 0.3)',
-                        border: selectedStationId === s.id ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.05)',
-                        borderRadius: '7px',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ width: '18px', height: '18px', borderRadius: '50%', background: '#10B981', color: '#0F172A', fontSize: '11px', fontWeight: '800', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                          ✓
-                        </span>
-                        <div>
-                          <span style={{ fontSize: '13px', fontWeight: '700', color: '#F8FAFC' }}>{s.name}</span>
-                          <span style={{ fontSize: '10.5px', color: '#64748B', marginLeft: '6px' }}>({s.county})</span>
-                          <div style={{ fontSize: '10px', color: '#10B981' }}>{s.badge}</div>
-                        </div>
-                      </div>
-                      <div style={{ textAlign: 'right' }}>
-                        <span style={{ fontSize: '13px', fontWeight: '800', color: '#10B981' }}>
-                          {s.metrics_30y.temp_delta > 0 ? `+${s.metrics_30y.temp_delta}` : s.metrics_30y.temp_delta}°C
-                        </span>
-                        <div style={{ fontSize: '10px', color: '#64748B' }}>受海風/高山屏障調節</div>
+                        <div style={{ fontSize: '9.5px', color: '#94A3B8' }}>酷熱天+{s.metrics_30y.hot35_days_delta}天</div>
                       </div>
                     </div>
                   ))}
@@ -1474,58 +2556,47 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             </>
           )}
 
-          {/* MODE 2: LIVABILITY & EXTREME RANKINGS */}
+          {/* ============================================================ */}
+          {/* MODE 2: LIVABILITY RANKINGS                                  */}
+          {/* ============================================================ */}
           {activeMode === 'livability' && (
             <>
-              {/* Category selector pill strip */}
-              <div>
-                <div style={{ fontSize: '11.5px', color: '#94A3B8', marginBottom: '8px', fontWeight: '600' }}>
-                  選擇特異性維度榜單：
-                </div>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
-                  {LIVABILITY_RANK_CATEGORIES.map(cat => {
-                    const isSelected = activeRankCat === cat.id;
-                    return (
-                      <button
-                        key={cat.id}
-                        onClick={() => setActiveRankCat(cat.id)}
-                        style={{
-                          textAlign: 'left',
-                          padding: '8px 10px',
-                          borderRadius: '7px',
-                          border: isSelected ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.08)',
-                          background: isSelected ? 'rgba(56, 189, 248, 0.12)' : 'rgba(30, 41, 59, 0.3)',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s'
-                        }}
-                      >
-                        <div style={{ fontSize: '12px', fontWeight: '700', color: isSelected ? '#38BDF8' : '#F8FAFC' }}>
-                          {cat.label}
-                        </div>
-                        <div style={{ fontSize: '9.5px', color: '#64748B', marginTop: '2px' }}>
-                          {cat.desc}
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '6px' }}>
+                {LIVABILITY_RANK_CATEGORIES.map(cat => {
+                  const isSelected = activeRankCat === cat.id;
+                  return (
+                    <button
+                      key={cat.id}
+                      onClick={() => setActiveRankCat(cat.id)}
+                      style={{
+                        textAlign: 'left',
+                        padding: '8px 10px',
+                        borderRadius: '7px',
+                        border: isSelected ? '1px solid #38BDF8' : '1px solid rgba(255, 255, 255, 0.08)',
+                        background: isSelected ? 'rgba(56, 189, 248, 0.12)' : 'rgba(30, 41, 59, 0.3)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <div style={{ fontSize: '12px', fontWeight: '700', color: isSelected ? '#38BDF8' : '#F8FAFC' }}>
+                        {cat.label}
+                      </div>
+                      <div style={{ fontSize: '9.5px', color: '#64748B', marginTop: '2px' }}>
+                        {cat.desc}
+                      </div>
+                    </button>
+                  );
+                })}
               </div>
 
-              {/* Active Category Top Leaderboard */}
               <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', margin: 0 }}>
-                    🏆 {rankings.category?.label} 榜首前六名
-                  </h3>
-                  <span style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '600' }}>單位: {rankings.category?.unit}</span>
-                </div>
-
+                <h4 style={{ fontSize: '13px', fontWeight: '800', color: '#F8FAFC', marginBottom: '8px' }}>
+                  🏆 {rankings.category?.label} 榜首前六名
+                </h4>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   {rankings.topList?.map((s, idx) => {
                     const val = rankings.category?.key.startsWith('radar.') 
                       ? s.livability.radar[rankings.category.key.split('.')[1]] 
                       : s.livability[rankings.category?.key];
-                    
                     return (
                       <div
                         key={s.id}
@@ -1562,9 +2633,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                             {typeof val === 'number' && val % 1 !== 0 ? val.toFixed(1) : val}
                           </span>
                           <span style={{ fontSize: '11px', color: '#64748B', marginLeft: '3px' }}>{rankings.category?.unit}</span>
-                          <div style={{ fontSize: '10px', color: '#94A3B8' }}>
-                            年雨量 {s.livability.annual_rain_mm}mm
-                          </div>
                         </div>
                       </div>
                     );
@@ -1574,7 +2642,7 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
             </>
           )}
 
-          {/* DUAL-STATION PK & RADAR CHART INSPECTOR */}
+          {/* DUAL-STATION PK & RADAR CHART INSPECTOR (Always available) */}
           <div style={{
             background: 'rgba(15, 23, 42, 0.7)',
             borderRadius: '10px',
@@ -1592,7 +2660,6 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
                 </p>
               </div>
 
-              {/* Station B Comparison Selector */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                 <span style={{ fontSize: '11px', color: '#F59E0B', fontWeight: '700' }}>PK 對照:</span>
                 <select
@@ -1616,43 +2683,32 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
               </div>
             </div>
 
-            {/* Selected Station Meta & Badges */}
             <div style={{ display: 'flex', gap: '10px', marginBottom: '12px' }}>
-              {/* Station A Tag */}
               <div style={{ flex: 1, background: 'rgba(56, 189, 248, 0.1)', border: '1px solid rgba(56, 189, 248, 0.3)', borderRadius: '6px', padding: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: '13px', fontWeight: '800', color: '#38BDF8' }}>🔵 {selectedStation.name}</span>
-                  <span style={{ fontSize: '10px', color: '#94A3B8' }}>{selectedStation.county} · 海拔 {selectedStation.alt_m}m</span>
+                  <span style={{ fontSize: '10px', color: '#94A3B8' }}>海拔 {selectedStation.alt_m}m</span>
                 </div>
                 <div style={{ fontSize: '10.5px', color: '#F8FAFC', marginTop: '2px', fontWeight: '600' }}>
                   {selectedStation.badge}
                 </div>
-                <div style={{ fontSize: '10px', color: '#64748B', marginTop: '2px' }}>
-                  年均雨量 {selectedStation.livability.annual_rain_mm}mm · 開傘率 {selectedStation.livability.umbrella_prob_pct}%
-                </div>
               </div>
 
-              {/* Station B Tag */}
               <div style={{ flex: 1, background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '6px', padding: '8px' }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <span style={{ fontSize: '13px', fontWeight: '800', color: '#F59E0B' }}>🟡 {compareStation.name}</span>
-                  <span style={{ fontSize: '10px', color: '#94A3B8' }}>{compareStation.county} · 海拔 {compareStation.alt_m}m</span>
+                  <span style={{ fontSize: '10px', color: '#94A3B8' }}>海拔 {compareStation.alt_m}m</span>
                 </div>
                 <div style={{ fontSize: '10.5px', color: '#F8FAFC', marginTop: '2px', fontWeight: '600' }}>
                   {compareStation.badge}
                 </div>
-                <div style={{ fontSize: '10px', color: '#64748B', marginTop: '2px' }}>
-                  年均雨量 {compareStation.livability.annual_rain_mm}mm · 開傘率 {compareStation.livability.umbrella_prob_pct}%
-                </div>
               </div>
             </div>
 
-            {/* Radar SVG Display */}
             <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}>
               {renderRadarChart(selectedStation, compareStation)}
             </div>
 
-            {/* Station 30-Year History Line Chart */}
             {selectedStation.metrics_30y?.history && (
               renderHistoryTrend(selectedStation.metrics_30y.history)
             )}
