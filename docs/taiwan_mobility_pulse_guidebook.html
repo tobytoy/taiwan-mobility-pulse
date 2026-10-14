@@ -7,42 +7,44 @@
     @page {
         size: A4;
         margin: 22mm 18mm 20mm 18mm;
+        background-color: #0b0f19;
         @top-left {
             content: "台灣動態移動脈搏 · Taiwan Mobility Pulse";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
-            color: #94a3b8;
-            border-bottom: 0.5pt solid #e2e8f0;
+            color: #64748b;
+            border-bottom: 0.5pt solid #1e293b;
             padding-bottom: 4px;
         }
         @top-right {
-            content: "國家級多源動態移動全書指南 · v1.1.0";
+            content: "國家級多源動態移動全書指南 · v1.1.1";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
-            color: #94a3b8;
-            border-bottom: 0.5pt solid #e2e8f0;
+            color: #64748b;
+            border-bottom: 0.5pt solid #1e293b;
             padding-bottom: 4px;
         }
         @bottom-left {
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.1.0)";
-            font-family: -apple-system, sans-serif;
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.1.1)";
+            font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 7.5pt;
-            color: #94a3b8;
-            border-top: 0.5pt solid #e2e8f0;
+            color: #64748b;
+            border-top: 0.5pt solid #1e293b;
             padding-top: 4px;
         }
         @bottom-right {
             content: "第 " counter(page) " 頁 / 共 " counter(pages) " 頁";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
-            color: #64748b;
-            border-top: 0.5pt solid #e2e8f0;
+            color: #94a3b8;
+            border-top: 0.5pt solid #1e293b;
             padding-top: 4px;
         }
     }
 
     @page :first {
         margin: 0;
+        background-color: #070a13;
         @top-left { content: normal; }
         @top-right { content: normal; }
         @bottom-left { content: normal; }
@@ -55,10 +57,10 @@
 
     body {
         font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
-        color: #1e293b;
+        color: #cbd5e1;
         line-height: 1.8;
         font-size: 10.2pt;
-        background: #ffffff;
+        background-color: #0b0f19;
         margin: 0;
         padding: 0;
     }
@@ -71,7 +73,7 @@
         box-sizing: border-box;
         padding: 35mm 22mm 25mm 22mm;
         text-align: center;
-        background: #090d16;
+        background: #070a13;
         color: #ffffff;
         display: flex;
         flex-direction: column;
@@ -95,7 +97,7 @@
     .cover-title {
         font-size: 34pt;
         font-weight: 900;
-        color: #ffffff;
+        color: #f8fafc;
         margin: 0 0 16px 0;
         letter-spacing: 3px;
         line-height: 1.25;
@@ -128,7 +130,7 @@
     }
 
     .cover-meta-card {
-        background: rgba(30, 41, 59, 0.7);
+        background: rgba(17, 24, 39, 0.85);
         border: 1px solid rgba(71, 85, 105, 0.6);
         border-radius: 12px;
         padding: 22px 28px;
@@ -162,7 +164,7 @@
     h1 {
         font-size: 20pt;
         font-weight: 900;
-        color: #0f172a;
+        color: #38bdf8;
         margin-top: 10pt;
         margin-bottom: 14pt;
         padding-bottom: 8pt;
@@ -175,11 +177,11 @@
     h2 {
         font-size: 14pt;
         font-weight: 800;
-        color: #0369a1;
+        color: #60a5fa;
         margin-top: 20pt;
         margin-bottom: 8pt;
         padding-bottom: 4pt;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid #1e293b;
         page-break-after: avoid;
         break-after: avoid;
     }
@@ -187,7 +189,7 @@
     h3 {
         font-size: 11.5pt;
         font-weight: 700;
-        color: #0f172a;
+        color: #f1f5f9;
         margin-top: 14pt;
         margin-bottom: 6pt;
         page-break-after: avoid;
@@ -197,7 +199,7 @@
     h4 {
         font-size: 10.5pt;
         font-weight: 700;
-        color: #334155;
+        color: #94a3b8;
         margin-top: 10pt;
         margin-bottom: 4pt;
         page-break-after: avoid;
@@ -208,12 +210,24 @@
         margin-top: 0;
         margin-bottom: 10pt;
         text-align: justify;
+        color: #cbd5e1;
+    }
+
+    strong {
+        color: #f8fafc;
     }
 
     ul, ol {
         margin-top: 0;
         margin-bottom: 10pt;
         padding-left: 20pt;
+        color: #cbd5e1;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #1e293b;
+        margin: 18pt 0;
     }
 
     /* Screenshots & Figures */
@@ -221,8 +235,8 @@
         max-width: 100%;
         height: auto;
         border-radius: 8px;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
-        border: 1px solid #cbd5e1;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+        border: 1px solid #1e293b;
         margin: 14pt auto 6pt auto;
         display: block;
         page-break-inside: avoid;
@@ -232,7 +246,7 @@
     p > em:only-child {
         display: block;
         text-align: center;
-        color: #475569;
+        color: #94a3b8;
         font-size: 8.8pt;
         margin-top: -3pt;
         margin-bottom: 14pt;
@@ -242,7 +256,7 @@
 
     /* Links */
     a {
-        color: #0284c7;
+        color: #38bdf8;
         text-decoration: none;
         font-weight: 600;
     }
@@ -255,14 +269,19 @@
     blockquote {
         margin: 14pt 0;
         padding: 10pt 16pt;
-        background: #f0f9ff;
+        background: #0c1829;
         border-left: 4px solid #0284c7;
         border-radius: 0 8px 8px 0;
-        color: #0369a1;
+        color: #93c5fd;
     }
 
     blockquote p {
         margin: 0;
+        color: #93c5fd;
+    }
+
+    blockquote strong {
+        color: #e0f2fe;
     }
 
     /* Tables */
@@ -276,20 +295,25 @@
     }
 
     th, td {
-        border: 1px solid #cbd5e1;
+        border: 1px solid #1e293b;
         padding: 7pt 9pt;
         text-align: left;
         vertical-align: top;
     }
 
     th {
-        background-color: #f1f5f9;
-        color: #0f172a;
+        background-color: #131b2e;
+        color: #f8fafc;
         font-weight: 800;
     }
 
+    td {
+        background-color: #0b0f19;
+        color: #cbd5e1;
+    }
+
     tr:nth-child(even) td {
-        background-color: #f8fafc;
+        background-color: #0f172a;
     }
 
     .table-portal-btn {
@@ -302,24 +326,25 @@
         font-weight: 700;
         text-decoration: none !important;
         white-space: nowrap;
+        border: 1px solid #38bdf8;
     }
 
     /* Interactive Portal Callout Cards */
     .portal-callout {
-        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-        border: 1.5px solid #38bdf8;
+        background: linear-gradient(135deg, #0c1829 0%, #10243e 100%);
+        border: 1.5px solid #0284c7;
         border-radius: 12px;
         padding: 14pt 18pt;
         margin: 18pt 0;
         page-break-inside: avoid;
         break-inside: avoid;
-        box-shadow: 0 2px 4px rgba(2, 132, 199, 0.08);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
 
     .portal-badge {
         font-size: 8.5pt;
         font-weight: 800;
-        color: #0284c7;
+        color: #38bdf8;
         text-transform: uppercase;
         letter-spacing: 0.8px;
         margin-bottom: 8pt;
@@ -341,7 +366,7 @@
         padding: 8pt 16pt;
         border-radius: 8px;
         text-decoration: none !important;
-        border: 1px solid #0369a1;
+        border: 1px solid #38bdf8;
         gap: 8pt;
     }
 
@@ -371,9 +396,9 @@
     }
 
     .portal-url-link {
-        font-family: SFMono-Regular, Consolas, monospace;
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, 'Noto Sans TC', monospace;
         font-size: 8pt;
-        color: #0284c7;
+        color: #38bdf8;
         text-decoration: underline;
     }
 
@@ -389,7 +414,7 @@
     }
 
     .flow-step {
-        background: #f8fafc;
+        background: #101726;
         border: 1.5px solid #0284c7;
         border-radius: 10px;
         padding: 9pt 18pt;
@@ -401,12 +426,12 @@
     }
 
     .flow-step:hover {
-        background: #f0f9ff;
+        background: #162238;
     }
 
     .flow-badge {
         font-size: 8pt;
-        color: #0284c7;
+        color: #38bdf8;
         font-weight: 800;
         text-transform: uppercase;
         margin-bottom: 2pt;
@@ -415,25 +440,25 @@
     .flow-title {
         font-size: 10.5pt;
         font-weight: 800;
-        color: #0f172a;
+        color: #f8fafc;
     }
 
     .flow-sub {
         font-size: 8.5pt;
-        color: #64748b;
+        color: #94a3b8;
         margin-top: 2pt;
     }
 
     .flow-arrow {
-        color: #0284c7;
+        color: #38bdf8;
         font-size: 11pt;
         line-height: 1;
     }
 
     /* Architecture Diagram */
     .architecture-diagram {
-        background: #f8fafc;
-        border: 1px solid #cbd5e1;
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
         border-radius: 12px;
         padding: 14pt;
         margin: 16pt 0;
@@ -448,20 +473,20 @@
     }
 
     .arch-layer-1 {
-        background: #e0f2fe;
-        border: 1px solid #38bdf8;
+        background: #0c1f38;
+        border: 1px solid #0284c7;
     }
 
     .arch-layer-2 {
-        background: #f3e8ff;
-        border: 1px solid #c084fc;
+        background: #231238;
+        border: 1px solid #8b5cf6;
     }
 
     .arch-layer-title {
         font-size: 9.5pt;
         font-weight: 800;
         margin-bottom: 6pt;
-        color: #0f172a;
+        color: #f8fafc;
     }
 
     .arch-boxes {
@@ -471,22 +496,22 @@
 
     .arch-box {
         flex: 1;
-        background: #ffffff;
+        background: #111827;
         border-radius: 6px;
         padding: 7pt 9pt;
-        border: 1px solid #cbd5e1;
+        border: 1px solid #1e293b;
     }
 
     .arch-box-title {
         font-weight: 700;
         font-size: 9pt;
-        color: #0f172a;
+        color: #38bdf8;
         margin-bottom: 3pt;
     }
 
     .arch-box-desc {
         font-size: 8pt;
-        color: #475569;
+        color: #94a3b8;
         line-height: 1.45;
     }
 
@@ -494,18 +519,18 @@
         text-align: center;
         font-size: 8.5pt;
         font-weight: 700;
-        color: #059669;
+        color: #34d399;
         margin: 5pt 0;
         padding: 4pt;
-        background: #ecfdf5;
+        background: #062a1c;
         border-radius: 6px;
-        border: 1px dashed #6ee7b7;
+        border: 1px dashed #059669;
     }
 
     .arch-connector-bottom {
-        color: #2563eb;
-        background: #eff6ff;
-        border-color: #93c5fd;
+        color: #60a5fa;
+        background: #0c1f38;
+        border-color: #2563eb;
     }
 
     /* Timeline Container */
@@ -519,31 +544,31 @@
     }
 
     .timeline-item {
-        background: #f8fafc;
-        border-left: 4px solid #0284c7;
+        background: #101726;
+        border-left: 4px solid #38bdf8;
         border-radius: 0 8px 8px 0;
         padding: 8pt 12pt;
-        border-top: 1px solid #e2e8f0;
-        border-right: 1px solid #e2e8f0;
-        border-bottom: 1px solid #e2e8f0;
+        border-top: 1px solid #1e293b;
+        border-right: 1px solid #1e293b;
+        border-bottom: 1px solid #1e293b;
     }
 
     .timeline-badge {
         font-size: 8pt;
         font-weight: 800;
-        color: #0284c7;
+        color: #38bdf8;
     }
 
     .timeline-title {
         font-size: 10pt;
         font-weight: 700;
-        color: #0f172a;
+        color: #f8fafc;
         margin: 2pt 0;
     }
 
     .timeline-desc {
         font-size: 8.5pt;
-        color: #475569;
+        color: #94a3b8;
         line-height: 1.5;
     }
 
@@ -551,7 +576,7 @@
     .chapter-nav {
         margin-top: 24pt;
         padding-top: 14pt;
-        border-top: 1px solid #e2e8f0;
+        border-top: 1px solid #1e293b;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -569,50 +594,446 @@
     }
 
     .nav-prev {
-        background: #f1f5f9;
-        color: #475569 !important;
-        border: 1px solid #cbd5e1;
+        background: #111827;
+        color: #94a3b8 !important;
+        border: 1px solid #1e293b;
     }
 
     .nav-next {
-        background: #e0f2fe;
-        color: #0284c7 !important;
+        background: #0284c7;
+        color: #ffffff !important;
         border: 1px solid #38bdf8;
     }
 
+    /* Code & Pre Blocks */
     pre, code {
-        font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, 'Noto Sans TC', monospace;
     }
 
     pre {
-        background: #f1f5f9;
-        border: 1px solid #cbd5e1;
+        background: #050811;
+        border: 1px solid #1e293b;
         border-radius: 6px;
         padding: 8pt 10pt;
         font-size: 8.5pt;
+        color: #e2e8f0;
         overflow-x: auto;
         page-break-inside: avoid;
         break-inside: avoid;
     }
 
     code {
-        background: #f1f5f9;
+        background: #111827;
         padding: 1pt 4pt;
         border-radius: 3px;
         font-size: 8.5pt;
-        color: #0f172a;
+        color: #38bdf8;
+        border: 1px solid #1e293b;
     }
 
     pre code {
         background: none;
+        border: none;
         padding: 0;
+        color: inherit;
     }
+
+    /* Custom Responsive Component: Personas 2x2 Grid */
+    .personas-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .persona-card {
+        width: 48.5%;
+        box-sizing: border-box;
+        background: #101726;
+        border: 1px solid #1e293b;
+        border-top: 3px solid #38bdf8;
+        border-radius: 8px;
+        padding: 9pt 11pt;
+        margin-bottom: 8pt;
+    }
+
+    .card-commuter { border-top-color: #38bdf8; }
+    .card-senior   { border-top-color: #c084fc; }
+    .card-student  { border-top-color: #34d399; }
+    .card-tourist  { border-top-color: #fbbf24; }
+
+    .persona-header {
+        display: flex;
+        align-items: center;
+        gap: 6pt;
+        margin-bottom: 6pt;
+    }
+
+    .persona-title {
+        font-size: 10pt;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    .persona-sub {
+        font-size: 7.5pt;
+        color: #94a3b8;
+    }
+
+    .persona-detail {
+        font-size: 8pt;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .persona-badge {
+        display: inline-block;
+        padding: 1pt 4pt;
+        border-radius: 3px;
+        font-size: 7pt;
+        font-weight: 700;
+        margin-right: 4pt;
+    }
+
+    .b-commuter { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .b-senior   { background: rgba(192, 132, 252, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.4); }
+    .b-student  { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+    .b-tourist  { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+
+    /* Inline SVG Icons */
+    .inline-svg {
+        display: inline-block;
+        width: 1.1em !important;
+        height: 1.1em !important;
+        vertical-align: -0.2em;
+        margin-right: 4px;
+        margin-left: 1px;
+    }
+
+    /* Custom Responsive Component: Data Foundation Matrix (Chapter 2) */
+    .data-matrix-card {
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .data-matrix-head {
+        font-size: 10pt;
+        font-weight: 800;
+        color: #38bdf8;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .data-matrix-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8.2pt;
+    }
+
+    .data-matrix-tbl th {
+        background: #111e38;
+        color: #94a3b8;
+        font-weight: 700;
+        padding: 6pt 8pt;
+        text-align: left;
+        border-bottom: 1.5px solid #0284c7;
+    }
+
+    .data-matrix-tbl td {
+        padding: 7pt 8pt;
+        border-bottom: 1px solid #1e293b;
+        vertical-align: top;
+        line-height: 1.5;
+    }
+
+    .data-matrix-tbl tr:last-child td {
+        border-bottom: none;
+    }
+
+    .dm-source-title {
+        font-weight: 800;
+        color: #f8fafc;
+        font-size: 8.8pt;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .dm-source-sub {
+        color: #64748b;
+        font-size: 7.6pt;
+        margin-top: 2px;
+    }
+
+    .dm-stat-highlight {
+        font-weight: 700;
+        color: #38bdf8;
+    }
+
+    .dm-stat-sub {
+        color: #94a3b8;
+        font-size: 7.6pt;
+        margin-top: 2px;
+    }
+
+    .dm-time-badge {
+        font-weight: 700;
+        color: #34d399;
+    }
+
+    /* Custom Responsive Component: Dual Mode Architecture (Chapter 6) */
+    .dual-mode-container {
+        display: flex;
+        gap: 10pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .dual-mode-card {
+        flex: 1;
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 12pt;
+    }
+
+    .mode-micro {
+        border-color: #0284c7;
+        background: #0d1933;
+    }
+
+    .dm-card-head {
+        display: flex;
+        align-items: center;
+        gap: 6pt;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+    }
+
+    .dm-card-icon {
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 6px;
+        padding: 4pt;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dm-card-title {
+        font-size: 9.2pt;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    .dm-card-sub {
+        font-size: 7.5pt;
+        color: #64748b;
+    }
+
+    .dm-card-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5pt;
+        font-size: 8.2pt;
+        color: #cbd5e1;
+    }
+
+    .dm-card-list li {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .dm-bullet {
+        color: #38bdf8;
+        font-size: 6pt;
+    }
+
+    /* Custom Responsive Component: Modal Shift Elasticity Dashboard (Chapter 5) */
+    .elasticity-dashboard {
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 14pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .elasticity-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+    }
+
+    .elasticity-title {
+        font-size: 9.8pt;
+        font-weight: 800;
+        color: #38bdf8;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .elasticity-badge {
+        font-size: 7.5pt;
+        background: #1e293b;
+        color: #94a3b8;
+        padding: 2pt 6pt;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    .elasticity-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 6pt;
+    }
+
+    .elasticity-row {
+        display: flex;
+        align-items: center;
+        background: #111a2e;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 6pt 10pt;
+        gap: 10pt;
+    }
+
+    .el-mode {
+        width: 135pt;
+        font-weight: 700;
+        font-size: 8.8pt;
+        color: #f8fafc;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .el-pill {
+        width: 60pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 8.5pt;
+        padding: 2pt 5pt;
+        border-radius: 4px;
+        font-family: 'Noto Sans Mono CJK TC', monospace;
+    }
+
+    .pill-gain      { background: #064e3b; color: #34d399; border: 1px solid #059669; }
+    .pill-stable    { background: #1e293b; color: #94a3b8; border: 1px solid #475569; }
+    .pill-drop-low  { background: #3b111e; color: #fb7185; border: 1px solid #be123c; }
+    .pill-drop-med  { background: #4c0519; color: #f43f5e; border: 1px solid #e11d48; }
+    .pill-drop-high { background: #5a0517; color: #fca5a5; border: 1px solid #f43f5e; }
+
+    .el-desc {
+        flex: 1;
+        font-size: 8.2pt;
+        color: #cbd5e1;
+        line-height: 1.4;
+    }
+
+    /* Custom Responsive Component: Selection Decision Matrix (Chapter 7) */
+    .matrix-decision-container {
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        padding: 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .matrix-decision-header {
+        background: #111827;
+        border: 1px solid #0284c7;
+        border-radius: 6px;
+        padding: 7pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 9.5pt;
+        color: #38bdf8;
+        margin-bottom: 10pt;
+    }
+
+    .matrix-decision-grid {
+        display: flex;
+        gap: 6pt;
+    }
+
+    .matrix-decision-col {
+        flex: 1;
+        background: #101726;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 7pt 6pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .matrix-target-box {
+        font-size: 7.8pt;
+        font-weight: 800;
+        color: #f8fafc;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 4pt;
+        margin-bottom: 4pt;
+        text-align: center;
+    }
+
+    .matrix-points {
+        margin: 0;
+        padding-left: 10pt;
+        font-size: 7.2pt;
+        color: #94a3b8;
+        line-height: 1.45;
+        flex: 1;
+    }
+
+    .matrix-points li {
+        margin-bottom: 2pt;
+    }
+
+    .matrix-choice-box {
+        margin-top: 6pt;
+        border-radius: 4px;
+        padding: 4pt 2pt;
+        font-size: 7.5pt;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .choice-ticp    { background: #0c2b42; color: #38bdf8; border: 1px solid #0284c7; }
+    .choice-etag    { background: #1a2f18; color: #34d399; border: 1px solid #059669; }
+    .choice-telecom { background: #321c45; color: #c084fc; border: 1px solid #8b5cf6; }
+    .choice-fusion  { background: #3d230d; color: #fbbf24; border: 1px solid #d97706; }
     </style>
 </head>
 <body>
     
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.1.0)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.1.1)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
@@ -622,26 +1043,33 @@
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.1.0 (全景精裝專著版 · 7巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.1.1 (全景精裝專著版 · 7巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
             <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.1.0)</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.1.1)</div>
         </div>
     </div>
     
         <section class="chapter-section" id="README">
             <a id="README" name="README"></a>
-            <h1 id="_1">📚《台灣動態移動脈搏：國家級交通大數據與微觀人流全景指南》</h1>
+            <h1 id="_1"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>《台灣動態移動脈搏：國家級交通大數據與微觀人流全景指南》</h1>
 <h3 id="taiwan-mobility-pulse-the-master-guide-to-national-multi-modal-mobility-spatial-intelligence">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility &amp; Spatial Intelligence</h3>
 <blockquote>
 <p>「一座城市的呼吸，寫在清晨第一班捷運的刷卡記錄裡；一個國家的脈搏，躍動在午夜奔馳於國道上的重型貨車輪下。」</p>
-<p>📥 <strong>全書完整版 PDF 下載</strong>：本書已編纂為單一檔案出版級電子書（含 7 大巨章、全彩數據結構圖、三向對照表與可點擊互動傳送門）：<br />
-👉 <strong><a href="taiwan_mobility_pulse_guidebook.pdf">點此直接開啟 / 下載全書完整 PDF 專著 (v1.1.0 典藏精裝版 · 50 頁)</a></strong></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> <strong>全書完整版 PDF 下載</strong>：本書已編纂為單一檔案出版級電子書（含 7 大巨章、全彩數據結構圖、三向對照表與可點擊互動傳送門）：<br />
+<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> <strong><a href="taiwan_mobility_pulse_guidebook.pdf">點此直接開啟 / 下載全書完整 PDF 專著 (v1.1.1 典藏精裝版 · 52 頁)</a></strong></p>
 </blockquote>
 <hr />
-<h2 id="_2">📖 序言：為什麼需要這本「互動之書」？</h2>
-<p>在過去，交通大數據專案往往落入兩個極端：
-1. <strong>極端一（冰冷的統計報告）</strong>：充斥著難以## 🗺️ 全書章節結構與導讀地圖 (Table of Contents)</p>
+<h2 id="_2"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 序言：為什麼需要這本「互動之書」？</h2>
+<p>在過去，交通大數據專案往往落入兩個極端：</p>
+<ol>
+<li><strong>極端一（冰冷的統計報告）</strong>：充斥著難以消化的矩陣、OD 報表與幾百頁的 PDF，缺乏動態生命力，決策者無法直觀感受空間與時間的潮汐。</li>
+<li><strong>極端二（炫目卻膚淺的戰情儀表板）</strong>：只有漂浮的粒子、閃爍的亮點，看似具有高科技未來感，卻缺乏<strong>「為什麼要挑選這些資料？」、「數據背後的物理意義是什麼？」、「資料之間如何嚴格互斥與融合？」</strong>的深度論述。</li>
+</ol>
+<p><strong>《台灣動態移動脈搏》</strong> 正是為了打破這種割裂而生。我們透過融合 <strong>交通部 TICP 4.48 億筆真實票證</strong>、<strong>高速公路局 eTag 百萬級門架車種流量</strong>、<strong>TDX 停車與空間機能 API</strong> 以及 <strong>電信信令大數據戰略</strong>，打造了一套具備出版級深度的「互動專著（Interactive Monograph）」。</p>
+<p>本手冊如同書籍的章節導讀，將循序漸進引導您探索台灣地表上最震撼的流動規律。每個章節皆附有<strong>專屬的互動地圖超連結</strong>與<strong>手把手操作看點</strong>，讓您邊讀、邊點、邊驗證！</p>
+<hr />
+<h2 id="table-of-contents"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> 全書章節結構與導讀地圖 (Table of Contents)</h2>
 <div class="flowchart-container">
 <a class="flow-step" href="#chapter1_data_philosophy">
     <div class="flow-badge">Chapter 1</div>
@@ -685,7 +1113,7 @@
     <div class="flow-sub">門到門閉環與政策落地選型</div>
 </a>
 </div>
-<h3 id="_3">📑 各章內容速覽</h3>
+<h3 id="_3"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> 各章內容速覽</h3>
 <ul>
 <li><strong><a href="#chapter1_data_philosophy">第一章：數據哲學與選型抉擇——為什麼是「剛性骨架＋彈性肌肉」？</a></strong></li>
 <li>深入剖析為何跳過「粗放的單一信令」，堅持以「TICP 票證 + eTag 車流」作為地面真理基準點。解構空間零漂移、身分真理標籤、集合天然互斥性與重複計算的工程挑戰。</li>
@@ -703,7 +1131,7 @@
 <li>提出「1 + 1 + 1 &gt; 3」門到門全日旅程閉環架構。詳解以票證/eTag 硬錨點反向校正電信信令擴推倍率的專利級思維，並提供企業與政府的選型指南。</li>
 </ul>
 <hr />
-<h2 id="interactive-map-quick-index">🎯 互動地圖快速導航總表 (Interactive Map Quick Index)</h2>
+<h2 id="interactive-map-quick-index"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 互動地圖快速導航總表 (Interactive Map Quick Index)</h2>
 <p>透過點擊下列網頁超連結，將直接在新分頁為您開啟線上實時系統並定位至該互動實驗室：</p>
 <table>
 <thead>
@@ -718,55 +1146,55 @@
 <tr>
 <td style="text-align: left;"><strong>第一章</strong> 數據哲學</td>
 <td style="text-align: left;">空間漂移對比、身分真理標籤、互斥可加性</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">🚀 三大數據戰略矩陣</a></td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 三大數據戰略矩陣</a></td>
 <td style="text-align: left;">查閱 Master Table 三向深度對照矩陣，理解前處理成本差異</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第二章</strong> 數據字典</td>
 <td style="text-align: left;">4.48 億筆真實母體、欄位定義、真實樣本</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">🚀 數據底座與字典矩陣</a></td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 數據底座與字典矩陣</a></td>
 <td style="text-align: left;">查看 TICP 票證、eTag 5大車種、TDX 停車位之真實 JSON 樣本</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第三章</strong> 走廊動脈</td>
 <td style="text-align: left;">111 條走廊粒子、產業物流 vs. 觀光快線</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#flows" target="_blank">🚀 動態走廊流向圖 (FlowMap)</a></td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#flows" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 動態走廊流向圖 (FlowMap)</a></td>
 <td style="text-align: left;">切換「平日」與「假日」，拉動時間軸看竹科與國五潮汐</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第四章</strong> 下匝道光暈</td>
 <td style="text-align: left;">eTag 16 大交流道注入、TDX 停車位壓力</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap" target="_blank">🚀 時空熱點與注入圈 (Heatmap)</a></td>
-<td style="text-align: left;">開啟「🛣️ eTag 交流道注入圈」，點擊「愛蘭/日月潭」看停車壓力</td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 時空熱點與注入圈 (Heatmap)</a></td>
+<td style="text-align: left;">開啟「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag 交流道注入圈」，點擊「愛蘭/日月潭」看停車壓力</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第五章</strong> 人群與天候</td>
 <td style="text-align: left;">四大微觀人群像、晴天/豪大雨脆弱性移轉</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#personas" target="_blank">🚀 人群像與天候實驗室</a></td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#personas" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 人群像與天候實驗室</a></td>
 <td style="text-align: left;">切換「悠遊銀髮族」，選取「豪大雨」，看台北車站長者退潮與移轉</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第六章</strong> 商業脈搏</td>
 <td style="text-align: left;">30 大樞紐生活圈、EV 充電缺口、快銷時段</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab" target="_blank">🚀 商業脈搏實驗室 (Commercial Lab)</a></td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 商業脈搏實驗室 (Commercial Lab)</a></td>
 <td style="text-align: left;">點選「台北車站」或「板橋」，查看右側 HUD 面板之商機與充電缺口</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>第七章</strong> 全域融合</td>
 <td style="text-align: left;">門到門 5 階段閉環、硬錨點反向校正</td>
-<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">🚀 跨源融合與落地選型</a></td>
-<td style="text-align: left;">查閱永和 ➔ 內科西湖之門到門還原圖，以及 TOD 實戰選型建議</td>
+<td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 跨源融合與落地選型</a></td>
+<td style="text-align: left;">查閱永和 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 內科西湖之門到門還原圖，以及 TOD 實戰選型建議</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="_4">💡 最佳閱讀與探索建議</h2>
+<h2 id="_4"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 最佳閱讀與探索建議</h2>
 <ol>
 <li><strong>雙螢幕或分割畫面閱讀</strong>：建議左側開啟本書 Markdown 章節，右側開啟網頁互動應用，邊閱讀章節中的學術論述，邊在地圖上驗證真實數據。</li>
-<li><strong>跟隨引導操作</strong>：每一章皆附有明確的 <strong>【🛠️ 互動操作實戰指引】</strong> 與 <strong>【🔍 資料看點深度剖析】</strong>，按照步驟點擊，能快速發現隱藏在百萬筆數據中的獨特洞察。</li>
+<li><strong>跟隨引導操作</strong>：每一章皆附有明確的 <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引】</strong> 與 <strong>【<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 資料看點深度剖析】</strong>，按照步驟點擊，能快速發現隱藏在百萬筆數據中的獨特洞察。</li>
 <li><strong>帶著問題思考</strong>：例如「為什麼平日早上的大雅交流道貨車比例高達 34%？」、「下大雨時捷運運量真的不會掉嗎？」書中都有詳細的數據印證。</li>
 </ol>
-            <div class="chapter-nav"><a class="nav-btn nav-next" href="#chapter1_data_philosophy">👉 進入下一章：第一章：數據哲學與選型抉擇 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-next" href="#chapter1_data_philosophy"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第一章：數據哲學與選型抉擇 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter1_data_philosophy">
@@ -778,46 +1206,68 @@
 <hr />
 <h2 id="11">1.1 交通大數據的永恆難題：雜訊與推估的代價</h2>
 <p>在過去十年間，智慧交通與人流分析最常遭遇的挫敗，就是「對單一資料源的過度迷信」。
-許多專案試圖單純依賴「手機電信信令（Cellular Signaling Data）」來解決所有的都市問題：從捷運客流、路網壅塞到商圈消費。然而，當專案進入審計、驗收或精細規劃時，往往浮現巨大的落差：
-* <strong>為什麼捷運地下三樓月台的人，會被信令判定在上方的高架橋上開車？</strong>
-* <strong>為什麼信令推估出的人次，無法拿來發放政府百億元的 TPASS 預算補貼？</strong>
-* <strong>為什麼使用者連續停留了 8 小時，我們卻不知道他是上班族、學生還是外籍遊客？</strong></p>
+許多專案試圖單純依賴「手機電信信令（Cellular Signaling Data）」來解決所有的都市問題：從捷運客流、路網壅塞到商圈消費。然而，當專案進入審計、驗收或精細規劃時，往往浮現巨大的落差：</p>
+<ul>
+<li><strong>為什麼捷運地下三樓月台的人，會被信令判定在上方的高架橋上開車？</strong></li>
+<li><strong>為什麼信令推估出的人次，無法拿來發放政府百億元的 TPASS 預算補貼？</strong></li>
+<li><strong>為什麼使用者連續停留了 8 小時，我們卻不知道他是上班族、學生還是外籍遊客？</strong></li>
+</ul>
 <p>交通大數據的真正挑戰，從來不是「數據量夠不夠大」，而是<strong>資料工程的本質屬性</strong>。
 本專案在立項之初，便確立了核心的資料哲學：<strong>「以零漂移的物理剛性真理作為骨架，以全域連續空間作為肌肉」</strong>。</p>
 <hr />
 <h2 id="12-ticp">1.2 為什麼選擇 TICP 交通票證大數據？（公分級剛性真理）</h2>
 <p>我們選用了交通部 TICP（運輸資料流通服務平臺）高達 <strong>4.48 億筆</strong> 的真實票證大數據，作為本研究的核心公共運輸基石。它的不可替代性體現在三個「絕對維度」：</p>
 <ol>
-<li><strong>100% 物理全量普查（Census，非抽樣擴推）</strong>：
-   每一次刷卡進出站，都是一筆帶有金融交易憑證的實體紀錄。沒有所謂「市佔率乘上 2.7 倍」的統計抽樣擴推偏差，數據就是真實的物理客流。</li>
-<li><strong>法律契約與法定票種（Ground Truth Persona）</strong>：
-   每筆票證紀錄自帶法定身分標籤：</li>
-<li><code>TicketType=4</code>：<strong>TPASS 通勤月票</strong>（政策受惠的重度通勤剛需族）。</li>
+<li>
+<p><strong>100% 物理全量普查（Census，非抽樣擴推）</strong>：
+   每一次刷卡進出站，都是一筆帶有金融交易憑證的實體紀錄。沒有所謂「市佔率乘上 2.7 倍」的統計抽樣擴推偏差，數據就是真實的物理客流。</p>
+</li>
+<li>
+<p><strong>法律契約與法定票種（Ground Truth Persona）</strong>：
+   每筆票證紀錄自帶法定身分標籤：</p>
+</li>
+<li>
+<p><code>TicketType=4</code>：<strong>TPASS 通勤月票</strong>（政策受惠的重度通勤剛需族）。</p>
+</li>
 <li><code>TicketType=03/04</code>：<strong>敬老愛心卡</strong>（65+ 長者或身障族群，享有地方政府法定補貼）。</li>
 <li><code>TicketType=02</code>：<strong>學生卡</strong>（國高中大專學生，尖峰接送與通學模式）。</li>
-<li><code>Token / QR 單程票</code>：<strong>境外觀光客或偶發搭乘者</strong>。
-   身分是「客觀法律事實」，完全無需演算法通靈猜測。</li>
-<li><strong>公分級月台與垂直高度定位（Z 軸精度）</strong>：
-   閘門精確架設在地下二樓、地下三樓或高架月台。無論地面遮蔽如何嚴重，刷卡進站即 100% 確立該人次身處軌道系統內部，徹底杜絕高程混淆。</li>
+<li>
+<p><code>Token / QR 單程票</code>：<strong>境外觀光客或偶發搭乘者</strong>。
+   身分是「客觀法律事實」，完全無需演算法通靈猜測。</p>
+</li>
+<li>
+<p><strong>公分級月台與垂直高度定位（Z 軸精度）</strong>：
+   閘門精確架設在地下二樓、地下三樓或高架月台。無論地面遮蔽如何嚴重，刷卡進站即 100% 確立該人次身處軌道系統內部，徹底杜絕高程混淆。</p>
+</li>
 </ol>
 <hr />
 <h2 id="13-etag-0m">1.3 為什麼選擇 eTag 高速公路車流？（0m 門架客貨分流）</h2>
 <p>在公路運輸與城際走廊領域，我們納入了高速公路局 eTag 百萬級車流大數據：</p>
 <ol>
-<li><strong>0m 樁號精準度，絕對零空間漂移（Zero Drift）</strong>：
-   eTag 微波感應門架固定架設在國道精確的公里樁號（如國道一號 23.4k）。車輛通過即紀錄，座標固定不變，資料清洗只需做時間格式檢查，無需耗費算力做路網投影。</li>
-<li><strong>監理車籍 5 大車種分類（客貨分離的生命線）</strong>：
-   eTag 系統依據車籍與車軸數，將車流精準拆解為：</li>
-<li><code>車種 31</code>：小客車（私家通勤、家庭旅遊）。</li>
+<li>
+<p><strong>0m 樁號精準度，絕對零空間漂移（Zero Drift）</strong>：
+   eTag 微波感應門架固定架設在國道精確的公里樁號（如國道一號 23.4k）。車輛通過即紀錄，座標固定不變，資料清洗只需做時間格式檢查，無需耗費算力做路網投影。</p>
+</li>
+<li>
+<p><strong>監理車籍 5 大車種分類（客貨分離的生命線）</strong>：
+   eTag 系統依據車籍與車軸數，將車流精準拆解為：</p>
+</li>
+<li>
+<p><code>車種 31</code>：小客車（私家通勤、家庭旅遊）。</p>
+</li>
 <li><code>車種 32</code>：小貨車（都會短途配送、工班車輛）。</li>
 <li><code>車種 41</code>：大客車（國道客運、觀光遊覽車）。</li>
 <li><code>車種 42</code>：大貨車（城際幹線重型物流）。</li>
-<li><code>車種 51/52</code>：聯結車／半聯結車（國際商港貨櫃、鋼鐵重工業）。
-   這使我們能夠看見台灣真實的「產業物流骨骼」，這是任何公共運輸票證無法觸及的領域。</li>
-<li><strong>與票證具備「天然精準互斥性（Mutual Exclusivity）」</strong>：
+<li>
+<p><code>車種 51/52</code>：聯結車／半聯結車（國際商港貨櫃、鋼鐵重工業）。
+   這使我們能夠看見台灣真實的「產業物流骨骼」，這是任何公共運輸票證無法觸及的領域。</p>
+</li>
+<li>
+<p><strong>與票證具備「天然精準互斥性（Mutual Exclusivity）」</strong>：
    一個人同一秒鐘，絕不可能「既在國道上自駕，又在捷運車廂刷卡」！因此：
    $$\text{總城際走廊流量 } Q_{\text{Total}} = Q_{\text{eTag (公路汽客貨)}} + Q_{\text{Ticket (軌道/客運)}}$$
-   <strong>兩者可直接相加，零重複計數</strong>，是計算全台「運具分擔率（Modal Split）」最純淨的黃金組合。</li>
+   <strong>兩者可直接相加，零重複計數</strong>，是計算全台「運具分擔率（Modal Split）」最純淨的黃金組合。</p>
+</li>
 </ol>
 <hr />
 <h2 id="14-tdx">1.4 為什麼結合 TDX 停車與生活圈機能？</h2>
@@ -826,13 +1276,21 @@
 因此，我們將 TDX 即時停車位 API、生活機能設施密度（充電樁、超商、量販店）與交流道下匝道車流進行深度關聯，讓宏觀的高速公路車流能夠無縫落地為微觀的「生活圈都市承載力指標」。</p>
 <hr />
 <h2 id="15-uid">1.5 電信信令的局限：空間漂移、UID 洗亂與車廂重複計算</h2>
-<p>手機電信信令（Cellular Signaling）在全域覆蓋上極具價值，但在交通資料工程中存在三大致命痛點：
-1. <strong>空間漂移與乒乓交遞（Ping-pong Handover）</strong>：
-   基地台半徑在市區約 200~500m。當使用者靜止不動時，手機頻繁切換鄰近基站，演算法極易誤判為高速移動；當遇到高架橋與地下捷運時，更是分不清人在哪一層。
-2. <strong>去識別化洗亂導致旅次鏈斷裂</strong>：
-   為遵守《個人資料保護法》，電信業者的臨時 ID（IMSI/UID）通常每天或每週重新 Hash 洗亂，並在空間網格中注入微擾噪音。<strong>一旦 UID 被洗亂，就無法進行跨週跨月的連續旅次鏈追蹤</strong>，分不清常客與偶發過客。
-3. <strong>車廂雙重計數（Double-Counting）</strong>：
+<p>手機電信信令（Cellular Signaling）在全域覆蓋上極具價值，但在交通資料工程中存在三大致命痛點：</p>
+<ol>
+<li>
+<p><strong>空間漂移與乒乓交遞（Ping-pong Handover）</strong>：
+   基地台半徑在市區約 200~500m。當使用者靜止不動時，手機頻繁切換鄰近基站，演算法極易誤判為高速移動；當遇到高架橋與地下捷運時，更是分不清人在哪一層。</p>
+</li>
+<li>
+<p><strong>去識別化洗亂導致旅次鏈斷裂</strong>：
+   為遵守《個人資料保護法》，電信業者的臨時 ID（IMSI/UID）通常每天或每週重新 Hash 洗亂，並在空間網格中注入微擾噪音。<strong>一旦 UID 被洗亂，就無法進行跨週跨月的連續旅次鏈追蹤</strong>，分不清常客與偶發過客。</p>
+</li>
+<li>
+<p><strong>車廂雙重計數（Double-Counting）</strong>：
    當乘客搭捷運時，信令基站偵測到手機並擴推 2.6 倍，捷運閘門又記錄 1 次。若直接將信令與票證相加，<strong>捷運車廂的人潮會被嚴重虛胖放大</strong>！若要扣除重複，因缺乏明文個資，只能用機率猜測，再次引入二次估計誤差。</p>
+</li>
+</ol>
 <hr />
 <h2 id="16">1.6 戰略定調：三大數據源「剛性骨架＋彈性肌肉」融合典範</h2>
 <p>基於上述本質剖析，本專案確立了國家級大數據融合戰略架構：</p>
@@ -841,39 +1299,39 @@
     <div class="arch-layer-title">第 1 層：底層剛性真理骨架 (Census Baseline)</div>
     <div class="arch-boxes">
         <div class="arch-box">
-            <div class="arch-box-title">🛣️ eTag 高速公路門架車流</div>
+            <div class="arch-box-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag 高速公路門架車流</div>
             <div class="arch-box-desc">0m 門架樁號絕對真實物理量 / 5大監理車種 / 產業客貨分流</div>
         </div>
         <div class="arch-box">
-            <div class="arch-box-title">🚆 TICP 交通票證大數據</div>
+            <div class="arch-box-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="3" width="16" height="16" rx="2"/><line x1="4" y1="11" x2="20" y2="11"/><line x1="12" y1="3" x2="12" y2="11"/><path d="m8 19-3 3"/><path d="m16 19 3 3"/></svg> TICP 交通票證大數據</div>
             <div class="arch-box-desc">公分級月台閘門刷卡紀錄 / TPASS 月票 / 敬老愛心法律契約交易</div>
         </div>
     </div>
 </div>
-<div class="arch-connector">⚡ 天然嚴格互斥集合：100% 精準運具分擔率 (Modal Split) 零重複疊加</div>
+<div class="arch-connector"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> 天然嚴格互斥集合：100% 精準運具分擔率 (Modal Split) 零重複疊加</div>
 <div class="arch-layer arch-layer-2">
     <div class="arch-layer-title">第 2 層：外層連續空間肌肉 (Flexible Shell)</div>
     <div class="arch-boxes">
         <div class="arch-box" style="flex:1;">
-            <div class="arch-box-title">📡 手機電信信令 (Cellular Signaling)</div>
+            <div class="arch-box-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"/><path d="M7.76 7.76a6 6 0 0 1 8.48 0"/><circle cx="12" cy="12" r="2"/><path d="M12 14v8"/></svg> 手機電信信令 (Cellular Signaling)</div>
             <div class="arch-box-desc">無收費露天風景區人流 / 商圈街道滯留時長 / 步行最後一哩路空間連續軌跡</div>
         </div>
     </div>
 </div>
-<div class="arch-connector arch-connector-bottom">⚓ 硬性錨點反向閉環校準：以 eTag 門架與票證刷卡量反向校正信令空間擴推倍率</div>
+<div class="arch-connector arch-connector-bottom"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg> 硬性錨點反向閉環校準：以 eTag 門架與票證刷卡量反向校正信令空間擴推倍率</div>
 </div>
 <p><img alt="圖 1.1：三大數據戰略本質對決矩陣 (Master Matrix) 實體視覺化" src="images/ch1_telecom_master_matrix.webp" />
 <em>圖 1.1：線上系統【數據戰略：票證 vs 電信】第一幕——四大核心維度對決卡片（空間穩定性、身分契約、天然互斥性、活動覆蓋與重複計算），直觀展示剛性骨架如何奠定零漂移基準。</em></p>
 <hr />
-<h2 id="17">1.7 🛠️ 互動操作實戰指引：如何在系統中切換查看</h2>
+<h2 id="17">1.7 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在系統中切換查看</h2>
 <p>想要親自體驗本章所論述的「三大數據戰略對決矩陣」嗎？請依以下步驟操作：</p>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">三大數據戰略矩陣 (Master Matrix)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#telecom</span></div>
     </div>
@@ -882,51 +1340,103 @@
 <h3 id="_2">操作步驟：</h3>
 <ol>
 <li>點擊上方超連結或點擊系統頂部導覽列 <strong>【電信與票證】</strong>。</li>
-<li>預設進入 <strong>【🛡️ 第一幕：三大數據本質對決與戰略矩陣 (Master Matrix)】</strong> 子頁籤。</li>
+<li>預設進入 <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 第一幕：三大數據本質對決與戰略矩陣 (Master Matrix)】</strong> 子頁籤。</li>
 <li>閱讀頁面中四張對決卡片（空間物理穩定性、身分真實契約、天然互斥性、活動覆蓋與重複計算）。</li>
 <li>向下滑動至 <strong>「三大數據源（eTag vs. 票證 vs. 信令）全戰略維度三向對照總表」</strong>，橫向對比 8 大指標。</li>
 </ol>
 <hr />
-<h2 id="18">1.8 🔍 核心資料看點與思考</h2>
+<h2 id="18">1.8 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 核心資料看點與思考</h2>
 <blockquote>
-<p><strong>💡 讀者思考題</strong>：
+<p><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 讀者思考題</strong>：
 當政府準備審計「TPASS 行政院通勤月票 1200 方案」一年花了 100 億元公帑是否值得時：
 * 能否拿電信信令的推估數字向主計總處核銷經費？（<strong>不行，缺乏法律交易契約與確切票種代碼</strong>）
 * 為什麼必須使用 TICP 票證大數據？（<strong>因為每一筆都是不可磨滅的金融與核銷憑證</strong>）
 * 為什麼需要搭配 eTag？（<strong>用來證明國道自駕車流是否真的減少，以及減少的車流去了哪裡</strong>）</p>
 </blockquote>
 <p>至此，我們確立了數據源的底層哲學。在下一章，我們將深入資料庫最底層，逐一解剖 TICP 票證、eTag 門架與 TDX 的真實數據欄位字典與樣本！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter2_data_dictionary_and_samples">👉 進入下一章：第二章：國家級數據底座與欄位實體解剖 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter2_data_dictionary_and_samples"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第二章：國家級數據底座與欄位實體解剖 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter2_data_dictionary_and_samples">
             <a id="chapter2_data_dictionary_and_samples" name="chapter2_data_dictionary_and_samples"></a>
-            <h1 id="ticp-etag-tdx">📚 第二章：國家級數據底座與欄位實體解剖——TICP 票證、eTag 門架與 TDX 之時間跨度、欄位字典與真實樣本</h1>
+            <h1 id="ticp-etag-tdx"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> 第二章：國家級數據底座與欄位實體解剖——TICP 票證、eTag 門架與 TDX 之時間跨度、欄位字典與真實樣本</h1>
 <h3 id="taiwan-mobility-pulse-data-infrastructure-field-dictionaries-and-microscopic-schema-samples">Taiwan Mobility Pulse: Data Infrastructure, Field Dictionaries, and Microscopic Schema Samples</h3>
 <blockquote>
 <p>「如果不知道每一筆數據在真實世界中代表哪一張實體卡片、哪一座門架的微波反射、哪一格停車場的感應線圈，那麼再炫麗的動態視覺化，都不過是隨機漂浮的數字幻象。」</p>
 </blockquote>
 <hr />
-<h2 id="21-macro-scope-temporal-dimensions">2.1 🌐 數據母體宏觀輪廓與時間跨度 (Macro Scope &amp; Temporal Dimensions)</h2>
+<h2 id="21-macro-scope-temporal-dimensions">2.1 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 數據母體宏觀輪廓與時間跨度 (Macro Scope &amp; Temporal Dimensions)</h2>
 <p>本專案所建構的「台灣動態移動脈搏」，並非建基於局部問卷抽樣或單一電信業者的推估模型，而是直接對碰與融合了國家級交通大數據之三大剛性底座：</p>
-<pre><code>┌─────────────────────────────────────────────────────────────────────────────────┐
-│                           全台交通動態人流數據底座概覽                             │
-├───────────────────┬───────────────────────────────┬─────────────────────────────┤
-│   數據庫來源類別   │        量級規模 (Scale)        │      時間維度與採樣顆粒度     │
-├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🚆 交通部 TICP     │ 4.48 億筆真實電子票證刷卡紀錄 │ 覆蓋 181~255 天全日連續觀測 │
-│    公共運輸票證庫 │ (8.43 億跨月搭乘旅次人次)      │ 交易/折讓秒級判定，離散小時聚合│
-├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🛣️ 高公局 eTag     │ 全國國道 325 座門架與交流道   │ 5 分鐘微觀通行記錄          │
-│    高速公路電子收費│ 覆蓋全台 5 大公路監理法定車種 │ 24 小時連續無休車流監測     │
-├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🅿️ 交通部 TDX     │ 76 大樞紐與 16 大交流道周邊   │ 1~5 分鐘即時動態刷新        │
-│    路外/路邊停車API│ 3,000+ 處公民營停車場車位數據 │ 滿位率、週轉率與階梯式費率  │
-├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🌧️ CWA 中央氣象署 │ 全台各生活圈代表性氣象自動測站│ 逐時（Hourly）連續觀測      │
-│    歷史觀測資料庫 │ 累積降雨量 (mm)、陣風、溫度    │ 晴天、微雨、豪大雨極端天候  │
-└───────────────────┴───────────────────────────────┴─────────────────────────────┘
-</code></pre>
+<div class="data-matrix-card">
+    <div class="data-matrix-head">全台交通動態人流數據底座概覽 (National Data Infrastructure Overview)</div>
+    <table class="data-matrix-tbl">
+        <thead>
+            <tr>
+                <th style="width: 28%;">數據庫來源類別</th>
+                <th style="width: 36%;">量級規模 (Scale)</th>
+                <th style="width: 36%;">時間維度與採樣顆粒度</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <div class="dm-source-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="4" y="3" width="16" height="16" rx="2"/><line x1="4" y1="11" x2="20" y2="11"/><line x1="12" y1="3" x2="12" y2="11"/><path d="m8 19-3 3"/><path d="m16 19 3 3"/></svg>交通部 TICP</div>
+                    <div class="dm-source-sub">公共運輸票證庫</div>
+                </td>
+                <td>
+                    <div class="dm-stat-highlight">4.48 億筆真實電子票證刷卡紀錄</div>
+                    <div class="dm-stat-sub">(8.43 億跨月搭乘旅次人次)</div>
+                </td>
+                <td>
+                    <div class="dm-time-badge">覆蓋 181~255 天全日連續觀測</div>
+                    <div class="dm-stat-sub">交易/折讓秒級判定，離散小時聚合</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dm-source-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg>高公局 eTag</div>
+                    <div class="dm-source-sub">高速公路電子收費</div>
+                </td>
+                <td>
+                    <div class="dm-stat-highlight">全國國道 325 座門架與交流道</div>
+                    <div class="dm-stat-sub">覆蓋全台 5 大公路監理法定車種</div>
+                </td>
+                <td>
+                    <div class="dm-time-badge">5 分鐘微觀通行記錄</div>
+                    <div class="dm-stat-sub">24 小時連續無休車流監測</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dm-source-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg>交通部 TDX</div>
+                    <div class="dm-source-sub">路外/路邊停車 API</div>
+                </td>
+                <td>
+                    <div class="dm-stat-highlight">76 大樞紐與 16 大交流道周邊</div>
+                    <div class="dm-stat-sub">3,000+ 處公民營停車場車位數據</div>
+                </td>
+                <td>
+                    <div class="dm-time-badge">1~5 分鐘即時動態刷新</div>
+                    <div class="dm-stat-sub">滿位率、週轉率與階梯式費率</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="dm-source-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/></svg>CWA 中央氣象署</div>
+                    <div class="dm-source-sub">歷史觀測資料庫</div>
+                </td>
+                <td>
+                    <div class="dm-stat-highlight">全台各生活圈代表性氣象自動測站</div>
+                    <div class="dm-stat-sub">累積降雨量 (mm)、陣風、溫度</div>
+                </td>
+                <td>
+                    <div class="dm-time-badge">逐時（Hourly）連續觀測</div>
+                    <div class="dm-stat-sub">晴天、微雨、豪大雨極端天候</div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
 <h3 id="observation-temporal-baseline">⏰ 時間範圍與觀測週期設計 (Observation Temporal Baseline)</h3>
 <ol>
 <li><strong>宏觀歷史時間跨度</strong>：</li>
@@ -941,7 +1451,7 @@
 <li><strong>秒級/毫秒級（Transaction Timestamp）</strong>：票卡實體讀寫之進出站驗票、跨運具 60 分鐘轉乘優惠判斷，由車載晶片驗票機以秒級真實時間戳記結算。</li>
 </ol>
 <hr />
-<h2 id="22-ticp-ticp-data-dictionary">2.2 🚆 TICP 交通票證資料集架構與欄位字典 (TICP Data Dictionary)</h2>
+<h2 id="22-ticp-ticp-data-dictionary">2.2 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="3" width="16" height="16" rx="2"/><line x1="4" y1="11" x2="20" y2="11"/><line x1="12" y1="3" x2="12" y2="11"/><path d="m8 19-3 3"/><path d="m16 19 3 3"/></svg> TICP 交通票證資料集架構與欄位字典 (TICP Data Dictionary)</h2>
 <p>交通部 TICP 匯聚全台灣 10 大多模態運具，資料依營運型態分為三大核心 schema：</p>
 <h3 id="1-bus_to3a">1. 市區公車與公路客運交易資料集 (<code>bus_to3a</code>)</h3>
 <p>這是全台數量最龐大、覆蓋市區街道毛細孔的核心票證來源（涵蓋雙北市區公車 2.5 億筆、公路客運 2,660 萬筆）：</p>
@@ -1036,7 +1546,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="real-world-data-sample">🔬 真實票證樣本紀錄剖析 (Real World Data Sample)</h4>
+<h4 id="real-world-data-sample"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg> 真實票證樣本紀錄剖析 (Real World Data Sample)</h4>
 <pre><code class="language-json">[
   {
     &quot;LineID&quot;: &quot;0100030700&quot;,
@@ -1135,7 +1645,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="od-real-world-rail-od-sample">🔬 真實軌道 OD 樣本紀錄 (Real World Rail OD Sample)</h4>
+<h4 id="od-real-world-rail-od-sample"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg> 真實軌道 OD 樣本紀錄 (Real World Rail OD Sample)</h4>
 <pre><code class="language-json">[
   {
     &quot;OriginStationID&quot;: &quot;BL12&quot;,
@@ -1209,7 +1719,7 @@
 </tbody>
 </table>
 <hr />
-<h2 id="23-etag-etag-data-dictionary">2.3 🛣️ 高公局 eTag 電子收費資料集架構 (eTag Data Dictionary)</h2>
+<h2 id="23-etag-etag-data-dictionary">2.3 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> 高公局 eTag 電子收費資料集架構 (eTag Data Dictionary)</h2>
 <p>高速公路局 eTag 系統為全台灣唯一具備<strong>法定全量車種識別</strong>與<strong>門架物理樁號</strong>之高速公路巨量資料集：</p>
 <h3 id="1-etag_gantry_discharge">1. 門架通行與下匝道車流資料表 (<code>etag_gantry_discharge</code>)</h3>
 <table>
@@ -1268,7 +1778,7 @@
 </tr>
 </tbody>
 </table>
-<h4 id="etag-real-world-etag-interchange-sample">🔬 真實 eTag 交流道車流樣本紀錄 (Real World eTag Interchange Sample)</h4>
+<h4 id="etag-real-world-etag-interchange-sample"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M6 18h8"/><path d="M3 22h18"/><path d="M14 22a7 7 0 1 0 0-14h-1"/><path d="M9 14h2"/><path d="M9 12a2 2 0 0 1-2-2V6h6v4a2 2 0 0 1-2 2Z"/><path d="M12 6V3a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v3"/></svg> 真實 eTag 交流道車流樣本紀錄 (Real World eTag Interchange Sample)</h4>
 <pre><code class="language-json">[
   {
     &quot;GantryID&quot;: &quot;01F-0955S&quot;,
@@ -1307,7 +1817,7 @@
 ]
 </code></pre>
 <hr />
-<h2 id="24-tdx-api-tdx-parking-amenities">2.4 🅿️ 空間機能與 TDX 即時停車位 API 字典 (TDX Parking &amp; Amenities)</h2>
+<h2 id="24-tdx-api-tdx-parking-amenities">2.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/></svg> 空間機能與 TDX 即時停車位 API 字典 (TDX Parking &amp; Amenities)</h2>
 <table>
 <thead>
 <tr>
@@ -1355,25 +1865,35 @@
 </tbody>
 </table>
 <hr />
-<h2 id="25-data-pipeline-nuances">2.5 🛠️ 數據前處理工程挑戰與安全保護 (Data Pipeline Nuances)</h2>
-<pre><code>┌─────────────────────────────────────────────────────────────────────────────┐
-│                   國家級交通大數據前處理安全防護管線                           │
-└──────────────────────────────────────┬──────────────────────────────────────┘
-                                       │
-            ┌──────────────────────────┴──────────────────────────┐
-            ▼                                                     ▼
-┌───────────────────────┐                             ┌───────────────────────┐
-│  個人隱私加鹽去識別化  │                             │  記憶體零爆破串流架構  │
-│ Independent Salt Hash │                             │ PyArrow Streaming     │
-└───────────┬───────────┘                             └───────────┬───────────┘
-            │                                                     │
-            │ 各運具獨立 Salt，禁止跨商串接個人軌跡                │ 16MB 區塊串流解壓縮，不落磁碟
-            │ 轉乘依賴票卡晶片「實體寫入代碼」判定                 │ Polars LazyFrame 欄位下推投影
-            ▼                                                     ▼
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                 最終成果：16.5GB 高壓縮 Apache Parquet 剛性母體             │
-└─────────────────────────────────────────────────────────────────────────────┘
-</code></pre>
+<h2 id="25-data-pipeline-nuances">2.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 數據前處理工程挑戰與安全保護 (Data Pipeline Nuances)</h2>
+<div class="pipeline-diagram">
+    <div class="pipeline-head">
+        <div class="pipeline-head-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> 國家級交通大數據前處理安全防護管線</div>
+    </div>
+    <div class="pipeline-connector">▼ 雙軌平行架構 ▼</div>
+    <div class="pipeline-columns">
+        <div class="pipeline-col col-privacy">
+            <div class="pipeline-col-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> 個人隱私加鹽去識別化</div>
+            <div class="pipeline-col-sub">Independent Salt Hash Architecture</div>
+            <ul class="pipeline-list">
+                <li>各營運商採用獨立 Salt，禁止跨商串接個人私密行蹤軌跡</li>
+                <li>跨運具轉乘完全依賴票卡晶片「實體寫入代碼」嚴格判定</li>
+            </ul>
+        </div>
+        <div class="pipeline-col col-stream">
+            <div class="pipeline-col-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> 記憶體零爆破串流架構</div>
+            <div class="pipeline-col-sub">PyArrow Streaming Pipeline</div>
+            <ul class="pipeline-list">
+                <li>16MB 區塊串流解壓縮，全管線不落磁碟避免 I/O 瓶頸</li>
+                <li>Polars LazyFrame 欄位下推投影，安全控制在 1.5GB RAM 水位</li>
+            </ul>
+        </div>
+    </div>
+    <div class="pipeline-connector">▼ 終端產物 ▼</div>
+    <div class="pipeline-foot">
+        <div class="pipeline-foot-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><polyline points="21 8 21 21 3 21 3 8"/><rect x="1" y="3" width="22" height="5"/><line x1="10" y1="12" x2="14" y2="12"/></svg> 最終成果：16.5GB 高壓縮 Apache Parquet 剛性母體 (體積精簡 88%)</div>
+    </div>
+</div>
 <ol>
 <li><strong>獨立加鹽雜湊機制（Independent Salting Hash）</strong>：</li>
 <li>為貫徹個人隱私防護，TICP 規範要求各營運商（公車、捷運、台鐵、微笑單車）對悠遊卡/一卡通卡號採用<strong>獨立加鹽雜湊（Unique Salting Algorithm）</strong>。</li>
@@ -1386,22 +1906,22 @@
 <p><img alt="圖 2.1：國家級大數據全域閉環融合架構 (Data Fusion Blueprint)" src="images/ch2_data_infrastructure.webp" />
 <em>圖 2.1：線上系統【數據戰略】第二幕——全域閉環融合架構實體介面。解析「第 1 層：底層剛性真理骨架（eTag + TICP 票證 4.48 億筆）」、「第 2 層：外層連續空間肌肉（電信信令）」與「第 3 層：錨點反向校準閉環（以硬錨點校正擴推倍率）」之工程落地機制。</em></p>
 <hr />
-<h2 id="26-interactive-portal">2.6 🎯 互動傳送門與系統對映 (Interactive Portal)</h2>
+<h2 id="26-interactive-portal">2.6 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 互動傳送門與系統對映 (Interactive Portal)</h2>
 <p>想要親自查閱由上述 4.48 億筆資料與 325 座 eTag 門架所提煉出之全維度戰略對照矩陣嗎？請透過下方傳送門進入系統：</p>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">三大數據戰略矩陣 (Master Matrix)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#telecom</span></div>
     </div>
 </div>
 
 <p>至此，我們完整解剖了數據母體的真實架構與微觀欄位字典。在下一章，我們將正式把這些微觀粒子注入全台灣 111 條代表性動態走廊，觀察大都會與城際間的時空呼吸！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter3_flow_arteries">👉 進入下一章：第三章：全台城際與都會走廊大動脈 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter3_flow_arteries"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第三章：全台城際與都會走廊大動脈 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter3_flow_arteries">
@@ -1414,43 +1934,45 @@
 <h2 id="31">3.1 走廊網絡建構原理：從「孤立站點」到「連通向度」</h2>
 <p>傳統交通統計往往停留在「單一車站進出人次」的孤立排行榜（例如：台北車站第一名、板橋車站第二名）。然而，這種點狀思維無法回答交通規劃的核心問題：<strong>人到底從哪裡來、要到哪裡去？中途經過哪些關鍵瓶頸？</strong></p>
 <p>本系統打破單點思維，透過 TICP 票證交易紀錄之進出站對碰（OD Matching），結合 eTag 門架連續通行路徑，抽樣建構出全台灣 <strong>111 條最具代表性的動態走廊（Mobility Corridors）</strong>。
-走廊涵蓋五大多模態運具：
-1. <strong>高鐵（THSR）</strong>：西部走廊 350 公里一日生活圈主脊椎。
-2. <strong>台鐵（TRA）</strong>：環島城際幹線與各縣市區間通勤動脈。
-3. <strong>都會捷運（Metro）</strong>：北捷、新北捷、桃捷、中捷、高捷之高密度都會內人潮微循環。
-4. <strong>公路客運（Highway Bus）</strong>：跨縣市直達通勤客運（如基隆 ↔ 台北、南崁 ↔ 台北）。
-5. <strong>國道貨運與觀光幹線（Highway Freight &amp; Tourism）</strong>：eTag 實測之產業重鎮與休閒廊道。</p>
+走廊涵蓋五大多模態運具：</p>
+<ol>
+<li><strong>高鐵（THSR）</strong>：西部走廊 350 公里一日生活圈主脊椎。</li>
+<li><strong>台鐵（TRA）</strong>：環島城際幹線與各縣市區間通勤動脈。</li>
+<li><strong>都會捷運（Metro）</strong>：北捷、新北捷、桃捷、中捷、高捷之高密度都會內人潮微循環。</li>
+<li><strong>公路客運（Highway Bus）</strong>：跨縣市直達通勤客運（如基隆 ↔ 台北、南崁 ↔ 台北）。</li>
+<li><strong>國道貨運與觀光幹線（Highway Freight &amp; Tourism）</strong>：eTag 實測之產業重鎮與休閒廊道。</li>
+</ol>
 <hr />
 <h2 id="32">3.2 產業物流大動脈：夜間不眠的重型動脈</h2>
 <p>台灣是全球高科技硬體與製造重鎮，除了白天的上班族之外，地表上還有一條巨大的「暗流」——<strong>產業貨運走廊（Freight Corridors）</strong>。透過 eTag 門架之車種 32（小貨）、42（大貨）與 51/52（聯結車）通行紀錄，我們還原了台灣三大關鍵科技物流走廊：</p>
 <ol>
 <li><strong>國道一號科技幹線（竹科 ↔ 台北港 / 桃園機場）</strong>：</li>
-<li><strong>起訖路徑</strong>：新竹科學園區 ➔ 國一/台66 ➔ 台北港與遠雄自貿港。</li>
+<li><strong>起訖路徑</strong>：新竹科學園區 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 國一/台66 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台北港與遠雄自貿港。</li>
 <li><strong>流動特性</strong>：高單價半導體晶圓、精密電子零組件之 24 小時急件通關。深夜 00:00 至 04:00 依然維持極高比例之廂型大貨車流。</li>
 <li><strong>中台灣港科聯動走廊（台中港 ↔ 中部科學園區大雅）</strong>：</li>
-<li><strong>起訖路徑</strong>：台中港貨櫃碼頭 ➔ 台74 / 國道四號 ➔ 中科台中基地。</li>
+<li><strong>起訖路徑</strong>：台中港貨櫃碼頭 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台74 / 國道四號 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 中科台中基地。</li>
 <li><strong>流動特性</strong>：離岸風電重型機具、晶圓代工化學槽車與精密機械進出口。</li>
 <li><strong>南台灣半導體 S 廊帶（高雄港 ↔ 南科新市）</strong>：</li>
-<li><strong>起訖路徑</strong>：高雄港前鎮貨櫃專用道 ➔ 國一/台86 ➔ 台南科學園區。</li>
+<li><strong>起訖路徑</strong>：高雄港前鎮貨櫃專用道 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 國一/台86 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台南科學園區。</li>
 <li><strong>流動特性</strong>：高屏重工業原料與南科三奈米晶圓先進製程之供應鏈流動。</li>
 </ol>
 <p><img alt="圖 3.1：全台動態走廊流向圖——夜間不眠之產業重型物流大動脈" src="images/ch3_corridor_freight_logistics.webp" />
-<em>圖 3.1：篩選「🚛 產業物流」客群之流向地圖。高亮顯示國道一號科技幹線（竹科 ↔ 台北港/桃機）與中港科聯動走廊，高單價晶圓零組件與進出口重櫃車流全天候奔馳。</em></p>
+<em>圖 3.1：篩選「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> 產業物流」客群之流向地圖。高亮顯示國道一號科技幹線（竹科 ↔ 台北港/桃機）與中港科聯動走廊，高單價晶圓零組件與進出口重櫃車流全天候奔馳。</em></p>
 <hr />
 <h2 id="33">3.3 假日觀光快線：從水泥都會向山海大遷徙</h2>
 <p>與平日通勤截然不同，每逢週末或連續假期，全台灣的人流向量會發生劇烈的「極性反轉（Polarity Inversion）」。人潮迅速撤離都市核心，湧入四大國家級觀光廊道：</p>
 <ol>
 <li><strong>國道五號雪隧宜蘭快線（南港 ↔ 礁溪/羅東）</strong>：</li>
 <li>平日僅為區域性通勤客流；<strong>週六上午 07:00~11:00 南下車流暴增 280%</strong>，週日下午 14:00~20:00 北上形成長達數十公里的返潮車龍。</li>
-<li><strong>國道六號愛蘭日月潭走廊（台中霧峰 ➔ 埔里/愛蘭）</strong>：</li>
+<li><strong>國道六號愛蘭日月潭走廊（台中霧峰 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 埔里/愛蘭）</strong>：</li>
 <li>銜接中部都會區前往清境農場、日月潭與合歡山的核心樞紐，假日小客車（車種 31）佔比超過 88%。</li>
-<li><strong>南迴觀光走廊（屏東南州 ➔ 墾丁恆春）</strong>：</li>
+<li><strong>南迴觀光走廊（屏東南州 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 墾丁恆春）</strong>：</li>
 <li>南台灣陽光度假主幹線，週五傍晚開始南下車流激增，週日收假前夕回流屏東市區與國三南州交流道。</li>
-<li><strong>花東縱谷休閒快線（台東 ➔ 礁溪/花蓮）</strong>：</li>
+<li><strong>花東縱谷休閒快線（台東 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 礁溪/花蓮）</strong>：</li>
 <li>鐵路新自強號（EMU3000）與台9線蘇花改自駕車流雙軌並行，展現高度休閒轉化率。</li>
 </ol>
 <p><img alt="圖 3.2：假日觀光大遷徙——向山海奔騰之流向粒子爆發" src="images/ch3_corridor_holiday_tourism.webp" />
-<em>圖 3.2：切換至「🏖️ 放假日 (週末)」及「🧳 觀光旅遊」客群。平日向心通勤走廊大幅降溫，國道五號雪隧宜蘭快線、國道六號愛蘭走廊與花東縱谷粒子流暴增 320%。</em></p>
+<em>圖 3.2：切換至「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg> 放假日 (週末)」及「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> 觀光旅遊」客群。平日向心通勤走廊大幅降溫，國道五號雪隧宜蘭快線、國道六號愛蘭走廊與花東縱谷粒子流暴增 320%。</em></p>
 <hr />
 <h2 id="34-24">3.4 24 小時時空潮汐全景規律</h2>
 <p>當我們拉動系統中的 24 小時時間軸時，能清楚看見台灣全日的移動節奏：</p>
@@ -1461,14 +1983,14 @@
 21:00 ── 23:30 │ 夜間歸宿與文娛活動：信義商圈、逢甲夜市、六合夜市等休閒散場
 </code></pre>
 <hr />
-<h2 id="35">3.5 🛠️ 互動操作實戰指引：如何在動態流向地圖中體驗</h2>
+<h2 id="35">3.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在動態流向地圖中體驗</h2>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#flows" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">全台動態走廊流向圖 (FlowMap)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#flows</span></div>
     </div>
@@ -1476,30 +1998,30 @@
 
 <h3 id="_1">操作步驟：</h3>
 <ol>
-<li>點擊上方超連結或點擊頂部導覽列 <strong>【GIS 空間地圖】➔【動態走廊流向】</strong>。</li>
+<li>點擊上方超連結或點擊頂部導覽列 <strong>【GIS 空間地圖】<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>【動態走廊流向】</strong>。</li>
 <li><strong>觀察時間軸潮汐</strong>：</li>
 <li>在畫面下方找到時間軸控制列，點擊 <strong>「播放 (Play)」</strong> 按鈕，觀察時間從 00:00 推進至 23:00。</li>
 <li>注意早尖峰 <strong>08:00</strong> 與晚尖峰 <strong>18:00</strong> 時，雙向走廊上高密度流動的光流粒子。</li>
 <li><strong>切換「平日 (Workday)」與「假日 (Holiday)」</strong>：</li>
 <li>在頂部或左側面板切換日型：</li>
-<li>觀察 <strong>平日</strong> 下，基隆 ➔ 台北、竹科周邊與捷運路網的藍色粒子極速密集湧入；</li>
+<li>觀察 <strong>平日</strong> 下，基隆 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台北、竹科周邊與捷運路網的藍色粒子極速密集湧入；</li>
 <li>觀察 <strong>假日</strong> 下，國道五號、國道六號與東部走廊的金色/橘色觀光粒子顯著增加。</li>
 <li><strong>利用「走廊快捷雷達面板」聚焦特定走廊</strong>：</li>
 <li>在地圖右側或下方「重點走廊導航」中，點選 <strong>「竹科科技幹線」</strong> 或 <strong>「國五宜蘭度假快線」</strong>；</li>
 <li>地圖會自動平移放大（FlyTo）至該走廊，並高亮顯示其 Origin-Destination 坐標與粒子流速！</li>
 </ol>
 <hr />
-<h2 id="36">3.6 🔍 核心資料看點深度解碼</h2>
+<h2 id="36">3.6 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 核心資料看點深度解碼</h2>
 <blockquote>
-<p><strong>💡 專業看點推薦</strong>：
+<p><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 專業看點推薦</strong>：
 1. <strong>早尖峰 08:00 的「竹科科技幹線」</strong>：
    觀察從國道一號新竹交流道匯入竹科的粒子流，對比同時段台鐵新竹站往返六家支線的客流，能夠看見科技從業人員自駕與鐵道接駁的雙軌平衡。
-2. <strong>晚尖峰 18:00 的「基隆 ➔ 台北 國道客運」</strong>：
+2. <strong>晚尖峰 18:00 的「基隆 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台北 國道客運」</strong>：
    反向觀察台北轉運站與市府轉運站往基隆方向的粒子，展現 TPASS 實施後城際公路客運龐大的跨縣市疏運能量。</p>
 </blockquote>
 <p>在走廊宏觀尺度之後，我們需要進一步問：當車輛離開高速公路交流道、進入平面市區時，周邊的空間是如何被擾動的？
 下一章，我們將帶您走進微觀熱點，揭示全台首創的「交流道下匝道輻射光暈」！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter4_etag_halos_heatmap">👉 進入下一章：第四章：熱點輻射與下匝道光暈 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter4_etag_halos_heatmap"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第四章：熱點輻射與下匝道光暈 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter4_etag_halos_heatmap">
@@ -1510,10 +2032,12 @@
 </blockquote>
 <hr />
 <h2 id="41">4.1 下匝道之後：被傳統分析遺忘的「最後五公里」</h2>
-<p>過去的國道交通分析往往存在一個巨大斷層：
-* 高公局只關心<strong>「高速公路主線上塞不塞」</strong>（平均車速多少、壅塞路段落在哪個里程碑）。
-* 地方交通局只關心<strong>「市區號誌路口停等秒數與停車位夠不夠」</strong>。
-* <strong>但兩者之間缺乏動態連動</strong>：當主線車流以每小時 3,000 輛的規模從交流道傾瀉而下時，周邊 3 至 5 公里生活圈的道路承載力、路邊停車與立體停車場，究竟承受了多大的即時壓力？</p>
+<p>過去的國道交通分析往往存在一個巨大斷層：</p>
+<ul>
+<li>高公局只關心<strong>「高速公路主線上塞不塞」</strong>（平均車速多少、壅塞路段落在哪個里程碑）。</li>
+<li>地方交通局只關心<strong>「市區號誌路口停等秒數與停車位夠不夠」</strong>。</li>
+<li><strong>但兩者之間缺乏動態連動</strong>：當主線車流以每小時 3,000 輛的規模從交流道傾瀉而下時，周邊 3 至 5 公里生活圈的道路承載力、路邊停車與立體停車場，究竟承受了多大的即時壓力？</li>
+</ul>
 <p>為解決這一盲區，本系統在熱點圖層中實現了創新突破：<strong>【方案一：交流道下匝道車流注入輻射光暈（Off-Ramp Discharge Catchment Halos）】</strong>。</p>
 <hr />
 <h2 id="42">4.2 方案一的核心技術演算法：雙環動態輻射光暈</h2>
@@ -1528,16 +2052,22 @@
 </code></pre>
 <h3 id="1">1. 雙環結構設計</h3>
 <ul>
-<li><strong>外層漣漪光暈（Outer Ripple Halo）</strong>：
-  採用 CSS <code>@keyframes etagHaloRipple</code> 進行連續擴散呼吸，半徑由即時下匝道流量（veh/h）經平方根縮放（Scale Factor: 8~42px），直接視覺化車流對都市周邊路網的「空間擴散勢能」。</li>
-<li><strong>內層核心錨點（Inner Core Pin）</strong>：
-  標示交流道精確地理經緯度，並以邊框與核心色彩區分主導屬性（如綠色標示生活圈通勤、紫色標示科技重工業、橘色標示觀光休閒）。</li>
+<li>
+<p><strong>外層漣漪光暈（Outer Ripple Halo）</strong>：
+  採用 CSS <code>@keyframes etagHaloRipple</code> 進行連續擴散呼吸，半徑由即時下匝道流量（veh/h）經平方根縮放（Scale Factor: 8~42px），直接視覺化車流對都市周邊路網的「空間擴散勢能」。</p>
+</li>
+<li>
+<p><strong>內層核心錨點（Inner Core Pin）</strong>：
+  標示交流道精確地理經緯度，並以邊框與核心色彩區分主導屬性（如綠色標示生活圈通勤、紫色標示科技重工業、橘色標示觀光休閒）。</p>
+</li>
 </ul>
 <h3 id="2">2. 動態時空縮放演算法</h3>
 <p>光暈半徑與車流計算公式結合了日型特徵：
-$$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma(\text{DayType})$$
-* 平日早尖峰：<strong>新竹竹科交流道</strong>、<strong>五股交流道</strong>、<strong>林口交流道</strong> 光暈急遽擴張至全日極值。
-* 假日中午後：<strong>礁溪交流道</strong>、<strong>愛蘭（日月潭）交流道</strong>、<strong>大溪交流道</strong> 光暈瞬間放大 2.5 倍，展現觀光車流排隊下匝道的震撼視覺。</p>
+$$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma(\text{DayType})$$</p>
+<ul>
+<li>平日早尖峰：<strong>新竹竹科交流道</strong>、<strong>五股交流道</strong>、<strong>林口交流道</strong> 光暈急遽擴張至全日極值。</li>
+<li>假日中午後：<strong>礁溪交流道</strong>、<strong>愛蘭（日月潭）交流道</strong>、<strong>大溪交流道</strong> 光暈瞬間放大 2.5 倍，展現觀光車流排隊下匝道的震撼視覺。</li>
+</ul>
 <hr />
 <h2 id="33-16">3.3 全台 16 大戰略交流道深度畫像</h2>
 <p>我們從國道一號、三號、五號與六號中篩選出 16 個最能代表台灣經濟與休閒脈動的指標交流道：</p>
@@ -1681,14 +2211,14 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <p><img alt="圖 4.1：eTag 交流道下匝道車流注入輻射光暈與 TDX 即時停車位連動預警" src="images/ch4_offramp_halo_parking.webp" />
 <em>圖 4.1：線上系統【時空熱點圖】之 eTag 下匝道車流注入層實體介面。地圖呈現 16 大戰略交流道之雙環呼吸光暈（Catchment Halos），點選節點即時彈出 5 大車種構成（小客/小貨/大客/大貨/聯結車）與周邊 TDX 停車場佔用率（42% 飽和度），右側 HUD 同步連動全域晴天平日剛性通勤診斷指標。</em></p>
 <hr />
-<h2 id="45">4.5 🛠️ 互動操作實戰指引：如何在熱點圖中調校</h2>
+<h2 id="45">4.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在熱點圖中調校</h2>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">全台時空熱點圖與下匝道注入圈 (Heatmap)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap</span></div>
     </div>
@@ -1696,9 +2226,9 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 
 <h3 id="_1">操作步驟：</h3>
 <ol>
-<li>點擊上方超連結或點擊頂部導覽列 <strong>【GIS 空間地圖】➔【時空熱點分佈】</strong>。</li>
+<li>點擊上方超連結或點擊頂部導覽列 <strong>【GIS 空間地圖】<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>【時空熱點分佈】</strong>。</li>
 <li><strong>檢查光暈圖層按鈕</strong>：</li>
-<li>在地圖上方的控制列中，確認 <strong>「🛣️ eTag 交流道注入圈」</strong> 按鈕處於開啟狀態（綠色高亮）。您可以點擊它進行隨時開啟或隱藏。</li>
+<li>在地圖上方的控制列中，確認 <strong>「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag 交流道注入圈」</strong> 按鈕處於開啟狀態（綠色高亮）。您可以點擊它進行隨時開啟或隱藏。</li>
 <li><strong>點擊任一交流道核心標籤</strong>：</li>
 <li>在地圖上點選 <strong>「95A 新竹(竹科)」</strong>、<strong>「29 愛蘭/日月潭」</strong> 或 <strong>「30 礁溪」</strong>；</li>
 <li>畫面會彈出深色毛玻璃 Tooltip，詳細展示：<ul>
@@ -1712,16 +2242,16 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <li>點選 <strong>「假日晴天」</strong>，拉動時間至 <strong>14:00 午後</strong>，觀察愛蘭（日月潭）與礁溪光暈的動態膨脹！</li>
 </ol>
 <hr />
-<h2 id="46">4.6 🔍 核心資料看點：重點交流道對照分析</h2>
+<h2 id="46">4.6 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 核心資料看點：重點交流道對照分析</h2>
 <blockquote>
-<p><strong>💡 專業看點對比實驗</strong>：
+<p><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 專業看點對比實驗</strong>：
 * <strong>實驗 A（科技 vs. 觀光）</strong>：
   請在「平日 08:00」點選 <strong>竹科交流道</strong>，觀察其車流組成中高達 24% 的物流車輛與 94% 的停車壓力；隨後在「週日 15:00」點選 <strong>愛蘭交流道</strong>，觀察其小客車比例暴衝至 89%，停車壓力高達 96%。
   這生動展示了「生產力空間」與「消費娛樂空間」在時間維度上的完美交錯！</p>
 </blockquote>
 <p>熱點與下匝道光暈為我們揭示了空間的宏觀衝擊；然而，在這些車流與人潮背後，究竟是哪些特定族群在移動？風雨又如何改變了他們的行為？
 在下一章，我們將走入微觀人群像與天候模擬實驗室！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter5_personas_weather">👉 進入下一章：第五章：四大微觀人群像與天候彈性 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter5_personas_weather"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第五章：四大微觀人群像與天候彈性 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter5_personas_weather">
@@ -1732,43 +2262,63 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </blockquote>
 <hr />
 <h2 id="51">5.1 告別無臉大數據：從粗總量走向微觀人群像</h2>
-<p>長期以來，傳統都市規劃常使用「一人一票」的無差別統計。然而，當政策制定者只看總運量時，往往會忽略弱勢族群的真實痛點：
-* <strong>如果只看尖峰人潮，我們就會以為非尖峰時段的捷運不需要服務——但那是長者前往醫院看診的唯一生命線。</strong>
-* <strong>如果以為所有人都會因為下雨改搭計程車——卻忽略了買了 TPASS 的學生依然必須在雨中轉乘公車。</strong></p>
+<p>長期以來，傳統都市規劃常使用「一人一票」的無差別統計。然而，當政策制定者只看總運量時，往往會忽略弱勢族群的真實痛點：</p>
+<ul>
+<li><strong>如果只看尖峰人潮，我們就會以為非尖峰時段的捷運不需要服務——但那是長者前往醫院看診的唯一生命線。</strong></li>
+<li><strong>如果以為所有人都會因為下雨改搭計程車——卻忽略了買了 TPASS 的學生依然必須在雨中轉乘公車。</strong></li>
+</ul>
 <p>透過解構交通部 TICP 票證資料中的法定身分代碼（TicketType），本系統精準還原了全台<strong>四大微觀人群像（Micro-Personas）</strong>，並進一步打造了全台首創的<strong>天候模擬實驗室（Weather Simulation Lab）</strong>。</p>
 <hr />
 <h2 id="52">5.2 四大微觀人群像深度畫像</h2>
-<pre><code>┌─────────────────────────┬─────────────────────────┐
-│  👔 鋼鐵通勤族           │  👵 悠遊銀髮族          │
-│  (Iron Commuters)       │  (Active Seniors)       │
-│  • 票種：TPASS 月票     │  • 票種：敬老愛心卡     │
-│  • 特徵：早晚尖峰雙峰   │  • 特徵：離峰買菜、看診 │
-├─────────────────────────┼─────────────────────────┤
-│  🎓 求學青年族           │  🏖️ 假日觀光客          │
-│  (Gen-Z Students)       │  (Weekend Tourists)     │
-│  • 票種：學生卡 (02)    │  • 票種：單程票 Token   │
-│  • 特徵：補習商圈群聚   │  • 特徵：風景區、週末潮 │
-└─────────────────────────┴─────────────────────────┘
-</code></pre>
-<h3 id="1-iron-commuters">1. 👔 鋼鐵通勤族 (Iron Commuters)</h3>
+<div class="personas-grid">
+    <div class="persona-card card-commuter">
+        <div class="persona-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg><div><div class="persona-title">鋼鐵通勤族</div><div class="persona-sub">Iron Commuters</div></div></div>
+        <div class="persona-detail">
+            <div><span class="persona-badge b-commuter">票種</span>TPASS 通勤月票 (TicketType=4)</div>
+            <div><span class="persona-badge b-commuter">特徵</span>早晚尖峰極端雙峰、跨生活圈剛性走廊</div>
+        </div>
+    </div>
+    <div class="persona-card card-senior">
+        <div class="persona-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg><div><div class="persona-title">悠遊銀髮族</div><div class="persona-sub">Active Seniors</div></div></div>
+        <div class="persona-detail">
+            <div><span class="persona-badge b-senior">票種</span>敬老愛心卡 (03/04)</div>
+            <div><span class="persona-badge b-senior">特徵</span>完全避開尖峰、離峰買菜/看診、極端天候敏感</div>
+        </div>
+    </div>
+    <div class="persona-card card-student">
+        <div class="persona-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg><div><div class="persona-title">求學青年族</div><div class="persona-sub">Gen-Z Students</div></div></div>
+        <div class="persona-detail">
+            <div><span class="persona-badge b-student">票種</span>高中大專學生卡 (02)</div>
+            <div><span class="persona-badge b-student">特徵</span>07:00 晨間提早、補習商圈夜間散場潮</div>
+        </div>
+    </div>
+    <div class="persona-card card-tourist">
+        <div class="persona-header"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg><div><div class="persona-title">假日觀光客</div><div class="persona-sub">Weekend Tourists</div></div></div>
+        <div class="persona-detail">
+            <div><span class="persona-badge b-tourist">票種</span>單程票 Token / 行動 QR Code</div>
+            <div><span class="persona-badge b-tourist">特徵</span>風景名勝聚集、週六日上午 10:00 爆發</div>
+        </div>
+    </div>
+</div>
+<h3 id="1-iron-commuters">1. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 3 9 7l3 14 3-14-3-4z"/><path d="m9 7-5 2 2 4 3-2z"/><path d="m15 7 5 2-2 4-3-2z"/></svg> 鋼鐵通勤族 (Iron Commuters)</h3>
 <ul>
 <li><strong>核心標籤</strong>：<code>TicketType=4</code> (TPASS 月票持有者)、跨縣市通勤、高頻剛需。</li>
 <li><strong>時序節奏</strong>：極端對稱的「雙峰曲線」（07:30~09:00 早尖峰，17:30~19:30 晚尖峰）。</li>
-<li><strong>行為特徵</strong>：對行程時間可靠度極度敏感，換乘時間容忍度低（偏好高鐵轉捷運、直達客運）。TPASS 政策大幅降低其邊際出行成本，使跨市移動（如基隆 ➔ 台北、桃園 ➔ 雙北）常態化。</li>
+<li><strong>行為特徵</strong>：對行程時間可靠度極度敏感，換乘時間容忍度低（偏好高鐵轉捷運、直達客運）。TPASS 政策大幅降低其邊際出行成本，使跨市移動（如基隆 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台北、桃園 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 雙北）常態化。</li>
 </ul>
-<h3 id="2-active-seniors">2. 👵 悠遊銀髮族 (Active Seniors)</h3>
+<h3 id="2-active-seniors">2. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> 悠遊銀髮族 (Active Seniors)</h3>
 <ul>
 <li><strong>核心標籤</strong>：<code>TicketType=03/04</code> (65 歲以上敬老卡、愛心卡)。</li>
 <li><strong>時序節奏</strong>：完全避開早晚尖峰！高峰落在 <strong>09:30~11:30</strong>（晨間公園運動、傳統市場採買）與 <strong>14:00~16:00</strong>（醫院回診、松年大學課程）。</li>
 <li><strong>行為特徵</strong>：依賴無障礙設施、低地板公車與電梯。對天候極度敏感（雨天摔倒風險抑制出行）。</li>
 </ul>
-<h3 id="3-gen-z-students">3. 🎓 求學青年族 (Gen-Z Students)</h3>
+<h3 id="3-gen-z-students">3. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> 求學青年族 (Gen-Z Students)</h3>
 <ul>
 <li><strong>核心標籤</strong>：<code>TicketType=02</code> (高中職與大專院校學生票)。</li>
 <li><strong>時序節奏</strong>：清晨 07:00 提早抵校，傍晚 16:30~17:30 放學；晚間 20:30~21:30 出現顯著的「補習班散場潮」。</li>
 <li><strong>行為特徵</strong>：高頻群聚於補習街（如台北南陽街、台中一中商圈、高雄火車站前站）與夜市文創市集。</li>
 </ul>
-<h3 id="4-weekend-tourists-inbound-visitors">4. 🏖️ 假日觀光休閒客 (Weekend Tourists &amp; Inbound Visitors)</h3>
+<h3 id="4-weekend-tourists-inbound-visitors">4. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg> 假日觀光休閒客 (Weekend Tourists &amp; Inbound Visitors)</h3>
 <ul>
 <li><strong>核心標籤</strong>：<code>Single Token</code> (單程代幣)、<code>QR Code 乘車碼</code>、短天期旅遊 Pass。</li>
 <li><strong>時序節奏</strong>：平日運量低平，<strong>週六日上午 10:00 爆發</strong>，持續沸騰至深夜 22:30。</li>
@@ -1779,19 +2329,48 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <p>天候是交通行為最強大的「外部擾動因數（External Disruptor）」。
 當氣象署發布「豪大雨特報」時，城市交通絕非等比例衰退，而是發生了劇烈的<strong>運具間移轉（Modal Shift）</strong>。</p>
 <h3 id="1">1. 四大天候階段模擬</h3>
-<p>本系統支援 4 階段氣候劇本模擬：
-* <strong>☀️ 晴天 (Sunny / Clear)</strong>：基準運量，各運具按照常態時間表運轉。
-* <strong>⛅ 多雲 (Cloudy)</strong>：微幅心理影響，部分戶外觀光行程向室內百貨商場微移。
-* <strong>🌧️ 雨天 (Rainy)</strong>：地面路網降速 15%，YouBike 租借量驟降 45%。
-* <strong>⛈️ 豪大雨 (Heavy Rain / Storm)</strong>：極端天氣壓力測試，路面嚴重積水與視線受阻。</p>
+<p>本系統支援 4 階段氣候劇本模擬：</p>
+<ul>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> 晴天 (Sunny / Clear)</strong>：基準運量，各運具按照常態時間表運轉。</li>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg> 多雲 (Cloudy)</strong>：微幅心理影響，部分戶外觀光行程向室內百貨商場微移。</li>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/><line x1="16" y1="13" x2="16" y2="15"/></svg> 雨天 (Rainy)</strong>：地面路網降速 15%，YouBike 租借量驟降 45%。</li>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/></svg> 豪大雨 (Heavy Rain / Storm)</strong>：極端天氣壓力測試，路面嚴重積水與視線受阻。</li>
+</ul>
 <h3 id="2-modal-elasticity">2. 豪大雨下的運具彈性係數（Modal Elasticity）</h3>
 <p>透過實證數據對比，在豪大雨情境下各運具呈現截然不同的命運：</p>
-<pre><code>🚲 YouBike 公共自行車 ───▼ -78.4%  (幾乎全面停擺，轉移至步行或公車)
-🚌 市區公車 (Bus)    ───▼ -22.6%  (路面壅塞、候車淋雨導致搭乘意願下降)
-🚗 國道自駕車流      ───▼ -14.2%  (視線不佳抑制非必要非尖峰出行)
-🚆 都會捷運 (Metro)  ───▲ +8.3%   (避雨首選！地下化站體完全不受風雨影響，承接大量轉移人潮)
-🚅 高鐵 (THSR)       ───  -1.2%   (長途剛需穩定，幾乎不受市區風雨動搖)
-</code></pre>
+<div class="elasticity-dashboard">
+    <div class="elasticity-head">
+        <div class="elasticity-title"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/></svg> 豪大雨情境下運具彈性移轉量 (Modal Shift Elasticity)</div>
+        <div class="elasticity-badge">實證觀測數據對比</div>
+    </div>
+    <div class="elasticity-rows">
+        <div class="elasticity-row row-gain">
+            <div class="el-mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="4" y="3" width="16" height="16" rx="2"/><line x1="4" y1="11" x2="20" y2="11"/><path d="m8 19-3 3"/><path d="m16 19 3 3"/></svg>都會捷運 (Metro)</div>
+            <div class="el-pill pill-gain">▲ +8.3%</div>
+            <div class="el-desc"><strong>避雨首選！</strong>地下化站體完全不受風雨影響，承接大量轉移人潮</div>
+        </div>
+        <div class="elasticity-row row-stable">
+            <div class="el-mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><path d="M4 15s1-8 4-8h8s3 0 4 8v3H4v-3z"/><line x1="4" y1="15" x2="20" y2="15"/></svg>高鐵 (THSR)</div>
+            <div class="el-pill pill-stable">▼ -1.2%</div>
+            <div class="el-desc">長途剛需穩定，幾乎不受市區風雨動搖</div>
+        </div>
+        <div class="elasticity-row row-drop-low">
+            <div class="el-mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f43f5e" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="3" y="11" width="18" height="6" rx="2"/><path d="M5 11l2-5h10l2 5"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg>國道自駕車流</div>
+            <div class="el-pill pill-drop-low">▼ -14.2%</div>
+            <div class="el-desc">視線不佳抑制非必要非尖峰出行</div>
+        </div>
+        <div class="elasticity-row row-drop-med">
+            <div class="el-mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="4" y="3" width="16" height="15" rx="3"/><line x1="4" y1="11" x2="20" y2="11"/><circle cx="8" cy="15" r="1"/><circle cx="16" cy="15" r="1"/></svg>市區公車 (Bus)</div>
+            <div class="el-pill pill-drop-med">▼ -22.6%</div>
+            <div class="el-desc">路面壅塞、候車淋雨導致搭乘意願下降</div>
+        </div>
+        <div class="elasticity-row row-drop-high">
+            <div class="el-mode"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="18.5" cy="17.5" r="3.5"/><path d="M12 17.5V14l-3-3 4-3 2 3h3"/></svg>YouBike 公共自行車</div>
+            <div class="el-pill pill-drop-high">▼ -78.4%</div>
+            <div class="el-desc">幾乎全面停擺，人流轉移至步行或搭乘公車捷運</div>
+        </div>
+    </div>
+</div>
 <h3 id="3">3. 銀髮族的「極端天候外出脆弱性」</h3>
 <p>最震撼的數據發現發生在長者身上：
 當天候由「晴天」轉為「豪大雨」時，<strong>65+ 銀髮族外出刷卡人次瞬間暴跌 62.8%</strong>！
@@ -1799,14 +2378,14 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <p><img alt="圖 5.1：客群畫像深度分析與全台天候作息敏感度對比實驗室" src="images/ch5_weather_personas_lab.webp" />
 <em>圖 5.1：線上系統【客群畫像與轉乘應用】之天候模擬實驗室介面。納入 2026 行政院日曆校準（119 天常規工作日 vs 62 天休假）與 17 個氣象測站資料，直觀展示豪大雨下 YouBike 暴跌 -53.7%、市區公車湧浪承接 +11.1%、都會捷運庇護骨幹 +7.6% 的彈性移轉量，以及學生通學 24 小時四階段晴雨波形覆疊。</em></p>
 <hr />
-<h2 id="54">5.4 🛠️ 互動操作實戰指引：如何在系統中體驗</h2>
+<h2 id="54">5.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在系統中體驗</h2>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#personas" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">微觀人群像與天候模擬實驗室 (Personas Lab)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#personas</span></div>
     </div>
@@ -1816,24 +2395,24 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <ol>
 <li>點擊上方超連結或點擊頂部導覽列 <strong>【微觀人群像】</strong>。</li>
 <li><strong>切換四大微觀人群像子頁籤</strong>：</li>
-<li>點選 <strong>「👔 鋼鐵通勤族」</strong>：觀察早晚尖峰高聳入雲的雙峰時序圖與高鐵/捷運樞紐分佈。</li>
-<li>點選 <strong>「👵 悠遊銀髮族」</strong>：觀察平緩的午間晨間曲線，以及台北榮總、台大醫院周邊捷運站的長者刷卡聚落。</li>
-<li>點選 <strong>「🎓 求學青年族」</strong>：觀察補習街與學校周邊站點的晚間散場尖峰。</li>
+<li>點選 <strong>「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 3 9 7l3 14 3-14-3-4z"/><path d="m9 7-5 2 2 4 3-2z"/><path d="m15 7 5 2-2 4-3-2z"/></svg> 鋼鐵通勤族」</strong>：觀察早晚尖峰高聳入雲的雙峰時序圖與高鐵/捷運樞紐分佈。</li>
+<li>點選 <strong>「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg> 悠遊銀髮族」</strong>：觀察平緩的午間晨間曲線，以及台北榮總、台大醫院周邊捷運站的長者刷卡聚落。</li>
+<li>點選 <strong>「<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg> 求學青年族」</strong>：觀察補習街與學校周邊站點的晚間散場尖峰。</li>
 <li><strong>啟動「天候實驗室 (Weather Simulation)」</strong>：</li>
-<li>在畫面頂部找到天候下拉選單，依序切換 <strong>「晴天 (Clear)」➔「雨天 (Rain)」➔「豪大雨 (Heavy Rain)」</strong>。</li>
+<li>在畫面頂部找到天候下拉選單，依序切換 <strong>「晴天 (Clear)」<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>「雨天 (Rain)」<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>「豪大雨 (Heavy Rain)」</strong>。</li>
 <li>觀察畫面上即時計算的 <strong>「運具脆弱性移轉百分比長條圖」</strong>，親眼見證捷運如何逆勢抗跌、YouBike 如何劇烈下滑！</li>
 </ol>
 <hr />
-<h2 id="55">5.5 🔍 核心資料看點：重點對照實驗</h2>
+<h2 id="55">5.5 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 核心資料看點：重點對照實驗</h2>
 <blockquote>
-<p><strong>💡 專業看點實驗</strong>：
+<p><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 專業看點實驗</strong>：
 * <strong>台北車站的長者雨天大撤退</strong>：
   請在「悠遊銀髮族」視角下，先切換為「晴天」，記錄長者在台北車站與中正紀念堂的活動指數；隨後切換至「豪大雨」，您會看見長者活動圈急遽萎縮，僅剩下就醫剛需維持微量運轉。
   這份數據為衛生福利部與交通部提供了全台灣最強大的「弱勢族群氣候韌性規劃」決策底稿！</p>
 </blockquote>
 <p>掌握了誰在移動以及風雨的影響後，我們下一步將聚焦於城市的核心活力——<strong>商業脈搏與站點商機</strong>！
 下一章，我們將帶您走進 30 大交通樞紐的商業生活圈！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter6_commercial_pulse">👉 進入下一章：第六章：商業脈搏與站點商機評估 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter6_commercial_pulse"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第六章：商業脈搏與站點商機評估 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter6_commercial_pulse">
@@ -1845,54 +2424,82 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <hr />
 <h2 id="61-tod">6.1 從「交通通過節點」到「TOD 商業生活圈」</h2>
 <p>在傳統的交通規劃中，車站被視為「轉運節點（Transit Node）」，評估標準只有「進出站效率」與「排隊疏散秒數」。
-然而在現代大眾運輸導向型發展（TOD, Transit-Oriented Development）理念下，車站已徹底質變為<strong>「城市目的地（Urban Destination）」</strong>與<strong>「生活圈重心地（Civic Anchor）」</strong>：
-* 台北車站不僅是三鐵共構，更是微風美食廣場、京站時尚廣場與地下街的複合消費體。
-* 板橋車站將新北耶誕城人潮轉化為周邊環球購物中心與大遠百的巨大營業額。
-* 高鐵台中站與高鐵台南站正在崛起為龐大的娛樂高鐵購物城與三井 Outlet 生活圈。</p>
+然而在現代大眾運輸導向型發展（TOD, Transit-Oriented Development）理念下，車站已徹底質變為<strong>「城市目的地（Urban Destination）」</strong>與<strong>「生活圈重心地（Civic Anchor）」</strong>：</p>
+<ul>
+<li>台北車站不僅是三鐵共構，更是微風美食廣場、京站時尚廣場與地下街的複合消費體。</li>
+<li>板橋車站將新北耶誕城人潮轉化為周邊環球購物中心與大遠百的巨大營業額。</li>
+<li>高鐵台中站與高鐵台南站正在崛起為龐大的娛樂高鐵購物城與三井 Outlet 生活圈。</li>
+</ul>
 <p>為了精準量化交通流量如何轉化為實體經濟效益，本系統開發了<strong>【商業脈搏實驗室 (Commercial Pulse Lab)】</strong>，涵蓋都會區行政區指數與全台 <strong>30 大戰略交通樞紐</strong> 的微觀商機剖析。</p>
 <hr />
 <h2 id="62-vs-30">6.2 雙模式探索架構：宏觀行政區 vs. 微觀 30 大樞紐</h2>
-<pre><code>┌────────────────────────────────────────────────────────┐
-│  📊 模式 A：都會行政區動態指數 (District Scale)        │
-│  • 人流活力值 (Footfall Activity Index)                 │
-│  • 商圈消費力指數 (Retail Spending Propensity)          │
-│  • 綠運輸普及率 (Green Transit Share)                   │
-├────────────────────────────────────────────────────────┤
-│  🏢 模式 B：全台 30 大戰略樞紐脈搏 (Station Hub Scale) │
-│  • 站點微觀 HUD 面板 (Micro-Hub Diagnostic Panel)      │
-│  • ⚡ EV 充電樁缺口指數 (EV Charging Gap Index)         │
-│  • 🍔 一日三餐快銷餐飲商機雷達 (F&amp;B Grab-and-Go)        │
-└────────────────────────────────────────────────────────┘
-</code></pre>
+<div class="dual-mode-container">
+    <div class="dual-mode-card mode-macro">
+        <div class="dm-card-head">
+            <div class="dm-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+            <div>
+                <div class="dm-card-title">模式 A：都會行政區動態指數</div>
+                <div class="dm-card-sub">District Scale (Macro Spatial)</div>
+            </div>
+        </div>
+        <ul class="dm-card-list">
+            <li><span class="dm-bullet">●</span><strong>人流活力值</strong> (Footfall Activity Index)</li>
+            <li><span class="dm-bullet">●</span><strong>商圈消費力指數</strong> (Retail Spending Propensity)</li>
+            <li><span class="dm-bullet">●</span><strong>綠運輸普及率</strong> (Green Transit Share)</li>
+        </ul>
+    </div>
+    <div class="dual-mode-card mode-micro">
+        <div class="dm-card-head">
+            <div class="dm-card-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2" style="vertical-align:middle;margin-right:4px;"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="22" x2="9" y2="18"/><line x1="15" y1="22" x2="15" y2="18"/><line x1="8" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="16" y2="6"/></svg></div>
+            <div>
+                <div class="dm-card-title">模式 B：全台 30 大戰略樞紐脈搏</div>
+                <div class="dm-card-sub">Station Hub Scale (Micro Diagnostic)</div>
+            </div>
+        </div>
+        <ul class="dm-card-list">
+            <li><span class="dm-bullet">●</span><strong>站點微觀 HUD 面板</strong> (Micro-Hub Diagnostic Panel)</li>
+            <li><span class="dm-bullet">●</span><svg width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" style="vertical-align:middle;margin-right:3px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><strong>EV 充電樁缺口指數</strong> (EV Charging Gap Index)</li>
+            <li><span class="dm-bullet">●</span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2" style="vertical-align:middle;margin-right:3px;"><path d="M3 11c0-3.87 4.03-7 9-7s9 3.13 9 7H3z"/><rect x="2" y="15" width="20" height="4" rx="2"/></svg><strong>一日三餐快銷餐飲商機雷達</strong> (F&B Grab-and-Go)</li>
+        </ul>
+    </div>
+</div>
 <h3 id="a">模式 A：都會行政區商業動態指數</h3>
-<p>從宏觀層面評估北中南各大精華行政區（如台北大安區、信義區、台中西屯區、高雄左營區）：
-* <strong>人流活力值（Footfall Activity）</strong>：衡量白天與夜間工作常住人口的動態流入總量。
-* <strong>商圈消費潛力（Spending Index）</strong>：以票證出站人潮結合周邊商圈等級，推估區域邊際消費動能。
-* <strong>綠運輸滲透率（Green Mobility）</strong>：評估居民依賴軌道/公車/自行車完成日常生活的比例。</p>
+<p>從宏觀層面評估北中南各大精華行政區（如台北大安區、信義區、台中西屯區、高雄左營區）：</p>
+<ul>
+<li><strong>人流活力值（Footfall Activity）</strong>：衡量白天與夜間工作常住人口的動態流入總量。</li>
+<li><strong>商圈消費潛力（Spending Index）</strong>：以票證出站人潮結合周邊商圈等級，推估區域邊際消費動能。</li>
+<li><strong>綠運輸滲透率（Green Mobility）</strong>：評估居民依賴軌道/公車/自行車完成日常生活的比例。</li>
+</ul>
 <h3 id="b-30">模式 B：全台 30 大戰略交通樞紐深度剖析</h3>
 <p>精選包含 <strong>台北、板橋、南港、高鐵新竹、高鐵台中、台南、左營、桃園、中壢、花蓮、宜蘭</strong> 等 30 個全台客流量最大、最具商業輻射力的樞紐，建立公分級微觀生活圈畫像。</p>
 <hr />
 <h2 id="63-ev">6.3 旗艦零售自駕引力水系與 EV 超充選址雙引擎</h2>
 <p>本系統在商業實驗室中推出了兩項獨家創新決策模型，深度突破純軌道票證的空間局限：</p>
-<h3 id="1-a-retail-driving-catchment-rays">1. 🏢 方案 A：旗艦零售自駕引力水系 (Retail Driving Catchment Rays)</h3>
-<p>解構全台 12 大大型商場、Outlet 與好市多（Costco）的跨縣市自駕車流水系：
-* <strong>跨縣市客源射線 (OD Catchment Rays)</strong>：透過 eTag 交流道車流與 OD 追蹤，還原顧客從哪一個生活圈經由哪條國道/高架前來（如林口三井 Outlet 台北客源佔 44.5%、桃園 32%、新竹 14.5%）。
-* <strong>車均客單價估算與消費偏好</strong>：結合自駕車流與家庭客群特徵，精算車均客單價（NT$ 5,680）與雙北中產家庭消費偏好。</p>
+<h3 id="1-a-retail-driving-catchment-rays">1. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="2" width="16" height="20" rx="2"/><line x1="9" y1="22" x2="9" y2="18"/><line x1="15" y1="22" x2="15" y2="18"/><line x1="8" y1="6" x2="10" y2="6"/><line x1="14" y1="6" x2="16" y2="6"/><line x1="8" y1="10" x2="10" y2="10"/><line x1="14" y1="10" x2="16" y2="10"/><line x1="8" y1="14" x2="10" y2="14"/><line x1="14" y1="14" x2="16" y2="14"/></svg> 方案 A：旗艦零售自駕引力水系 (Retail Driving Catchment Rays)</h3>
+<p>解構全台 12 大大型商場、Outlet 與好市多（Costco）的跨縣市自駕車流水系：</p>
+<ul>
+<li><strong>跨縣市客源射線 (OD Catchment Rays)</strong>：透過 eTag 交流道車流與 OD 追蹤，還原顧客從哪一個生活圈經由哪條國道/高架前來（如林口三井 Outlet 台北客源佔 44.5%、桃園 32%、新竹 14.5%）。</li>
+<li><strong>車均客單價估算與消費偏好</strong>：結合自駕車流與家庭客群特徵，精算車均客單價（NT$ 5,680）與雙北中產家庭消費偏好。</li>
+</ul>
 <p><img alt="圖 6.1：方案 A 旗艦零售自駕引力水系與跨縣市客源射線 HUD 面板" src="images/ch6_commercial_retail_gravity.webp" />
 <em>圖 6.1：線上系統【商圈脈動與投資決策】之旗艦零售自駕引力水系。以林口三井 Outlet 為例，展示週末 46,500 輛日車流、自駕佔比 78.5%、跨縣市客源水系分解與 B2B 數位廣告投放建議。</em></p>
 <hr />
-<h3 id="2-b-ev-cpo-roi">2. ⚡ 方案 B：國道 EV 高速超充黃金選址與 CPO 投資 ROI 試算引擎</h3>
-<p>結合國道 325 座門架日均車流、長途跨縣市里程與剛需指數，評估全台 10 大關鍵節點建置 360kW 液冷超充站之稼動率與動態回收期：
-* <strong>動態 ROI 試算引擎</strong>：使用者可自訂充樁數（如 4 樁 8 槍）、每度電零售定價（NT$ 9.8~11.8），系統即時精算設備稼動率、年化營收與動態回本年限。
-* <strong>台電饋線與引電難易度評估</strong>：整合特高壓 11.4kV 饋線容量與引電難易度，推薦優先進駐之 CPO 營運商（Tesla Supercharger V4 / 特爾電力 / U-POWER）。</p>
+<h3 id="2-b-ev-cpo-roi">2. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> 方案 B：國道 EV 高速超充黃金選址與 CPO 投資 ROI 試算引擎</h3>
+<p>結合國道 325 座門架日均車流、長途跨縣市里程與剛需指數，評估全台 10 大關鍵節點建置 360kW 液冷超充站之稼動率與動態回收期：</p>
+<ul>
+<li><strong>動態 ROI 試算引擎</strong>：使用者可自訂充樁數（如 4 樁 8 槍）、每度電零售定價（NT$ 9.8~11.8），系統即時精算設備稼動率、年化營收與動態回本年限。</li>
+<li><strong>台電饋線與引電難易度評估</strong>：整合特高壓 11.4kV 饋線容量與引電難易度，推薦優先進駐之 CPO 營運商（Tesla Supercharger V4 / 特爾電力 / U-POWER）。</li>
+</ul>
 <p><img alt="圖 6.2：方案 B 國道 EV 高速超充黃金選址與動態 CPO 投資試算引擎" src="images/ch6_ev_charging_roi_simulator.webp" />
 <em>圖 6.2：線上系統【EV 高速超充黃金選址】實體介面。以國1林口交流道文化北路旗艦節點為例，展示門架日均 118,500 輛車流、下匝道 2.1 分鐘抵達、4樁8槍 360kW 超充試算年化淨利 NT$ 457 萬與動態 2.5 年回本期。</em></p>
 <hr />
-<h3 id="3-fb-grab-and-go-radar">3. 🍔 一日三餐快銷餐飲商機時段 (F&amp;B Grab-and-Go Radar)</h3>
-<p>根據乘客在站點進出閘的時間分佈，精準解構外帶外食經濟的黃金時段：
-* <strong>早餐外帶黃金潮 (07:15 - 08:45)</strong>：出站乘客停留時間小於 3 分鐘，極度依賴「動線順向、免排隊預先包裝」的咖啡、三明治與飯糰專櫃。
-* <strong>午餐商務洽公潮 (11:30 - 13:30)</strong>：以內用座席、高單價便當與商務咖啡廳為主。
-* <strong>晚餐與夜間犒賞經濟 (17:30 - 20:30)</strong>：返家前順手外帶熟食、伴手禮甜點或家庭聚餐。</p>
+<h3 id="3-fb-grab-and-go-radar">3. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M3 11c0-3.87 4.03-7 9-7s9 3.13 9 7H3z"/><rect x="2" y="15" width="20" height="4" rx="2"/></svg> 一日三餐快銷餐飲商機時段 (F&amp;B Grab-and-Go Radar)</h3>
+<p>根據乘客在站點進出閘的時間分佈，精準解構外帶外食經濟的黃金時段：</p>
+<ul>
+<li><strong>早餐外帶黃金潮 (07:15 - 08:45)</strong>：出站乘客停留時間小於 3 分鐘，極度依賴「動線順向、免排隊預先包裝」的咖啡、三明治與飯糰專櫃。</li>
+<li><strong>午餐商務洽公潮 (11:30 - 13:30)</strong>：以內用座席、高單價便當與商務咖啡廳為主。</li>
+<li><strong>晚餐與夜間犒賞經濟 (17:30 - 20:30)</strong>：返家前順手外帶熟食、伴手禮甜點或家庭聚餐。</li>
+</ul>
 <hr />
 <h2 id="64-30">6.4 全台 30 大戰略樞紐代表性評估矩陣</h2>
 <table>
@@ -1966,14 +2573,14 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </tbody>
 </table>
 <hr />
-<h2 id="65">6.5 🛠️ 互動操作實戰指引：如何在實驗室中探勘商機</h2>
+<h2 id="65">6.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在實驗室中探勘商機</h2>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">商業脈搏與樞紐商機實驗室 (Commercial Lab)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab</span></div>
     </div>
@@ -1994,9 +2601,9 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <li>閱讀系統自動生成的 <strong>「商業空間營運策略建議」</strong>。</li>
 </ol>
 <hr />
-<h2 id="66">6.6 🔍 核心資料看點：商業選址實戰啟示</h2>
+<h2 id="66">6.6 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> 核心資料看點：商業選址實戰啟示</h2>
 <blockquote>
-<p><strong>💡 企業決策看點</strong>：
+<p><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> 企業決策看點</strong>：
 * <strong>連鎖咖啡店與早餐快銷品牌</strong>：
   如果想要在捷運站內開一家外帶快銷店，不該只看「站點總人流」，而要看「早尖峰 07:30~08:30 的出站陡峭度」。出站陡峭度越高的站點（如南京復興、西湖、台北101），外帶咖啡的每坪坪效高出平均值 3.2 倍！
 * <strong>充電營運商（CPO）</strong>：
@@ -2004,7 +2611,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </blockquote>
 <p>在探討完走廊、熱點、人群與商業商機之後，我們來到全書的最高峰——<strong>如何將所有數據融合，建立國家級的門到門決策大腦？</strong>
 下一章，我們將帶您探索全書的大結局：國家級大數據融合戰略！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter7_data_fusion_strategy">👉 進入下一章：第七章：國家級大數據融合戰略 ➔</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a><a class="nav-btn nav-next" href="#chapter7_data_fusion_strategy"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> 進入下一章：第七章：國家級大數據融合戰略 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter7_data_fusion_strategy">
@@ -2015,20 +2622,22 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </blockquote>
 <hr />
 <h2 id="71">7.1 終極願景：從數據孤島走向「門到門全域閉環」</h2>
-<p>在過去幾十年間，台灣的交通資料分散在不同的官僚與企業體系中：
-* 台北捷運、台灣高鐵、台鐵公司各自擁有封閉的票務資料庫；
-* 高速公路局維護著龐大的 eTag 門架收費系統；
-* 中華電信、遠傳電信等電信運營商手握全台數千萬支手機的基地台信令。</p>
+<p>在過去幾十年間，台灣的交通資料分散在不同的官僚與企業體系中：</p>
+<ul>
+<li>台北捷運、台灣高鐵、台鐵公司各自擁有封閉的票務資料庫；</li>
+<li>高速公路局維護著龐大的 eTag 門架收費系統；</li>
+<li>中華電信、遠傳電信等電信運營商手握全台數千萬支手機的基地台信令。</li>
+</ul>
 <p>每一個系統都自成一國，形成嚴重的「數據孤島（Data Silos）」。
 然而，一個真實的市民，其一日生活是流動且不可分割的：他不可能只活在捷運站裡，也不可能永遠開車在國道上。
 <strong>未來的智慧國家戰略，必須實現「1 + 1 + 1 &gt; 3 門到門全域閉環人流（Door-to-Door Closed-Loop）」</strong>。</p>
 <hr />
-<h2 id="72-5">7.2 雙劍合璧：永和 ➔ 內科西湖 5 階段門到門旅程還原</h2>
-<p>為了向大眾與決策者生動展示數據融合的力量，本系統以全台灣最經典的通勤挑戰——<strong>「新北市永和區 ➔ 台北市內湖科技園區」</strong> 為例，完整還原了一位市民的 5 階段生活閉環：</p>
+<h2 id="72-5">7.2 雙劍合璧：永和 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 內科西湖 5 階段門到門旅程還原</h2>
+<p>為了向大眾與決策者生動展示數據融合的力量，本系統以全台灣最經典的通勤挑戰——<strong>「新北市永和區 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 台北市內湖科技園區」</strong> 為例，完整還原了一位市民的 5 階段生活閉環：</p>
 <div class="timeline-container">
 <div class="timeline-item">
     <div class="timeline-badge">STAGE 1：電信主導</div>
-    <div class="timeline-title">家出發 ➔ 步行出門</div>
+    <div class="timeline-title">家出發 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 步行出門</div>
     <div class="timeline-desc">電信信令記錄晨間離開永和大樓住宅，步行 400 公尺前往頂溪捷運站。</div>
 </div>
 <div class="timeline-item">
@@ -2038,7 +2647,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </div>
 <div class="timeline-item">
     <div class="timeline-badge">STAGE 3：票證硬錨點</div>
-    <div class="timeline-title">捷運運行 ➔ 西湖出站</div>
+    <div class="timeline-title">捷運運行 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 西湖出站</div>
     <div class="timeline-desc">08:42 抵達內科西湖站出閘，精確確立為內科科技園區就業者。</div>
 </div>
 <div class="timeline-item">
@@ -2052,7 +2661,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
     <div class="timeline-desc">18:10 借騎 YouBike，信令連續記錄騎乘 25 分鐘，完成全日綠運輸閉環。</div>
 </div>
 </div>
-<h3 id="1-stage-1">1. STAGE 1：電信主導（家出發 ➔ 步行出門）</h3>
+<h3 id="1-stage-1">1. STAGE 1：電信主導（家出發 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 步行出門）</h3>
 <ul>
 <li><strong>時間</strong>：08:00 - 08:15</li>
 <li><strong>數據貢獻</strong>：電信信令記錄使用者在清晨離開永和大樓住宅，沿著竹林路步行 400 公尺前往捷運頂溪站。</li>
@@ -2064,7 +2673,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <li><strong>數據貢獻</strong>：旅客於頂溪站閘門刷卡入站，系統直接標定身分為<strong>「TPASS #NOR-1200 基北北桃鋼鐵通勤族」</strong>。</li>
 <li><strong>價值</strong>：<strong>消解基地台漂移</strong>！以毫秒級精度鎖定其進入地下捷運系統，確立此時段的人流絕非自駕開車。</li>
 </ul>
-<h3 id="3-stage-3">3. STAGE 3：票證主導（硬性錨點：捷運運行 ➔ 西湖出站）</h3>
+<h3 id="3-stage-3">3. STAGE 3：票證主導（硬性錨點：捷運運行 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 西湖出站）</h3>
 <ul>
 <li><strong>時間</strong>：08:15 - 08:42</li>
 <li><strong>數據貢獻</strong>：旅客在中正紀念堂站轉乘松山新店線、南京復興站轉乘文湖線，08:42 於西湖站刷卡出站。</li>
@@ -2076,7 +2685,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <li><strong>數據貢獻</strong>：出站後，電信信令捕捉其在瑞光路特定連鎖咖啡廳停留 15 分鐘（早餐消費），隨後進入科技總部大樓駐留長達 9 小時。</li>
 <li><strong>價值</strong>：填補票證出站後的巨大空白，量化軌道客流對內科周邊實體商圈的直接經濟貢獻。</li>
 </ul>
-<h3 id="5-stage-5-youbike">5. STAGE 5：雙數據融合（夜間 YouBike 接駁 ➔ 返家閉環）</h3>
+<h3 id="5-stage-5-youbike">5. STAGE 5：雙數據融合（夜間 YouBike 接駁 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 返家閉環）</h3>
 <ul>
 <li><strong>時間</strong>：18:10 - 18:35</li>
 <li><strong>數據貢獻</strong>：下班後於西湖站旁租借 YouBike，信令連續記錄其沿基隆河濱自行車道騎乘 25 分鐘，隨後歸還車輛步行返家。</li>
@@ -2099,48 +2708,83 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 </code></pre>
 <h3 id="_2">反向校正三大核心機制：</h3>
 <ol>
-<li><strong>擴推倍率動態修正（Expansion Factor Tuning）</strong>：
-   電信業者傳統上按照全台平均市佔率（如 38%）乘以固定的 2.63 倍。然而，在特定站點（如外籍移工高密度的中壢站、高鐵商務客密度的竹北站），電信市佔率存在嚴重偏誤。透過將車站票證總量作為分母，系統能<strong>動態反算該時空網格的真實電信採樣倍率</strong>，消除擴推偏差。</li>
-<li><strong>路徑吸附校驗（Map Matching Ground Truth）</strong>：
-   當信令在高架國道一號與地下中和新蘆線之間猶豫不決時，若同時間頂溪站有刷卡紀錄，系統<strong>自動將信令權重 100% 吸附至地下軌道網絡</strong>，瞬間消除路徑幻覺。</li>
-<li><strong>隱私計算與時空微碰撞（Privacy-Preserving Co-occurrence）</strong>：
-   完全無需交換個人姓名、身分證字號或手機號碼。在特徵層採用聯邦學習（Federated Learning）架構，僅對齊「時間（分鐘級）」與「空間門架/閘門坐標」，在合規隱私紅線內達成最高精度的行為合成。</li>
+<li>
+<p><strong>擴推倍率動態修正（Expansion Factor Tuning）</strong>：
+   電信業者傳統上按照全台平均市佔率（如 38%）乘以固定的 2.63 倍。然而，在特定站點（如外籍移工高密度的中壢站、高鐵商務客密度的竹北站），電信市佔率存在嚴重偏誤。透過將車站票證總量作為分母，系統能<strong>動態反算該時空網格的真實電信採樣倍率</strong>，消除擴推偏差。</p>
+</li>
+<li>
+<p><strong>路徑吸附校驗（Map Matching Ground Truth）</strong>：
+   當信令在高架國道一號與地下中和新蘆線之間猶豫不決時，若同時間頂溪站有刷卡紀錄，系統<strong>自動將信令權重 100% 吸附至地下軌道網絡</strong>，瞬間消除路徑幻覺。</p>
+</li>
+<li>
+<p><strong>隱私計算與時空微碰撞（Privacy-Preserving Co-occurrence）</strong>：
+   完全無需交換個人姓名、身分證字號或手機號碼。在特徵層採用聯邦學習（Federated Learning）架構，僅對齊「時間（分鐘級）」與「空間門架/閘門坐標」，在合規隱私紅線內達成最高精度的行為合成。</p>
+</li>
 </ol>
 <hr />
 <h2 id="74-use-case-decision-matrix">7.4 政策與商業落地選型指南 (Use Case Decision Matrix)</h2>
 <p>在實務應用中，企業主與政府官員經常面臨「我們到底該買哪種數據？」的困惑。本手冊提供權威的決策選型指南：</p>
-<pre><code>                              ┌──────────────────────────────────────────────┐
-                              │           您的分析目標是什麼？               │
-                              └──────────────────────┬───────────────────────┘
-                                                     │
-         ┌───────────────────────────┬───────────────┴───────────────┬───────────────────────────┐
-         ▼                           ▼                               ▼                           ▼
-【需要法定審計憑證】         【需要城際物流動脈】            【需要無閘門開闊人潮】       【需要生活圈全日軌跡】
-  • TPASS 預算補貼審計         • 國道高乘載疏運調度            • 跨年晚會/煙火疏散監控      • TOD 樞紐生活圈規劃
-  • 站內地下街招商選址         • 港口貨櫃聯外運輸              • 開放型國家風景區人潮       • 政策引流商圈振興
-  • 轉乘優惠核銷憑證           • 交流道下匝道車流注入          • 日夜常住人口普查           • 綠運輸移轉率研究
-         │                           │                               │                           │
-         ▼                           ▼                               ▼                           ▼
-   🚆 優先選【票證】           🛣️ 優先選【eTag】              📡 優先選【電信信令】        🚀 強烈建議【三源融合】
-</code></pre>
+<div class="matrix-decision-container">
+    <div class="matrix-decision-header"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fb7185" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> 您的分析目標是什麼？跨源數據落地選型指南</div>
+    <div class="matrix-decision-grid">
+        <div class="matrix-decision-col">
+            <div class="matrix-target-box">【需要法定審計憑證】</div>
+            <ul class="matrix-points">
+                <li>TPASS 預算補貼審計</li>
+                <li>站內地下街招商選址</li>
+                <li>轉乘優惠核銷憑證</li>
+            </ul>
+            <div class="matrix-choice-box choice-ticp"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><rect x="4" y="3" width="16" height="16" rx="2"/><line x1="4" y1="11" x2="20" y2="11"/><line x1="12" y1="3" x2="12" y2="11"/><path d="m8 19-3 3"/><path d="m16 19 3 3"/></svg> 優先選【交通票證】</div>
+        </div>
+        <div class="matrix-decision-col">
+            <div class="matrix-target-box">【需要城際物流動脈】</div>
+            <ul class="matrix-points">
+                <li>國道高乘載疏運調度</li>
+                <li>港口貨櫃聯外運輸</li>
+                <li>交流道下匝道車流注入</li>
+            </ul>
+            <div class="matrix-choice-box choice-etag"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> 優先選【eTag 車流】</div>
+        </div>
+        <div class="matrix-decision-col">
+            <div class="matrix-target-box">【需要無閘門開闊人潮】</div>
+            <ul class="matrix-points">
+                <li>跨年晚會/煙火疏散監控</li>
+                <li>開放型國家風景區人潮</li>
+                <li>日夜常住人口普查</li>
+            </ul>
+            <div class="matrix-choice-box choice-telecom"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="M4.93 4.93a10 10 0 0 1 14.14 0"/><path d="M7.76 7.76a6 6 0 0 1 8.48 0"/><circle cx="12" cy="12" r="2"/><path d="M12 14v8"/></svg> 優先選【電信信令】</div>
+        </div>
+        <div class="matrix-decision-col">
+            <div class="matrix-target-box">【需要生活圈全日軌跡】</div>
+            <ul class="matrix-points">
+                <li>TOD 樞紐生活圈規劃</li>
+                <li>政策引流商圈振興</li>
+                <li>綠運輸移轉率研究</li>
+            </ul>
+            <div class="matrix-choice-box choice-fusion"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> 強烈建議【三源融合】</div>
+        </div>
+    </div>
+</div>
 <p><img alt="圖 7.1：企業與政府機關跨源數據落地選型指南四大決策矩陣" src="images/ch7_door_to_door_fusion.webp" />
 <em>圖 7.1：線上系統【數據戰略】第三幕——實戰落地與選型指南實體介面。精確劃分「優先選擇【交通票證大數據】（如法定審計/招商選址）」、「優先選擇【eTag 高速公路車流】（如產業物流/下匝道注入）」、「優先選擇【電信信令大數據】（如跨年煙火/無閘門風景區）」與「強烈建議【三源數據融合】（如 TOD 門到門全域閉環/淨零碳排政策移轉）」四大實戰應用場景。</em></p>
 <hr />
 <h2 id="75">7.5 結語：台灣動態移動脈搏的未來演進</h2>
 <p>從 4.48 億筆票證的金融扣款紀錄，到國道門架上微波感應的每一次客貨心跳，再到城市街廓裡持續擴散的商圈停留——《台灣動態移動脈搏》證明了：<strong>大數據不該是黑箱通靈，而是一門嚴謹、透明、且充滿人文關懷的空間物理學。</strong></p>
-<p>未來，本專案將持續拓展至：
-* <strong>結合即時微氣候與低碳路網</strong>：探索氣候變遷下韌性城市的微觀調度；
-* <strong>整合即時車隊遠程通信（Telematics）</strong>：進一步精準預測港口與物流園區的供應鏈韌性；
-* <strong>開放 API 與開源生態</strong>：賦能全台灣的交通學者、都市規劃師與新創團隊，共同描繪台灣移動智慧的下一篇章！</p>
+<p>未來，本專案將持續拓展至：</p>
+<ul>
+<li><strong>結合即時微氣候與低碳路網</strong>：探索氣候變遷下韌性城市的微觀調度；</li>
+<li><strong>整合即時車隊遠程通信（Telematics）</strong>：進一步精準預測港口與物流園區的供應鏈韌性；</li>
+<li><strong>開放 API 與開源生態</strong>：賦能全台灣的交通學者、都市規劃師與新創團隊，共同描繪台灣移動智慧的下一篇章！</li>
+</ul>
 <hr />
-<h2 id="76">7.6 🛠️ 互動操作實戰指引：如何在系統中查閱</h2>
+<h2 id="76">7.6 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> 互動操作實戰指引：如何在系統中查閱</h2>
 <div class="portal-callout">
-    <div class="portal-badge">🌐 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
+    <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> 官方線上即時互動系統 · 傳送門 (點擊直接進入)</div>
     <div class="portal-content">
         <a class="portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#telecom" target="_blank">
-            <span class="portal-icon">🚀</span>
+            <span class="portal-icon"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg></span>
             <span class="portal-title">跨源數據融合藍圖與選型指南 (Data Strategy)</span>
-            <span class="portal-arrow">➔</span>
+            <span class="portal-arrow"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></span>
         </a>
         <div class="portal-url"><span class="portal-url-label">完整網址：</span><span class="portal-url-link">https://tobytoy.github.io/taiwan-mobility-pulse/#telecom</span></div>
     </div>
@@ -2149,17 +2793,17 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <h3 id="_3">操作步驟：</h3>
 <ol>
 <li>點擊上方超連結或點擊頂部導覽列 <strong>【電信與票證】</strong>。</li>
-<li>點擊切換至 <strong>【🧬 第二幕：全域閉環融合架構 (Data Fusion Blueprint)】</strong>：</li>
-<li>閱讀永和 ➔ 內科西湖 5 階段門到門旅程流程圖；</li>
+<li>點擊切換至 <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#c084fc" stroke-width="2"><path d="m8 8 8 8"/><path d="m9 2 6 6"/><path d="m2 9 6 6"/><path d="m15 16 6 6"/><path d="m16 9 6 6"/><path d="m2 16 6 6"/></svg> 第二幕：全域閉環融合架構 (Data Fusion Blueprint)】</strong>：</li>
+<li>閱讀永和 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> 內科西湖 5 階段門到門旅程流程圖；</li>
 <li>查閱「三大核心技術突破」中關於硬錨點反向校正的詳細論證。</li>
-<li>點擊切換至 <strong>【💼 第三幕：實戰落地與選型指南 (Use Cases &amp; Decision Guide)】</strong>：</li>
+<li>點擊切換至 <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> 第三幕：實戰落地與選型指南 (Use Cases &amp; Decision Guide)】</strong>：</li>
 <li>查閱 4 大決策卡片（優先選票證、優先選 eTag、優先選信令、必須三源融合），依據您的研究或商業目標對號入座！</li>
 </ol>
 <hr />
-<h3 id="_4">🎉 全書完畢 · 感謝閱讀</h3>
+<h3 id="_4"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="m2 22 1-6 5 5-6 1z"/><path d="M12 2v3"/><path d="m4.93 4.93 2.12 2.12"/><path d="M22 12h-3"/><path d="m19.07 4.93-2.12 2.12"/></svg> 全書完畢 · 感謝閱讀</h3>
 <p>希望本指南能為您的數據決策、政策規劃或商業投資帶來最深刻的洞察。
 歡迎隨時回到各章節的互動地圖傳送門，探索屬於您的台灣移動脈搏！</p>
-            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README">📖 返回全書總綱目錄 (TOC)</a></div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> 返回全書總綱目錄 (TOC)</a></div>
         </section>
         
 </body>

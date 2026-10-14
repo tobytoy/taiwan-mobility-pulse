@@ -15,6 +15,13 @@ processed_parquets/
 *.zip
 *.csv
 
+# Font files (kept locally, never tracked in repo)
+*.ttf
+*.otf
+*.ttc
+*.woff
+*.woff2
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
