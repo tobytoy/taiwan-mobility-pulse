@@ -61,7 +61,7 @@ const ARCHETYPE_CONFIG = {
 
 const LIVABILITY_RANK_CATEGORIES = [
   { id: 'mold', label: '🍄 除濕機全載榜 (發霉指數)', key: 'mold_index', sortAsc: false, unit: '分', desc: '相對濕度 > 80% 且適溫之發霉高危天數' },
-  { id: 'typhoon', label: '🛡️ 天選抗颱神仙區', key: 'radar.typhoon_defense', sortAsc: false, unit: '分', desc: '中央山脈天然阻隔、歷次颱風損害度全台最低' },
+  { id: 'typhoon', label: '🛡️ 天然抗颱避風港', key: 'radar.typhoon_defense', sortAsc: false, unit: '分', desc: '中央山脈天然阻隔、歷次颱風損害度全台最低' },
   { id: 'umbrella', label: '🌂 上班免開傘 (乾爽通勤)', key: 'umbrella_prob_pct', sortAsc: true, unit: '%', desc: '通勤時段（07-09, 17-19）降雨機率最低' },
   { id: 'sunshine', label: '☀️ 陽光之都 (日照時數)', key: 'annual_sunshine_h', sortAsc: false, unit: '小時/年', desc: '年均日照時數最長、抗憂鬱陽光資本' },
   { id: 'rain_heavy', label: '🌧️ 全台雨神霸主', key: 'annual_rain_mm', sortAsc: false, unit: 'mm/年', desc: '東北季風迎風面豪雨與年雨量極值' },
@@ -1299,7 +1299,7 @@ export default function ClimatePulseLab({ basemap = 'dark' }) {
               }}
             >
               <Shield size={13} />
-              <span>🌪️ 抗颱神仙與水庫旱澇 (類別5)</span>
+              <span>🌪️ 颱風天然屏障與水庫旱澇 (類別5)</span>
             </button>
 
             <button

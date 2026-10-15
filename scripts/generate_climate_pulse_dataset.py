@@ -19,7 +19,7 @@ STATION_TARGETS = [
     {"id": "C0A650", "type": "auto_C0", "name": "火燒寮", "county": "新北市", "lat": 25.0044, "lng": 121.7511, "alt": 287.0, "archetype": "極端暴雨", "badge": "歷史雨極·全台年雨量傳奇"},
     {"id": "467571", "type": "cwb", "name": "新竹", "county": "新竹縣", "lat": 24.8286, "lng": 121.0146, "alt": 26.9, "archetype": "強風科技城", "badge": "九降勁風·米粉柿餅風城"},
     {"id": "467050", "type": "cwb", "name": "新屋", "county": "桃園市", "lat": 25.0067, "lng": 121.0475, "alt": 20.6, "archetype": "沿海風寒", "badge": "桃園海線·強勁沿岸風廊"},
-    {"id": "467490", "type": "cwb", "name": "臺中", "county": "臺中市", "lat": 24.1457, "lng": 120.6841, "alt": 84.0, "archetype": "抗颱晴都", "badge": "天選神仙區·抗颱防護全台第一"},
+    {"id": "467490", "type": "cwb", "name": "臺中", "county": "臺中市", "lat": 24.1457, "lng": 120.6841, "alt": 84.0, "archetype": "抗颱晴都", "badge": "天然抗颱屏障·防護全台第一"},
     {"id": "467770", "type": "cwb", "name": "梧棲", "county": "臺中市", "lat": 24.2560, "lng": 120.5234, "alt": 31.7, "archetype": "乾爽海風", "badge": "中部海港·少雨乾燥大風"},
     {"id": "467650", "type": "cwb", "name": "日月潭", "county": "南投縣", "lat": 23.8813, "lng": 120.9081, "alt": 1017.5, "archetype": "內陸湖泊", "badge": "湖光山色·水氣調節宜人"},
     {"id": "467480", "type": "cwb", "name": "嘉義", "county": "嘉義市", "lat": 23.4959, "lng": 120.4329, "alt": 26.9, "archetype": "平原溫差", "badge": "平原核心·日夜溫差最大"},

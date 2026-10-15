@@ -477,22 +477,19 @@ def main():
                 we_c = mode_we_curve
             
             add_corridor(m_id, m_name, color, orig, dest, vol, pax_type=pax, commuter_idx=c_idx, custom_curve=curve, curve_wd=wd_c, curve_we=we_c)
-            
-            # 反向走廊：若平日 Top OD 也有反向則使用真實量，否則對稱配對
-            rev_vol = wd_dict.get((dest, orig), vol)
-            add_corridor(m_id, m_name, color, dest, orig, rev_vol, pax_type=pax, commuter_idx=c_idx, custom_curve=curve, curve_wd=wd_c, curve_we=we_c)
+            # 嚴格遵循真實實測數據：僅加入真實存在之 OD，絕不強行對稱生成虛假反向資料
 
-    # 2. 補充高鐵 (THSR) 全國走廊 (採用高鐵實測時空曲線)
+    # 2. 補充高鐵 (THSR) 全國走廊 (採用 thsr_od.parquet 實測真實量與實測時空曲線)
     thsr_wd = normalize_curve(study_data.get("高鐵 (THSR)", {}).get('hourly_profile', {}).get('Weekday', {}))
     thsr_we = normalize_curve(study_data.get("高鐵 (THSR)", {}).get('hourly_profile', {}).get('Weekend', {}))
-    add_corridor("thsr", "高鐵", "#F97316", "台北", "台中", 52300, pax_type="tourist", commuter_idx=0.65, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "台中", "台北", 51400, pax_type="tourist", commuter_idx=0.68, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "台中", "左營", 38900, pax_type="tourist", commuter_idx=0.58, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "左營", "台中", 37800, pax_type="tourist", commuter_idx=0.55, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "台北", "左營", 34100, pax_type="tourist", commuter_idx=0.52, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "左營", "台北", 35200, pax_type="tourist", commuter_idx=0.50, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "嘉義", "台南", 18400, pax_type="commuter", commuter_idx=1.15, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
-    add_corridor("thsr", "高鐵", "#F97316", "台南", "左營", 26500, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台北", "台中", 42775, pax_type="tourist", commuter_idx=0.65, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台中", "台北", 39768, pax_type="tourist", commuter_idx=0.68, region="Central", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台中", "左營", 10725, pax_type="tourist", commuter_idx=0.58, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "左營", "台中", 14081, pax_type="tourist", commuter_idx=0.55, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台北", "左營", 12113, pax_type="tourist", commuter_idx=0.52, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "左營", "台北", 17187, pax_type="tourist", commuter_idx=0.50, region="South", custom_curve=thsr_we, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "嘉義", "台南", 2029, pax_type="commuter", commuter_idx=1.15, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
+    add_corridor("thsr", "高鐵", "#F97316", "台南", "左營", 13567, pax_type="commuter", commuter_idx=1.25, region="South", custom_curve=thsr_wd, curve_wd=thsr_wd, curve_we=thsr_we)
 
     # 3. 補充臺鐵 (TRA) 全國走廊 (採用臺鐵實測時空曲線)
     tra_wd = normalize_curve(study_data.get("臺鐵 (TRA)", {}).get('hourly_profile', {}).get('Weekday', {}))

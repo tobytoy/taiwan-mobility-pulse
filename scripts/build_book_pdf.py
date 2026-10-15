@@ -564,7 +564,7 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.2.0)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.2.1)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
@@ -574,10 +574,10 @@ def build_html():
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.2.0 (全景精裝專著版 · 8巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.2.1 (全景精裝專著版 · 8巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
             <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.2.0)</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.2.1)</div>
         </div>
     </div>
     ''')
@@ -627,7 +627,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @top-right {
-            content: "國家級多源動態移動全書指南 · v1.2.0";
+            content: "國家級多源動態移動全書指南 · v1.2.1";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
             color: #64748b;
@@ -635,7 +635,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @bottom-left {
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.2.0)";
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.2.1)";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 7.5pt;
             color: #64748b;
