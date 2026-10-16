@@ -18,13 +18,14 @@ const UnsupervisedRailLab = lazy(() => import('./components/UnsupervisedRailLab'
 const UrbanAmenityAccessibilityLab = lazy(() => import('./components/UrbanAmenityAccessibilityLab'));
 const CommercialPulseLab = lazy(() => import('./components/CommercialPulseLab'));
 const ClimatePulseLab = lazy(() => import('./components/ClimatePulseLab'));
+const TourismMobilityLab = lazy(() => import('./components/TourismMobilityLab'));
 import { 
   Play, Pause, RotateCcw, Layers, Compass, 
   Activity, Train, Clock, MapPin, Award, 
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
   Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store, Building2,
-  Cloud, CloudRain, CloudLightning, ChevronDown, Truck
+  Cloud, CloudRain, CloudLightning, ChevronDown, Truck, Camera
 } from 'lucide-react';
 
 const WEATHER_STAGES = [
@@ -311,6 +312,7 @@ export default function App() {
         <div style={{ display: 'flex', gap: '5px', background: 'rgba(30, 41, 59, 0.5)', padding: '3px 5px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
+            { id: 'tourism', label: '🏞️ 觀光名勝與CCTV', icon: Camera },
             { id: 'climate', label: '🌤️ 氣候脈動與宜居地圖', icon: Sun },
             { id: 'ai_lab', label: '🤖 AI客群與軌道決策', icon: Sparkles },
             { id: 'personas', label: '👥 客群轉乘應用', icon: Users },
@@ -1201,6 +1203,15 @@ export default function App() {
         <div style={{ height: '100%', overflow: 'hidden' }}>
           <ErrorBoundary>
             <ClimatePulseLab basemap={basemap} />
+          </ErrorBoundary>
+        </div>
+      )}
+
+      {/* VIEW 8: Tourism & Mobility Artery Lab (TDX CCTV + CODiS Climate + eTag) */}
+      {activeTab === 'tourism' && (
+        <div style={{ height: '100%', overflowY: 'auto' }}>
+          <ErrorBoundary>
+            <TourismMobilityLab />
           </ErrorBoundary>
         </div>
       )}

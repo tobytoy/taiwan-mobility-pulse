@@ -2,7 +2,8 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import { esc } from '../utils/sanitize';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
-import { Truck, Compass, ArrowRight, X, Sparkles, Navigation, Layers, ChevronRight, Activity, Calendar } from 'lucide-react';
+import { Truck, Compass, ArrowRight, X, Sparkles, Navigation, Layers, ChevronRight, Activity, Calendar, Camera, Video, Play, ExternalLink } from 'lucide-react';
+import { TDX_TOURISM_SPOTS } from '../data/tdxTourismMobilityData';
 
 const BASEMAP_TILES = {
   emap: {
@@ -70,6 +71,8 @@ export default function FlowMap({
   const [currentZoom, setCurrentZoom] = useState(8);
   const [corridorFilterTab, setCorridorFilterTab] = useState('all'); // 'all', 'freight', 'tourist', 'commuter'
   const [isQuickNavOpen, setIsQuickNavOpen] = useState(true);
+  const [showCctvMarkers, setShowCctvMarkers] = useState(false);
+  const [activeCctvSpot, setActiveCctvSpot] = useState(null);
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -78,6 +81,7 @@ export default function FlowMap({
   const animFrameIdRef = useRef(null);
   const particlesRef = useRef([]);
   const markersRef = useRef([]);
+  const cctvMarkersRef = useRef([]);
 
   const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
   const isHeavyRain = selectedDayType.includes('heavy_rain');
@@ -235,6 +239,71 @@ export default function FlowMap({
       markersRef.current.push(marker);
     });
   }, [corridors, stationsGeo, selectedMode, selectedRegion, selectedPaxType, selectedStation, currentZoom]);
+
+  // 4b. 觀光署 74 處景點即時影像 (CCTV) 圖層渲染與彈出視窗
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    cctvMarkersRef.current.forEach(m => mapRef.current.removeLayer(m));
+    cctvMarkersRef.current = [];
+
+    const shouldShow = showCctvMarkers || selectedPaxType === 'tourist' || corridorFilterTab === 'tourist';
+    if (!shouldShow) return;
+
+    TDX_TOURISM_SPOTS.forEach(spot => {
+      if (!spot.lat || !spot.lon) return;
+
+      const marker = L.circleMarker([spot.lat, spot.lon], {
+        radius: 6,
+        fillColor: '#F59E0B',
+        color: '#FFFFFF',
+        weight: 1.5,
+        opacity: 0.95,
+        fillOpacity: 0.9
+      });
+
+      const popupContent = `
+        <div style="font-family: Outfit, -apple-system, sans-serif; min-width: 220px; color: #0F172A; padding: 2px;">
+          <div style="font-weight: 800; font-size: 13.5px; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between;">
+            <span>📷 ${esc(spot.location)}</span>
+            <span style="font-size: 10px; background: #FEF3C7; color: #B45309; padding: 2px 6px; border-radius: 4px; font-weight: 700;">${esc(spot.county_name)}</span>
+          </div>
+          <div style="font-size: 11px; color: #64748B; margin-bottom: 6px;">
+            視角: ${esc(spot.view_type)} · 狀態: <strong style="color: #059669;">${esc(spot.status)}</strong>
+          </div>
+          <div style="font-size: 11px; background: #FFFBEB; padding: 5px 8px; border-radius: 6px; border: 1px solid #FDE68A; margin-bottom: 8px;">
+            🚗 假日車流爆發: <strong style="color: #D97706;">${esc(spot.mobility_profile?.holiday_surge || '+320%')}</strong><br/>
+            🛣️ 聯外動脈: <span style="color: #334155;">${esc(spot.mobility_profile?.connected_corridor || '主要幹線')}</span>
+          </div>
+          <button 
+            id="cctv-flow-btn-${spot.id}"
+            style="width: 100%; padding: 7px 10px; background: #EF4444; color: #FFFFFF; border: none; border-radius: 6px; font-weight: 700; font-size: 11px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px;"
+          >
+            ▶️ 觀看現場 CCTV 串流
+          </button>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent);
+      marker.on('popupopen', () => {
+        const btn = document.getElementById(`cctv-flow-btn-${spot.id}`);
+        if (btn) {
+          btn.onclick = () => {
+            setActiveCctvSpot(spot);
+          };
+        }
+      });
+
+      marker.bindTooltip(`📷 ${esc(spot.location)} [${esc(spot.county_name)}]`, {
+        className: 'custom-leaflet-tooltip',
+        direction: 'top',
+        offset: [0, -6]
+      });
+
+      marker.addTo(mapRef.current);
+      cctvMarkersRef.current.push(marker);
+    });
+  }, [showCctvMarkers, selectedPaxType, corridorFilterTab]);
 
   // 5. 隨時間 (currentHour)、日型 (isHoliday) 與天候 (selectedDayType) 動態粒子與弧線渲染
   useEffect(() => {
@@ -565,6 +634,26 @@ export default function FlowMap({
                 </button>
               ))}
             </div>
+            <button
+              onClick={() => setShowCctvMarkers(!showCctvMarkers)}
+              style={{
+                marginLeft: '8px',
+                padding: '2px 8px',
+                borderRadius: '5px',
+                fontSize: '10px',
+                fontWeight: showCctvMarkers ? '800' : '600',
+                border: showCctvMarkers ? '1px solid #F59E0B' : '1px solid rgba(245, 158, 11, 0.3)',
+                background: showCctvMarkers ? 'rgba(245, 158, 11, 0.25)' : 'rgba(245, 158, 11, 0.08)',
+                color: showCctvMarkers ? '#FCD34D' : '#F59E0B',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}
+            >
+              <Camera size={11} />
+              <span>📷 74處觀光CCTV {showCctvMarkers ? '(開)' : '(關)'}</span>
+            </button>
           </div>
           <button 
             onClick={() => setIsQuickNavOpen(!isQuickNavOpen)}
@@ -830,6 +919,130 @@ export default function FlowMap({
           <div>2. <strong>放假日</strong>：橘色觀光粒子成倍爆發 (320%)，貨物流熄火。</div>
         </div>
       </div>
+
+      {/* CCTV Embedded Player Modal */}
+      {activeCctvSpot && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9999,
+          background: 'rgba(0, 0, 0, 0.85)',
+          backdropFilter: 'blur(8px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: '20px'
+        }}>
+          <div style={{
+            background: '#0F172A',
+            border: '1px solid rgba(56, 189, 248, 0.3)',
+            borderRadius: '16px',
+            maxWidth: '900px',
+            width: '100%',
+            overflow: 'hidden',
+            boxShadow: '0 25px 50px rgba(0, 0, 0, 0.7)'
+          }}>
+            <div style={{
+              padding: '12px 20px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              background: 'rgba(30, 41, 59, 0.6)'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{
+                  padding: '2px 8px',
+                  background: 'rgba(239, 68, 68, 0.2)',
+                  border: '1px solid rgba(239, 68, 68, 0.4)',
+                  borderRadius: '4px',
+                  color: '#EF4444',
+                  fontSize: '11px',
+                  fontWeight: '800'
+                }}>
+                  ● LIVE
+                </span>
+                <span style={{ fontSize: '15px', fontWeight: '800', color: '#FFFFFF' }}>
+                  {activeCctvSpot.location} ({activeCctvSpot.county_name})
+                </span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {activeCctvSpot.live_url && (
+                  <a
+                    href={activeCctvSpot.live_url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '4px',
+                      padding: '4px 10px',
+                      background: 'rgba(255, 255, 255, 0.08)',
+                      borderRadius: '5px',
+                      color: '#38BDF8',
+                      fontSize: '11px',
+                      textDecoration: 'none',
+                      fontWeight: '600'
+                    }}
+                  >
+                    <span>YouTube開啟</span>
+                    <ExternalLink size={12} />
+                  </a>
+                )}
+                <button
+                  onClick={() => setActiveCctvSpot(null)}
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.1)',
+                    border: 'none',
+                    borderRadius: '50%',
+                    width: '28px',
+                    height: '28px',
+                    color: '#FFFFFF',
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center'
+                  }}
+                >
+                  <X size={16} />
+                </button>
+              </div>
+            </div>
+
+            <div style={{ position: 'relative', width: '100%', paddingTop: '56.25%', background: '#000000' }}>
+              {activeCctvSpot.embed_player_url ? (
+                <iframe
+                  src={activeCctvSpot.embed_player_url}
+                  title={activeCctvSpot.location}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    width: '100%',
+                    height: '100%',
+                    border: 'none'
+                  }}
+                />
+              ) : (
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#94A3B8' }}>
+                  暫無嵌入串流，請點擊上方連結前往 YouTube 觀看
+                </div>
+              )}
+            </div>
+
+            <div style={{ padding: '14px 20px', background: 'rgba(15, 23, 42, 0.95)', fontSize: '12px', color: '#94A3B8', display: 'flex', justifyContent: 'space-between' }}>
+              <div>
+                🛣️ <strong>聯外走廊</strong>: <span style={{ color: '#E2E8F0' }}>{activeCctvSpot.mobility_profile?.connected_corridor}</span>
+              </div>
+              <div>
+                🚗 <strong>假日車流暴增</strong>: <strong style={{ color: '#F59E0B' }}>{activeCctvSpot.mobility_profile?.holiday_surge}</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
