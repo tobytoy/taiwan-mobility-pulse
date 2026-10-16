@@ -582,20 +582,20 @@ def build_html() -> str:
     # Cover Page
     cover_html = '''
     <div class="cover-page">
-        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.1)</div>
+        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.2)</div>
         <h1 class="cover-title">Taiwan Mobility Pulse</h1>
         <h2 class="cover-subtitle">The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
-            Synthesizing 448 million verified ticket tap transactions from MOTC TICP, millions of Freeway Bureau eTag gantry vehicle observations across 5 regulatory classes, TDX 74 scenic 4K/360° live CCTV streams, and CWA CODiS 30-year microclimate observations.<br>
-            Deciphering 114 dynamic flow corridors, islandwide weather disruption tides, and scenic mountain-to-coast tourism pulses.
+            Synthesizing 448 million verified ticket tap transactions from MOTC TICP, millions of Freeway Bureau eTag gantry vehicle observations across 5 regulatory classes, TDX 74 scenic 4K/360° live CCTV streams, TDX 1,339 A1 fatal traffic blackspots, and CWA CODiS 30-year microclimate observations.<br>
+            Deciphering 114 dynamic flow corridors, islandwide weather disruption tides, and Vision Zero spatial safety interventions.
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>Official Interactive System:</strong> <a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.1 (Master Monograph · 9 Comprehensive Chapters)</div>
+            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.2 (Master Monograph · 10 Comprehensive Chapters)</div>
             <div class="cover-meta-row"><strong>Research & Engineering Team:</strong> Taiwan Mobility Pulse Core Spatial Analytics Lab</div>
             <div class="cover-meta-row"><strong>Authoritative Data Sources:</strong> MOTC TICP / TDX Platform / Freeway Bureau / CWA / Tourism Administration</div>
-            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.1)</div>
+            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.2)</div>
         </div>
     </div>
     '''
@@ -644,7 +644,7 @@ def build_html() -> str:
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.1)</title>
+    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.2)</title>
     <style>{css}</style>
 </head>
 <body>

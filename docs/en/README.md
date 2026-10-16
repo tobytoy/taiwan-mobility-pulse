@@ -5,8 +5,8 @@
 
 > *"The breathing of a city is inscribed in the card swipe records of the morning's first metro train; the pulse of a nation beats beneath the wheels of heavy freight trucks rushing along national freeways at midnight."*
 
-> 📥 **Full Master Monograph**: This guide has been compiled into a publication-grade interactive monograph (featuring 9 macro chapters, full-color data schemas, multi-dimensional comparison matrices, and direct teleportation portals):  
-> 👉 **[Download English Master Monograph PDF (v1.3.1 Scenic CCTV & Tourism Edition)](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)** | **[🇹🇼 Traditional Chinese PDF](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)**  
+> 📥 **Full Master Monograph**: This guide has been compiled into a publication-grade interactive monograph (featuring 10 comprehensive chapters, full-color data schemas, multi-dimensional comparison matrices, and direct teleportation portals):  
+> 👉 **[Download English Master Monograph PDF (v1.3.2 Historical Safety & Scenic CCTV Edition)](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)** | **[🇹🇼 Traditional Chinese PDF](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)**  
 > 🌐 **[Open Web App Download Center ➔](https://tobytoy.github.io/taiwan-mobility-pulse/#download)**
 
 ---

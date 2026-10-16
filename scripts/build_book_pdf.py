@@ -594,20 +594,20 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.3.1)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.3.2)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
             融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 觀光署 74 處 4K/360° 即時影像 CCTV、<br>
-            中央氣象署 CODiS 30 年氣候觀測，解構台灣地表上最震撼的 114 條動態走廊、全島微氣候潮汐與觀光山海脈動。
+            TDX 歷史道安 1,339 處重大事故黑點、中央氣象署 CODiS 30 年氣候觀測，解構台灣地表上最震撼的 114 條動態走廊與零死亡願景。
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.3.1 (全景精裝專著版 · 9巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.3.2 (全景精裝專著版 · 10 大巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
             <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署 / 交通部觀光署</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.3.1)</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.3.2)</div>
         </div>
     </div>
     ''')

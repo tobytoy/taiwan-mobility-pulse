@@ -25,7 +25,7 @@ import {
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
   Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store, Building2,
-  Cloud, CloudRain, CloudLightning, ChevronDown, Truck, Camera,
+  Cloud, CloudRain, CloudLightning, ChevronDown, ChevronUp, Truck, Camera,
   BookOpen, Download, FileText, ExternalLink, X
 } from 'lucide-react';
 
@@ -91,6 +91,7 @@ export default function App() {
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
   const [isGuidebookModalOpen, setIsGuidebookModalOpen] = useState(false);
+  const [isTopHeaderCollapsed, setIsTopHeaderCollapsed] = useState(false);
 
   const baseUrl = import.meta.env.BASE_URL || '/';
   const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
@@ -281,15 +282,20 @@ export default function App() {
       
       {/* Top Header Navbar */}
       <header style={{
-        height: '60px',
+        height: isTopHeaderCollapsed ? '0px' : '60px',
+        minHeight: isTopHeaderCollapsed ? '0px' : '60px',
+        opacity: isTopHeaderCollapsed ? 0 : 1,
+        overflow: 'hidden',
         background: 'rgba(13, 18, 30, 0.95)',
-        borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
+        borderBottom: isTopHeaderCollapsed ? 'none' : '1px solid rgba(255, 255, 255, 0.1)',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '0 20px',
+        padding: isTopHeaderCollapsed ? '0 20px' : '0 20px',
         zIndex: 100,
-        backdropFilter: 'blur(10px)'
+        backdropFilter: 'blur(10px)',
+        transition: 'height 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease, min-height 0.28s ease',
+        pointerEvents: isTopHeaderCollapsed ? 'none' : 'auto'
       }}>
         {/* Brand Title */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -386,7 +392,7 @@ export default function App() {
           {/* Guidebook Download Button */}
           <button
             onClick={() => setIsGuidebookModalOpen(true)}
-            title="下載中/英雙語完整說明書與專著 (v1.3.1 PDF / HTML)"
+            title="下載中/英雙語完整說明書與專著 (v1.3.2 PDF / HTML)"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -431,8 +437,69 @@ export default function App() {
               {corridors.length} 條
             </div>
           </div>
+
+          <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
+
+          {/* Collapse Header Button */}
+          <button
+            onClick={() => setIsTopHeaderCollapsed(true)}
+            title="收合頂部導航列 (最大化視覺空間)"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              padding: '6px 10px',
+              background: 'rgba(255, 255, 255, 0.06)',
+              border: '1px solid rgba(255, 255, 255, 0.12)',
+              borderRadius: '8px',
+              color: '#94A3B8',
+              fontSize: '11px',
+              fontWeight: '600',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+              transition: 'all 0.15s ease'
+            }}
+            onMouseEnter={e => { e.currentTarget.style.color = '#38BDF8'; e.currentTarget.style.borderColor = 'rgba(56, 189, 248, 0.4)'; e.currentTarget.style.background = 'rgba(56, 189, 248, 0.1)'; }}
+            onMouseLeave={e => { e.currentTarget.style.color = '#94A3B8'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'; }}
+          >
+            <ChevronUp size={13} />
+            <span>收合頂部</span>
+          </button>
         </div>
       </header>
+
+      {/* Floating Expand Top Header Button (when header is collapsed) */}
+      {isTopHeaderCollapsed && (
+        <button
+          onClick={() => setIsTopHeaderCollapsed(false)}
+          title="展開頂部導航列"
+          style={{
+            position: 'fixed',
+            top: '12px',
+            right: '16px',
+            zIndex: 9995,
+            background: 'rgba(15, 23, 42, 0.94)',
+            backdropFilter: 'blur(14px)',
+            border: '1px solid rgba(56, 189, 248, 0.5)',
+            borderRadius: '24px',
+            padding: '6px 14px',
+            color: '#38BDF8',
+            fontSize: '12px',
+            fontWeight: '700',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '6px',
+            boxShadow: '0 8px 24px rgba(0, 0, 0, 0.5), 0 0 12px rgba(56, 189, 248, 0.25)',
+            transition: 'all 0.2s ease'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.background = 'rgba(2, 132, 199, 0.9)'; e.currentTarget.style.color = '#FFFFFF'; }}
+          onMouseLeave={e => { e.currentTarget.style.background = 'rgba(15, 23, 42, 0.94)'; e.currentTarget.style.color = '#38BDF8'; }}
+        >
+          <ChevronDown size={14} />
+          <span>展開頂部導航</span>
+        </button>
+      )}
 
       {/* Main Body View Switching */}
       <main style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
@@ -1344,7 +1411,7 @@ export default function App() {
                     fontWeight: '700'
                   }}>
                     <BookOpen size={13} />
-                    <span>國家級大數據專著 · 出版典藏版 v1.3.1</span>
+                    <span>國家級大數據專著 · 出版典藏版 v1.3.2</span>
                   </div>
                   <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
                     雙語雙格式支援 (中/英 · PDF/HTML)
@@ -1407,18 +1474,18 @@ export default function App() {
                       </div>
                     </div>
                     <span style={{ background: '#0284C7', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
-                      79 頁 · 20.2 MB
+                      87 頁 · 25.7 MB
                     </span>
                   </div>
 
                   <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
-                    全景式收錄 9 大巨章。涵蓋數據哲學底座（4.48 億筆票證 vs eTag 門架）、114 條動態走廊、下匝道輻射光暈、四大微觀人群像、30 年氣候脈動，以及 <strong>v1.3.1 全新第 9 章：74 處風景區 4K/360° 即時影像 CCTV 跨域融合</strong>。
+                    全景式收錄 10 大全景巨章。涵蓋數據哲學底座（4.48 億筆票證 vs eTag 門架）、114 條動態走廊、下匝道輻射光暈、四大微觀人群像、30 年氣候脈動、74 處風景區即時影像 CCTV，以及 <strong>v1.3.2 全新第 10 章：TDX 歷史道安重大事故 (A1) 黑點空間圖譜</strong>。
                   </p>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
                     <div style={{ color: '#F1F5F9', fontWeight: '700', marginBottom: '4px' }}>📌 專著特色與亮點：</div>
                     <ul style={{ margin: 0, paddingLeft: '18px', lineHeight: '1.7' }}>
-                      <li>內建 101 個可點擊跳轉線上系統的「🚀 互動傳送門」</li>
+                      <li>內建 112+ 個可點擊跳轉線上系統的「🚀 互動傳送門」</li>
                       <li>出版級 A4 專業排版、全彩向量圖表與三向戰略對照表</li>
                       <li>提供 PDF 離線閱讀與獨立 HTML 兩種完整格式</li>
                     </ul>
@@ -1428,7 +1495,7 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <a
                     href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook.pdf`}
-                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.1_zh.pdf"
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.2_zh.pdf"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1447,7 +1514,7 @@ export default function App() {
                     }}
                   >
                     <Download size={16} />
-                    <span>📥 另存 PDF (下載繁中版 20MB)</span>
+                    <span>📥 另存 PDF (下載繁中版 25.7MB)</span>
                   </a>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
@@ -1526,18 +1593,18 @@ export default function App() {
                       </div>
                     </div>
                     <span style={{ background: '#059669', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
-                      75 Pages · 19.4 MB
+                      83 Pages · 24.9 MB
                     </span>
                   </div>
 
                   <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
-                    Comprehensive 9-chapter English monograph. Covers the data philosophy (448M census records vs. eTag freeway flows), 114 flow corridors, off-ramp halos, 4 micro-personas, 30-year climatology, and <strong>Chapter 9: 74 Scenic Live CCTVs & Holiday Traffic Dispersal</strong>.
+                    Comprehensive 10-chapter English master monograph. Covers the data philosophy (448M census records vs. eTag freeway flows), 114 flow corridors, off-ramp halos, 4 micro-personas, 30-year climatology, 74 scenic live CCTVs, and <strong>v1.3.2 Chapter 10: TDX Historical Traffic Safety & A1 Fatal Blackspot Spatial Atlas</strong>.
                   </p>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
                     <div style={{ color: '#F1F5F9', fontWeight: '700', marginBottom: '4px' }}>📌 Key Highlights & Features:</div>
                     <ul style={{ margin: 0, paddingLeft: '18px', lineHeight: '1.7' }}>
-                      <li>90 active clickable portals linking back to live web tools</li>
+                      <li>100+ active clickable portals linking back to live web tools</li>
                       <li>Publication-grade typography, CSS diagrams & comparison tables</li>
                       <li>Available as standalone A4 PDF & responsive single-file HTML</li>
                     </ul>
@@ -1547,7 +1614,7 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <a
                     href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook_en.pdf`}
-                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.1_en.pdf"
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.2_en.pdf"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1566,7 +1633,7 @@ export default function App() {
                     }}
                   >
                     <Download size={16} />
-                    <span>📥 Save PDF (Download English 18MB)</span>
+                    <span>📥 Save PDF (Download English 24.9MB)</span>
                   </a>
 
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>

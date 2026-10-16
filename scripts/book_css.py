@@ -16,7 +16,7 @@ def get_book_css(lang: str = "zh") -> str:
     is_en = (lang.lower() == "en")
     
     top_left_title = "Taiwan Mobility Pulse · Master Monograph" if is_en else "台灣動態移動脈搏 · Taiwan Mobility Pulse"
-    top_right_title = "National Big Data & Spatial Intelligence · v1.3.1" if is_en else "國家級多源動態移動全書指南 · v1.3.1"
+    top_right_title = "National Big Data & Spatial Intelligence · v1.3.2" if is_en else "國家級多源動態移動全書指南 · v1.3.2"
     page_counter_str = '"Page " counter(page) " of " counter(pages)' if is_en else '"第 " counter(page) " 頁 / 共 " counter(pages) " 頁"'
     
     body_font = (
@@ -47,7 +47,7 @@ def get_book_css(lang: str = "zh") -> str:
             padding-bottom: 4px;
         }}
         @bottom-left {{
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.3.1)";
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.3.2)";
             font-family: {body_font};
             font-size: 7.5pt;
             color: #64748b;
