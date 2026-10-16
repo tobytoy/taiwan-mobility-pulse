@@ -2,8 +2,9 @@ import React, { useEffect, useRef, useState, useMemo } from 'react';
 import L from 'leaflet';
 import { esc } from '../utils/sanitize';
 import { CARTO_TILES, CARTO_ATTRIBUTION, NLSC_TILES, NLSC_ATTRIBUTION } from '../utils/basemap';
-import { Truck, Compass, ArrowRight, X, Sparkles, Navigation, Layers, ChevronRight, Activity, Calendar, Camera, Video, Play, ExternalLink } from 'lucide-react';
+import { Truck, Compass, ArrowRight, X, Sparkles, Navigation, Layers, ChevronRight, Activity, Calendar, Camera, Video, Play, ExternalLink, AlertTriangle, ShieldAlert, CloudRain, Moon, Car, Users, Filter, Crosshair, ChevronDown, ChevronUp, MapPin } from 'lucide-react';
 import { TDX_TOURISM_SPOTS } from '../data/tdxTourismMobilityData';
+import { TRAFFIC_SAFETY_METADATA, TRAFFIC_SAFETY_ACCIDENTS } from '../data/trafficSafetyData';
 
 const BASEMAP_TILES = {
   emap: {
@@ -72,7 +73,10 @@ export default function FlowMap({
   const [corridorFilterTab, setCorridorFilterTab] = useState('all'); // 'all', 'freight', 'tourist', 'commuter'
   const [isQuickNavOpen, setIsQuickNavOpen] = useState(true);
   const [showCctvMarkers, setShowCctvMarkers] = useState(false);
-  const [activeCctvSpot, setActiveCctvSpot] = useState(null);
+  const [showSafetyMarkers, setShowSafetyMarkers] = useState(false);
+  const [safetyFilter, setSafetyFilter] = useState('all'); // 'all', 'rain', 'night', 'pedestrian', 'car_crash'
+  const [isSafetyDrawerOpen, setIsSafetyDrawerOpen] = useState(true);
+  const [selectedAccident, setSelectedAccident] = useState(null);
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
@@ -82,6 +86,7 @@ export default function FlowMap({
   const particlesRef = useRef([]);
   const markersRef = useRef([]);
   const cctvMarkersRef = useRef([]);
+  const safetyMarkersRef = useRef([]);
 
   const isHoliday = selectedDayType.startsWith('holiday') || selectedDayType === 'Weekend' || selectedDayType === 'Holiday';
   const isHeavyRain = selectedDayType.includes('heavy_rain');
@@ -304,6 +309,109 @@ export default function FlowMap({
       cctvMarkersRef.current.push(marker);
     });
   }, [showCctvMarkers, selectedPaxType, corridorFilterTab]);
+
+  // 4c. 交通部 TDX 歷史道安重大事故 (A1) 空間黑點圖層與互動卡
+  useEffect(() => {
+    if (!mapRef.current) return;
+
+    safetyMarkersRef.current.forEach(m => {
+      if (mapRef.current) mapRef.current.removeLayer(m);
+    });
+    safetyMarkersRef.current = [];
+
+    if (!showSafetyMarkers) return;
+
+    const filteredAccidents = TRAFFIC_SAFETY_ACCIDENTS.filter(acc => {
+      if (selectedRegion !== 'all' && acc.region && acc.region !== selectedRegion) {
+        return false;
+      }
+      if (safetyFilter === 'rain') return acc.is_rain === true;
+      if (safetyFilter === 'night') return (acc.light || '').includes('夜間');
+      if (safetyFilter === 'pedestrian') return (acc.collision_pattern || '').includes('人');
+      if (safetyFilter === 'car_crash') return (acc.collision_pattern || '').includes('側撞') || (acc.collision_pattern || '').includes('追撞') || (acc.collision_pattern || '').includes('交岔撞');
+      return true;
+    });
+
+    filteredAccidents.forEach(acc => {
+      if (!acc.lat || !acc.lon) return;
+
+      const isMultiDeath = (acc.death || 0) >= 2;
+      const isPedestrian = (acc.collision_pattern || '').includes('人');
+      const isRain = acc.is_rain;
+
+      const fillColor = isMultiDeath 
+        ? '#DC2626' 
+        : isPedestrian 
+        ? '#F59E0B' 
+        : isRain 
+        ? '#38BDF8' 
+        : '#EF4444';
+
+      const strokeColor = isMultiDeath ? '#FEF2F2' : '#FFFFFF';
+      const radius = isMultiDeath ? 6.5 : (isPedestrian || isRain) ? 5.5 : 4.5;
+
+      const marker = L.circleMarker([acc.lat, acc.lon], {
+        radius: radius,
+        fillColor: fillColor,
+        color: strokeColor,
+        weight: 1.5,
+        opacity: 0.95,
+        fillOpacity: 0.88
+      });
+
+      const popupContent = `
+        <div style="font-family: Outfit, -apple-system, sans-serif; min-width: 250px; max-width: 300px; color: #0F172A; padding: 2px;">
+          <div style="font-weight: 800; font-size: 13px; margin-bottom: 4px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #E2E8F0; padding-bottom: 4px;">
+            <span style="color: #DC2626; display: flex; align-items: center; gap: 4px;">
+              ⚠️ A1 重大事故黑點
+            </span>
+            <span style="font-size: 10px; background: #FEE2E2; color: #991B1B; padding: 2px 6px; border-radius: 4px; font-weight: 800;">
+              ${esc(acc.city_name || '')}
+            </span>
+          </div>
+
+          <div style="font-size: 11px; margin-bottom: 5px; color: #334155; font-weight: 600; line-height: 1.4;">
+            📍 ${esc(acc.site || '')}
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-bottom: 6px; font-size: 11px;">
+            <div style="background: #FEF2F2; border: 1px solid #FECACA; padding: 3px 6px; border-radius: 4px; color: #991B1B; font-weight: 700;">
+              💀 死亡: <strong>${esc(acc.death)}</strong> 人
+            </div>
+            <div style="background: #FFFBEB; border: 1px solid #FDE68A; padding: 3px 6px; border-radius: 4px; color: #92400E; font-weight: 700;">
+              🩹 受傷: <strong>${esc(acc.injured)}</strong> 人
+            </div>
+          </div>
+
+          <div style="font-size: 10.5px; background: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 6px; padding: 6px; margin-bottom: 6px; line-height: 1.45; color: #475569;">
+            <div>🕒 <strong>時間</strong>: ${esc(acc.time || '')}</div>
+            <div>💥 <strong>型態</strong>: <span style="color: #DC2626; font-weight: 700;">${esc(acc.collision_pattern || '')}</span></div>
+            <div>🛣️ <strong>道路</strong>: ${esc(acc.road_category || '')} (${esc(acc.road_type || '')}) · 限速 ${esc(acc.speed_limit)} km/h</div>
+            <div>🌦️ <strong>情境</strong>: ${esc(acc.weather || '')} · ${esc(acc.light || '')} · 路面${esc(acc.pavement || '')}</div>
+          </div>
+
+          <div style="font-size: 9.5px; color: #64748B; text-align: right;">
+            資料來源：交通部 TDX 歷史道安資料庫 (2022)
+          </div>
+        </div>
+      `;
+
+      marker.bindPopup(popupContent);
+
+      marker.bindTooltip(`⚠️ [A1] ${esc(acc.city_name)} · ${esc(acc.collision_pattern)} (${esc(acc.death)}死${esc(acc.injured)}傷)`, {
+        className: 'custom-leaflet-tooltip',
+        direction: 'top',
+        offset: [0, -6]
+      });
+
+      marker.on('click', () => {
+        setSelectedAccident(acc);
+      });
+
+      marker.addTo(mapRef.current);
+      safetyMarkersRef.current.push(marker);
+    });
+  }, [showSafetyMarkers, safetyFilter, selectedRegion]);
 
   // 5. 隨時間 (currentHour)、日型 (isHoliday) 與天候 (selectedDayType) 動態粒子與弧線渲染
   useEffect(() => {
@@ -654,6 +762,27 @@ export default function FlowMap({
               <Camera size={11} />
               <span>📷 74處觀光CCTV {showCctvMarkers ? '(開)' : '(關)'}</span>
             </button>
+            <button
+              onClick={() => setShowSafetyMarkers(prev => !prev)}
+              style={{
+                marginLeft: '6px',
+                padding: '2px 8px',
+                borderRadius: '5px',
+                fontSize: '10px',
+                fontWeight: showSafetyMarkers ? '800' : '600',
+                border: showSafetyMarkers ? '1px solid #EF4444' : '1px solid rgba(239, 68, 68, 0.35)',
+                background: showSafetyMarkers ? 'rgba(239, 68, 68, 0.28)' : 'rgba(239, 68, 68, 0.08)',
+                color: showSafetyMarkers ? '#FCA5A5' : '#EF4444',
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px',
+                boxShadow: showSafetyMarkers ? '0 0 10px rgba(239, 68, 68, 0.35)' : 'none'
+              }}
+            >
+              <AlertTriangle size={11} />
+              <span>⚠️ 1,339處道安黑點 {showSafetyMarkers ? '(開)' : '(關)'}</span>
+            </button>
           </div>
           <button 
             onClick={() => setIsQuickNavOpen(!isQuickNavOpen)}
@@ -919,6 +1048,162 @@ export default function FlowMap({
           <div>2. <strong>放假日</strong>：橘色觀光粒子成倍爆發 (320%)，貨物流熄火。</div>
         </div>
       </div>
+
+      {/* ⚠️ TDX 歷史道安黑點分析側邊面板 (Floating Right HUD Card) */}
+      {showSafetyMarkers && (
+        <div style={{
+          position: 'absolute',
+          top: '68px',
+          right: '16px',
+          zIndex: 420,
+          width: '350px',
+          maxHeight: 'calc(100% - 110px)',
+          overflowY: 'auto',
+          background: 'rgba(15, 23, 42, 0.95)',
+          backdropFilter: 'blur(16px)',
+          border: '1.5px solid rgba(239, 68, 68, 0.5)',
+          borderRadius: '14px',
+          padding: '14px 16px',
+          boxShadow: '0 12px 36px rgba(239, 68, 68, 0.25)',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px'
+        }}>
+          {/* Header */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '1px solid rgba(255,255,255,0.08)', paddingBottom: '8px' }}>
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '2px' }}>
+                <ShieldAlert size={15} color="#EF4444" />
+                <span style={{ fontSize: '13.5px', fontWeight: '800', color: '#F8FAFC' }}>
+                  歷史道安黑點空間分析
+                </span>
+              </div>
+              <div style={{ fontSize: '10px', color: '#94A3B8' }}>
+                交通部 TDX 歷史資料庫 · 2022 A1重大事故全量
+              </div>
+            </div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+              <button
+                onClick={() => setIsSafetyDrawerOpen(!isSafetyDrawerOpen)}
+                style={{ background: 'rgba(255,255,255,0.06)', border: 'none', borderRadius: '4px', color: '#94A3B8', cursor: 'pointer', padding: '4px' }}
+                title={isSafetyDrawerOpen ? '收合' : '展開'}
+              >
+                {isSafetyDrawerOpen ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </button>
+              <button
+                onClick={() => setShowSafetyMarkers(false)}
+                style={{ background: 'transparent', border: 'none', color: '#94A3B8', cursor: 'pointer', padding: '4px' }}
+                title="關閉道安圖層"
+              >
+                <X size={15} />
+              </button>
+            </div>
+          </div>
+
+          {isSafetyDrawerOpen && (
+            <>
+              {/* Macro Stats Grid */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '6px' }}>
+                <div style={{ background: 'rgba(239, 68, 68, 0.12)', border: '1px solid rgba(239, 68, 68, 0.28)', borderRadius: '8px', padding: '6px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '9px', color: '#FCA5A5' }}>A1總案件</div>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#EF4444' }}>{TRAFFIC_SAFETY_METADATA.total_cases.toLocaleString()}</div>
+                </div>
+                <div style={{ background: 'rgba(220, 38, 38, 0.16)', border: '1px solid rgba(220, 38, 38, 0.35)', borderRadius: '8px', padding: '6px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '9px', color: '#FECACA' }}>事故死亡</div>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#F87171' }}>{TRAFFIC_SAFETY_METADATA.total_deaths.toLocaleString()}</div>
+                </div>
+                <div style={{ background: 'rgba(245, 158, 11, 0.12)', border: '1px solid rgba(245, 158, 11, 0.28)', borderRadius: '8px', padding: '6px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '9px', color: '#FDE68A' }}>事故受傷</div>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#F59E0B' }}>{TRAFFIC_SAFETY_METADATA.total_injured.toLocaleString()}</div>
+                </div>
+                <div style={{ background: 'rgba(56, 189, 248, 0.12)', border: '1px solid rgba(56, 189, 248, 0.28)', borderRadius: '8px', padding: '6px 4px', textAlign: 'center' }}>
+                  <div style={{ fontSize: '9px', color: '#BAE6FD' }}>雨天佔比</div>
+                  <div style={{ fontSize: '13px', fontWeight: '800', color: '#38BDF8' }}>{TRAFFIC_SAFETY_METADATA.rain_accident_ratio}</div>
+                </div>
+              </div>
+
+              {/* Filter Tabs */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+                <div style={{ fontSize: '10.5px', color: '#94A3B8', fontWeight: '700' }}>🔍 事故情境維度過濾：</div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+                  {[
+                    { id: 'all', label: `全部 (${TRAFFIC_SAFETY_METADATA.total_cases})` },
+                    { id: 'rain', label: `🌧️ 雨天 (${TRAFFIC_SAFETY_METADATA.rain_accident_cases})`, color: '#38BDF8' },
+                    { id: 'night', label: '🌙 夜間昏暗 (467)', color: '#A855F7' },
+                    { id: 'pedestrian', label: '🚶 行人交織 (182)', color: '#F59E0B' },
+                    { id: 'car_crash', label: '🚗 側/追撞 (511)', color: '#EF4444' }
+                  ].map(tab => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setSafetyFilter(tab.id)}
+                      style={{
+                        padding: '3px 8px',
+                        borderRadius: '6px',
+                        fontSize: '9.5px',
+                        fontWeight: safetyFilter === tab.id ? '700' : '500',
+                        border: safetyFilter === tab.id ? `1px solid ${tab.color || '#EF4444'}` : '1px solid transparent',
+                        background: safetyFilter === tab.id ? `${tab.color || '#EF4444'}30` : 'rgba(255,255,255,0.05)',
+                        color: safetyFilter === tab.id ? (tab.color || '#FCA5A5') : '#94A3B8',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Top Collision Patterns */}
+              <div style={{ background: 'rgba(255,255,255,0.03)', borderRadius: '8px', padding: '8px 10px', fontSize: '10.5px' }}>
+                <div style={{ fontWeight: '700', color: '#E2E8F0', marginBottom: '6px', display: 'flex', justifyContent: 'space-between' }}>
+                  <span>💥 主要碰撞型態排序</span>
+                  <span style={{ fontSize: '9.5px', color: '#94A3B8' }}>佔比</span>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  {TRAFFIC_SAFETY_METADATA.top_collision_patterns.slice(0, 4).map((pat, idx) => (
+                    <div key={idx} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '10px' }}>
+                      <span style={{ color: '#CBD5E1' }}>{idx + 1}. {pat.pattern}</span>
+                      <span style={{ color: '#F87171', fontWeight: '700' }}>{pat.count} 件 ({pat.pct})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Active Selected Blackspot Inspector */}
+              {selectedAccident && (
+                <div style={{ background: 'rgba(239, 68, 68, 0.14)', border: '1px solid rgba(239, 68, 68, 0.4)', borderRadius: '8px', padding: '8px 10px', fontSize: '10.5px', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <strong style={{ color: '#FCA5A5' }}>📍 已選黑點：{selectedAccident.city_name}</strong>
+                    <button
+                      onClick={() => {
+                        if (mapRef.current && selectedAccident.lat && selectedAccident.lon) {
+                          mapRef.current.flyTo([selectedAccident.lat, selectedAccident.lon], 15, { duration: 1.0 });
+                        }
+                      }}
+                      style={{ padding: '2px 7px', background: '#DC2626', color: '#FFFFFF', border: 'none', borderRadius: '4px', fontSize: '9.5px', fontWeight: '700', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '3px' }}
+                    >
+                      <Crosshair size={10} />
+                      <span>飛躍定位</span>
+                    </button>
+                  </div>
+                  <div style={{ color: '#E2E8F0', lineHeight: '1.4' }}>{selectedAccident.site}</div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', color: '#94A3B8', fontSize: '9.5px' }}>
+                    <span>💀 死亡: <strong style={{ color: '#EF4444' }}>{selectedAccident.death}</strong></span>
+                    <span>🩹 受傷: <strong style={{ color: '#F59E0B' }}>{selectedAccident.injured}</strong></span>
+                    <span>🕒 {selectedAccident.time}</span>
+                    <span>💥 {selectedAccident.collision_pattern}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Analytical Insight */}
+              <div style={{ fontSize: '10px', color: '#CBD5E1', lineHeight: '1.45', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '6px' }}>
+                💡 <strong>道安空間洞察</strong>：全台 69.6% 重大死亡事故發生於市區與鄉村道路路口，非號誌化路口側撞（18.3%）與路口交岔撞（11.3%）為致死關鍵。夜間與雨天視距惡化時，轉彎與行人衝突死亡風險顯著陡增。
+              </div>
+            </>
+          )}
+        </div>
+      )}
 
       {/* CCTV Embedded Player Modal */}
       {activeCctvSpot && (
