@@ -63,7 +63,7 @@ def render_mermaid_replacement(code: str) -> str:
         steps = [
             ("第一章：數據哲學與選型抉擇", "剛性骨架 vs. 彈性肌肉", "chapter1_data_philosophy"),
             ("第二章：國家級數據底座與欄位實體解剖", "時間跨度、欄位字典與 CODiS 氣象規格", "chapter2_data_dictionary_and_samples"),
-            ("第三章：全台城際與都會走廊大動脈", "111 條動態走廊與客貨潮汐", "chapter3_flow_arteries"),
+            ("第三章：全台城際與都會走廊大動脈", "114 條動態走廊與客貨潮汐", "chapter3_flow_arteries"),
             ("第四章：熱點輻射與下匝道光暈", "eTag 車流注入與停車壓力連動", "chapter4_etag_halos_heatmap"),
             ("第五章：四大微觀人群像與天候彈性", "誰在移動？風雨如何改寫動線？", "chapter5_personas_weather"),
             ("第六章：全島氣候脈動與微氣候宜居圖譜", "30 年變異、極端排行與四季潮汐", "chapter6_climate_pulse"),
@@ -443,7 +443,7 @@ def process_markdown(content: str, current_chapter_id: str) -> str:
 
     content = re.sub(r'```(?:[a-zA-Z0-9_-]*\n)?(.*?)```', stash_custom_blocks, content, flags=re.DOTALL)
 
-    # 2. Rewrite internal markdown links (.md -> #anchor)
+    # 2. Rewrite internal markdown links (.md -> #anchor) & sanitize PDF links
     def rewrite_md_links(match):
         label = match.group(1)
         target = match.group(2)
@@ -453,6 +453,11 @@ def process_markdown(content: str, current_chapter_id: str) -> str:
         elif ".md#" in target:
             parts = target.split(".md#")
             return f'[{label}](#{parts[1]})'
+        elif ".pdf" in target:
+            if "guidebook_en.pdf" in target:
+                return f'[{label}](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)'
+            elif "guidebook.pdf" in target:
+                return f'[{label}](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)'
         return match.group(0)
 
     content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', rewrite_md_links, content)
@@ -587,20 +592,20 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.3.0)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.3.1)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
             融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 觀光署 74 處 4K/360° 即時影像 CCTV、<br>
-            中央氣象署 CODiS 30 年氣候觀測，解構台灣地表上最震撼的 111 條動態走廊、全島微氣候潮汐與觀光山海脈動。
+            中央氣象署 CODiS 30 年氣候觀測，解構台灣地表上最震撼的 114 條動態走廊、全島微氣候潮汐與觀光山海脈動。
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.3.0 (全景精裝專著版 · 9巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.3.1 (全景精裝專著版 · 9巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
             <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署 / 交通部觀光署</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.3.0)</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.3.1)</div>
         </div>
     </div>
     ''')
@@ -650,6 +655,9 @@ def build_html():
 </html>
 '''
     full_html = replace_emojis_in_html(full_html)
+    full_html = re.sub(r'href=[\'"][^\'"]*taiwan_mobility_pulse_guidebook_en\.pdf[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf"', full_html)
+    full_html = re.sub(r'href=[\'"][^\'"]*taiwan_mobility_pulse_guidebook\.pdf[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf"', full_html)
+    full_html = re.sub(r'href=[\'"]file://[^\'"]*[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/#download"', full_html)
 
     os.makedirs(PUBLIC_DOCS_DIR, exist_ok=True)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:

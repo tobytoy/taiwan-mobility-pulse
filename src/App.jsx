@@ -219,7 +219,7 @@ export default function App() {
           正在載入全台多模態動態人流資料庫...
         </div>
         <div style={{ fontSize: '12px', color: '#64748b', marginTop: '8px' }}>
-          TICP 4.48 億筆票證分析、111 條代表性動態走廊與全台 76 大跨運具轉乘樞紐
+          TICP 4.48 億筆票證分析、114 條代表性動態走廊與全台 77 大跨運具轉乘樞紐
         </div>
       </div>
     );
@@ -386,7 +386,7 @@ export default function App() {
           {/* Guidebook Download Button */}
           <button
             onClick={() => setIsGuidebookModalOpen(true)}
-            title="下載中/英雙語完整說明書與專著 (v1.3.0 PDF / HTML)"
+            title="下載中/英雙語完整說明書與專著 (v1.3.1 PDF / HTML)"
             style={{
               display: 'flex',
               alignItems: 'center',
@@ -1344,7 +1344,7 @@ export default function App() {
                     fontWeight: '700'
                   }}>
                     <BookOpen size={13} />
-                    <span>國家級大數據專著 · 出版典藏版 v1.3.0</span>
+                    <span>國家級大數據專著 · 出版典藏版 v1.3.1</span>
                   </div>
                   <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
                     雙語雙格式支援 (中/英 · PDF/HTML)
@@ -1407,12 +1407,12 @@ export default function App() {
                       </div>
                     </div>
                     <span style={{ background: '#0284C7', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
-                      78 頁 · 20.2 MB
+                      79 頁 · 20.2 MB
                     </span>
                   </div>
 
                   <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
-                    全景式收錄 9 大巨章。涵蓋數據哲學底座（4.48 億筆票證 vs eTag 門架）、111 條動態走廊、下匝道輻射光暈、四大微觀人群像、30 年氣候脈動，以及 <strong>v1.3.0 全新第 9 章：74 處風景區 4K/360° 即時影像 CCTV 跨域融合</strong>。
+                    全景式收錄 9 大巨章。涵蓋數據哲學底座（4.48 億筆票證 vs eTag 門架）、114 條動態走廊、下匝道輻射光暈、四大微觀人群像、30 年氣候脈動，以及 <strong>v1.3.1 全新第 9 章：74 處風景區 4K/360° 即時影像 CCTV 跨域融合</strong>。
                   </p>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
@@ -1428,7 +1428,7 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <a
                     href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook.pdf`}
-                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.0_zh.pdf"
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.1_zh.pdf"
                     style={{
                       display: 'flex',
                       alignItems: 'center',
@@ -1526,12 +1526,12 @@ export default function App() {
                       </div>
                     </div>
                     <span style={{ background: '#059669', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
-                      75 Pages · 17.8 MB
+                      75 Pages · 19.4 MB
                     </span>
                   </div>
 
                   <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
-                    Comprehensive 9-chapter English monograph. Covers the data philosophy (448M census records vs. eTag freeway flows), 111 flow corridors, off-ramp halos, 4 micro-personas, 30-year climatology, and <strong>Chapter 9: 74 Scenic Live CCTVs & Holiday Traffic Dispersal</strong>.
+                    Comprehensive 9-chapter English monograph. Covers the data philosophy (448M census records vs. eTag freeway flows), 114 flow corridors, off-ramp halos, 4 micro-personas, 30-year climatology, and <strong>Chapter 9: 74 Scenic Live CCTVs & Holiday Traffic Dispersal</strong>.
                   </p>
 
                   <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
@@ -1547,7 +1547,7 @@ export default function App() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <a
                     href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook_en.pdf`}
-                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.0_en.pdf"
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.1_en.pdf"
                     style={{
                       display: 'flex',
                       alignItems: 'center',

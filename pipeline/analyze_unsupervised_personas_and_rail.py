@@ -32,10 +32,10 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 from sklearn.decomposition import PCA
 
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 PARQUET_DIR = BASE_DIR / 'processed_parquets'
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
-PIPELINE_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/pipeline')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
+PIPELINE_DIR = Path(__file__).resolve().parent
 
 PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 

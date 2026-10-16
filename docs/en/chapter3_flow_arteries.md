@@ -1,8 +1,8 @@
-# Chapter 3: Intercity Arteries & Urban Mobility Corridors — 111 Dynamic Flow Corridors
+# Chapter 3: Intercity Arteries & Urban Mobility Corridors — 114 Dynamic Flow Corridors
 
 🌐 **Language Switcher / 語言切換**: [ 🇬🇧 English ] | [ 🇹🇼 繁體中文版 ](../chapter3_flow_arteries.md)
 
-> *"If Taiwan were a living, breathing organism, then its 111 dynamic mobility corridors would be its arteries and veins; these coursing particles are not mere computer code, but the daily life journeys of twenty-three million souls."*
+> *"If Taiwan were a living, breathing organism, then its 114 dynamic mobility corridors would be its arteries and veins; these coursing particles are not mere computer code, but the daily life journeys of twenty-three million souls."*
 
 ---
 
@@ -10,7 +10,7 @@
 
 Traditional transportation statistics often dwell upon isolated leaderboards of single stations (e.g., "Taipei Main Station ranks #1; Banqiao ranks #2"). However, point-based metrics cannot answer the core questions of urban mobility: **Where do people originate? Where are they bound? Which critical bottlenecks do they traverse?**
 
-This system transcends point-based limitations. By intersecting Origin-Destination (OD) pairs from TICP electronic ticketing with contiguous passage paths across eTag highway gantries, we synthesized **111 of Taiwan's most representative dynamic mobility corridors**.
+This system transcends point-based limitations. By intersecting Origin-Destination (OD) pairs from TICP electronic ticketing with contiguous passage paths across eTag highway gantries, we synthesized **114 of Taiwan's most representative dynamic mobility corridors**.
 
 These corridors span five major multimodal transit categories:
 1. **High-Speed Rail (THSR)**: The 350-kilometer western corridor backbone enabling the one-day living sphere.

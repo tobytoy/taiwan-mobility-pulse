@@ -15,7 +15,7 @@ import json
 import re
 from pathlib import Path
 
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 HEATMAP_JSON = PUBLIC_DIR / 'heatmap_data.json'
 
 OUTDOOR_SCENIC_REGEX = re.compile(r'淡水|新北投|北投|紅樹林|貓空|動物園|駁二|旗津|平溪|十分|菁桐|礁溪|宜蘭|花蓮|臺東|台東|安平|烏日|集集')

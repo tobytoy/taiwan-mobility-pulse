@@ -6,7 +6,7 @@
 > *"The breathing of a city is inscribed in the card swipe records of the morning's first metro train; the pulse of a nation beats beneath the wheels of heavy freight trucks rushing along national freeways at midnight."*
 
 > 📥 **Full Master Monograph**: This guide has been compiled into a publication-grade interactive monograph (featuring 9 macro chapters, full-color data schemas, multi-dimensional comparison matrices, and direct teleportation portals):  
-> 👉 **[Download English Master Monograph PDF (v1.3.0 Scenic CCTV & Tourism Edition)](../../public/docs/taiwan_mobility_pulse_guidebook_en.pdf)** | **[🇹🇼 Traditional Chinese PDF](../../public/docs/taiwan_mobility_pulse_guidebook.pdf)**  
+> 👉 **[Download English Master Monograph PDF (v1.3.1 Scenic CCTV & Tourism Edition)](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)** | **[🇹🇼 Traditional Chinese PDF](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)**  
 > 🌐 **[Open Web App Download Center ➔](https://tobytoy.github.io/taiwan-mobility-pulse/#download)**
 
 ---
@@ -33,7 +33,7 @@ flowchart TD
     classDef default fill:#1e293b,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc,padding:16px 50px;
 
     C1["&emsp;Chapter 1: Data Philosophy & Architectural Selection&emsp;<br/>&emsp;(Rigid Skeleton vs. Flexible Muscle)&emsp;"] --> C2["&emsp;Chapter 2: National Data Foundation & Entity Schemas&emsp;<br/>&emsp;(Time Horizons, Field Dictionaries & CODiS Specs)&emsp;"]
-    C2 --> C3["&emsp;Chapter 3: Intercity Arteries & Urban Mobility Corridors&emsp;<br/>&emsp;(111 Dynamic Corridors & Passenger/Freight Tides)&emsp;"]
+    C2 --> C3["&emsp;Chapter 3: Intercity Arteries & Urban Mobility Corridors&emsp;<br/>&emsp;(114 Dynamic Corridors & Passenger/Freight Tides)&emsp;"]
     C3 --> C4["&emsp;Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos&emsp;<br/>&emsp;(eTag Flow Injection & Parking Pressure Interlocking)&emsp;"]
     C4 --> C5["&emsp;Chapter 5: Four Micro-Personas & Weather Sensitivity&emsp;<br/>&emsp;(Who Moves? How Rain Reshapes Commuting Routes)&emsp;"]
     C5 --> C6["&emsp;Chapter 6: Islandwide Climate Pulse & Microclimate Livability&emsp;<br/>&emsp;(30-Year Variations, Extreme Rankings & 12-Month Tides)&emsp;"]
@@ -48,7 +48,7 @@ flowchart TD
   * An in-depth critique of relying solely on coarse cellular signaling. Explains why TICP ticket transactions and eTag freeway flows serve as the zero-drift physical ground truth. Analyzes identity truth labels, natural mutual exclusivity, and double-counting mitigation.
 * **[Chapter 2: National Data Foundation & Entity Schemas — TICP, eTag, TDX, and CODiS Specifications](chapter2_data_dictionary_and_samples.md)**
   * Deconstructs 448 million ticketing records, 325 eTag gantries, TDX parking APIs, and CWA CODiS 30-year climatological datasets. Explains physical field definitions, temporal granularities, salted hash de-identification, and real JSON samples.
-* **[Chapter 3: Intercity Arteries & Urban Mobility Corridors — 111 Dynamic Flow Corridors](chapter3_flow_arteries.md)**
+* **[Chapter 3: Intercity Arteries & Urban Mobility Corridors — 114 Dynamic Flow Corridors](chapter3_flow_arteries.md)**
   * Maps High-Speed Rail (THSR), Taiwan Railway (TRA), 5 major metro systems, industrial tech freight corridors (Hsinchu Science Park, International Ports), and scenic highways. Analyzes weekday peak commuting vs. weekend migration tides.
 * **[Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos — eTag Flow Injection & Parking Pressure](chapter4_etag_halos_heatmap.md)**
   * Introduces the groundbreaking "Off-Ramp Discharge Catchment Halos". Traces vehicle dispersion into local urban grids across 16 strategic interchanges and proves strong correlation with TDX real-time parking lot occupancy.
@@ -73,7 +73,7 @@ Clicking the hyperlinked portals below opens the live web application in a new b
 | :--- | :--- | :--- | :--- |
 | **Ch 1** Data Philosophy | Drift contrast, identity truth, mutual exclusivity | [👉 Three-Source Strategic Matrix](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | Inspect the Master Table 3-way matrix; compare pre-processing and audit costs |
 | **Ch 2** Data Dictionary | 448M census baseline, field schemas, raw samples | [👉 Data Foundation & Dictionary Matrix](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | Review real JSON payloads for TICP ticketing, eTag 5 vehicle classes, and CODiS weather |
-| **Ch 3** Corridors | 111 flow particle streams, freight vs. tourism | [👉 Dynamic Flow Corridors Map (FlowMap)](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | Toggle between "Workday" and "Weekend"; drag timeline to observe Hsinchu & Hsuehshan tides |
+| **Ch 3** Corridors | 114 flow particle streams, freight vs. tourism | [👉 Dynamic Flow Corridors Map (FlowMap)](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | Toggle between "Workday" and "Weekend"; drag timeline to observe Hsinchu & Hsuehshan tides |
 | **Ch 4** Off-Ramp Halos | 16 strategic interchanges, TDX parking pressure | [👉 Spatiotemporal Heatmap & Catchment Halos](https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap) | Turn on "🛣️ eTag Interchange Halos", click "Ailan / Sun Moon Lake" to see parking strain |
 | **Ch 5** Personas & Weather | 4 micro-personas, Sunny vs. Torrential Rain | [👉 Micro-Personas & Weather Simulation Lab](https://tobytoy.github.io/taiwan-mobility-pulse/#personas) | Select "Active Seniors", switch to "Torrential Rain", observe elderly trip drop-off |
 | **Ch 6** Climate Pulse | 30-year trends, extreme rankings, 12-month tides | [👉 Climate Pulse & Livability Lab](https://tobytoy.github.io/taiwan-mobility-pulse/#climate-lab) | Activate "12-Month Seasonal Player", observe monthly temperature swings and mold index |

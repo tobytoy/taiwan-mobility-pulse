@@ -17,7 +17,7 @@ In preceding chapters, we explored the "rigid mobility skeleton" shaped by daily
 3. **Extreme Weather Sensitivity**:  
    Leisure travel depends on weather to an extent far exceeding work commuting. A single afternoon convective storm or coastal monsoon swell instantly reroutes Wai'ao surfers, Hehuanshan visitors, and Penghu island-hoppers.
 
-To liberate planners and travelers from relying on delayed surveys or guesswork, **v1.3.0** deploys a four-dimensional national fusion framework:  
+To liberate planners and travelers from relying on delayed surveys or guesswork, **v1.3.1** deploys a four-dimensional national fusion framework:  
 **【TDX Tourism APIs × CWA CODiS 30-Year Climatology × Tourism Administration 74 4K/360° Live CCTVs × Freeway Bureau eTag Holiday Traffic Data】**.
 
 ---
@@ -64,7 +64,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **Live Sight** | MOTC Tourism TDX Live Feed Service | 74 Scenic CCTVs Islandwide | `Location`, `LiveURL`, `IFrameURL`, `ViewType` (360° Panoramic / PTZ / Fixed), `Status` |
 | **Climate Pulse** | CWA CODiS Weather Database | Nearest 30-Year Weather Station | Seasonal temperatures, summer cooling comfort, annual rain days, best travel months, storm warnings |
-| **Mobility Arteries** | Freeway eTag + TaiwanTrip | 111 Dynamic Corridors, 92 Bus Routes | Key highway corridors (Hwy 18, Fwy 5, Hwy 11), holiday surge multipliers, peak hours, THSR/TRA links |
+| **Mobility Arteries** | Freeway eTag + TaiwanTrip | 114 Dynamic Corridors, 92 Bus Routes | Key highway corridors (Hwy 18, Fwy 5, Hwy 11), holiday surge multipliers, peak hours, THSR/TRA links |
 
 ![Figure 9-1: National Tourism Destinations, Live CCTV Feeds, and Mobility Lab Panorama](../images/ch9_tourism_mobility_lab.webp)
 *Figure 9-1: Live Application Interface — Tourism Destinations & Live CCTV Dashboard spanning six geographical clusters, CODiS historical travel windows, eTag holiday surge multipliers, and TaiwanTrip bus connections.*
@@ -143,6 +143,6 @@ flowchart TD
 
 ### 🎉 Monograph Conclusion: The Living Pulse of Taiwan
 
-Over 9 macro chapters, we have journeyed from the foundational data philosophy of rigid ticketing baselines and zero-drift highway sensors, through 111 dynamic corridors, off-ramp catchment halos, micro-personas, 30-year climate trends, and TOD commercial hubs, culminating in live 4K scenic video streams.
+Over 9 macro chapters, we have journeyed from the foundational data philosophy of rigid ticketing baselines and zero-drift highway sensors, through 114 dynamic corridors, off-ramp catchment halos, micro-personas, 30-year climate trends, and TOD commercial hubs, culminating in live 4K scenic video streams.
 
 Taiwan's mobility pulse is neither a static map nor cold numbers in an audit report. It is the living, synchronized rhythm of 23 million people interacting with their island's mountains, coasts, cities, and weather. May this interactive monograph serve as an illuminating benchmark for intelligent transportation engineering, urban spatial science, and national data governance!

@@ -6,7 +6,7 @@
 > 「一座城市的呼吸，寫在清晨第一班捷運的刷卡記錄裡；一個國家的脈搏，躍動在午夜奔馳於國道上的重型貨車輪下。」
 
 > 📥 **全書完整版專著**：本書已編纂為出版級電子書（含 9 大巨章、全彩數據結構圖、三向對照表與可點擊互動傳送門）：  
-> 👉 **[開啟中文版專著 (v1.3.0 全新觀光即時影像融合典藏版)](../public/docs/taiwan_mobility_pulse_guidebook.pdf)** | **[🇬🇧 English Master Edition (v1.3.0)](../public/docs/taiwan_mobility_pulse_guidebook_en.pdf)**  
+> 👉 **[開啟中文版專著 (v1.3.1 全新觀光即時影像融合典藏版)](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)** | **[🇬🇧 English Master Edition (v1.3.1)](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)**  
 > 🌐 **[進入線上閱讀與另存新檔下載中心 ➔](https://tobytoy.github.io/taiwan-mobility-pulse/#download)**
 
 ---
@@ -31,7 +31,7 @@ flowchart TD
     classDef default fill:#1e293b,stroke:#38bdf8,stroke-width:1.5px,color:#f8fafc,padding:16px 50px;
 
     C1["&emsp;第一章：數據哲學與選型抉擇&emsp;<br/>&emsp;（剛性骨架 vs. 彈性肌肉）&emsp;"] --> C2["&emsp;第二章：國家級數據底座與欄位實體解剖&emsp;<br/>&emsp;（時間跨度、欄位字典與 CODiS 氣象規格）&emsp;"]
-    C2 --> C3["&emsp;第三章：全台城際與都會走廊大動脈&emsp;<br/>&emsp;（111 條動態走廊與客貨潮汐）&emsp;"]
+    C2 --> C3["&emsp;第三章：全台城際與都會走廊大動脈&emsp;<br/>&emsp;（114 條動態走廊與客貨潮汐）&emsp;"]
     C3 --> C4["&emsp;第四章：熱點輻射與下匝道光暈&emsp;<br/>&emsp;（eTag 車流注入與停車壓力連動）&emsp;"]
     C4 --> C5["&emsp;第五章：四大微觀人群像與天候彈性&emsp;<br/>&emsp;（誰在移動？風雨如何改寫動線？）&emsp;"]
     C5 --> C6["&emsp;第六章：全島氣候脈動與微氣候宜居圖譜&emsp;<br/>&emsp;（30 年變異、極端排行與四季潮汐）&emsp;"]
@@ -46,7 +46,7 @@ flowchart TD
   * 深入剖析為何跳過「粗放的單一信令」，堅持以「TICP 票證 + eTag 車流」作為地面真理基準點。解構空間零漂移、身分真理標籤、集合天然互斥性與重複計算的工程挑戰。
 * **[第二章：國家級數據底座與欄位實體解剖——TICP 票證、eTag 門架、TDX 與 CODiS 歷史氣候觀測大數據規格](chapter2_data_dictionary_and_samples.md)**
   * 解構 4.48 億筆票證、325 座 eTag 門架、TDX 即時停車位與 CWA CODiS 30 年氣候觀測大數據。詳解欄位物理定義、時間顆粒度、去識別化加鹽雜湊防護與多筆真實 JSON 樣本。
-* **[第三章：全台城際與都會走廊大動脈——111 條動態走廊的時空潮汐](chapter3_flow_arteries.md)**
+* **[第三章：全台城際與都會走廊大動脈——114 條動態走廊的時空潮汐](chapter3_flow_arteries.md)**
   * 解析高鐵、台鐵、五大捷運、產業貨運走廊（竹科/港口）與觀光快線（國五/國六/南迴）的流動規律，解析平日早晚尖峰通勤狂潮與假日大遷徙。
 * **[第四章：熱點輻射與下匝道光暈——eTag 車流注入與停車壓力連動](chapter4_etag_halos_heatmap.md)**
   * 全台首創「交流道下匝道車流注入輻射光暈」。追蹤車流下國道後的空間分佈，剖析 16 大戰略交流道、車種配比與 TDX 周邊即時停車位佔用率的強相關性。
@@ -71,7 +71,7 @@ flowchart TD
 | :--- | :--- | :--- | :--- |
 | **第一章** 數據哲學 | 空間漂移對比、身分真理標籤、互斥可加性 | [👉 三大數據戰略矩陣](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | 查閱 Master Table 三向深度對照矩陣，理解前處理成本差異 |
 | **第二章** 數據字典 | 4.48 億筆真實母體、欄位定義、真實樣本 | [👉 數據底座與字典矩陣](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | 查看 TICP 票證、eTag 5大車種、TDX 停車位與 CODiS 氣象 JSON 樣本 |
-| **第三章** 走廊動脈 | 111 條走廊粒子、產業物流 vs. 觀光快線 | [👉 動態走廊流向圖 (FlowMap)](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | 切換「平日」與「假日」，拉動時間軸看竹科與國五潮汐 |
+| **第三章** 走廊動脈 | 114 條走廊粒子、產業物流 vs. 觀光快線 | [👉 動態走廊流向圖 (FlowMap)](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | 切換「平日」與「假日」，拉動時間軸看竹科與國五潮汐 |
 | **第四章** 下匝道光暈 | eTag 16 大交流道注入、TDX 停車位壓力 | [👉 時空熱點與注入圈 (Heatmap)](https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap) | 開啟「🛣️ eTag 交流道注入圈」，點擊「愛蘭/日月潭」看停車壓力 |
 | **第五章** 人群與天候 | 四大微觀人群像、晴天/豪大雨脆弱性移轉 | [👉 人群像與天候實驗室](https://tobytoy.github.io/taiwan-mobility-pulse/#personas) | 切換「悠遊銀髮族」，選取「豪大雨」，看台北車站長者退潮與移轉 |
 | **第六章** 氣候脈動 | 30年變異、極端特異排行、四季潮汐播放 | [👉 氣候脈動實驗室 (Climate Lab)](https://tobytoy.github.io/taiwan-mobility-pulse/#climate-lab) | 點選「四季潮汐播放」，觀察 1~12 月全島天氣圖標跳動與發霉雷達 |

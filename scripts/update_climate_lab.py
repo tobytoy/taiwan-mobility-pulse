@@ -1,7 +1,7 @@
 import os
 
-# We will construct the enhanced ClimatePulseLab.jsx
-target_file = "/home/toby/projects/Github/taiwan-mobility-pulse/src/components/ClimatePulseLab.jsx"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+target_file = os.path.join(PROJECT_ROOT, "src", "components", "ClimatePulseLab.jsx")
 
 code = r'''import React, { useState, useEffect, useRef, useMemo } from 'react';
 import L from 'leaflet';

@@ -551,6 +551,15 @@ export default function TourismMobilityLab() {
                       <div style={{ color: '#E2E8F0' }}>
                         {spot.mobility_profile.transit_routes}
                       </div>
+                      {spot.mobility_profile.matched_taiwantrip?.length > 0 && (
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                          {spot.mobility_profile.matched_taiwantrip.map((rt, i) => (
+                            <span key={i} style={{ fontSize: '9px', background: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '4px', padding: '1px 5px', color: '#D8B4FE' }}>
+                              🚍 {rt}
+                            </span>
+                          ))}
+                        </div>
+                      )}
                     </div>
                   </div>
 
@@ -854,9 +863,18 @@ export default function TourismMobilityLab() {
                   </div>
                   <div style={{ fontSize: '11px', color: '#E2E8F0', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                     <div>主要走廊: {activeModalSpot.mobility_profile.connected_corridor}</div>
-                    <div>假日暴增: <strong style={{ color: '#F59E0B' }}>{activeModalSpot.mobility_profile.holiday_surge}</strong></div>
+                    <div>假日暴增: <strong style={{ color: '#F59E0B' }}>{activeModalSpot.mobility_profile.holiday_surge}</strong> <span style={{ fontSize: '10px', color: '#94A3B8' }}>(區域代表模型)</span></div>
                     <div>去/回程尖峰: {activeModalSpot.mobility_profile.peak_hours}</div>
                     <div>大眾接駁: <strong style={{ color: '#A855F7' }}>{activeModalSpot.mobility_profile.transit_routes}</strong></div>
+                    {activeModalSpot.mobility_profile.matched_taiwantrip?.length > 0 && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '4px' }}>
+                        {activeModalSpot.mobility_profile.matched_taiwantrip.map((rt, i) => (
+                          <span key={i} style={{ fontSize: '10px', background: 'rgba(168, 85, 247, 0.15)', border: '1px solid rgba(168, 85, 247, 0.3)', borderRadius: '4px', padding: '2px 6px', color: '#D8B4FE' }}>
+                            🚍 {rt}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

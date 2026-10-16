@@ -71,10 +71,10 @@
 1. **`transfer_analysis.json` (121 KB)**：
    * 腳本：`pipeline/analyze_all_taiwan_transfers.py`
    * 輸入：`tpe_bus_to3a.parquet` (7.8GB) + `thb_bus_to3a.parquet` (1.4GB)
-   * 產出：全台 76 大樞紐、6,767,398 筆轉乘旅次、每週 NT$ 55,034,555 轉乘補貼款、四大生活圈樞紐身分結構與接駁路線。
+   * 產出：全台 77 大樞紐、6,767,398 筆轉乘旅次、每週 NT$ 55,034,555 轉乘補貼款、四大生活圈樞紐身分結構與接駁路線。
 2. **`mobility_full_study.json` (365 KB)**：
    * 腳本：`pipeline/export_web_data.py`
-   * 產出：10 大運具綜合對比、157 條動態走廊、平日/週末/連假分時曲線、全台車站 WGS84 座標、5 大前瞻政策實驗室參數。
+   * 產出：10 大運具綜合對比、114 條動態走廊、平日/週末/連假分時曲線、全台車站 WGS84 座標、5 大前瞻政策實驗室參數。
 3. **`student_analysis.json` (10 KB)**：
    * 腳本：`pipeline/analyze_students.py`
    * 產出：59.1 萬筆學生票證乘車節奏、晨自習/放學湧浪、Top 10 校園走廊與公車路線。

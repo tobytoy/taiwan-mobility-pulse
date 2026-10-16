@@ -47,7 +47,7 @@ def fetch_overpass_batch_robust(hub_batch, radius=550, max_retries=3):
     """
     
     headers = {
-        "User-Agent": "TaiwanMobilityPulse-UrbanAmenityLab/1.0 (contact@taiwan-mobility-pulse.gov.tw)"
+        "User-Agent": "TaiwanMobilityPulse-UrbanAmenityLab/1.0 (https://github.com/tobytoy/taiwan-mobility-pulse)"
     }
     servers = [
         "https://overpass-api.de/api/interpreter",
@@ -429,7 +429,7 @@ def main():
     output_data = {
         "metadata": {
             "title": "15分鐘微生活圈 · 都市機能與客群移動可達性分析資料集 (Urban Amenity & Mobility Accessibility)",
-            "source": "OpenStreetMap Overpass API (Taiwan) × TICP 票證人流 × 76 大跨運具轉乘樞紐",
+            "source": "OpenStreetMap Overpass API (Taiwan) × TICP 票證人流 × 77 大跨運具轉乘樞紐",
             "walkshed_radius_meters": 500,
             "generated_at": "2026-10-08",
             "total_hubs": len(hubs_output),

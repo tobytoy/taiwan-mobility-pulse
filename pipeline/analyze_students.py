@@ -28,9 +28,9 @@ import pyarrow as pa
 import polars as pl
 import psutil
 
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 PARQUET_DIR = BASE_DIR / 'processed_parquets'
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 
 STUDENT_OUTPUT = PUBLIC_DIR / 'student_analysis.json'

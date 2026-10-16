@@ -17,22 +17,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/0JpPVzxCxJM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 馬祖測站 (距離 3.0km · 海峽前線)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "27.8°C (夏季均溫)",
+      "winter_temp": "10.5°C (冬季均溫)",
+      "rainy_season": "5月、6月、8月 降水相對集中 (年雨量約 1118mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 84.0% · 國境之北·冬寒春霧藍眼淚",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
-      "transit_hub": "馬公港客運碼頭 / 澎湖機場",
-      "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "connected_corridor": "南竿海濱車道 ➔ 中央大道 ➔ 福澳港/南竿機場",
+      "holiday_surge": "+180% (島際交通渡輪滿載)",
+      "peak_hours": "航班/船班抵達 10:00~14:30",
+      "transit_hub": "福澳港客運碼頭 / 南竿機場",
+      "transit_routes": "連江縣南竿海線公車 / 台灣好行馬祖南竿線",
+      "matched_taiwantrip": [
+        "馬祖南竿-媽祖巨神像線",
+        "馬祖北竿-芹壁線"
+      ]
     }
   },
   {
@@ -53,22 +56,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/F_fv8VTt6L8?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "蘇澳/頭城測站",
-      "annual_avg_temp": "22.3°C",
-      "summer_temp": "28.6°C (海風衝浪季)",
-      "winter_temp": "16.5°C (東北季風綿密迎風雨)",
-      "rainy_season": "10月~2月 東北季風雨期 (竹風蘭雨)",
-      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、龜山島登島)",
-      "comfort_index": "夏季熱力活潑，冬季潮濕多雨",
-      "climate_risk": "東北季風長浪越堤、雪隧塞車導致怠速熱島"
+      "nearest_codis": "中央氣象署 宜蘭測站 (距離 14.3km · 多雨水鄉)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.1°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 2648mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 82.8% · 迎風水鄉·冬雨綿綿開傘率高",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線濱海",
-      "holiday_surge": "+380%",
+      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線北部濱海公路",
+      "holiday_surge": "+380% (北宜雪隧假日巨幅湧浪)",
       "peak_hours": "南下週六 06:00~12:00 · 北上週日 13:00~21:00",
-      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭站",
+      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭轉運站",
       "transit_routes": "台灣好行壯圍沙丘線 (綠18) / 宜蘭東北角海岸公車",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "壯圍沙丘線 (綠18)",
+        "冬山河線"
+      ]
     }
   },
   {
@@ -89,22 +95,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/x6-BG6MTFUQ?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "蘇澳/頭城測站",
-      "annual_avg_temp": "22.3°C",
-      "summer_temp": "28.6°C (海風衝浪季)",
-      "winter_temp": "16.5°C (東北季風綿密迎風雨)",
-      "rainy_season": "10月~2月 東北季風雨期 (竹風蘭雨)",
-      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、龜山島登島)",
-      "comfort_index": "夏季熱力活潑，冬季潮濕多雨",
-      "climate_risk": "東北季風長浪越堤、雪隧塞車導致怠速熱島"
+      "nearest_codis": "中央氣象署 宜蘭測站 (距離 6.3km · 多雨水鄉)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.1°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 2648mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 82.8% · 迎風水鄉·冬雨綿綿開傘率高",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線濱海",
-      "holiday_surge": "+380%",
+      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線北部濱海公路",
+      "holiday_surge": "+380% (北宜雪隧假日巨幅湧浪)",
       "peak_hours": "南下週六 06:00~12:00 · 北上週日 13:00~21:00",
-      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭站",
+      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭轉運站",
       "transit_routes": "台灣好行壯圍沙丘線 (綠18) / 宜蘭東北角海岸公車",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "壯圍沙丘線 (綠18)",
+        "冬山河線"
+      ]
     }
   },
   {
@@ -125,22 +134,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/Sg5zM7RSpJM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "蘇澳/頭城測站",
-      "annual_avg_temp": "22.3°C",
-      "summer_temp": "28.6°C (海風衝浪季)",
-      "winter_temp": "16.5°C (東北季風綿密迎風雨)",
-      "rainy_season": "10月~2月 東北季風雨期 (竹風蘭雨)",
-      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、龜山島登島)",
-      "comfort_index": "夏季熱力活潑，冬季潮濕多雨",
-      "climate_risk": "東北季風長浪越堤、雪隧塞車導致怠速熱島"
+      "nearest_codis": "中央氣象署 宜蘭測站 (距離 31.6km · 多雨水鄉)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.1°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 2648mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 82.8% · 迎風水鄉·冬雨綿綿開傘率高",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線濱海",
-      "holiday_surge": "+380%",
+      "connected_corridor": "國道5號雪山隧道 ➔ 頭城交流道 ➔ 台2線北部濱海公路",
+      "holiday_surge": "+380% (北宜雪隧假日巨幅湧浪)",
       "peak_hours": "南下週六 06:00~12:00 · 北上週日 13:00~21:00",
-      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭站",
+      "transit_hub": "台鐵頭城站 / 礁溪站 / 宜蘭轉運站",
       "transit_routes": "台灣好行壯圍沙丘線 (綠18) / 宜蘭東北角海岸公車",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "壯圍沙丘線 (綠18)",
+        "冬山河線"
+      ]
     }
   },
   {
@@ -161,22 +173,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/L9y1pwGktQg?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 新竹測站 (距離 16.8km · 強風科技城)",
+      "annual_avg_temp": "23.5°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.1°C (冬季均溫)",
+      "rainy_season": "5月、6月、8月 降水相對集中 (年雨量約 1477mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 76.2% · 九降勁風·米粉柿餅風城",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號寶山交流道 ➔ 台3線浪漫台三線 ➔ 竹43鄉道",
+      "holiday_surge": "+210% (假日竹苗丘陵休閒車流)",
+      "peak_hours": "去程 10:00~12:30 · 回程 15:00~17:30",
+      "transit_hub": "高鐵新竹站 / 台鐵竹東站",
+      "transit_routes": "台灣好行獅山線 (5700) 轉乘竹東在地公車",
+      "matched_taiwantrip": [
+        "獅山線 (5700)"
+      ]
     }
   },
   {
@@ -197,22 +211,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/AE1wiaqDZjw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 新竹測站 (距離 16.9km · 強風科技城)",
+      "annual_avg_temp": "23.5°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.1°C (冬季均溫)",
+      "rainy_season": "5月、6月、8月 降水相對集中 (年雨量約 1477mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 76.2% · 九降勁風·米粉柿餅風城",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號寶山交流道 ➔ 台3線浪漫台三線 ➔ 竹43鄉道",
+      "holiday_surge": "+210% (假日竹苗丘陵休閒車流)",
+      "peak_hours": "去程 10:00~12:30 · 回程 15:00~17:30",
+      "transit_hub": "高鐵新竹站 / 台鐵竹東站",
+      "transit_routes": "台灣好行獅山線 (5700) 轉乘竹東在地公車",
+      "matched_taiwantrip": [
+        "獅山線 (5700)"
+      ]
     }
   },
   {
@@ -233,22 +249,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/vTDmOvNLm1w?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 臺中測站 (距離 17.0km · 抗颱晴都)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1601mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 74.5% · 天然抗颱屏障·防護全台第一",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道1號彰化交流道 ➔ 台74甲中彰快速公路 ➔ 縣道137",
+      "holiday_surge": "+220% (花期賞花與彰化平原假日車流)",
+      "peak_hours": "午後花期 13:30~17:30",
+      "transit_hub": "台鐵彰化站 / 高鐵台中站",
+      "transit_routes": "彰化客運花壇專線 / 台灣好行清水岩線",
+      "matched_taiwantrip": [
+        "清水岩線",
+        "鹿港祈福線"
+      ]
     }
   },
   {
@@ -269,22 +288,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/RaTbGYKMUtk?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 臺中測站 (距離 15.7km · 抗颱晴都)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1601mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 74.5% · 天然抗颱屏障·防護全台第一",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道1號彰化交流道 ➔ 台74甲中彰快速公路 ➔ 縣道137",
+      "holiday_surge": "+220% (花期賞花與彰化平原假日車流)",
+      "peak_hours": "午後花期 13:30~17:30",
+      "transit_hub": "台鐵彰化站 / 高鐵台中站",
+      "transit_routes": "彰化客運花壇專線 / 台灣好行清水岩線",
+      "matched_taiwantrip": [
+        "清水岩線",
+        "鹿港祈福線"
+      ]
     }
   },
   {
@@ -305,22 +327,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/8pSvDx0DLZs?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 3.8km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -341,22 +366,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/DCiS_15lXDA?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 1.7km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -377,22 +405,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/IS9KKN8i_Pg?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 2.3km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -413,22 +444,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/5plRdP_APCk?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 4.1km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -449,22 +483,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/tEcHWBlxAGM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 2.4km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -485,22 +522,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/cVxpg5d_D58?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 4.4km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -521,22 +561,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ztVcgKj7G0M?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 日月潭測站 (距離 2.5km · 內陸湖泊)",
+      "annual_avg_temp": "19.7°C",
+      "summer_temp": "22.9°C (夏季均溫)",
+      "winter_temp": "14.9°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2241mm)",
+      "best_seasons": "9月~11月 (泳渡/花火音樂季)、3月~5月",
+      "comfort_index": "年均濕度 82.9% · 湖光山色·水氣調節宜人",
+      "climate_risk": "水庫乾涸水位警訊；低窪環湖水岸強風與晨霧"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
+      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線環湖公路",
+      "holiday_surge": "+310% (中台灣核心景區假日高強度注入)",
       "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "transit_hub": "高鐵台中站 / 台中轉運站",
+      "transit_routes": "台灣好行日月潭線 (6670 直達) / 環湖公車 (6669)",
+      "matched_taiwantrip": [
+        "日月潭線 (6670)",
+        "日月潭-車埕線"
+      ]
     }
   },
   {
@@ -557,22 +600,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/j2L_559nCjc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 阿里山測站 (距離 19.4km · 高山寒溫)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "10月~4月 (秋冬雲海/日出、春季櫻花季)",
+      "comfort_index": "年均濕度 85.1% · 兩千米仙境·巨木雲海避暑",
+      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)；午後易起濃霧"
     },
     "mobility_profile": {
       "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
+      "holiday_surge": "+340% (高山雲海櫻花季爆發)",
       "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
       "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
       "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "阿里山線-A線(高鐵出發)",
+        "阿里山線-B線(台鐵出發)"
+      ]
     }
   },
   {
@@ -593,22 +639,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/dY2cRNr5Buw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 18.4km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號中埔/梅山交流道 ➔ 縣道162甲梅山36彎 / 台18線",
+      "holiday_surge": "+260% (近郊休閒與步道客流)",
+      "peak_hours": "晨間進場 09:00~12:00 · 傍晚 15:30~18:00",
+      "transit_hub": "台鐵嘉義站 / 高鐵嘉義站",
+      "transit_routes": "台灣好行太平雲梯線 (107) / 阿里山線",
+      "matched_taiwantrip": [
+        "太平雲梯線",
+        "光林我嘉線"
+      ]
     }
   },
   {
@@ -629,22 +678,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/hMYs60qtkK8?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 17.1km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號中埔/梅山交流道 ➔ 縣道162甲梅山36彎 / 台18線",
+      "holiday_surge": "+260% (近郊休閒與步道客流)",
+      "peak_hours": "晨間進場 09:00~12:00 · 傍晚 15:30~18:00",
+      "transit_hub": "台鐵嘉義站 / 高鐵嘉義站",
+      "transit_routes": "台灣好行太平雲梯線 (107) / 阿里山線",
+      "matched_taiwantrip": [
+        "太平雲梯線",
+        "光林我嘉線"
+      ]
     }
   },
   {
@@ -665,22 +717,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/8sZrrRHPZ70?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 31.5km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速道路 ➔ 縣道161 ➔ 台17線濱海公路",
+      "holiday_surge": "+190% (西濱夕陽與候鳥季客流)",
+      "peak_hours": "午後觀夕與賞鳥 15:00~18:30",
+      "transit_hub": "高鐵嘉義站 / 台鐵新營站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 新營客運布袋線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)"
+      ]
     }
   },
   {
@@ -701,22 +755,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/KiCMukzpICU?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 30.4km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速道路 ➔ 縣道161 ➔ 台17線濱海公路",
+      "holiday_surge": "+190% (西濱夕陽與候鳥季客流)",
+      "peak_hours": "午後觀夕與賞鳥 15:00~18:30",
+      "transit_hub": "高鐵嘉義站 / 台鐵新營站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 新營客運布袋線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)"
+      ]
     }
   },
   {
@@ -729,30 +785,32 @@
     "description": "雲嘉南管理處生態系列-布袋濕地生態園區(原南布袋濕地)",
     "status": "運作中",
     "view_type": "可動型",
-    "lat": 23.3627,
-    "lon": 120.173,
+    "lat": 23.3633,
+    "lon": 120.1736,
     "live_url": "https://www.youtube.com/watch?v=CbRX1s7cskU",
     "iframe_url": "https://www.youtube.com/embed/CbRX1s7cskU",
     "youtube_id": "CbRX1s7cskU",
     "embed_player_url": "https://www.youtube-nocookie.com/embed/CbRX1s7cskU?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 30.3km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速道路 ➔ 縣道161 ➔ 台17線濱海公路",
+      "holiday_surge": "+190% (西濱夕陽與候鳥季客流)",
+      "peak_hours": "午後觀夕與賞鳥 15:00~18:30",
+      "transit_hub": "高鐵嘉義站 / 台鐵新營站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 新營客運布袋線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)"
+      ]
     }
   },
   {
@@ -773,22 +831,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/agEzlv9n9Eg?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 阿里山測站 (距離 17.4km · 高山寒溫)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "10月~4月 (秋冬雲海/日出、春季櫻花季)",
+      "comfort_index": "年均濕度 85.1% · 兩千米仙境·巨木雲海避暑",
+      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)；午後易起濃霧"
     },
     "mobility_profile": {
       "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
+      "holiday_surge": "+340% (高山雲海櫻花季爆發)",
       "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
       "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
       "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "阿里山線-A線(高鐵出發)",
+        "阿里山線-B線(台鐵出發)"
+      ]
     }
   },
   {
@@ -809,22 +870,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/zDt8FBPozZQ?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 阿里山測站 (距離 14.8km · 高山寒溫)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "10月~4月 (秋冬雲海/日出、春季櫻花季)",
+      "comfort_index": "年均濕度 85.1% · 兩千米仙境·巨木雲海避暑",
+      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)；午後易起濃霧"
     },
     "mobility_profile": {
       "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
+      "holiday_surge": "+340% (高山雲海櫻花季爆發)",
       "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
       "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
       "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "阿里山線-A線(高鐵出發)",
+        "阿里山線-B線(台鐵出發)"
+      ]
     }
   },
   {
@@ -845,22 +909,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/EH4V8IwFIp4?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 29.5km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號官田系統 ➔ 台84線快速道路 ➔ 台3線曾文山水廊道",
+      "holiday_surge": "+220% (環湖遊艇與親水露營假日車流)",
+      "peak_hours": "晨間進場 09:30~13:00 · 傍晚 15:00~17:30",
+      "transit_hub": "台鐵善化站 / 新營轉運站",
+      "transit_routes": "興南客運曾文水庫專線 (綠24) / 台灣好行山博行線",
+      "matched_taiwantrip": [
+        "山博行線",
+        "西拉雅景點接駁線"
+      ]
     }
   },
   {
@@ -881,22 +948,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/B6eki-0-w0g?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 阿里山測站 (距離 12.0km · 高山寒溫)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "10月~4月 (秋冬雲海/日出、春季櫻花季)",
+      "comfort_index": "年均濕度 85.1% · 兩千米仙境·巨木雲海避暑",
+      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)；午後易起濃霧"
     },
     "mobility_profile": {
       "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
+      "holiday_surge": "+340% (高山雲海櫻花季爆發)",
       "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
       "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
       "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "阿里山線-A線(高鐵出發)",
+        "阿里山線-B線(台鐵出發)"
+      ]
     }
   },
   {
@@ -917,22 +987,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/8KnqJBf_dow?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "阿里山測站 (海拔 2213m)",
-      "annual_avg_temp": "11.8°C",
-      "summer_temp": "14.5°C (避暑勝地)",
-      "winter_temp": "6.2°C (賞楓/日出防寒)",
-      "rainy_season": "5月~9月 梅雨與夏季午後對流 (年雨量 4,000mm)",
-      "best_seasons": "10月~4月 (秋冬雲海/夕照、春季櫻花季)",
-      "comfort_index": "涼爽宜人，午後易起濃霧",
-      "climate_risk": "暴雨土石坍方敏感區 (台18線山區落石管制)"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 16.5km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號中埔交流道 ➔ 台18線阿里山公路",
-      "holiday_surge": "+340%",
-      "peak_hours": "去程 08:30~11:30 · 回程 14:00~17:30",
-      "transit_hub": "高鐵嘉義站 / 台鐵嘉義站",
-      "transit_routes": "台灣好行阿里山線 (7322 / 7329)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號中埔/梅山交流道 ➔ 縣道162甲梅山36彎 / 台18線",
+      "holiday_surge": "+260% (近郊休閒與步道客流)",
+      "peak_hours": "晨間進場 09:00~12:00 · 傍晚 15:30~18:00",
+      "transit_hub": "台鐵嘉義站 / 高鐵嘉義站",
+      "transit_routes": "台灣好行太平雲梯線 (107) / 阿里山線",
+      "matched_taiwantrip": [
+        "太平雲梯線",
+        "光林我嘉線"
+      ]
     }
   },
   {
@@ -953,22 +1026,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/HPurNw8gu84?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 26.7km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -989,22 +1066,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/BL-4Y-EYyQ8?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 24.4km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1025,22 +1106,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/iW2P7TM9SaY?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 42.1km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1061,22 +1146,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/-KQE12zWVbc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 24.3km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1097,22 +1186,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/uKVPPfmnQYM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 20.9km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1133,22 +1226,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/WU2FYedF2k0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 39.3km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1169,22 +1266,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ygvcl4e_OI0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 36.8km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1205,22 +1306,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/X_fchztvqI0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 5.0km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
+      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷公路",
+      "holiday_surge": "+270% (長假期花東壯麗山海車潮)",
       "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
       "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "transit_routes": "台灣好行東部海岸線 (8101A) / 縱谷鹿野線 (8168A)",
+      "matched_taiwantrip": [
+        "東部海岸線 (8101A)",
+        "縱谷鹿野線 (8168A)"
+      ]
     }
   },
   {
@@ -1241,22 +1345,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/AKl3F6cAY2Q?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 臺東測站 (距離 7.6km · 縱谷焚風)",
+      "annual_avg_temp": "25.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "20.1°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1611mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 76.1% · 沉降熱浪·卑南焚風高溫走廊",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
+      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷公路",
+      "holiday_surge": "+270% (長假期花東壯麗山海車潮)",
       "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
       "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "transit_routes": "台灣好行東部海岸線 (8101A) / 縱谷鹿野線 (8168A)",
+      "matched_taiwantrip": [
+        "東部海岸線 (8101A)",
+        "縱谷鹿野線 (8168A)"
+      ]
     }
   },
   {
@@ -1277,22 +1384,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ZdqHgQwvZOw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 19.5km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
+      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷公路",
+      "holiday_surge": "+270% (長假期花東壯麗山海車潮)",
       "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
       "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "transit_routes": "台灣好行東部海岸線 (8101A) / 縱谷鹿野線 (8168A)",
+      "matched_taiwantrip": [
+        "東部海岸線 (8101A)",
+        "縱谷鹿野線 (8168A)"
+      ]
     }
   },
   {
@@ -1313,22 +1423,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/wTHhv7M0vCI?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 臺東測站 (距離 34.3km · 縱谷焚風)",
+      "annual_avg_temp": "25.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "20.1°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1611mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 76.1% · 沉降熱浪·卑南焚風高溫走廊",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台東富岡漁港客運航線 / 綠島環島公路 (東90)",
+      "holiday_surge": "+390% (客輪全滿艙、島上機車潮汐爆發)",
+      "peak_hours": "船班抵達 10:00~14:00",
+      "transit_hub": "富岡漁港客運碼頭 / 台東航空站",
+      "transit_routes": "綠島環島觀光公車 / 港口接駁專線",
+      "matched_taiwantrip": [
+        "綠島環島觀光公車"
+      ]
     }
   },
   {
@@ -1349,22 +1461,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/a8nJQr5rBGs?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 臺東測站 (距離 34.7km · 縱谷焚風)",
+      "annual_avg_temp": "25.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "20.1°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1611mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 76.1% · 沉降熱浪·卑南焚風高溫走廊",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台東富岡漁港客運航線 / 綠島環島公路 (東90)",
+      "holiday_surge": "+390% (客輪全滿艙、島上機車潮汐爆發)",
+      "peak_hours": "船班抵達 10:00~14:00",
+      "transit_hub": "富岡漁港客運碼頭 / 台東航空站",
+      "transit_routes": "綠島環島觀光公車 / 港口接駁專線",
+      "matched_taiwantrip": [
+        "綠島環島觀光公車"
+      ]
     }
   },
   {
@@ -1385,22 +1499,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/JhQuR77AR7U?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 9.9km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
+      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷公路",
+      "holiday_surge": "+270% (長假期花東壯麗山海車潮)",
       "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
       "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "transit_routes": "台灣好行東部海岸線 (8101A) / 縱谷鹿野線 (8168A)",
+      "matched_taiwantrip": [
+        "東部海岸線 (8101A)",
+        "縱谷鹿野線 (8168A)"
+      ]
     }
   },
   {
@@ -1421,22 +1538,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/rvc1klNIgQc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 臺東測站 (距離 18.6km · 縱谷焚風)",
+      "annual_avg_temp": "25.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "20.1°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1611mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 76.1% · 沉降熱浪·卑南焚風高溫走廊",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
+      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷公路",
+      "holiday_surge": "+270% (長假期花東壯麗山海車潮)",
       "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
       "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "transit_routes": "台灣好行東部海岸線 (8101A) / 縱谷鹿野線 (8168A)",
+      "matched_taiwantrip": [
+        "東部海岸線 (8101A)",
+        "縱谷鹿野線 (8168A)"
+      ]
     }
   },
   {
@@ -1457,22 +1577,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/fv1yFousBvc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 蘭嶼測站 (距離 66.8km · 世界風極)",
+      "annual_avg_temp": "23.0°C",
+      "summer_temp": "26.2°C (夏季均溫)",
+      "winter_temp": "19.0°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2880mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 88.6% · 世界風極·歷代最強陣風登錄地",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台東富岡漁港客運航線 / 綠島環島公路 (東90)",
+      "holiday_surge": "+390% (客輪全滿艙、島上機車潮汐爆發)",
+      "peak_hours": "船班抵達 10:00~14:00",
+      "transit_hub": "富岡漁港客運碼頭 / 台東航空站",
+      "transit_routes": "綠島環島觀光公車 / 港口接駁專線",
+      "matched_taiwantrip": [
+        "綠島環島觀光公車"
+      ]
     }
   },
   {
@@ -1493,22 +1615,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/JkoXcXI04Qk?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 花蓮測站 (距離 31.6km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.7°C (夏季均溫)",
+      "winter_temp": "18.6°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1881mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 78.8% · 太平洋門戶·颱風直擊第一排",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1529,22 +1654,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/DliL9uMtPrI?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 15.1km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1565,22 +1693,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/mXnigLvIL0Q?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 45.8km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1601,22 +1732,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/5GTFLN9gZrc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 33.2km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1637,22 +1771,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/JnD8Rk3o0BM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 成功測站 (距離 42.8km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.1°C (夏季均溫)",
+      "winter_temp": "19.4°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 2036mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 79.9% · 黑潮前沿·海洋性穩定調節",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1673,22 +1810,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/aaKOV4qkDHw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "成功/台東測站",
-      "annual_avg_temp": "23.8°C",
-      "summer_temp": "28.5°C (太平洋無敵海景)",
-      "winter_temp": "19.2°C (避寒勝地)",
-      "rainy_season": "7月~10月 颱風好發季",
-      "best_seasons": "3月~6月、10月~12月 (金樽衝浪賽、三仙台迎曙光)",
-      "comfort_index": "全年度海風徐徐，日照強烈需防曬",
-      "climate_risk": "颱風第一線登陸迎風面，長浪湧現"
+      "nearest_codis": "中央氣象署 花蓮測站 (距離 11.7km · 東岸洋流)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.7°C (夏季均溫)",
+      "winter_temp": "18.6°C (冬季均溫)",
+      "rainy_season": "8月、9月、10月 降水相對集中 (年雨量約 1881mm)",
+      "best_seasons": "3月~6月、10月~12月 (衝浪賽事、熱氣球季)",
+      "comfort_index": "年均濕度 78.8% · 太平洋門戶·颱風直擊第一排",
+      "climate_risk": "颱風第一線迎風長浪；縱谷背風夏季沉降焚風高溫"
     },
     "mobility_profile": {
-      "connected_corridor": "台11線東部花東濱海公路 / 台9線花東縱谷",
-      "holiday_surge": "+260%",
-      "peak_hours": "連假首日 09:00~15:00 · 收假日 13:00~18:00",
-      "transit_hub": "台鐵台東站 / 玉里站",
-      "transit_routes": "台灣好行東部海岸線 (8101A) / 玉長豐濱線",
-      "matched_taiwantrip": []
+      "connected_corridor": "台11線花東海岸公路 / 台9線縱谷公路 ➔ 花64線瑞港公路",
+      "holiday_surge": "+280% (金針花季及連假湧現車潮)",
+      "peak_hours": "上午 09:00~12:30 · 午後 14:00~17:30",
+      "transit_hub": "台鐵花蓮站 / 玉里站 / 瑞穗站",
+      "transit_routes": "台灣好行縱谷花蓮線 (303) / 玉長豐濱線 (309)",
+      "matched_taiwantrip": [
+        "縱谷花蓮線 (303)",
+        "玉長豐濱線 (309)"
+      ]
     }
   },
   {
@@ -1709,22 +1849,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/dboo8od9dXM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 澎湖測站 (距離 43.7km · 群島少雨)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1073mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 81.3% · 澎湖群島·少雨高光照太陽能庫",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
+      "connected_corridor": "澎湖馬公機場 / 馬公港 ➔ 澎204縣道 / 跨海大橋 203縣道",
+      "holiday_surge": "+420% (花火節海空客運全線爆滿)",
+      "peak_hours": "航班與船班抵達上午 09:30~12:30",
       "transit_hub": "馬公港客運碼頭 / 澎湖機場",
       "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "澎湖媽宮北環線",
+        "澎湖媽宮湖西線"
+      ]
     }
   },
   {
@@ -1745,22 +1888,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ZcO5dbciNU4?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 澎湖測站 (距離 11.7km · 群島少雨)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1073mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 81.3% · 澎湖群島·少雨高光照太陽能庫",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
+      "connected_corridor": "澎湖馬公機場 / 馬公港 ➔ 澎204縣道 / 跨海大橋 203縣道",
+      "holiday_surge": "+420% (花火節海空客運全線爆滿)",
+      "peak_hours": "航班與船班抵達上午 09:30~12:30",
       "transit_hub": "馬公港客運碼頭 / 澎湖機場",
       "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "澎湖媽宮北環線",
+        "澎湖媽宮湖西線"
+      ]
     }
   },
   {
@@ -1781,22 +1927,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/zgPJbQzlQmw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 澎湖測站 (距離 11.8km · 群島少雨)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1073mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 81.3% · 澎湖群島·少雨高光照太陽能庫",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
+      "connected_corridor": "澎湖馬公機場 / 馬公港 ➔ 澎204縣道 / 跨海大橋 203縣道",
+      "holiday_surge": "+420% (花火節海空客運全線爆滿)",
+      "peak_hours": "航班與船班抵達上午 09:30~12:30",
       "transit_hub": "馬公港客運碼頭 / 澎湖機場",
       "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "澎湖媽宮北環線",
+        "澎湖媽宮湖西線"
+      ]
     }
   },
   {
@@ -1817,22 +1966,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/3njbu54Aqb4?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 澎湖測站 (距離 7.8km · 群島少雨)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1073mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 81.3% · 澎湖群島·少雨高光照太陽能庫",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
+      "connected_corridor": "澎湖馬公機場 / 馬公港 ➔ 澎204縣道 / 跨海大橋 203縣道",
+      "holiday_surge": "+420% (花火節海空客運全線爆滿)",
+      "peak_hours": "航班與船班抵達上午 09:30~12:30",
       "transit_hub": "馬公港客運碼頭 / 澎湖機場",
       "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "澎湖媽宮北環線",
+        "澎湖媽宮湖西線"
+      ]
     }
   },
   {
@@ -1853,22 +2005,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/oPZoY2mKrFE?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "澎湖/東吉島測站",
-      "annual_avg_temp": "23.5°C",
-      "summer_temp": "29.1°C (花火節海域活動爆發)",
-      "winter_temp": "17.3°C (東北季風 10 級強風)",
-      "rainy_season": "5月~8月 雨量少日照充沛 (年雨量僅 1,000mm)",
-      "best_seasons": "4月~9月 (澎湖國際海上花火節、摩西分海退潮體驗)",
-      "comfort_index": "夏季熱情洋溢，冬季強風不宜外島出海",
-      "climate_risk": "夏季強烈紫外線與熱傷害；潮汐水位落差大"
+      "nearest_codis": "中央氣象署 澎湖測站 (距離 12.1km · 群島少雨)",
+      "annual_avg_temp": "24.1°C",
+      "summer_temp": "28.9°C (夏季均溫)",
+      "winter_temp": "17.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1073mm)",
+      "best_seasons": "4月~9月 (花火節海域活動、退潮地景體驗)",
+      "comfort_index": "年均濕度 81.3% · 澎湖群島·少雨高光照太陽能庫",
+      "climate_risk": "冬季東北季風 9~10 級強風波濤；夏季強烈紫外線與防曬補水"
     },
     "mobility_profile": {
-      "connected_corridor": "澎湖馬公機場 ➔ 澎204縣道 / 跨海大橋 203縣道",
-      "holiday_surge": "+420% (空運海運全滿載)",
-      "peak_hours": "班機/船班抵達上午 09:30~12:00",
+      "connected_corridor": "澎湖馬公機場 / 馬公港 ➔ 澎204縣道 / 跨海大橋 203縣道",
+      "holiday_surge": "+420% (花火節海空客運全線爆滿)",
+      "peak_hours": "航班與船班抵達上午 09:30~12:30",
       "transit_hub": "馬公港客運碼頭 / 澎湖機場",
       "transit_routes": "台灣好行澎湖媽宮北環線 / 湖西線",
-      "matched_taiwantrip": []
+      "matched_taiwantrip": [
+        "澎湖媽宮北環線",
+        "澎湖媽宮湖西線"
+      ]
     }
   },
   {
@@ -1889,22 +2044,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/g-T8NbF9xlQ?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 3.8km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -1925,22 +2083,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/4hYBht0EbD4?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 65.8km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1961,22 +2123,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/1pEeAYM0C_w?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 47.8km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -1997,22 +2163,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/YOLSRE7h6ws?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 高雄測站 (距離 59.5km · 熱帶港都)",
+      "annual_avg_temp": "25.7°C",
+      "summer_temp": "29.1°C (夏季均溫)",
+      "winter_temp": "20.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 2119mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 76.1% · 暖陽之都·冬日避寒首選",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "國道3號林邊/南州交流道 ➔ 台17線東港渡船頭 / 國道10號 ➔ 台28線六龜",
+      "holiday_surge": "+360% (連假東琉線碼頭與高屏山麓人潮洶湧)",
+      "peak_hours": "去程 08:00~11:30 · 回程 14:30~18:00",
+      "transit_hub": "高鐵左營站 / 台鐵屏東站 / 東港轉運站",
+      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189) / 屏北線",
+      "matched_taiwantrip": [
+        "大鵬灣琉球線 (9127D)",
+        "墾丁快線 (9189)",
+        "屏北線 (508)"
+      ]
     }
   },
   {
@@ -2033,22 +2203,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/iJphhU-iaTA?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 淡水測站 (距離 20.4km · 沿海風寒)",
+      "annual_avg_temp": "23.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "15.9°C (冬季均溫)",
+      "rainy_season": "5月、6月、9月 降水相對集中 (年雨量約 1947mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 79.4% · 冬日海口·低溫濕冷第一線",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2069,22 +2242,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/FbB8WDUXXqU?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 淡水測站 (距離 14.9km · 沿海風寒)",
+      "annual_avg_temp": "23.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "15.9°C (冬季均溫)",
+      "rainy_season": "5月、6月、9月 降水相對集中 (年雨量約 1947mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 79.4% · 冬日海口·低溫濕冷第一線",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2105,22 +2281,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/Wefj3zbl-tI?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 淡水測站 (距離 17.2km · 沿海風寒)",
+      "annual_avg_temp": "23.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "15.9°C (冬季均溫)",
+      "rainy_season": "5月、6月、9月 降水相對集中 (年雨量約 1947mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 79.4% · 冬日海口·低溫濕冷第一線",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2141,22 +2320,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/mfRAHL-cO1U?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 28.3km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2177,22 +2359,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ZjuY4qKaj40?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 9.5km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2213,22 +2398,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/zSm7gV2ETPo?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 23.9km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2249,22 +2437,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/HpJS5o4FZuA?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 17.4km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2285,22 +2476,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/q7wy94TiBBw?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 基隆測站 (距離 18.5km · 沉鬱雨港)",
+      "annual_avg_temp": "23.2°C",
+      "summer_temp": "29.4°C (夏季均溫)",
+      "winter_temp": "16.5°C (冬季均溫)",
+      "rainy_season": "9月、10月、11月 降水相對集中 (年雨量約 3673mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 78.9% · 雨港之巔·全台除濕機霸主",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2321,22 +2515,25 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/Kbkn-TGoa_0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "富貴角/基隆測站",
-      "annual_avg_temp": "22.1°C",
-      "summer_temp": "29.2°C (夏日玩水/夕陽美景)",
-      "winter_temp": "15.8°C (強烈東北季風吹襲)",
-      "rainy_season": "11月~1月 東北季風綿雨",
-      "best_seasons": "4月~10月 (北海岸衝浪、野柳奇岩地景、老梅綠石槽春季限定)",
-      "comfort_index": "春末至秋初海風舒爽，冬季風大體感偏冷",
-      "climate_risk": "綠石槽濕滑危險、冬季瘋狗浪警示"
+      "nearest_codis": "中央氣象署 淡水測站 (距離 3.8km · 沿海風寒)",
+      "annual_avg_temp": "23.1°C",
+      "summer_temp": "29.0°C (夏季均溫)",
+      "winter_temp": "15.9°C (冬季均溫)",
+      "rainy_season": "5月、6月、9月 降水相對集中 (年雨量約 1947mm)",
+      "best_seasons": "4月~9月 (夏季衝浪、賞鯨、地質奇岩巡禮)",
+      "comfort_index": "年均濕度 79.4% · 冬日海口·低溫濕冷第一線",
+      "climate_risk": "東北季風迎風面長浪與綿雨；海岸潮間帶濕滑防滑防長浪"
     },
     "mobility_profile": {
-      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道",
-      "holiday_surge": "+290%",
+      "connected_corridor": "台2線北部濱海公路 ➔ 台62快速道路 / 國道3號基金交流道 / 台64線",
+      "holiday_surge": "+290% (北台灣週末濱海熱門流向)",
       "peak_hours": "午後觀夕 14:00~19:00",
-      "transit_hub": "捷運淡水站 / 基隆車站",
-      "transit_routes": "台灣好行皇冠北海岸線 (716)",
-      "matched_taiwantrip": []
+      "transit_hub": "捷運淡水站 / 基隆車站 / 台鐵福隆站",
+      "transit_routes": "台灣好行皇冠北海岸線 (716) / 黃金福隆線 (856)",
+      "matched_taiwantrip": [
+        "皇冠北海岸線 (716)",
+        "黃金福隆線 (856)"
+      ]
     }
   },
   {
@@ -2357,22 +2554,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/uJ0nXKMRnz4?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 阿里山高山測站 (距離 94.2km · 高山寒溫 · 梨山海拔1950m參照)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "3月~5月 (櫻花與果樹花期)、10月~12月 (楓紅蜜蘋果季)",
+      "comfort_index": "高山涼爽宜人，日夜溫差大 (均溫約 12°C~15°C)",
+      "climate_risk": "中橫便道/台7甲落石與管制放行；高海拔夜間極寒低溫"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
-      "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台7甲線中橫宜蘭支線 / 台8線中橫臨37便道 (管制定時放行)",
+      "holiday_surge": "+170% (受高山路況與通行管制容量限制)",
+      "peak_hours": "中橫便道放行時段 07:00 / 12:00 / 16:30",
+      "transit_hub": "台鐵宜蘭站 / 台中谷關轉運站",
+      "transit_routes": "豐原客運 865 號 (谷關-梨山) / 國光客運 1751 (宜蘭-梨山)",
+      "matched_taiwantrip": [
+        "梨山武陵高山接駁線"
+      ]
     }
   },
   {
@@ -2393,22 +2592,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/oo4McW0QBkU?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 阿里山高山測站 (距離 94.6km · 高山寒溫 · 梨山海拔1950m參照)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "3月~5月 (櫻花與果樹花期)、10月~12月 (楓紅蜜蘋果季)",
+      "comfort_index": "高山涼爽宜人，日夜溫差大 (均溫約 12°C~15°C)",
+      "climate_risk": "中橫便道/台7甲落石與管制放行；高海拔夜間極寒低溫"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
-      "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台7甲線中橫宜蘭支線 / 台8線中橫臨37便道 (管制定時放行)",
+      "holiday_surge": "+170% (受高山路況與通行管制容量限制)",
+      "peak_hours": "中橫便道放行時段 07:00 / 12:00 / 16:30",
+      "transit_hub": "台鐵宜蘭站 / 台中谷關轉運站",
+      "transit_routes": "豐原客運 865 號 (谷關-梨山) / 國光客運 1751 (宜蘭-梨山)",
+      "matched_taiwantrip": [
+        "梨山武陵高山接駁線"
+      ]
     }
   },
   {
@@ -2429,22 +2630,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/oo6DRGrXT68?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 阿里山高山測站 (距離 93.9km · 高山寒溫 · 梨山海拔1950m參照)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "3月~5月 (櫻花與果樹花期)、10月~12月 (楓紅蜜蘋果季)",
+      "comfort_index": "高山涼爽宜人，日夜溫差大 (均溫約 12°C~15°C)",
+      "climate_risk": "中橫便道/台7甲落石與管制放行；高海拔夜間極寒低溫"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
-      "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台7甲線中橫宜蘭支線 / 台8線中橫臨37便道 (管制定時放行)",
+      "holiday_surge": "+170% (受高山路況與通行管制容量限制)",
+      "peak_hours": "中橫便道放行時段 07:00 / 12:00 / 16:30",
+      "transit_hub": "台鐵宜蘭站 / 台中谷關轉運站",
+      "transit_routes": "豐原客運 865 號 (谷關-梨山) / 國光客運 1751 (宜蘭-梨山)",
+      "matched_taiwantrip": [
+        "梨山武陵高山接駁線"
+      ]
     }
   },
   {
@@ -2465,22 +2668,24 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/ZayKvJKDPWc?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "日月潭測站 (海拔 1015m)",
-      "annual_avg_temp": "19.5°C",
-      "summer_temp": "23.8°C",
-      "winter_temp": "14.2°C",
-      "rainy_season": "5月~8月 夏季對流雨",
-      "best_seasons": "9月~11月 (泳渡/花火音樂嘉年華)、3月~5月",
-      "comfort_index": "水岸微風舒適，全日均溫溫和",
-      "climate_risk": "枯水期水庫露底 (九蛙警訊)；低窪環湖自行車道強陣風"
+      "nearest_codis": "中央氣象署 阿里山高山測站 (距離 90.5km · 高山寒溫 · 梨山海拔1950m參照)",
+      "annual_avg_temp": "11.7°C",
+      "summer_temp": "14.7°C (夏季均溫)",
+      "winter_temp": "7.2°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 3613mm)",
+      "best_seasons": "3月~5月 (櫻花與果樹花期)、10月~12月 (楓紅蜜蘋果季)",
+      "comfort_index": "高山涼爽宜人，日夜溫差大 (均溫約 12°C~15°C)",
+      "climate_risk": "中橫便道/台7甲落石與管制放行；高海拔夜間極寒低溫"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號霧峰系統 ➔ 國道6號愛蘭交流道 ➔ 台21線",
-      "holiday_surge": "+310%",
-      "peak_hours": "去程 09:30~12:30 · 回程 15:30~19:00",
-      "transit_hub": "高鐵台中站",
-      "transit_routes": "台灣好行日月潭線 (6669環湖 / 6670台中直達)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台7甲線中橫宜蘭支線 / 台8線中橫臨37便道 (管制定時放行)",
+      "holiday_surge": "+170% (受高山路況與通行管制容量限制)",
+      "peak_hours": "中橫便道放行時段 07:00 / 12:00 / 16:30",
+      "transit_hub": "台鐵宜蘭站 / 台中谷關轉運站",
+      "transit_routes": "豐原客運 865 號 (谷關-梨山) / 國光客運 1751 (宜蘭-梨山)",
+      "matched_taiwantrip": [
+        "梨山武陵高山接駁線"
+      ]
     }
   },
   {
@@ -2501,22 +2706,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/xbojeDKjcaM?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 臺南測站 (距離 21.0km · 日照古都)",
+      "annual_avg_temp": "25.0°C",
+      "summer_temp": "29.2°C (夏季均溫)",
+      "winter_temp": "18.5°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1824mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 74.9% · 日光之城·冬季乾爽免帶傘",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速公路 ➔ 台84線 / 國道3號白河交流道 ➔ 市道172/171",
+      "holiday_surge": "+250% (日出雲海、鹽田夕照與溫泉客流)",
+      "peak_hours": "清晨觀日 05:30~07:00 · 傍晚觀夕 16:30~19:00",
+      "transit_hub": "台鐵新營站 / 隆田站 / 高鐵台南站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 菱波官田線 / 關子嶺線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)",
+        "菱波官田線",
+        "關子嶺線"
+      ]
     }
   },
   {
@@ -2537,22 +2746,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/Hr6OdfOmboI?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 臺南測站 (距離 31.1km · 日照古都)",
+      "annual_avg_temp": "25.0°C",
+      "summer_temp": "29.2°C (夏季均溫)",
+      "winter_temp": "18.5°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1824mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 74.9% · 日光之城·冬季乾爽免帶傘",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速公路 ➔ 台84線 / 國道3號白河交流道 ➔ 市道172/171",
+      "holiday_surge": "+250% (日出雲海、鹽田夕照與溫泉客流)",
+      "peak_hours": "清晨觀日 05:30~07:00 · 傍晚觀夕 16:30~19:00",
+      "transit_hub": "台鐵新營站 / 隆田站 / 高鐵台南站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 菱波官田線 / 關子嶺線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)",
+        "菱波官田線",
+        "關子嶺線"
+      ]
     }
   },
   {
@@ -2573,22 +2786,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/zkX6X9p-6iA?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 嘉義測站 (距離 19.6km · 平原溫差)",
+      "annual_avg_temp": "24.3°C",
+      "summer_temp": "28.8°C (夏季均溫)",
+      "winter_temp": "17.6°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1789mm)",
+      "best_seasons": "4月~10月 (晴日率高、適合戶外與海域巡禮)",
+      "comfort_index": "年均濕度 78.8% · 平原核心·日夜溫差最大",
+      "climate_risk": "午後熱對流短暫雷陣雨；請隨時留意氣象局即時天氣警特報"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速公路 ➔ 台84線 / 國道3號白河交流道 ➔ 市道172/171",
+      "holiday_surge": "+250% (日出雲海、鹽田夕照與溫泉客流)",
+      "peak_hours": "清晨觀日 05:30~07:00 · 傍晚觀夕 16:30~19:00",
+      "transit_hub": "台鐵新營站 / 隆田站 / 高鐵台南站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 菱波官田線 / 關子嶺線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)",
+        "菱波官田線",
+        "關子嶺線"
+      ]
     }
   },
   {
@@ -2609,22 +2826,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/EDRKQ5ddlr0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 臺南測站 (距離 31.3km · 日照古都)",
+      "annual_avg_temp": "25.0°C",
+      "summer_temp": "29.2°C (夏季均溫)",
+      "winter_temp": "18.5°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1824mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 74.9% · 日光之城·冬季乾爽免帶傘",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速公路 ➔ 台84線 / 國道3號白河交流道 ➔ 市道172/171",
+      "holiday_surge": "+250% (日出雲海、鹽田夕照與溫泉客流)",
+      "peak_hours": "清晨觀日 05:30~07:00 · 傍晚觀夕 16:30~19:00",
+      "transit_hub": "台鐵新營站 / 隆田站 / 高鐵台南站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 菱波官田線 / 關子嶺線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)",
+        "菱波官田線",
+        "關子嶺線"
+      ]
     }
   },
   {
@@ -2645,22 +2866,26 @@
     "embed_player_url": "https://www.youtube-nocookie.com/embed/kT-MGYO6bS0?autoplay=1&mute=1&playsinline=1",
     "update_time": "2026-10-05 17:40:53",
     "climate_profile": {
-      "nearest_codis": "恆春/大武測站",
-      "annual_avg_temp": "25.2°C (全台最溫暖熱帶)",
-      "summer_temp": "29.8°C",
-      "winter_temp": "21.0°C (冬日避冬暖陽首選)",
-      "rainy_season": "6月~9月 西南氣流與熱帶低壓",
-      "best_seasons": "10月~4月 (氣候乾爽避開夏季酷暑與落山風初期)",
-      "comfort_index": "四季如夏，陽光充沛",
-      "climate_risk": "夏季西南氣流強降雨；冬季恆春半島落山風"
+      "nearest_codis": "中央氣象署 臺南測站 (距離 25.5km · 日照古都)",
+      "annual_avg_temp": "25.0°C",
+      "summer_temp": "29.2°C (夏季均溫)",
+      "winter_temp": "18.5°C (冬季均溫)",
+      "rainy_season": "6月、7月、8月 降水相對集中 (年雨量約 1824mm)",
+      "best_seasons": "10月~4月 (氣候乾爽舒適，避開酷暑)",
+      "comfort_index": "年均濕度 74.9% · 日光之城·冬季乾爽免帶傘",
+      "climate_risk": "夏季酷暑高溫熱傷害；午後局部雷陣雨與短時強降雨"
     },
     "mobility_profile": {
-      "connected_corridor": "國道3號南州交流道 ➔ 台1線 ➔ 台26線南迴/恆春半島",
-      "holiday_surge": "+350%",
-      "peak_hours": "週五晚與週六晨間南下 · 週日下午北返",
-      "transit_hub": "高鐵左營站 / 台鐵枋寮站",
-      "transit_routes": "台灣好行大鵬灣琉球線 (9127D) / 墾丁快線 (9189)",
-      "matched_taiwantrip": []
+      "connected_corridor": "台61線西濱快速公路 ➔ 台84線 / 國道3號白河交流道 ➔ 市道172/171",
+      "holiday_surge": "+250% (日出雲海、鹽田夕照與溫泉客流)",
+      "peak_hours": "清晨觀日 05:30~07:00 · 傍晚觀夕 16:30~19:00",
+      "transit_hub": "台鐵新營站 / 隆田站 / 高鐵台南站",
+      "transit_routes": "台灣好行西濱快線 (61線) / 菱波官田線 / 關子嶺線",
+      "matched_taiwantrip": [
+        "西濱快線 (61線)",
+        "菱波官田線",
+        "關子嶺線"
+      ]
     }
   }
 ]

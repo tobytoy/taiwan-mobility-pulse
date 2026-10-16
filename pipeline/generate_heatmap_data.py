@@ -38,9 +38,9 @@ import polars as pl
 import pyarrow.parquet as pq
 
 # 路徑設定
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 PARQUET_DIR = BASE_DIR / 'processed_parquets'
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 OUTPUT_JSON_PATH = PUBLIC_DIR / 'heatmap_data.json'
 
@@ -71,14 +71,8 @@ from export_web_data import STATIONS_GEO
 
 STATION_COORDS = dict(STATIONS_GEO)
 
-# 從 TDX 步驟快取中萃取額外捷運/鐵路站點經緯度
-TDX_STEP_PATHS = [
-    '/home/toby/.gemini/antigravity-ide/brain/b3bd83d0-80f4-430e-9d00-cbcfd79a5ed4/.system_generated/steps/108/output.txt',
-    '/home/toby/.gemini/antigravity-ide/brain/b3bd83d0-80f4-430e-9d00-cbcfd79a5ed4/.system_generated/steps/112/output.txt',
-    '/home/toby/.gemini/antigravity-ide/brain/b3bd83d0-80f4-430e-9d00-cbcfd79a5ed4/.system_generated/steps/113/output.txt',
-    '/home/toby/.gemini/antigravity-ide/brain/b3bd83d0-80f4-430e-9d00-cbcfd79a5ed4/.system_generated/steps/115/output.txt',
-    '/home/toby/.gemini/antigravity-ide/brain/b3bd83d0-80f4-430e-9d00-cbcfd79a5ed4/.system_generated/steps/116/output.txt'
-]
+# 從 TDX 步驟快取中萃取額外捷運/鐵路站點經緯度（如有環境變數指定）
+TDX_STEP_PATHS = [p for p in os.environ.get("TDX_CACHE_FILES", "").split(";") if p]
 
 for sp in TDX_STEP_PATHS:
     p = Path(sp)

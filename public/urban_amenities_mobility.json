@@ -1,7 +1,7 @@
 {
   "metadata": {
     "title": "15分鐘微生活圈 · 都市機能與客群移動可達性分析資料集 (Urban Amenity & Mobility Accessibility)",
-    "source": "OpenStreetMap Overpass API (Taiwan) × TICP 票證人流 × 76 大跨運具轉乘樞紐",
+    "source": "OpenStreetMap Overpass API (Taiwan) × TICP 票證人流 × 77 大跨運具轉乘樞紐",
     "walkshed_radius_meters": 500,
     "generated_at": "2026-10-08",
     "total_hubs": 80,

@@ -26,7 +26,7 @@ try:
 except ImportError:
     console = None
 
-BASE_DIR = Path("/home/toby/projects/work-tools/票證資料")
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 DEFAULT_HISTORY_DIR = BASE_DIR / "history-datas"
 DEFAULT_META_FILE = BASE_DIR / "datasets_meta.json"
 

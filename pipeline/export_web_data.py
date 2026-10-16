@@ -8,7 +8,7 @@ import json
 import os
 from pathlib import Path
 from tqdm import tqdm
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 REPO_ROOT = Path(__file__).resolve().parent.parent
 REPO_PUBLIC = REPO_ROOT / 'public'
 REPO_PUBLIC.mkdir(parents=True, exist_ok=True)

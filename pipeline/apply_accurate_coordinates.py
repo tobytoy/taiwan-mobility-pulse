@@ -18,7 +18,7 @@ from station_coordinates_master import (
     STATION_COORDINATES_DB
 )
 
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 
 def update_heatmap_data():
     file_path = PUBLIC_DIR / 'heatmap_data.json'

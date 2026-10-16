@@ -65,7 +65,7 @@ def render_mermaid_replacement(code: str) -> str:
         steps = [
             ("Chapter 1: Data Philosophy & Selection", "Rigid Skeleton vs. Flexible Muscle", "chapter1_data_philosophy"),
             ("Chapter 2: National Data Foundation", "Schema Dictionaries & CODiS Climate Standards", "chapter2_data_dictionary_and_samples"),
-            ("Chapter 3: Intercity Arteries & Corridors", "111 Corridors & Passenger/Freight Tides", "chapter3_flow_arteries"),
+            ("Chapter 3: Intercity Arteries & Corridors", "114 Corridors & Passenger/Freight Tides", "chapter3_flow_arteries"),
             ("Chapter 4: Hotspot Halos & Off-Ramps", "eTag Vehicle Influx & Parking Pressure", "chapter4_etag_halos_heatmap"),
             ("Chapter 5: Four Personas & Weather", "Who Moves? How Rain Reshapes Routes", "chapter5_personas_weather"),
             ("Chapter 6: Islandwide Climate Pulse", "30-Year Trends, Extremes & Seasonal Tides", "chapter6_climate_pulse"),
@@ -449,6 +449,11 @@ def process_markdown(content: str, current_chapter_id: str) -> str:
         elif ".md#" in target:
             parts = target.split(".md#")
             return f'[{label}](#{parts[1]})'
+        elif ".pdf" in target:
+            if "guidebook_en.pdf" in target:
+                return f'[{label}](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf)'
+            elif "guidebook.pdf" in target:
+                return f'[{label}](https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf)'
         return match.group(0)
 
     content = re.sub(r'\[([^\]]+)\]\(([^)]+)\)', rewrite_md_links, content)
@@ -575,20 +580,20 @@ def build_html() -> str:
     # Cover Page
     cover_html = '''
     <div class="cover-page">
-        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.0)</div>
+        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.1)</div>
         <h1 class="cover-title">Taiwan Mobility Pulse</h1>
         <h2 class="cover-subtitle">The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
             Synthesizing 448 million verified ticket tap transactions from MOTC TICP, millions of Freeway Bureau eTag gantry vehicle observations across 5 regulatory classes, TDX 74 scenic 4K/360° live CCTV streams, and CWA CODiS 30-year microclimate observations.<br>
-            Deciphering 111 dynamic flow corridors, islandwide weather disruption tides, and scenic mountain-to-coast tourism pulses.
+            Deciphering 114 dynamic flow corridors, islandwide weather disruption tides, and scenic mountain-to-coast tourism pulses.
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>Official Interactive System:</strong> <a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.0 (Master Monograph · 9 Comprehensive Chapters)</div>
+            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.1 (Master Monograph · 9 Comprehensive Chapters)</div>
             <div class="cover-meta-row"><strong>Research & Engineering Team:</strong> Taiwan Mobility Pulse Core Spatial Analytics Lab</div>
             <div class="cover-meta-row"><strong>Authoritative Data Sources:</strong> MOTC TICP / TDX Platform / Freeway Bureau / CWA / Tourism Administration</div>
-            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.0)</div>
+            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.1)</div>
         </div>
     </div>
     '''
@@ -637,7 +642,7 @@ def build_html() -> str:
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.0)</title>
+    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.1)</title>
     <style>{css}</style>
 </head>
 <body>
@@ -646,6 +651,9 @@ def build_html() -> str:
 </html>
 '''
     full_html = replace_emojis_in_html(full_html)
+    full_html = re.sub(r'href=[\'"][^\'"]*taiwan_mobility_pulse_guidebook_en\.pdf[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook_en.pdf"', full_html)
+    full_html = re.sub(r'href=[\'"][^\'"]*taiwan_mobility_pulse_guidebook\.pdf[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/docs/taiwan_mobility_pulse_guidebook.pdf"', full_html)
+    full_html = re.sub(r'href=[\'"]file://[^\'"]*[\'"]', 'href="https://tobytoy.github.io/taiwan-mobility-pulse/#download"', full_html)
 
     os.makedirs(PUBLIC_DOCS_DIR, exist_ok=True)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:

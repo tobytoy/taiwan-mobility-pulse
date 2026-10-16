@@ -24,7 +24,7 @@
 │    eTag Toll Base │ Nationwide; 5 Statutory Motor │ records; 24/7 continuous    │
 │                   │ Vehicle Regulatory Classes    │ non-stop traffic monitoring │
 ├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🅿️ MOTC TDX       │ 76 Major Transit Hubs & 16    │ 1-to-5 minute real-time     │
+│ 🅿️ MOTC TDX       │ 77 Major Transit Hubs & 16    │ 1-to-5 minute real-time     │
 │    Parking API    │ Strategic Interchange Radii;  │ dynamic refresh; occupancy, │
 │                   │ 3,000+ Public/Private Garages │ turnover & step-tier rates  │
 ├───────────────────┼───────────────────────────────┼─────────────────────────────┤
@@ -361,6 +361,6 @@ To explore the multi-dimensional strategic comparison matrix synthesized from th
 
 * **[👉 Launch Live Application: Strategic Master Matrix](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom)**
 
-Having dissected the physical foundation and schemas, we now inject these microscopic flow particles into Taiwan's 111 representative mobility corridors!
+Having dissected the physical foundation and schemas, we now inject these microscopic flow particles into Taiwan's 114 representative mobility corridors!
 
 👉 **[Proceed to Chapter 3: Intercity Arteries & Urban Mobility Corridors](chapter3_flow_arteries.md)**

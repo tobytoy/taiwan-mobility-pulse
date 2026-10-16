@@ -31,9 +31,9 @@ import pyarrow.parquet as pq
 import polars as pl
 import psutil
 
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 PARQUET_DIR = BASE_DIR / 'processed_parquets'
-PROJECT_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse')
+PROJECT_DIR = Path(__file__).resolve().parent.parent
 PUBLIC_DIR = PROJECT_DIR / 'public'
 PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
 

@@ -15,7 +15,8 @@ Updates src/components/ClimatePulseLab.jsx to include:
 import os
 import re
 
-TARGET_FILE = "/home/toby/projects/Github/taiwan-mobility-pulse/src/components/ClimatePulseLab.jsx"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+TARGET_FILE = os.path.join(PROJECT_ROOT, "src", "components", "ClimatePulseLab.jsx")
 
 with open(TARGET_FILE, "r", encoding="utf-8") as f:
     content = f.read()

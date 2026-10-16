@@ -16,7 +16,7 @@ import json
 import re
 from pathlib import Path
 
-PUBLIC_DIR = Path('/home/toby/projects/Github/taiwan-mobility-pulse/public')
+PUBLIC_DIR = Path(__file__).resolve().parent.parent / "public"
 HEATMAP_JSON = PUBLIC_DIR / 'heatmap_data.json'
 WEATHER_IMPACT_JSON = PUBLIC_DIR / 'weather_persona_impact.json'
 

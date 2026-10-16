@@ -5,7 +5,7 @@ import os
 import time
 
 ctx = ssl._create_unverified_context()
-API_KEY = "fba5ce8506a2e4f1b0c09abdc13f75bc61cf85f5"
+API_KEY = os.getenv("CODIS_API_KEY", "")
 BASE_URL = "https://codis.cwa.gov.tw/api/station"
 
 STATION_TARGETS = [

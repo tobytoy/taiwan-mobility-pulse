@@ -1,6 +1,7 @@
 import os
 
-chapter6_path = "/home/toby/projects/Github/taiwan-mobility-pulse/docs/chapter6_climate_pulse.md"
+PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+chapter6_path = os.path.join(PROJECT_ROOT, "docs", "chapter6_climate_pulse.md")
 
 with open(chapter6_path, "r", encoding="utf-8") as f:
     content = f.read()

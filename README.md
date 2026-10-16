@@ -3,7 +3,7 @@
 # 🚆 Taiwan Mobility Pulse (臺灣多模態交通脈動)
 
 ### 台灣全域多模態公共運輸大數據動態人流與決策平台
-**448M+ Records · 843M+ Passenger Trips · 10 Transit Modes · 157 Dynamic Flow Corridors · 3 Core Personas · 76 Transfer Hubs · TPASS Real Impact**
+**448M+ Records · 843M+ Passenger Trips · 10 Transit Modes · 114 Dynamic Flow Corridors · 3 Core Personas · 77 Transfer Hubs · TPASS Real Impact**
 
 [![GitHub Pages Deployment](https://img.shields.io/badge/GitHub%20Pages-Live%20Demo-10B981?style=for-the-badge&logo=github)](https://tobytoy.github.io/taiwan-mobility-pulse/)
 [![React](https://img.shields.io/badge/React%2019-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)](https://react.dev/)
@@ -12,7 +12,7 @@
 [![PyArrow](https://img.shields.io/badge/PyArrow%20ZSTD-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://arrow.apache.org/)
 [![Leaflet](https://img.shields.io/badge/Leaflet%20GIS-19.4-199900?style=for-the-badge&logo=leaflet&logoColor=white)](https://leafletjs.com/)
 
-[**🌐 線上即時體驗 (Live Interactive Demo) ➔**](https://tobytoy.github.io/taiwan-mobility-pulse/) &nbsp;|&nbsp; [**📚 互動專著全書導讀 (Interactive Book) ➔**](docs/README.md) &nbsp;|&nbsp; [**📥 查閱全書完整專著 (v1.3.0 觀光即時影像融合典藏版) ➔**](docs/README.md)
+[**🌐 線上即時體驗 (Live Interactive Demo) ➔**](https://tobytoy.github.io/taiwan-mobility-pulse/) &nbsp;|&nbsp; [**📚 互動專著全書導讀 (Interactive Book) ➔**](docs/README.md) &nbsp;|&nbsp; [**📥 查閱全書完整專著 (v1.3.1 觀光即時影像融合典藏版) ➔**](docs/README.md)
 
 </div>
 
@@ -22,7 +22,7 @@
 
 **Taiwan Mobility Pulse (臺灣多模態交通脈動)** 是一個國家級的大眾運輸大數據分析、動態流向視覺化與政策決策平台。
 
-本專案深入挖掘交通部 **TICP (交通數據匯流平臺)** 涵蓋全台灣共 **4.48 億筆真實票證紀錄（8.43 億跨月旅次）**，橫跨 **10 大多模態運具**（高鐵、臺鐵、北捷、新北捷、高捷、雙北市區公車、公路客運、雙北與桃園 YouBike），構建出全台 **157 條雙向動態人流走廊**、**三大身分客群深度解構（通勤 / 敬老愛心 / 學生）**、**全台 76 大跨運具轉乘樞紐**、**全國 TPASS 月票效益全域監測** 與 **AI 非監督學習客群畫像**。
+本專案深入挖掘交通部 **TICP (交通數據匯流平臺)** 涵蓋全台灣共 **4.48 億筆真實票證紀錄（8.43 億跨月旅次）**，橫跨 **10 大多模態運具**（高鐵、臺鐵、北捷、新北捷、高捷、雙北市區公車、公路客運、雙北與桃園 YouBike），構建出全台 **114 條雙向動態人流走廊**、**三大身分客群深度解構（通勤 / 敬老愛心 / 學生）**、**全台 77 大跨運具轉乘樞紐**、**全國 TPASS 月票效益全域監測** 與 **AI 非監督學習客群畫像**。
 
 ```
                                     ┌───────────────────────┐
@@ -45,8 +45,8 @@
                         ┌───────────────────────┴───────────────────────┐
                         ▼                                               ▼
             ┌───────────────────────┐                       ┌───────────────────────┐
-            │   全台 24H 動態流向地圖  │                       │ 全台 76 樞紐與 TPASS 監測 │
-            │ (157 條多模態雙向光廊) │                       │  (真實票證折抵與轉乘分析)  │
+            │   全台 24H 動態流向地圖  │                       │ 全台 77 樞紐與 TPASS 監測 │
+            │ (114 條多模態雙向光廊) │                       │  (真實票證折抵與轉乘分析)  │
             └───────────────────────┘                       └───────────────────────┘
 ```
 
@@ -91,8 +91,8 @@
 - 👵 **銀髮樂齡族 (Seniors)**：解構 61.4 萬筆長者敬老愛心卡，發現其完美避開上下班狂潮，在上午 09:30~11:30 形成全天最高峰（近 10%），下午 16:00 搶退潮；三大移動動脈為大型醫學中心就醫、傳統市集民生採買與信仰休閒綠地，提供直達低地板公車配置依據。
 - 🎓 **學生通學族 (Students)**：解構 59.1 萬筆學生票證，揭示晨間 07:00 壓線到校潮（比上班族提早 30~60 分鐘）、下午 16:00~17:00 放學湧浪（全天最高峰，佔 23.1%）、晚間 20:30~22:00 補習街返家潮，以及例假日運量驟減 64%~73% 的行事曆高依賴性。
 
-### 6. 🔀 全台 76 大跨運具轉乘樞紐大數據 (Transfer Hub Analytics)
-- 解構通學週 769 萬筆旅次中 676.7 萬筆真實轉乘紀錄，繪製全台四大生活圈 76 大轉乘樞紐星狀人流圖 (Spider Diagram)。
+### 6. 🔀 全台 77 大跨運具轉乘樞紐大數據 (Transfer Hub Analytics)
+- 解構通學週 769 萬筆旅次中 676.7 萬筆真實轉乘紀錄，繪製全台四大生活圈 77 大轉乘樞紐星狀人流圖 (Spider Diagram)。
 - 揭示跨生活圈「軌道骨幹 ➔ 幹線公車 ➔ 微循環接駁」之每週 5,503 萬元轉乘補貼流向。
 
 ### 7. 🤖 AI 非監督學習 6 大客群畫像與軌道廊帶 (Unsupervised Rail Lab)
@@ -169,7 +169,7 @@ taiwan-mobility-pulse/
 │   └── workflows/
 │       └── deploy.yml            # GitHub Actions 自動部署至 GitHub Pages
 ├── public/
-│   ├── mobility_full_study.json  # 全台 111 走廊與 5 大實驗室結構化數據庫 (316 KB)
+│   ├── mobility_full_study.json  # 全台 114 走廊與 5 大實驗室結構化數據庫 (316 KB)
 │   └── mobility_data.json
 ├── src/
 │   ├── components/
@@ -177,7 +177,7 @@ taiwan-mobility-pulse/
 │   │   ├── HeatmapView.jsx       # 多模態時空人流熱點圖
 │   │   ├── ComparisonDashboard.jsx # 10 大運具綜合對比與商業選址模擬
 │   │   ├── PersonaAnalyticsView.jsx # 通勤/銀髮/學生客群畫像深度分析
-│   │   ├── TransferMapView.jsx   # 全台 76 大跨運具轉乘樞紐地圖
+│   │   ├── TransferMapView.jsx   # 全台 77 大跨運具轉乘樞紐地圖
 │   │   ├── TPASSDashboard.jsx    # 全國 TPASS 效益監測與回本試算
 │   │   ├── UnsupervisedRailLab.jsx # AI 6 大非監督客群與軌道走廊推薦
 │   │   ├── TelecomComparisonView.jsx # 票證大數據 vs 電信信令對比

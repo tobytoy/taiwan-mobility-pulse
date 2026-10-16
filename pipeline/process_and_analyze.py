@@ -28,7 +28,7 @@ if str(BASE_DIR) not in sys.path:
 
 from safety_guard import check_memory_safety, safe_collect, safe_scan_parquet
 import polars as pl
-BASE_DIR = Path('/home/toby/projects/work-tools/票證資料')
+BASE_DIR = Path(os.environ.get("TICKETING_DATA_DIR", "./ticketing_data"))
 RAW_DIR = BASE_DIR / 'raw_datas'
 PARQUET_DIR = BASE_DIR / 'processed_parquets'
 PARQUET_DIR.mkdir(parents=True, exist_ok=True)
