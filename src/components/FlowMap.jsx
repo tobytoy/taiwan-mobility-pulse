@@ -73,6 +73,7 @@ export default function FlowMap({
   const [corridorFilterTab, setCorridorFilterTab] = useState('all'); // 'all', 'freight', 'tourist', 'commuter'
   const [isQuickNavOpen, setIsQuickNavOpen] = useState(true);
   const [showCctvMarkers, setShowCctvMarkers] = useState(false);
+  const [activeCctvSpot, setActiveCctvSpot] = useState(null);
   const [showSafetyMarkers, setShowSafetyMarkers] = useState(false);
   const [safetyFilter, setSafetyFilter] = useState('all'); // 'all', 'rain', 'night', 'pedestrian', 'car_crash'
   const [isSafetyDrawerOpen, setIsSafetyDrawerOpen] = useState(true);
