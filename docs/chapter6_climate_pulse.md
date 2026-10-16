@@ -1,6 +1,8 @@
 # 第六章：全島氣候脈動與微氣候宜居圖譜——30 年變異、極端特異區與四季動態潮汐
 ### Taiwan Climate Pulse: 30-Year Climate Variations, Microclimate Extremes, and 12-Month Seasonal Tidal Rhythms
 
+🌐 **語言切換 / Language**: [ 🇹🇼 繁體中文 ] | [ 🇬🇧 English Version ](en/chapter6_climate_pulse.md)
+
 > 「在台灣這座南北僅 394 公里、卻拔起近 4,000 公尺高聳脊樑的島嶼上，天氣從不是全島統一的背景雜音，而是時時刻刻重塑地表人流動線、交通安全與居住適意度的第一外生變數。」
 
 ---

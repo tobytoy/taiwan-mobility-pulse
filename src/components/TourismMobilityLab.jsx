@@ -105,6 +105,26 @@ export default function TourismMobilityLab() {
               <div style={{ fontSize: '11px', color: '#64748B', fontWeight: '600' }}>台灣好行接駁</div>
               <div style={{ fontSize: '20px', fontWeight: '800', color: '#A855F7', fontFamily: 'JetBrains Mono, monospace' }}>92 條</div>
             </div>
+            <button
+              onClick={() => { window.location.hash = 'guidebook'; }}
+              style={{
+                background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.2) 0%, rgba(59, 130, 246, 0.3) 100%)',
+                border: '1px solid rgba(56, 189, 248, 0.4)',
+                borderRadius: '12px',
+                padding: '10px 16px',
+                textAlign: 'center',
+                cursor: 'pointer',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                transition: 'all 0.2s ease'
+              }}
+              title="下載本章完整圖解專著與說明書 (中/英雙語 PDF / HTML)"
+            >
+              <div style={{ fontSize: '11px', color: '#93C5FD', fontWeight: '700' }}>📚 專著說明書下載</div>
+              <div style={{ fontSize: '13px', fontWeight: '800', color: '#38BDF8', marginTop: '2px' }}>中/英雙語 PDF ➔</div>
+            </button>
           </div>
         </div>
       </div>

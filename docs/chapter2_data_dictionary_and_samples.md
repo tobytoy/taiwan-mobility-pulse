@@ -1,6 +1,8 @@
 # 📚 第二章：國家級數據底座與欄位實體解剖——TICP 票證、eTag 門架與 TDX 之時間跨度、欄位字典與真實樣本
 ### Taiwan Mobility Pulse: Data Infrastructure, Field Dictionaries, and Microscopic Schema Samples
 
+🌐 **語言切換 / Language**: [ 🇹🇼 繁體中文 ] | [ 🇬🇧 English Version ](en/chapter2_data_dictionary_and_samples.md)
+
 > 「如果不知道每一筆數據在真實世界中代表哪一張實體卡片、哪一座門架的微波反射、哪一格停車場的感應線圈，那麼再炫麗的動態視覺化，都不過是隨機漂浮的數字幻象。」
 
 ---

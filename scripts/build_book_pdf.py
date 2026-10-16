@@ -13,6 +13,7 @@ Converts markdown chapters in docs/ into a beautifully styled single-volume PDF 
 import os
 import re
 import sys
+import shutil
 import markdown
 import weasyprint
 import pdfplumber
@@ -1658,15 +1659,21 @@ def build_html():
 
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(full_html)
-    print(f"HTML successfully generated at: {OUTPUT_HTML}")
+    public_docs_dir = os.path.join(PROJECT_ROOT, "public", "docs")
+    os.makedirs(public_docs_dir, exist_ok=True)
+    shutil.copy2(OUTPUT_HTML, os.path.join(public_docs_dir, "taiwan_mobility_pulse_guidebook.html"))
+    print(f"HTML successfully generated at: {OUTPUT_HTML} and {public_docs_dir}")
     return OUTPUT_HTML
 
 def generate_pdf_weasyprint():
     print("Generating Master PDF with WeasyPrint...")
     html = weasyprint.HTML(filename=OUTPUT_HTML)
     html.write_pdf(OUTPUT_PDF)
+    public_docs_dir = os.path.join(PROJECT_ROOT, "public", "docs")
+    os.makedirs(public_docs_dir, exist_ok=True)
+    shutil.copy2(OUTPUT_PDF, os.path.join(public_docs_dir, "taiwan_mobility_pulse_guidebook.pdf"))
     size_mb = os.path.getsize(OUTPUT_PDF) / (1024 * 1024)
-    print(f"Master PDF successfully generated at: {OUTPUT_PDF} ({size_mb:.2f} MB)")
+    print(f"Master PDF successfully generated at: {OUTPUT_PDF} and copied to {public_docs_dir} ({size_mb:.2f} MB)")
 
 def verify_pdf():
     print("Verifying PDF structure and hyperlinks...")

@@ -25,7 +25,8 @@ import {
   ArrowRight, ShieldCheck, ChevronRight, ChevronLeft, Eye,
   BarChart3, FlaskConical, Zap, LayoutDashboard, Navigation, CreditCard,
   Globe, Sun, Moon, Map as MapIcon, Sparkles, Users, Briefcase, Calendar, Flame, Radio, Shuffle, Store, Building2,
-  Cloud, CloudRain, CloudLightning, ChevronDown, Truck, Camera
+  Cloud, CloudRain, CloudLightning, ChevronDown, Truck, Camera,
+  BookOpen, Download, FileText, ExternalLink, X
 } from 'lucide-react';
 
 const WEATHER_STAGES = [
@@ -89,10 +90,12 @@ export default function App() {
   const [basemap, setBasemap] = useState('emap');
   const [selectedStation, setSelectedStation] = useState(null);
   const [selectedCorridor, setSelectedCorridor] = useState(null);
+  const [isGuidebookModalOpen, setIsGuidebookModalOpen] = useState(false);
+
+  const baseUrl = import.meta.env.BASE_URL || '/';
+  const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
 
   useEffect(() => {
-    const baseUrl = import.meta.env.BASE_URL || '/';
-    const cleanBase = baseUrl.endsWith('/') ? baseUrl : `${baseUrl}/`;
     fetch(`${cleanBase}mobility_full_study.json`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}: ${res.statusText}`);
@@ -119,14 +122,16 @@ export default function App() {
             setLoading(false);
           });
       });
-  }, []);
+  }, [cleanBase]);
 
   // URL Hash Deep-link Routing
   useEffect(() => {
     const handleHashChange = () => {
       const hash = window.location.hash.replace('#', '').toLowerCase();
       if (!hash) return;
-      if (hash === 'flows' || hash === 'flowmap') {
+      if (hash === 'docs' || hash === 'guidebook' || hash === 'download') {
+        setIsGuidebookModalOpen(true);
+      } else if (hash === 'flows' || hash === 'flowmap') {
         setActiveTab('gis_map');
         setMapViewType('flows');
       } else if (hash === 'heatmap' || hash === 'etag-halos') {
@@ -376,8 +381,43 @@ export default function App() {
           })}
         </div>
 
-        {/* Global Key Stats Badge */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        {/* Global Key Stats Badge & Guidebook Download */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexShrink: 0 }}>
+          {/* Guidebook Download Button */}
+          <button
+            onClick={() => setIsGuidebookModalOpen(true)}
+            title="下載中/英雙語完整說明書與專著 (v1.3.0 PDF / HTML)"
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '6px 12px',
+              background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.25) 0%, rgba(59, 130, 246, 0.35) 100%)',
+              border: '1px solid rgba(56, 189, 248, 0.5)',
+              borderRadius: '8px',
+              color: '#38BDF8',
+              cursor: 'pointer',
+              fontSize: '12.5px',
+              fontWeight: '700',
+              boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+              transition: 'all 0.2s ease',
+              whiteSpace: 'nowrap'
+            }}
+          >
+            <BookOpen size={14} />
+            <span>說明書下載</span>
+            <span style={{
+              background: '#0284C7',
+              color: '#FFFFFF',
+              fontSize: '9.5px',
+              padding: '1px 5px',
+              borderRadius: '4px',
+              fontWeight: '800'
+            }}>中/英 PDF</span>
+          </button>
+
+          <div style={{ width: '1px', height: '24px', backgroundColor: 'rgba(255,255,255,0.1)' }} />
+
           <div style={{ textAlign: 'right' }}>
             <div style={{ fontSize: '11px', color: '#64748b' }}>總分析票證筆數</div>
             <div style={{ fontSize: '14px', fontWeight: '800', fontFamily: 'JetBrains Mono, monospace', color: '#38BDF8' }}>
@@ -1247,6 +1287,377 @@ export default function App() {
 
     </Suspense>
       </main>
+
+      {/* GUIDEBOOK & DOCUMENTATION DOWNLOAD MODAL */}
+      {isGuidebookModalOpen && (
+        <div 
+          onClick={() => setIsGuidebookModalOpen(false)}
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 99999,
+            backgroundColor: 'rgba(15, 23, 42, 0.85)',
+            backdropFilter: 'blur(10px)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px'
+          }}
+        >
+          <div 
+            onClick={e => e.stopPropagation()}
+            style={{
+              width: '100%',
+              maxWidth: '920px',
+              maxHeight: '90vh',
+              overflowY: 'auto',
+              background: '#0F172A',
+              border: '1px solid rgba(56, 189, 248, 0.3)',
+              borderRadius: '20px',
+              boxShadow: '0 25px 60px -15px rgba(0, 0, 0, 0.8), 0 0 30px rgba(56, 189, 248, 0.2)',
+              color: '#F8FAFC',
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            {/* Modal Header */}
+            <div style={{
+              padding: '24px 28px 20px',
+              borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-start',
+              background: 'linear-gradient(180deg, rgba(30, 41, 59, 0.6) 0%, rgba(15, 23, 42, 0) 100%)'
+            }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '6px' }}>
+                  <div style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '3px 10px',
+                    borderRadius: '20px',
+                    background: 'rgba(56, 189, 248, 0.15)',
+                    border: '1px solid rgba(56, 189, 248, 0.4)',
+                    fontSize: '12px',
+                    color: '#38BDF8',
+                    fontWeight: '700'
+                  }}>
+                    <BookOpen size={13} />
+                    <span>國家級大數據專著 · 出版典藏版 v1.3.0</span>
+                  </div>
+                  <span style={{ fontSize: '11px', color: '#10B981', fontWeight: '700', background: 'rgba(16, 185, 129, 0.15)', padding: '2px 8px', borderRadius: '12px', border: '1px solid rgba(16, 185, 129, 0.3)' }}>
+                    雙語雙格式支援 (中/英 · PDF/HTML)
+                  </span>
+                </div>
+                <h2 style={{ fontSize: '22px', fontWeight: '800', color: '#FFFFFF', margin: '0 0 4px 0', letterSpacing: '0.3px' }}>
+                  臺灣動態移動脈搏 · 專著與說明書下載中心
+                </h2>
+                <p style={{ fontSize: '13px', color: '#94A3B8', margin: 0 }}>
+                  Master Guidebook & National Spatial Intelligence Documentation Download Center
+                </p>
+              </div>
+              <button
+                onClick={() => setIsGuidebookModalOpen(false)}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.06)',
+                  border: '1px solid rgba(255, 255, 255, 0.12)',
+                  borderRadius: '10px',
+                  width: '36px',
+                  height: '36px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  color: '#94A3B8',
+                  cursor: 'pointer',
+                  transition: 'all 0.15s ease'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.color = '#FFFFFF'; e.currentTarget.style.background = 'rgba(239, 68, 68, 0.2)'; e.currentTarget.style.borderColor = 'rgba(239, 68, 68, 0.4)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = '#94A3B8'; e.currentTarget.style.background = 'rgba(255, 255, 255, 0.06)'; e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.12)'; }}
+              >
+                <X size={18} />
+              </button>
+            </div>
+
+            {/* Modal Body: Two Language Cards */}
+            <div style={{ padding: '28px', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(360px, 1fr))', gap: '20px' }}>
+              
+              {/* Card 1: 繁體中文版 */}
+              <div style={{
+                background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
+                border: '1px solid rgba(56, 189, 248, 0.3)',
+                borderRadius: '16px',
+                padding: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{ position: 'absolute', top: '-10px', right: '-10px', width: '100px', height: '100px', background: 'radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '26px' }}>🇹🇼</span>
+                      <div>
+                        <div style={{ fontSize: '18px', fontWeight: '800', color: '#F8FAFC' }}>繁體中文完整典藏版</div>
+                        <div style={{ fontSize: '11px', color: '#38BDF8', fontWeight: '600' }}>Traditional Chinese Master Edition</div>
+                      </div>
+                    </div>
+                    <span style={{ background: '#0284C7', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
+                      78 頁 · 20.2 MB
+                    </span>
+                  </div>
+
+                  <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
+                    全景式收錄 9 大巨章。涵蓋數據哲學底座（4.48 億筆票證 vs eTag 門架）、111 條動態走廊、下匝道輻射光暈、四大微觀人群像、30 年氣候脈動，以及 <strong>v1.3.0 全新第 9 章：74 處風景區 4K/360° 即時影像 CCTV 跨域融合</strong>。
+                  </p>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
+                    <div style={{ color: '#F1F5F9', fontWeight: '700', marginBottom: '4px' }}>📌 專著特色與亮點：</div>
+                    <ul style={{ margin: 0, paddingLeft: '18px', lineHeight: '1.7' }}>
+                      <li>內建 101 個可點擊跳轉線上系統的「🚀 互動傳送門」</li>
+                      <li>出版級 A4 專業排版、全彩向量圖表與三向戰略對照表</li>
+                      <li>提供 PDF 離線閱讀與獨立 HTML 兩種完整格式</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <a
+                    href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook.pdf`}
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.0_zh.pdf"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '12px',
+                      background: 'linear-gradient(135deg, #0284C7 0%, #0369A1 100%)',
+                      border: '1px solid #38BDF8',
+                      borderRadius: '10px',
+                      color: '#FFFFFF',
+                      fontSize: '14px',
+                      fontWeight: '800',
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 14px rgba(2, 132, 199, 0.4)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <Download size={16} />
+                    <span>📥 另存 PDF (下載繁中版 20MB)</span>
+                  </a>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <a
+                      href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook.html`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '9px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        color: '#E2E8F0',
+                        fontSize: '12.5px',
+                        fontWeight: '600',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <ExternalLink size={13} />
+                      <span>線上閱讀 HTML</span>
+                    </a>
+
+                    <a
+                      href="https://github.com/tobytoy/taiwan-mobility-pulse/tree/main/docs"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '9px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        color: '#94A3B8',
+                        fontSize: '12.5px',
+                        fontWeight: '600',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <FileText size={13} />
+                      <span>Markdown 目錄</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Card 2: 英文版 */}
+              <div style={{
+                background: 'linear-gradient(145deg, rgba(30, 41, 59, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%)',
+                border: '1px solid rgba(16, 185, 129, 0.3)',
+                borderRadius: '16px',
+                padding: '24px',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'space-between',
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.4)',
+                position: 'relative',
+                overflow: 'hidden'
+              }}>
+                <div style={{ position: 'absolute', top: '-10px', right: '-10px', width: '100px', height: '100px', background: 'radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, transparent 70%)', pointerEvents: 'none' }} />
+                
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      <span style={{ fontSize: '26px' }}>🇬🇧</span>
+                      <div>
+                        <div style={{ fontSize: '18px', fontWeight: '800', color: '#F8FAFC' }}>English Master Edition</div>
+                        <div style={{ fontSize: '11px', color: '#34D399', fontWeight: '600' }}>Full Bilingual Documentation Suite</div>
+                      </div>
+                    </div>
+                    <span style={{ background: '#059669', color: '#FFFFFF', fontSize: '11px', fontWeight: '800', padding: '3px 8px', borderRadius: '6px' }}>
+                      75 Pages · 17.8 MB
+                    </span>
+                  </div>
+
+                  <p style={{ fontSize: '13px', color: '#CBD5E1', lineHeight: '1.6', marginBottom: '16px' }}>
+                    Comprehensive 9-chapter English monograph. Covers the data philosophy (448M census records vs. eTag freeway flows), 111 flow corridors, off-ramp halos, 4 micro-personas, 30-year climatology, and <strong>Chapter 9: 74 Scenic Live CCTVs & Holiday Traffic Dispersal</strong>.
+                  </p>
+
+                  <div style={{ background: 'rgba(15, 23, 42, 0.6)', border: '1px solid rgba(255, 255, 255, 0.06)', borderRadius: '10px', padding: '12px 14px', marginBottom: '20px', fontSize: '12px', color: '#94A3B8' }}>
+                    <div style={{ color: '#F1F5F9', fontWeight: '700', marginBottom: '4px' }}>📌 Key Highlights & Features:</div>
+                    <ul style={{ margin: 0, paddingLeft: '18px', lineHeight: '1.7' }}>
+                      <li>90 active clickable portals linking back to live web tools</li>
+                      <li>Publication-grade typography, CSS diagrams & comparison tables</li>
+                      <li>Available as standalone A4 PDF & responsive single-file HTML</li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                  <a
+                    href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook_en.pdf`}
+                    download="Taiwan_Mobility_Pulse_Guidebook_v1.3.0_en.pdf"
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: '8px',
+                      padding: '12px',
+                      background: 'linear-gradient(135deg, #059669 0%, #047857 100%)',
+                      border: '1px solid #34D399',
+                      borderRadius: '10px',
+                      color: '#FFFFFF',
+                      fontSize: '14px',
+                      fontWeight: '800',
+                      textDecoration: 'none',
+                      boxShadow: '0 4px 14px rgba(5, 150, 105, 0.4)',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    <Download size={16} />
+                    <span>📥 Save PDF (Download English 18MB)</span>
+                  </a>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px' }}>
+                    <a
+                      href={`${cleanBase}docs/taiwan_mobility_pulse_guidebook_en.html`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '9px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        color: '#E2E8F0',
+                        fontSize: '12.5px',
+                        fontWeight: '600',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <ExternalLink size={13} />
+                      <span>Read Online HTML</span>
+                    </a>
+
+                    <a
+                      href="https://github.com/tobytoy/taiwan-mobility-pulse/tree/main/docs/en"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        padding: '9px',
+                        background: 'rgba(255, 255, 255, 0.05)',
+                        border: '1px solid rgba(255, 255, 255, 0.12)',
+                        borderRadius: '8px',
+                        color: '#94A3B8',
+                        fontSize: '12.5px',
+                        fontWeight: '600',
+                        textDecoration: 'none'
+                      }}
+                    >
+                      <FileText size={13} />
+                      <span>English Docs</span>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+
+            {/* Modal Footer / Download Instructions */}
+            <div style={{
+              padding: '16px 28px',
+              borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+              background: 'rgba(15, 23, 42, 0.95)',
+              borderRadius: '0 0 20px 20px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              flexWrap: 'wrap',
+              gap: '12px'
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '12px', color: '#94A3B8' }}>
+                <span style={{ color: '#F59E0B' }}>💡</span>
+                <span><strong>快速下載提示：</strong>點擊「另存 PDF」將直接保存至本機。以「線上閱讀」開啟時，亦可使用快捷鍵 <strong>Ctrl + S</strong> (Windows) 或 <strong>Cmd + S</strong> (Mac) 另存為單一離線網頁。</span>
+              </div>
+              <button
+                onClick={() => setIsGuidebookModalOpen(false)}
+                style={{
+                  padding: '7px 18px',
+                  background: 'rgba(255, 255, 255, 0.08)',
+                  border: '1px solid rgba(255, 255, 255, 0.15)',
+                  borderRadius: '8px',
+                  color: '#CBD5E1',
+                  fontSize: '12px',
+                  fontWeight: '700',
+                  cursor: 'pointer'
+                }}
+              >
+                關閉視窗 (Close)
+              </button>
+            </div>
+
+          </div>
+        </div>
+      )}
     </div>
   );
 }
