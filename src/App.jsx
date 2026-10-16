@@ -132,6 +132,10 @@ export default function App() {
       } else if (hash === 'heatmap' || hash === 'etag-halos') {
         setActiveTab('gis_map');
         setMapViewType('heatmap');
+      } else if (hash === 'tourism' || hash === 'cctv') {
+        setActiveTab('tourism');
+      } else if (hash === 'climate' || hash === 'climate-lab') {
+        setActiveTab('climate');
       } else if (hash === 'commercial-lab' || hash === 'commercial') {
         setActiveTab('gis_map');
         setMapViewType('commercial');
@@ -308,11 +312,21 @@ export default function App() {
           </div>
         </div>
 
-        {/* Navigation Tabs (整併為 5 大頂級核心模組) */}
-        <div style={{ display: 'flex', gap: '5px', background: 'rgba(30, 41, 59, 0.5)', padding: '3px 5px', borderRadius: '10px', border: '1px solid rgba(255, 255, 255, 0.08)' }}>
+        {/* Navigation Tabs */}
+        <div style={{
+          display: 'flex',
+          gap: '4px',
+          background: 'rgba(30, 41, 59, 0.5)',
+          padding: '3px 5px',
+          borderRadius: '10px',
+          border: '1px solid rgba(255, 255, 255, 0.08)',
+          overflowX: 'auto',
+          maxWidth: 'calc(100vw - 420px)',
+          scrollbarWidth: 'none'
+        }}>
           {[
             { id: 'gis_map', label: '🗺️ GIS 時空地圖', icon: Navigation },
-            { id: 'tourism', label: '🏞️ 觀光名勝與CCTV', icon: Camera },
+            { id: 'tourism', label: '🏞️ 觀光名勝與CCTV', icon: Camera, badge: '74處' },
             { id: 'climate', label: '🌤️ 氣候脈動與宜居地圖', icon: Sun },
             { id: 'ai_lab', label: '🤖 AI客群與軌道決策', icon: Sparkles },
             { id: 'personas', label: '👥 客群轉乘應用', icon: Users },
@@ -330,19 +344,33 @@ export default function App() {
                   display: 'flex',
                   alignItems: 'center',
                   gap: '6px',
-                  padding: '7px 14px',
+                  padding: '7px 13px',
                   borderRadius: '7px',
                   border: 'none',
                   background: isSelected ? '#38BDF8' : 'transparent',
                   color: isSelected ? '#0F172A' : '#94A3B8',
-                  fontSize: '13px',
+                  fontSize: '12.5px',
                   fontWeight: isSelected ? '700' : '500',
                   cursor: 'pointer',
-                  transition: 'all 0.15s ease'
+                  transition: 'all 0.15s ease',
+                  whiteSpace: 'nowrap',
+                  flexShrink: 0
                 }}
               >
-                <Icon size={15} />
+                <Icon size={14} />
                 <span>{tab.label}</span>
+                {tab.badge && (
+                  <span style={{
+                    fontSize: '9.5px',
+                    padding: '1px 5px',
+                    borderRadius: '4px',
+                    background: isSelected ? '#0369A1' : '#F59E0B',
+                    color: '#FFFFFF',
+                    fontWeight: '800'
+                  }}>
+                    {tab.badge}
+                  </span>
+                )}
               </button>
             );
           })}
