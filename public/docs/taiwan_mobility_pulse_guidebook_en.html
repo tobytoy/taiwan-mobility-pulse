@@ -2,112 +2,1143 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition)</title>
+    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.0)</title>
     <style>
     @page {
-        @top-right {
-            content: "Taiwan Mobility Pulse | v1.3.0";
+        size: A4;
+        margin: 22mm 18mm 20mm 18mm;
+        background-color: #0b0f19;
+        @top-left {
+            content: "Taiwan Mobility Pulse · Master Monograph";
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            font-size: 8pt;
+            color: #64748b;
+            border-bottom: 0.5pt solid #1e293b;
+            padding-bottom: 4px;
         }
+        @top-right {
+            content: "National Big Data & Spatial Intelligence · v1.3.0";
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            font-size: 8pt;
+            color: #64748b;
+            border-bottom: 0.5pt solid #1e293b;
+            padding-bottom: 4px;
+        }
+        @bottom-left {
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.3.0)";
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            font-size: 7.5pt;
+            color: #64748b;
+            border-top: 0.5pt solid #1e293b;
+            padding-top: 4px;
+        }
+        @bottom-right {
+            content: "Page " counter(page) " of " counter(pages);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+            font-size: 8pt;
+            color: #94a3b8;
+            border-top: 0.5pt solid #1e293b;
+            padding-top: 4px;
+        }
+    }
+
+    @page :first {
+        margin: 0;
+        background-color: #070a13;
+        @top-left { content: normal; }
+        @top-right { content: normal; }
+        @bottom-left { content: normal; }
+        @bottom-right { content: normal; }
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+        color: #cbd5e1;
+        line-height: 1.7;
+        font-size: 10pt;
+        background-color: #0b0f19;
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Cover Page */
+    .cover-page {
+        page-break-after: always;
+        break-after: page;
+        min-height: 297mm;
+        box-sizing: border-box;
+        padding: 35mm 22mm 25mm 22mm;
+        text-align: center;
+        background: #070a13;
+        color: #ffffff;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .cover-badge {
+        display: inline-block;
+        background: rgba(56, 189, 248, 0.15);
+        color: #38bdf8;
+        border: 1px solid rgba(56, 189, 248, 0.4);
+        font-weight: 700;
+        font-size: 9.5pt;
+        padding: 6px 18px;
+        border-radius: 20px;
+        margin-bottom: 24px;
+        letter-spacing: 1.2px;
+    }
+
+    .cover-title {
+        font-size: 32pt;
+        font-weight: 900;
+        color: #f8fafc;
+        margin: 0 0 16px 0;
+        letter-spacing: 2px;
+        line-height: 1.25;
+    }
+
+    .cover-subtitle {
+        font-size: 12.5pt;
+        font-weight: 500;
+        color: #94a3b8;
+        margin: 0 0 32px 0;
+        line-height: 1.5;
+        max-width: 680px;
+    }
+
+    .cover-divider {
+        width: 140px;
+        height: 4px;
+        background: linear-gradient(90deg, #38bdf8, #818cf8);
+        margin: 0 auto 32px auto;
+        border-radius: 2px;
+    }
+
+    .cover-desc {
+        font-size: 10.5pt;
+        color: #cbd5e1;
+        line-height: 1.85;
+        max-width: 620px;
+        margin: 0 auto 42px auto;
+        text-align: center;
+    }
+
+    .cover-meta-card {
+        background: rgba(17, 24, 39, 0.85);
+        border: 1px solid rgba(71, 85, 105, 0.6);
+        border-radius: 12px;
+        padding: 20px 26px;
+        font-size: 9.2pt;
+        color: #cbd5e1;
+        text-align: left;
+        line-height: 2.0;
+        width: 100%;
+        max-width: 620px;
+        margin: 0 auto;
+    }
+
+    .cover-meta-card a {
+        color: #38bdf8;
+        text-decoration: underline;
+        font-weight: 600;
+    }
+
+    .cover-meta-row strong {
+        color: #f1f5f9;
+    }
+
+    /* Chapter Section */
+    .chapter-section {
+        page-break-before: always;
+        break-before: page;
+        padding-top: 6mm;
+    }
+
+    /* Typography */
+    h1 {
+        font-size: 20pt;
+        font-weight: 900;
+        color: #38bdf8;
+        margin-top: 10pt;
+        margin-bottom: 14pt;
+        padding-bottom: 8pt;
+        border-bottom: 2.5px solid #0284c7;
+        page-break-after: avoid;
+        break-after: avoid;
+        line-height: 1.35;
+    }
+
+    h2 {
+        font-size: 14pt;
+        font-weight: 800;
+        color: #60a5fa;
+        margin-top: 20pt;
+        margin-bottom: 8pt;
+        padding-bottom: 4pt;
+        border-bottom: 1px solid #1e293b;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    h3 {
+        font-size: 11.5pt;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-top: 14pt;
+        margin-bottom: 6pt;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    h4 {
+        font-size: 10.5pt;
+        font-weight: 700;
+        color: #94a3b8;
+        margin-top: 10pt;
+        margin-bottom: 4pt;
+        page-break-after: avoid;
+        break-after: avoid;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 10pt;
+        text-align: justify;
+        color: #cbd5e1;
+    }
+
+    strong {
+        color: #f8fafc;
+    }
+
+    ul, ol {
+        margin-top: 0;
+        margin-bottom: 10pt;
+        padding-left: 20pt;
+        color: #cbd5e1;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #1e293b;
+        margin: 18pt 0;
+    }
+
+    /* Screenshots & Figures - STRICT WIDTH FIT */
+    img {
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
+        border-radius: 8px;
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+        border: 1px solid #1e293b;
+        margin: 14pt auto 6pt auto;
+        display: block;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    p > em:only-child, p.figure-caption, em.caption {
+        display: block;
+        text-align: center;
+        color: #94a3b8;
+        font-size: 8.8pt;
+        margin-top: 4pt;
+        margin-bottom: 14pt;
+        font-style: normal;
+        line-height: 1.45;
+    }
+
+    /* Links */
+    a {
+        color: #38bdf8;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Blockquotes */
+    blockquote {
+        margin: 14pt 0;
+        padding: 10pt 16pt;
+        background: #0c1829;
+        border-left: 4px solid #0284c7;
+        border-radius: 0 8px 8px 0;
+        color: #93c5fd;
+    }
+
+    blockquote p {
+        margin: 0;
+        color: #93c5fd;
+    }
+
+    blockquote strong {
+        color: #e0f2fe;
+    }
+
+    /* Tables */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 14pt 0;
+        font-size: 8.8pt;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    th, td {
+        border: 1px solid #1e293b;
+        padding: 7pt 9pt;
+        text-align: left;
+        vertical-align: top;
+    }
+
+    th {
+        background-color: #131b2e;
+        color: #f8fafc;
+        font-weight: 800;
+    }
+
+    td {
+        background-color: #0b0f19;
+        color: #cbd5e1;
+    }
+
+    tr:nth-child(even) td {
+        background-color: #0f172a;
+    }
+
+    .table-portal-btn {
+        display: inline-block;
+        background: #0284c7;
+        color: #ffffff !important;
+        padding: 3pt 8pt;
+        border-radius: 4px;
+        font-size: 8pt;
+        font-weight: 700;
+        text-decoration: none !important;
+        white-space: nowrap;
+        border: 1px solid #38bdf8;
+    }
+
+    /* Interactive Portal Callout Cards */
+    .portal-callout {
+        background: linear-gradient(135deg, #0c1829 0%, #10243e 100%);
+        border: 1.5px solid #0284c7;
+        border-radius: 12px;
+        padding: 14pt 18pt;
+        margin: 18pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .portal-badge {
+        font-size: 8.5pt;
+        font-weight: 800;
+        color: #38bdf8;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        margin-bottom: 8pt;
+    }
+
+    .portal-content {
+        display: flex;
+        flex-direction: column;
+        gap: 6pt;
+    }
+
+    .portal-btn {
+        display: inline-flex;
+        align-items: center;
+        background: #0284c7;
+        color: #ffffff !important;
+        font-size: 11pt;
+        font-weight: 700;
+        padding: 8pt 16pt;
+        border-radius: 8px;
+        text-decoration: none !important;
+        border: 1px solid #38bdf8;
+        gap: 8pt;
+    }
+
+    .portal-icon {
+        font-size: 13pt;
+    }
+
+    .portal-title {
+        flex: 1;
+        color: #ffffff;
+    }
+
+    .portal-arrow {
+        font-size: 11pt;
+        font-weight: 900;
+        color: #e0f2fe;
+    }
+
+    .portal-url {
+        margin-top: 2pt;
+    }
+
+    .portal-url-label {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Noto Sans TC', sans-serif;
+        font-size: 8.5pt;
+        color: #64748b;
+    }
+
+    .portal-url-link {
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, monospace;
+        font-size: 8pt;
+        color: #38bdf8;
+        text-decoration: underline;
+    }
+
+    /* Flowcharts & Visual Cards */
+    .flowchart-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6pt;
+        margin: 16pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .flow-step {
+        background: #101726;
+        border: 1.5px solid #0284c7;
+        border-radius: 10px;
+        padding: 9pt 18pt;
+        width: 88%;
+        text-align: center;
+        text-decoration: none !important;
+        display: block;
+        color: inherit;
+    }
+
+    .flow-step:hover {
+        background: #162238;
+    }
+
+    .flow-badge {
+        font-size: 8pt;
+        color: #38bdf8;
+        font-weight: 800;
+        text-transform: uppercase;
+        margin-bottom: 2pt;
+    }
+
+    .flow-title {
+        font-size: 10.5pt;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    .flow-sub {
+        font-size: 8.5pt;
+        color: #94a3b8;
+        margin-top: 2pt;
+    }
+
+    .flow-arrow {
+        color: #38bdf8;
+        font-size: 11pt;
+        line-height: 1;
+    }
+
+    /* Architecture Diagram */
+    .architecture-diagram {
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
+        border-radius: 12px;
+        padding: 14pt;
+        margin: 16pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .arch-layer {
+        border-radius: 8px;
+        padding: 10pt;
+        margin-bottom: 6pt;
+    }
+
+    .arch-layer-1 {
+        background: #0c1f38;
+        border: 1px solid #0284c7;
+    }
+
+    .arch-layer-2 {
+        background: #231238;
+        border: 1px solid #8b5cf6;
+    }
+
+    .arch-layer-title {
+        font-size: 9.5pt;
+        font-weight: 800;
+        margin-bottom: 6pt;
+        color: #f8fafc;
+    }
+
+    .arch-boxes {
+        display: flex;
+        gap: 8pt;
+    }
+
+    .arch-box {
+        flex: 1;
+        background: #111827;
+        border-radius: 6px;
+        padding: 7pt 9pt;
+        border: 1px solid #1e293b;
+    }
+
+    .arch-box-title {
+        font-weight: 700;
+        font-size: 9pt;
+        color: #38bdf8;
+        margin-bottom: 3pt;
+    }
+
+    .arch-box-desc {
+        font-size: 8pt;
+        color: #94a3b8;
+        line-height: 1.45;
+    }
+
+    .arch-connector {
+        text-align: center;
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: #34d399;
+        margin: 5pt 0;
+        padding: 4pt;
+        background: #062a1c;
+        border-radius: 6px;
+        border: 1px dashed #059669;
+    }
+
+    .arch-connector-bottom {
+        color: #60a5fa;
+        background: #0c1f38;
+        border-color: #2563eb;
+    }
+
+    /* Timeline Container */
+    .timeline-container {
+        display: flex;
+        flex-direction: column;
+        gap: 6pt;
+        margin: 16pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .timeline-item {
+        background: #101726;
+        border-left: 4px solid #38bdf8;
+        border-radius: 0 8px 8px 0;
+        padding: 8pt 12pt;
+        border-top: 1px solid #1e293b;
+        border-right: 1px solid #1e293b;
+        border-bottom: 1px solid #1e293b;
+    }
+
+    .timeline-badge {
+        font-size: 8pt;
+        font-weight: 800;
+        color: #38bdf8;
+    }
+
+    .timeline-title {
+        font-size: 10pt;
+        font-weight: 700;
+        color: #f8fafc;
+        margin: 2pt 0;
+    }
+
+    .timeline-desc {
+        font-size: 8.5pt;
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    /* Chapter Navigation Bar */
+    .chapter-nav {
+        margin-top: 24pt;
+        padding-top: 14pt;
+        border-top: 1px solid #1e293b;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .nav-btn {
+        display: inline-block;
+        padding: 6pt 12pt;
+        border-radius: 6px;
+        font-size: 9pt;
+        font-weight: 700;
+        text-decoration: none !important;
+    }
+
+    .nav-prev {
+        background: #111827;
+        color: #94a3b8 !important;
+        border: 1px solid #1e293b;
+    }
+
+    .nav-next {
+        background: #0284c7;
+        color: #ffffff !important;
+        border: 1px solid #38bdf8;
+    }
+
+    /* Code & Pre Blocks */
+    pre, code {
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, monospace;
+    }
+
+    pre {
+        background: #050811;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 8pt 10pt;
+        font-size: 8.5pt;
+        color: #e2e8f0;
+        overflow-x: auto;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    code {
+        background: #111827;
+        padding: 1pt 4pt;
+        border-radius: 3px;
+        font-size: 8.5pt;
+        color: #38bdf8;
+        border: 1px solid #1e293b;
+    }
+
+    pre code {
+        background: none;
+        border: none;
+        padding: 0;
+        color: inherit;
+    }
+
+    /* Custom Responsive Component: Personas 2x2 Grid */
+    .personas-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 8pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .persona-card {
+        width: 48.5%;
+        box-sizing: border-box;
+        background: #101726;
+        border: 1px solid #1e293b;
+        border-top: 3px solid #38bdf8;
+        border-radius: 8px;
+        padding: 9pt 11pt;
+        margin-bottom: 8pt;
+    }
+
+    .card-commuter { border-top-color: #38bdf8; }
+    .card-senior   { border-top-color: #c084fc; }
+    .card-student  { border-top-color: #34d399; }
+    .card-tourist  { border-top-color: #fbbf24; }
+
+    .persona-header {
+        display: flex;
+        align-items: center;
+        gap: 6pt;
+        margin-bottom: 6pt;
+    }
+
+    .persona-title {
+        font-size: 10pt;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    .persona-sub {
+        font-size: 7.5pt;
+        color: #94a3b8;
+    }
+
+    .persona-detail {
+        font-size: 8pt;
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+    .persona-badge {
+        display: inline-block;
+        padding: 1pt 4pt;
+        border-radius: 3px;
+        font-size: 7pt;
+        font-weight: 700;
+        margin-right: 4pt;
+    }
+
+    .b-commuter { background: rgba(56, 189, 248, 0.2); color: #38bdf8; border: 1px solid rgba(56, 189, 248, 0.4); }
+    .b-senior   { background: rgba(192, 132, 252, 0.2); color: #c084fc; border: 1px solid rgba(192, 132, 252, 0.4); }
+    .b-student  { background: rgba(52, 211, 153, 0.2); color: #34d399; border: 1px solid rgba(52, 211, 153, 0.4); }
+    .b-tourist  { background: rgba(251, 191, 36, 0.2); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.4); }
+
+    /* Inline SVG Icons */
+    .inline-svg {
+        display: inline-block;
+        width: 1.1em !important;
+        height: 1.1em !important;
+        vertical-align: -0.2em;
+        margin-right: 4px;
+        margin-left: 1px;
+    }
+
+    /* Custom Responsive Component: Data Foundation Matrix (Chapter 2) */
+    .data-matrix-card {
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .data-matrix-head {
+        font-size: 10pt;
+        font-weight: 800;
+        color: #38bdf8;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+        text-align: center;
+        letter-spacing: 0.5px;
+    }
+
+    .data-matrix-tbl {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 8.2pt;
+    }
+
+    .data-matrix-tbl th {
+        background: #111e38;
+        color: #94a3b8;
+        font-weight: 700;
+        padding: 6pt 8pt;
+        text-align: left;
+        border-bottom: 1.5px solid #0284c7;
+    }
+
+    .data-matrix-tbl td {
+        padding: 7pt 8pt;
+        border-bottom: 1px solid #1e293b;
+        vertical-align: top;
+        line-height: 1.5;
+    }
+
+    .data-matrix-tbl tr:last-child td {
+        border-bottom: none;
+    }
+
+    .dm-source-title {
+        font-weight: 800;
+        color: #f8fafc;
+        font-size: 8.8pt;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .dm-source-sub {
+        color: #64748b;
+        font-size: 7.6pt;
+        margin-top: 2px;
+    }
+
+    .dm-stat-highlight {
+        font-weight: 700;
+        color: #38bdf8;
+    }
+
+    .dm-stat-sub {
+        color: #94a3b8;
+        font-size: 7.6pt;
+        margin-top: 2px;
+    }
+
+    .dm-time-badge {
+        font-weight: 700;
+        color: #34d399;
+    }
+
+    /* Custom Responsive Component: Dual Mode Architecture (Chapter 6) */
+    .dual-mode-container {
+        display: flex;
+        gap: 10pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .dual-mode-card {
+        flex: 1;
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 12pt;
+    }
+
+    .mode-micro {
+        border-color: #0284c7;
+        background: #0d1933;
+    }
+
+    .dm-card-head {
+        display: flex;
+        align-items: center;
+        gap: 6pt;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+    }
+
+    .dm-card-icon {
+        background: rgba(56, 189, 248, 0.15);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        border-radius: 6px;
+        padding: 4pt;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .dm-card-title {
+        font-size: 9.2pt;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    .dm-card-sub {
+        font-size: 7.5pt;
+        color: #64748b;
+    }
+
+    .dm-card-list {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 5pt;
+        font-size: 8.2pt;
+        color: #cbd5e1;
+    }
+
+    .dm-card-list li {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .dm-bullet {
+        color: #38bdf8;
+        font-size: 6pt;
+    }
+
+    /* Custom Responsive Component: Modal Shift Elasticity Dashboard (Chapter 5) */
+    .elasticity-dashboard {
+        background: #0d1527;
+        border: 1.5px solid #0284c7;
+        border-radius: 8px;
+        padding: 10pt 14pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .elasticity-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 6pt;
+        margin-bottom: 8pt;
+    }
+
+    .elasticity-title {
+        font-size: 9.8pt;
+        font-weight: 800;
+        color: #38bdf8;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .elasticity-badge {
+        font-size: 7.5pt;
+        background: #1e293b;
+        color: #94a3b8;
+        padding: 2pt 6pt;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    .elasticity-rows {
+        display: flex;
+        flex-direction: column;
+        gap: 6pt;
+    }
+
+    .elasticity-row {
+        display: flex;
+        align-items: center;
+        background: #111a2e;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 6pt 10pt;
+        gap: 10pt;
+    }
+
+    .el-mode {
+        width: 135pt;
+        font-weight: 700;
+        font-size: 8.8pt;
+        color: #f8fafc;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .el-pill {
+        width: 60pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 8.5pt;
+        padding: 2pt 5pt;
+        border-radius: 4px;
+        font-family: 'Noto Sans Mono CJK TC', monospace;
+    }
+
+    .pill-gain      { background: #064e3b; color: #34d399; border: 1px solid #059669; }
+    .pill-stable    { background: #1e293b; color: #94a3b8; border: 1px solid #475569; }
+    .pill-drop-low  { background: #3b111e; color: #fb7185; border: 1px solid #be123c; }
+    .pill-drop-med  { background: #4c0519; color: #f43f5e; border: 1px solid #e11d48; }
+    .pill-drop-high { background: #5a0517; color: #fca5a5; border: 1px solid #f43f5e; }
+
+    .el-desc {
+        flex: 1;
+        font-size: 8.2pt;
+        color: #cbd5e1;
+        line-height: 1.4;
+    }
+
+    /* Custom Responsive Component: Selection Decision Matrix (Chapter 7) */
+    .matrix-decision-container {
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        padding: 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .matrix-decision-header {
+        background: #111827;
+        border: 1px solid #0284c7;
+        border-radius: 6px;
+        padding: 7pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 9.5pt;
+        color: #38bdf8;
+        margin-bottom: 10pt;
+    }
+
+    .matrix-decision-grid {
+        display: flex;
+        gap: 6pt;
+    }
+
+    .matrix-decision-col {
+        flex: 1;
+        background: #101726;
+        border: 1px solid #1e293b;
+        border-radius: 6px;
+        padding: 7pt 6pt;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    .matrix-target-box {
+        font-size: 7.8pt;
+        font-weight: 800;
+        color: #f8fafc;
+        border-bottom: 1px solid #1e293b;
+        padding-bottom: 4pt;
+        margin-bottom: 4pt;
+        text-align: center;
+    }
+
+    .matrix-points {
+        margin: 0;
+        padding-left: 10pt;
+        font-size: 7.2pt;
+        color: #94a3b8;
+        line-height: 1.45;
+        flex: 1;
+    }
+
+    .matrix-points li {
+        margin-bottom: 2pt;
+    }
+
+    .matrix-choice-box {
+        margin-top: 6pt;
+        border-radius: 4px;
+        padding: 4pt 2pt;
+        font-size: 7.5pt;
+        font-weight: 800;
+        text-align: center;
+    }
+
+    .choice-ticp    { background: #0c2b42; color: #38bdf8; border: 1px solid #0284c7; }
+    .choice-etag    { background: #1a2f18; color: #34d399; border: 1px solid #059669; }
+    .choice-telecom { background: #321c45; color: #c084fc; border: 1px solid #8b5cf6; }
+    .choice-fusion  { background: #3d230d; color: #fbbf24; border: 1px solid #d97706; }
+
+    /* Pipeline Diagram */
+    .pipeline-diagram {
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        padding: 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .pipeline-head {
+        background: #111827;
+        border: 1px solid #0284c7;
+        border-radius: 6px;
+        padding: 6pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 9.5pt;
+        color: #38bdf8;
+    }
+
+    .pipeline-connector {
+        text-align: center;
+        color: #64748b;
+        font-size: 7.5pt;
+        font-weight: 700;
+        margin: 6pt 0;
+    }
+
+    .pipeline-columns {
+        display: flex;
+        gap: 8pt;
+    }
+
+    .pipeline-col {
+        flex: 1;
+        background: #101726;
+        border-radius: 6px;
+        padding: 8pt 10pt;
+        border: 1px solid #1e293b;
+    }
+
+    .col-privacy { border-top: 3px solid #34d399; }
+    .col-stream  { border-top: 3px solid #38bdf8; }
+
+    .pipeline-col-title {
+        font-size: 8.8pt;
+        font-weight: 800;
+        color: #f8fafc;
+        margin-bottom: 2pt;
+    }
+
+    .pipeline-col-sub {
+        font-size: 7.2pt;
+        color: #64748b;
+        margin-bottom: 6pt;
+    }
+
+    .pipeline-list {
+        margin: 0;
+        padding-left: 12pt;
+        font-size: 7.8pt;
+        color: #cbd5e1;
+        line-height: 1.45;
+    }
+
+    .pipeline-foot {
+        background: #101726;
+        border: 1px solid #d97706;
+        border-radius: 6px;
+        padding: 6pt;
+        text-align: center;
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: #fbbf24;
     }
     </style>
 </head>
 <body>
     
     <div class="cover-page">
-        <div class="cover-badge">National Big Data & Spatial Intelligence Monograph</div>
+        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.0)</div>
         <h1 class="cover-title">Taiwan Mobility Pulse</h1>
         <h2 class="cover-subtitle">The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
-        <div class="cover-meta">
-            <p><strong>Primary Data Sources:</strong> MOTC TICP Ticketing (448M Census Records), Freeway Bureau eTag Gantries (5 Vehicle Classes), TDX Parking & CCTV, CWA CODiS (30-Year Climate Data)</p>
-            <p><strong>Methodological Scope:</strong> Multimodal Corridor Extraction, Off-Ramp Halos, 4 Micro-Personas, Climate Disruption & TOD Hubs</p>
-            <p><strong>Edition:</strong> Publication Edition v1.3.0 · Full Scenic CCTV & Climatology Integration</p>
-            <p><strong>Date:</strong> October 2026</p>
+        <p class="cover-desc">
+            Synthesizing 448 million verified ticket tap transactions from MOTC TICP, millions of Freeway Bureau eTag gantry vehicle observations across 5 regulatory classes, TDX 74 scenic 4K/360° live CCTV streams, and CWA CODiS 30-year microclimate observations.<br>
+            Deciphering 111 dynamic flow corridors, islandwide weather disruption tides, and scenic mountain-to-coast tourism pulses.
+        </p>
+        <div class="cover-meta-card">
+            <div class="cover-meta-row"><strong>Official Interactive System:</strong> <a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
+            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.0 (Master Monograph · 9 Comprehensive Chapters)</div>
+            <div class="cover-meta-row"><strong>Research & Engineering Team:</strong> Taiwan Mobility Pulse Core Spatial Analytics Lab</div>
+            <div class="cover-meta-row"><strong>Authoritative Data Sources:</strong> MOTC TICP / TDX Platform / Freeway Bureau / CWA / Tourism Administration</div>
+            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.0)</div>
         </div>
     </div>
-    <div class="toc-page" id="toc">
-<h1 class="toc-title">Table of Contents</h1>
-<div class="toc-list">
-
-        <a class="toc-item" href="#README">
-            <span class="toc-badge">Frontmatter</span>
-            <span class="toc-name">Preface & Master Guidebook Navigation</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter1_data_philosophy">
-            <span class="toc-badge">Chapter 1</span>
-            <span class="toc-name">Chapter 1: Data Philosophy & Architectural Selection</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter2_data_dictionary_and_samples">
-            <span class="toc-badge">Chapter 2</span>
-            <span class="toc-name">Chapter 2: National Data Foundation & Entity Schemas</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter3_flow_arteries">
-            <span class="toc-badge">Chapter 3</span>
-            <span class="toc-name">Chapter 3: Intercity Arteries & Urban Mobility Corridors</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter4_etag_halos_heatmap">
-            <span class="toc-badge">Chapter 4</span>
-            <span class="toc-name">Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter5_personas_weather">
-            <span class="toc-badge">Chapter 5</span>
-            <span class="toc-name">Chapter 5: Four Micro-Personas & Weather Sensitivity</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter6_climate_pulse">
-            <span class="toc-badge">Chapter 6</span>
-            <span class="toc-name">Chapter 6: Islandwide Climate Pulse & Microclimate Livability</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter7_commercial_pulse">
-            <span class="toc-badge">Chapter 7</span>
-            <span class="toc-name">Chapter 7: Commercial Pulse & Station Hub Intelligence</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter8_data_fusion_strategy">
-            <span class="toc-badge">Chapter 8</span>
-            <span class="toc-name">Chapter 8: National Multi-Source Data Fusion Strategy</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-
-        <a class="toc-item" href="#chapter9_tourism_mobility_cctv">
-            <span class="toc-badge">Chapter 9</span>
-            <span class="toc-name">Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal</span>
-            <span class="toc-dots"></span>
-        </a>
-        
-</div></div>
+    
         <section class="chapter-section" id="README">
+            <a id="README" name="README"></a>
             <div class="chapter-content">
                 <h1 id="taiwan-mobility-pulse-the-master-guide-to-national-multi-modal-mobility-spatial-intelligence"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg> Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility &amp; Spatial Intelligence</h1>
 <h3 id="_1">國家級公共運輸票證與高速公路車流大數據全景指南</h3>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../README"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../README">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"The breathing of a city is inscribed in the card swipe records of the morning's first metro train; the pulse of a nation beats beneath the wheels of heavy freight trucks rushing along national freeways at midnight."</em></p>
 <p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> <strong>Full Master Monograph</strong>: This guide has been compiled into a publication-grade interactive monograph (featuring 9 macro chapters, full-color data schemas, multi-dimensional comparison matrices, and direct teleportation portals):<br />
-<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> <strong><a href="taiwan_mobility_pulse_guidebook_en.pdf">Download English Master Monograph PDF (v1.3.0 Scenic CCTV &amp; Tourism Edition)</a></strong> | <strong><a href="../taiwan_mobility_pulse_guidebook.pdf">🇹🇼 Traditional Chinese PDF</a></strong></p>
+<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> <strong><a href="taiwan_mobility_pulse_guidebook_en.pdf">Download English Master Monograph PDF (v1.3.0 Scenic CCTV &amp; Tourism Edition)</a></strong> | <strong><a href="../taiwan_mobility_pulse_guidebook.pdf"> Traditional Chinese PDF</a></strong></p>
 </blockquote>
 <hr />
 <h2 id="preface-why-do-we-need-an-interactive-monograph"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Preface: Why Do We Need an "Interactive Monograph"?</h2>
@@ -121,7 +1152,7 @@
 <p><strong>Taiwan Mobility Pulse</strong> was created to bridge this chasm. By fusing <strong>448 million real ticket transactions from MOTC TICP</strong>, <strong>millions of eTag freeway gantry vehicle observations from Freeway Bureau</strong>, <strong>real-time TDX parking and civic infrastructure APIs</strong>, <strong>30 years of continuous microclimate historical observations from CWA CODiS</strong>, and <strong>strategic cellular signaling frameworks</strong>, we have synthesized a publication-grade interactive monograph.</p>
 <p>This guide serves as your comprehensive chapter roadmap, leading you step-by-step through the most compelling mobility dynamics on the island of Taiwan. Every chapter includes <strong>dedicated interactive map teleportation links</strong> and <strong>hands-on operational highlights</strong>, enabling you to read, click, and verify in real time!</p>
 <hr />
-<h2 id="master-table-of-contents-navigation-map"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>️ Master Table of Contents &amp; Navigation Map</h2>
+<h2 id="master-table-of-contents-navigation-map"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> Master Table of Contents &amp; Navigation Map</h2>
 <div class="flowchart-container">
 <a class="flow-step" href="#chapter1_data_philosophy">
     <div class="flow-badge">Chapter 1</div>
@@ -131,20 +1162,20 @@
 <div class="flow-arrow">▼</div>
 <a class="flow-step" href="#chapter2_data_dictionary_and_samples">
     <div class="flow-badge">Chapter 2</div>
-    <div class="flow-title">Chapter 2: Data Foundation & Schemas</div>
-    <div class="flow-sub">Time Horizons, Dictionaries & CODiS Specs</div>
+    <div class="flow-title">Chapter 2: National Data Foundation</div>
+    <div class="flow-sub">Schema Dictionaries & CODiS Climate Standards</div>
 </a>
 <div class="flow-arrow">▼</div>
 <a class="flow-step" href="#chapter3_flow_arteries">
     <div class="flow-badge">Chapter 3</div>
-    <div class="flow-title">Chapter 3: Intercity & Urban Corridors</div>
-    <div class="flow-sub">111 Dynamic Corridors & Passenger/Freight Tides</div>
+    <div class="flow-title">Chapter 3: Intercity Arteries & Corridors</div>
+    <div class="flow-sub">111 Corridors & Passenger/Freight Tides</div>
 </a>
 <div class="flow-arrow">▼</div>
 <a class="flow-step" href="#chapter4_etag_halos_heatmap">
     <div class="flow-badge">Chapter 4</div>
-    <div class="flow-title">Chapter 4: Off-Ramp Catchment Halos</div>
-    <div class="flow-sub">eTag Flow Injection & Parking Pressure Interlocking</div>
+    <div class="flow-title">Chapter 4: Hotspot Halos & Off-Ramps</div>
+    <div class="flow-sub">eTag Vehicle Influx & Parking Pressure</div>
 </a>
 <div class="flow-arrow">▼</div>
 <a class="flow-step" href="#chapter5_personas_weather">
@@ -233,7 +1264,7 @@
 <td style="text-align: left;"><strong>Ch 4</strong> Off-Ramp Halos</td>
 <td style="text-align: left;">16 strategic interchanges, TDX parking pressure</td>
 <td style="text-align: left;"><a class="table-portal-btn" href="https://tobytoy.github.io/taiwan-mobility-pulse/#heatmap" target="_blank"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/></svg> Spatiotemporal Heatmap &amp; Catchment Halos</a></td>
-<td style="text-align: left;">Turn on "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg>️ eTag Interchange Halos", click "Ailan / Sun Moon Lake" to see parking strain</td>
+<td style="text-align: left;">Turn on "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag Interchange Halos", click "Ailan / Sun Moon Lake" to see parking strain</td>
 </tr>
 <tr>
 <td style="text-align: left;"><strong>Ch 5</strong> Personas &amp; Weather</td>
@@ -271,22 +1302,19 @@
 <h2 id="reading-exploration-recommendations"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><line x1="9" y1="18" x2="15" y2="18"/><line x1="10" y1="22" x2="14" y2="22"/><path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 18 8 6 6 0 0 0 6 8c0 1 .23 2.23 1.5 3.5A4.61 4.61 0 0 1 8.91 14"/></svg> Reading &amp; Exploration Recommendations</h2>
 <ol>
 <li><strong>Dual-Screen or Split-View Reading</strong>: We recommend placing this guide on the left side of your screen and the interactive web application on the right. Verify empirical data on the map as you study the theoretical discourse.</li>
-<li><strong>Follow the Practical Walkthroughs</strong>: Each chapter contains step-by-step <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthroughs】</strong> and <strong>【<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> In-Depth Data Takeaways】</strong> to help you quickly identify hidden patterns across millions of records.</li>
+<li><strong>Follow the Practical Walkthroughs</strong>: Each chapter contains step-by-step <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthroughs】</strong> and <strong>【<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> In-Depth Data Takeaways】</strong> to help you quickly identify hidden patterns across millions of records.</li>
 <li><strong>Engage with Investigative Inquiries</strong>: Ponder questions such as "Why does heavy freight account for 34% of traffic at Daya Interchange on weekday mornings?" or "Does heavy rain truly leave metro ridership unaffected?" Detailed empirical validations await within.</li>
 </ol>
 <p>Ready to begin? Let us turn to Chapter 1 and uncover the foundational philosophy behind Taiwan's transportation data!  </p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter1_data_philosophy">Chapter 1: Data Philosophy & Architectural Selection <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-next" href="#chapter1_data_philosophy"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 1: Data Philosophy & Architectural Selection <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter1_data_philosophy">
+            <a id="chapter1_data_philosophy" name="chapter1_data_philosophy"></a>
             <div class="chapter-content">
                 <h1 id="chapter-1-data-philosophy-architectural-selection-why-rigid-skeleton-flexible-muscle">Chapter 1: Data Philosophy &amp; Architectural Selection — Why "Rigid Skeleton + Flexible Muscle"?</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter1_data_philosophy"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter1_data_philosophy">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"In the realm of data science, vast volume does not equate to precision. If baseline coordinates are adrift and human identities are mere conjectures, even the most elaborate neural network merely magnifies spatial illusions."</em></p>
 </blockquote>
@@ -383,7 +1411,7 @@ When highway traffic pours into local arterial surface grids, the immediate shoc
     <div class="arch-layer-title">Tier 1: Ground Truth Rigid Skeleton (Census Baseline)</div>
     <div class="arch-boxes">
         <div class="arch-box">
-            <div class="arch-box-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg>️ eTag Freeway Gantry Vehicle Flows</div>
+            <div class="arch-box-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag Freeway Gantry Vehicle Flows</div>
             <div class="arch-box-desc">0m chainage physical ground truth / 5 vehicle classes / Freight & auto separation</div>
         </div>
         <div class="arch-box">
@@ -404,10 +1432,10 @@ When highway traffic pours into local arterial surface grids, the immediate shoc
 </div>
 <div class="arch-connector arch-connector-bottom"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="5" r="3"/><line x1="12" y1="22" x2="12" y2="8"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/></svg> Hard Ground Truth Anchoring: Calibrating cellular expansion factors using eTag and ticketing censuses</div>
 </div>
-<p><img alt="Figure 1.1: Master Strategy Matrix Comparing Ticketing, eTag, and Cellular Signaling" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch1_telecom_master_matrix.webp" />
+<p><img alt="Figure 1.1: Master Strategy Matrix Comparing Ticketing, eTag, and Cellular Signaling" src="images/ch1_telecom_master_matrix.webp" />
 <em>Figure 1.1: Live Application Interface — Three-Source Strategic Master Matrix illustrating the four core evaluation dimensions (Spatial Stability, Identity Contracts, Mutual Exclusivity, and Double-Counting Mitigation).</em></p>
 <hr />
-<h2 id="17-hands-on-operational-walkthrough-navigating-the-system">1.7 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Navigating the System</h2>
+<h2 id="17-hands-on-operational-walkthrough-navigating-the-system">1.7 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Navigating the System</h2>
 <p>To experience the Three-Source Strategic Master Matrix firsthand, follow these steps:</p>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
@@ -424,7 +1452,7 @@ When highway traffic pours into local arterial surface grids, the immediate shoc
 <h3 id="operational-steps">Operational Steps:</h3>
 <ol>
 <li>Click the link above or click <strong>【Telecom vs. Ticketing】</strong> on the top navigation bar.</li>
-<li>The system defaults to <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>️ Act I: Strategic Master Matrix &amp; Core Dimension Duel】</strong>.</li>
+<li>The system defaults to <strong>【<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Act I: Strategic Master Matrix &amp; Core Dimension Duel】</strong>.</li>
 <li>Review the four comparative duel cards (Spatial Physical Stability, Statutory Persona Contracts, Mutual Exclusivity, Activity Coverage &amp; Redundancy).</li>
 <li>Scroll down to inspect the <strong>"Comprehensive Multi-Dimensional Cross-Comparison Table"</strong>, contrasting 8 analytical indicators across eTag, TICP ticketing, and cellular signaling.</li>
 </ol>
@@ -442,17 +1470,14 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 </blockquote>
 <p>Having anchored our foundational data philosophy, we now proceed to dissect the lowest-level database architectures, field definitions, and raw schema payloads in the next chapter!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#README">⬅ Preface & Master Guidebook Navigation</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter2_data_dictionary_and_samples">Chapter 2: National Data Foundation & Entity Schemas <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter2_data_dictionary_and_samples"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 2: National Data Foundation & Entity Schemas <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter2_data_dictionary_and_samples">
+            <a id="chapter2_data_dictionary_and_samples" name="chapter2_data_dictionary_and_samples"></a>
             <div class="chapter-content">
                 <h1 id="chapter-2-national-data-foundation-entity-schemas-ticp-ticketing-etag-gantries-tdx-and-codis-specifications">Chapter 2: National Data Foundation &amp; Entity Schemas — TICP Ticketing, eTag Gantries, TDX, and CODiS Specifications</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter2_data_dictionary_and_samples"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter2_data_dictionary_and_samples">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"If one cannot discern which physical smart card, which microwave reflection from an overhead highway gantry, or which inductive loop in a parking garage a record represents, then even the most dazzling dynamic visualization remains nothing more than a drifting numerical mirage."</em></p>
 </blockquote>
@@ -1088,7 +2113,7 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 <h2 id="26-data-pipeline-nuances-security-protections">2.6 Data Pipeline Nuances &amp; Security Protections</h2>
 <div class="pipeline-diagram">
     <div class="pipeline-head">
-        <div class="pipeline-head-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>️ National Big Data Pre-Processing Safety Pipeline</div>
+        <div class="pipeline-head-title"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> National Big Data Pre-Processing Safety Pipeline</div>
     </div>
     <div class="pipeline-connector">▼ Dual Parallel Architecture ▼</div>
     <div class="pipeline-columns">
@@ -1105,7 +2130,7 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
             <div class="pipeline-col-sub">PyArrow Streaming Pipeline</div>
             <ul class="pipeline-list">
                 <li>16MB chunk streaming decompress, zero disk I/O bottlenecks</li>
-                <li>Polars LazyFrame projection & filter pushdown; strictly <1.5GB RAM</li>
+                <li>Polars LazyFrame projection & filter pushdown; strictly &lt;1.5GB RAM</li>
             </ul>
         </div>
     </div>
@@ -1122,7 +2147,7 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
    The raw uncompressed volume of 448 million records exceeds 30 GB, requiring over 120 GB of RAM if loaded with standard Pandas—prompting catastrophic Out-Of-Memory (OOM) crashes.<br />
    Our pipeline (<code>pipeline/convert_to_parquet.py</code>) employs <strong>PyArrow 16MB zero-disk stream decompression</strong> combined with <strong>Zstandard (Level 5) columnar compression</strong>, shrinking disk footprint by 88% down to 16.5 GB. Using <strong>Polars LazyFrames</strong>, thread and memory consumption are constrained to a safe 1.5GB RAM ceiling!</li>
 </ol>
-<p><img alt="Figure 2.1: National Data Infrastructure Blueprint" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch2_data_infrastructure.webp" />
+<p><img alt="Figure 2.1: National Data Infrastructure Blueprint" src="images/ch2_data_infrastructure.webp" />
 <em>Figure 2.1: Live Application Interface — Multi-Source Fusion Blueprint illustrating Tier 1 (Rigid Baseline), Tier 2 (Continuous Cellular Muscle), and Tier 3 (Inverse Anchoring Calibration).</em></p>
 <hr />
 <h2 id="27-interactive-portal">2.7 Interactive Portal</h2>
@@ -1141,17 +2166,14 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 
 <p>Having dissected the physical foundation and schemas, we now inject these microscopic flow particles into Taiwan's 111 representative mobility corridors!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter1_data_philosophy">⬅ Chapter 1: Data Philosophy & Architectural Selection</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter3_flow_arteries">Chapter 3: Intercity Arteries & Urban Mobility Corridors <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter3_flow_arteries"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 3: Intercity Arteries & Urban Mobility Corridors <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter3_flow_arteries">
+            <a id="chapter3_flow_arteries" name="chapter3_flow_arteries"></a>
             <div class="chapter-content">
                 <h1 id="chapter-3-intercity-arteries-urban-mobility-corridors-111-dynamic-flow-corridors">Chapter 3: Intercity Arteries &amp; Urban Mobility Corridors — 111 Dynamic Flow Corridors</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter3_flow_arteries"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter3_flow_arteries">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"If Taiwan were a living, breathing organism, then its 111 dynamic mobility corridors would be its arteries and veins; these coursing particles are not mere computer code, but the daily life journeys of twenty-three million souls."</em></p>
 </blockquote>
@@ -1179,7 +2201,7 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 <li><strong>Trajectory</strong>: Port of Kaohsiung Qianzhen Dedicated Freight Way <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Freeway 1 / Provincial Highway 86 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Southern Taiwan Science Park (STSP) Xinshi.</li>
 <li><strong>Characteristics</strong>: Upstream chemical reagents and 3nm advanced fabrication supply chain deliveries.</li>
 </ol>
-<p><img alt="Figure 3.1: Dynamic Flow Corridors Map — Sleepless Heavy Freight Logistics" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch3_corridor_freight_logistics.webp" />
+<p><img alt="Figure 3.1: Dynamic Flow Corridors Map — Sleepless Heavy Freight Logistics" src="images/ch3_corridor_freight_logistics.webp" />
 <em>Figure 3.1: Live Application Interface — Flow corridors filtered by "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg> Industrial Logistics", highlighting the Freeway 1 Silicon Corridor and Port-Science logistics links operating around the clock.</em></p>
 <hr />
 <h2 id="33-holiday-tourism-expressways-the-great-exodus-to-mountains-and-seas">3.3 Holiday Tourism Expressways: The Great Exodus to Mountains and Seas</h2>
@@ -1194,8 +2216,8 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 <li><strong>East Rift Valley Leisure Express (Taitung <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg> Jiaoxi / Hualien)</strong>:</li>
 <li>Operated jointly by TRA EMU3000 New Ziqiang expresses and private driving along the Suhua Highway Improvement project.</li>
 </ol>
-<p><img alt="Figure 3.2: Weekend Tourism Migration — Surge of Flow Particles Toward Scenic Corridors" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch3_corridor_holiday_tourism.webp" />
-<em>Figure 3.2: Live Application Interface — Switched to "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg>️ Holiday (Weekend)" and "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Tourism" personas, showing a 320% explosion in particle flows across Freeway 5, Freeway 6, and the East Coast.</em></p>
+<p><img alt="Figure 3.2: Weekend Tourism Migration — Surge of Flow Particles Toward Scenic Corridors" src="images/ch3_corridor_holiday_tourism.webp" />
+<em>Figure 3.2: Live Application Interface — Switched to "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg> Holiday (Weekend)" and "<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg> Tourism" personas, showing a 320% explosion in particle flows across Freeway 5, Freeway 6, and the East Coast.</em></p>
 <hr />
 <h2 id="34-24-hour-spatiotemporal-tidal-rhythm">3.4 24-Hour Spatiotemporal Tidal Rhythm</h2>
 <p>Dragging the 24-hour timeline in the live system reveals Taiwan's daily mobility heartbeat:</p>
@@ -1206,7 +2228,7 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 21:00 ── 23:30 │ Evening Homecomings &amp; Night Markets: Dispersal from Xinyi, Fengjia, and Liuhe markets
 </code></pre>
 <hr />
-<h2 id="35-hands-on-operational-walkthrough-experiencing-the-dynamic-flowmap">3.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Experiencing the Dynamic FlowMap</h2>
+<h2 id="35-hands-on-operational-walkthrough-experiencing-the-dynamic-flowmap">3.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Experiencing the Dynamic FlowMap</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -1244,17 +2266,14 @@ When government auditors evaluate whether the NT$ 10 billion annual public expen
 </blockquote>
 <p>Having observed macro corridor flows, we must now investigate: when vehicles depart freeway off-ramps and enter local streets, how does local urban space absorb the shockwaves?</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter2_data_dictionary_and_samples">⬅ Chapter 2: National Data Foundation & Entity Schemas</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter4_etag_halos_heatmap">Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter4_etag_halos_heatmap"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter4_etag_halos_heatmap">
+            <a id="chapter4_etag_halos_heatmap" name="chapter4_etag_halos_heatmap"></a>
             <div class="chapter-content">
                 <h1 id="chapter-4-hotspot-radiation-off-ramp-catchment-halos-etag-flow-injection-parking-pressure-interlocking">Chapter 4: Hotspot Radiation &amp; Off-Ramp Catchment Halos — eTag Flow Injection &amp; Parking Pressure Interlocking</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter4_etag_halos_heatmap"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter4_etag_halos_heatmap">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"A freeway is a high-pressure water pipe, and its off-ramps are the faucets. When a faucet is opened wide, the resulting shockwaves ripple down the ramp, inundating the surrounding urban ecosystem."</em></p>
 </blockquote>
@@ -1429,10 +2448,10 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <li><strong>Tourism-Dominant Interchanges (Daxi, Ailan, Jiaoxi, Luodong)</strong>:<br />
    For every additional 100 passenger cars per hour exiting an off-ramp, available parking stalls in surrounding public and commercial lots deplete at a rapid rate of <strong>-8.2%</strong>. When an off-ramp halo reaches Level 3 expansion, all parking facilities within 2 km <strong>inevitably reach red-level saturation (&gt;90%) within 30 minutes</strong>.</li>
 </ol>
-<p><img alt="Figure 4.1: Off-Ramp Catchment Halos and TDX Real-Time Parking Pressure Warning" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch4_offramp_halo_parking.webp" />
+<p><img alt="Figure 4.1: Off-Ramp Catchment Halos and TDX Real-Time Parking Pressure Warning" src="images/ch4_offramp_halo_parking.webp" />
 <em>Figure 4.1: Live Application Interface — Spatiotemporal Heatmap with Off-Ramp Catchment Halos active across 16 strategic interchanges, displaying 5-class vehicle mix popups, parking occupancy rates, and HUD diagnostic indicators.</em></p>
 <hr />
-<h2 id="45-hands-on-operational-walkthrough-tuning-the-heatmap">4.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Tuning the Heatmap</h2>
+<h2 id="45-hands-on-operational-walkthrough-tuning-the-heatmap">4.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Tuning the Heatmap</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -1449,7 +2468,7 @@ $$R(t) = R_{\text{base}} \times \sqrt{\frac{V(t)}{V_{\text{max}}}} \times \gamma
 <ol>
 <li>Click the link above or navigate to <strong>【GIS Map】<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>【Spatiotemporal Heatmap】</strong>.</li>
 <li><strong>Verify the Halo Layer Toggle</strong>:<br />
-   Ensure the <strong>"<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg>️ eTag Interchange Halos"</strong> button on the top control bar is enabled (highlighted green). You can toggle it on or off at will.</li>
+   Ensure the <strong>"<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2"><line x1="4" y1="21" x2="8" y2="3"/><line x1="20" y1="21" x2="16" y2="3"/><line x1="12" y1="5" x2="12" y2="8"/><line x1="12" y1="13" x2="12" y2="16"/></svg> eTag Interchange Halos"</strong> button on the top control bar is enabled (highlighted green). You can toggle it on or off at will.</li>
 <li><strong>Inspect Interchange Popups</strong>:<br />
    Click on the <strong>Ailan (Sun Moon Lake)</strong> or <strong>Hsinchu (HSP)</strong> halo on the map.<br />
    A diagnostic popup displays:</li>
@@ -1466,17 +2485,14 @@ Traditional transportation planning treats highway exits and local streets as se
 </blockquote>
 <p>In the next chapter, we look behind these vehicle streams and transit tallies to investigate the individuals who make these journeys: who are they, and how does adverse weather alter their choices?</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter3_flow_arteries">⬅ Chapter 3: Intercity Arteries & Urban Mobility Corridors</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter5_personas_weather">Chapter 5: Four Micro-Personas & Weather Sensitivity <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter5_personas_weather"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 5: Four Micro-Personas & Weather Sensitivity <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter5_personas_weather">
+            <a id="chapter5_personas_weather" name="chapter5_personas_weather"></a>
             <div class="chapter-content">
                 <h1 id="chapter-5-four-micro-personas-weather-sensitivity-who-moves-how-weather-reshapes-commuting-routes">Chapter 5: Four Micro-Personas &amp; Weather Sensitivity — Who Moves? How Weather Reshapes Commuting Routes</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter5_personas_weather"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter5_personas_weather">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"Behind every cold, aggregated ridership curve, each tap has a human name: an engineer hurrying for morning check-in, or a grandmother holding her grandchild's hand on the metro to escape summer heat. When wind and rain arrive, their destinies diverge completely."</em></p>
 </blockquote>
@@ -1538,7 +2554,7 @@ Traditional transportation planning treats highway exits and local streets as se
 <li><strong>Temporal Rhythm</strong>: Arrives at campus early (07:00), dismisses around 16:30–17:30, followed by a noticeable <strong>"cram school dispersal peak" between 20:30 and 21:30</strong>.</li>
 <li><strong>Behavioral Traits</strong>: Clusters heavily near education corridors (e.g., Nanyang Street in Taipei, Yizhong District in Taichung, Kaohsiung Station Qianzhan) and evening night markets.</li>
 </ul>
-<h3 id="4-weekend-tourists-inbound-visitors">4. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg>️ Weekend Tourists &amp; Inbound Visitors</h3>
+<h3 id="4-weekend-tourists-inbound-visitors">4. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M18 10h4a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h4"/><path d="m14 10-2-6-2 6"/><circle cx="12" cy="14" r="4"/></svg> Weekend Tourists &amp; Inbound Visitors</h3>
 <ul>
 <li><strong>Core Attribute</strong>: <code>Single-Journey Token</code>, <code>Mobile QR Ticket</code>, or short-duration travel passes.</li>
 <li><strong>Temporal Rhythm</strong>: Low ridership during workdays; <strong>surges from 10:00 on Saturdays and Sundays</strong>, remaining elevated until 22:30 at night.</li>
@@ -1552,8 +2568,8 @@ Traditional transportation planning treats highway exits and local streets as se
 <ul>
 <li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Sunny / Clear</strong>: Baseline volume; all transit modes operate along standard schedules.</li>
 <li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M12 2v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="M20 12h2"/><path d="m19.07 4.93-1.41 1.41"/><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></svg> Cloudy</strong>: Minor psychological effect; slight displacement from outdoor destinations toward indoor malls.</li>
-<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/><line x1="16" y1="13" x2="16" y2="15"/></svg>️ Rainy</strong>: Surface road speeds decrease by 15%; YouBike bike rentals plummet by 45%.</li>
-<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/></svg>️ Torrential Rain / Storm</strong>: Extreme weather stress test; severe street ponding and impaired visibility.</li>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><path d="M20 16.58A5 5 0 0 0 18 7h-1.26A8 8 0 1 0 4 15.25"/><line x1="8" y1="19" x2="8" y2="21"/><line x1="8" y1="13" x2="8" y2="15"/><line x1="16" y1="19" x2="16" y2="21"/><line x1="16" y1="13" x2="16" y2="15"/></svg> Rainy</strong>: Surface road speeds decrease by 15%; YouBike bike rentals plummet by 45%.</li>
+<li><strong><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M19 16.9A5 5 0 0 0 18 7h-1.26a8 8 0 1 0-11.62 9"/><polyline points="13 11 9 17 15 17 11 23"/></svg> Torrential Rain / Storm</strong>: Extreme weather stress test; severe street ponding and impaired visibility.</li>
 </ul>
 <h3 id="2-modal-elasticity-under-torrential-rain">2. Modal Elasticity under Torrential Rain</h3>
 <p>Empirical data reveals starkly divergent fates across transportation modes during storms:</p>
@@ -1594,10 +2610,10 @@ Traditional transportation planning treats highway exits and local streets as se
 <p>The most poignant empirical finding concerns senior citizens:<br />
 When conditions shift from "Sunny" to "Torrential Rain," <strong>65+ senior citizen transit card taps plummet by 62.8%</strong>!<br />
 This quantitatively demonstrates that extreme weather imposes severe "spatial isolation" on senior citizens. The provision of community healthcare shuttles and sheltered rain corridors is an urgent priority in an aging society.</p>
-<p><img alt="Figure 5.1: Personas Lab &amp; Weather Sensitivity Simulation Interface" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch5_weather_personas_lab.webp" />
+<p><img alt="Figure 5.1: Personas Lab &amp; Weather Sensitivity Simulation Interface" src="images/ch5_weather_personas_lab.webp" />
 <em>Figure 5.1: Live Application Interface — Weather Simulation Lab showing YouBike rentals plunging -53.7%, bus surges absorbing +11.1%, and metro shelters carrying +7.6% under torrential rain, alongside 24-hour student commuting waveforms.</em></p>
 <hr />
-<h2 id="54-hands-on-operational-walkthrough-testing-scenarios">5.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Testing Scenarios</h2>
+<h2 id="54-hands-on-operational-walkthrough-testing-scenarios">5.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Testing Scenarios</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -1629,17 +2645,14 @@ Public transit resilience is not measured by sunny day capacity, but by stormy d
 </blockquote>
 <p>Having examined how meteorological forces disrupt daily trips, we expand our view in the next chapter to examine 30 years of macroeconomic climate change across the island of Taiwan!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter4_etag_halos_heatmap">⬅ Chapter 4: Hotspot Radiation & Off-Ramp Catchment Halos</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter6_climate_pulse">Chapter 6: Islandwide Climate Pulse & Microclimate Livability <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter6_climate_pulse"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 6: Islandwide Climate Pulse & Microclimate Livability <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter6_climate_pulse">
+            <a id="chapter6_climate_pulse" name="chapter6_climate_pulse"></a>
             <div class="chapter-content">
                 <h1 id="chapter-6-islandwide-climate-pulse-microclimate-livability-30-year-variations-microclimate-extremes-and-12-month-seasonal-tidal-rhythms">Chapter 6: Islandwide Climate Pulse &amp; Microclimate Livability — 30-Year Variations, Microclimate Extremes, and 12-Month Seasonal Tidal Rhythms</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter6_climate_pulse"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter6_climate_pulse">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"Across an island spanning merely 394 kilometers from north to south, yet thrusting nearly 4,000 meters into the sky along its central spine, weather is never uniform background noise. It is the primary exogenous force constantly reshaping surface travel routes, traffic safety, and livability."</em></p>
 </blockquote>
@@ -1660,13 +2673,13 @@ Public transit resilience is not measured by sunny day capacity, but by stormy d
 ├───────────────────┬───────────────────────────────┬─────────────────────────────┤
 │ Dimension         │ Islandwide Macro Trend        │ Spatial Extremes &amp; Hotspots │
 ├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🌡️ Mean Temp Rise │ Island average net rise +0.72°C│ Taipei Basin exceeds +0.84°C│
+│  Mean Temp Rise │ Island average net rise +0.72°C│ Taipei Basin exceeds +0.84°C│
 │                   │ (Recent decade vs. 1998-2007) │ Coastal breeze zones +0.2°C │
 ├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 🔥 Extreme Heat   │ Days with Max Temp ≥35°C      │ Taipei gains +21.9 days/yr  │
+│  Extreme Heat   │ Days with Max Temp ≥35°C      │ Taipei gains +21.9 days/yr  │
 │    (Hot35 Days)   │ doubled islandwide (+18.4 d)  │ East Rift Foehn +19.5 d/yr  │
 ├───────────────────┼───────────────────────────────┼─────────────────────────────┤
-│ 📉 Rain Days Drop │ Rain days down -12.6 days/yr  │ Windward North/Central drops│
+│  Rain Days Drop │ Rain days down -12.6 days/yr  │ Windward North/Central drops│
 │                   │ Total rainfall stable         │ Cloudburst intensity spikes │
 └───────────────────┴───────────────────────────────┴─────────────────────────────┘
 </code></pre>
@@ -1688,34 +2701,34 @@ The basin topography prevents maritime sea breezes from flushing trapped heat. C
 <pre><code>┌─────────────────────────────────────────────────────────────────────────────────┐
 │               National Microclimate Livability &amp; Extreme Rankings               │
 ├───────────────────┬────────────────────────────────┬────────────────────────────┤
-│ Dimension         │ 👑 Champion Station (Highest)   │ <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>️ Optimal / Resilient Site│
+│ Dimension         │  Champion Station (Highest)   │ <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Optimal / Resilient Site│
 ├───────────────────┼────────────────────────────────┼────────────────────────────┤
-│ 🍄 Dehumidifier   │ Yangmingshan Anbu (Mold: 98)   │ Penghu / Taichung (Mold: 43│
+│  Dehumidifier   │ Yangmingshan Anbu (Mold: 98)   │ Penghu / Taichung (Mold: 43│
 │    Full-Load List │ Linkou Plateau (77) · Keelung(65│ Moderate humidity, sunshine│
 ├───────────────────┼────────────────────────────────┼────────────────────────────┤
-│ <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>️ Natural Typhoon│ Taichung (Shelter Score: 85)   │ Orchid Island (Wind: 28)   │
+│ <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Natural Typhoon│ Taichung (Shelter Score: 85)   │ Orchid Island (Wind: 28)   │
 │    Shelter Harbor │ Changhua (83) · Puli (82)      │ Green Island · Hengchun    │
 ├───────────────────┼────────────────────────────────┼────────────────────────────┤
-│ 🌂 Dry Commute    │ Taichung City (Umbrella: 21.4%)│ Keelung City (Umbrella: 48%│
+│  Dry Commute    │ Taichung City (Umbrella: 21.4%)│ Keelung City (Umbrella: 48%│
 │    Leaderboard    │ Changhua (22.1%) · Tainan (23%)│ Suao (46.8%) · Anbu (55%)  │
 ├───────────────────┼────────────────────────────────┼────────────────────────────┤
 │ <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg> Sunshine Capital│ Tainan City (2,185 hrs/year)   │ Anbu (952 hrs/year)        │
 │                   │ Kaohsiung (2,112h) · Hengchun  │ Keelung Rainy Port (1,224h)│
 ├───────────────────┼────────────────────────────────┼────────────────────────────┤
-│ 🌙 Cool Summer    │ Alishan (No AC Needed: 98 pts) │ Taipei Heat Island (38 pts)│
+│  Cool Summer    │ Alishan (No AC Needed: 98 pts) │ Taipei Heat Island (38 pts)│
 │    Nights         │ Sun Moon Lake (85) · Sanxing(78│ Chiayi Inland Plain (41)   │
 └───────────────────┴───────────────────────────────┴─────────────────────────────┘
 </code></pre>
-<h3 id="1-mold-index-top-3-the-247-dehumidifier-zones">1. 🍄 Mold Index Top 3: The 24/7 Dehumidifier Zones</h3>
+<h3 id="1-mold-index-top-3-the-247-dehumidifier-zones">1.  Mold Index Top 3: The 24/7 Dehumidifier Zones</h3>
 <ul>
 <li><strong>#1 Yangmingshan Anbu / Huoshaoliao (Mold Index: 98)</strong>: Windward frontline of the northeast monsoon; annual rainfall exceeds 4,000mm, with over 210 days exceeding relative humidity $&gt;85\%$.</li>
 <li><strong>#2 New Taipei Linkou Plateau (Mold Index: 77)</strong>: Tableland elevation at 250m; autumn/winter advection fog and inversion layers cause heavy indoor dampness.</li>
 <li><strong>#3 Keelung Rainy Port (Mold Index: 65)</strong>: Locked by monsoon fronts from October through February; dehumidifier tanks fill daily.</li>
 </ul>
-<h3 id="2-natural-typhoon-shelter-the-central-mountain-range-barrier">2. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>️ Natural Typhoon Shelter: The Central Mountain Range Barrier</h3>
+<h3 id="2-natural-typhoon-shelter-the-central-mountain-range-barrier">2. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Natural Typhoon Shelter: The Central Mountain Range Barrier</h3>
 <p>Soaring over 3,000 meters, the Central Mountain Range creates a natural <strong>"Typhoon Shield"</strong>:<br />
 When severe typhoons make landfall on the east coast, gale-force southeasterly winds and rain bands are intercepted and forced upwards on the eastern slopes. Taichung, Changhua, and the Nantou Basin sit in the leeward subsidence zone. Historical typhoon data confirms that Taichung records the lowest average peak gusts and disaster loss indices among lowland counties (<strong>Shelter Score: 85</strong>), making it an optimal sanctuary for semiconductor fabs and precision manufacturing.</p>
-<h3 id="3-dry-commuting-the-rain-free-living-corridor">3. 🌂 Dry Commuting: The Rain-Free Living Corridor</h3>
+<h3 id="3-dry-commuting-the-rain-free-living-corridor">3.  Dry Commuting: The Rain-Free Living Corridor</h3>
 <p>For scooter riders and pedestrians, rain is the primary mobility hurdle. Data shows that the <strong>plains south of Taichung down to Tainan</strong> form Taiwan's driest commuter corridor, with peak-hour rain probabilities below <strong>22%</strong>. In contrast, Keelung and Yilan experience commuter umbrella rates near <strong>50%</strong>, requiring comprehensive sheltered walkway infrastructure at transit interchanges.</p>
 <hr />
 <h2 id="64-12-month-islandwide-seasonal-climatology-tidal-rhythms">6.4 12-Month Islandwide Seasonal Climatology Tidal Rhythms</h2>
@@ -1777,7 +2790,7 @@ When severe typhoons make landfall on the east coast, gale-force southeasterly w
 </tbody>
 </table>
 <hr />
-<h2 id="67-hands-on-operational-walkthrough-exploring-the-climate-pulse-lab">6.7 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Exploring the Climate Pulse Lab</h2>
+<h2 id="67-hands-on-operational-walkthrough-exploring-the-climate-pulse-lab">6.7 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Exploring the Climate Pulse Lab</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -1808,17 +2821,14 @@ Microclimate is the silent factor determining long-term asset value. An intercha
 </blockquote>
 <p>Having analyzed macro climate forces across the island, we now transition to the economic pulse: how do these passenger flows translate into commercial vitality, retail opportunities, and EV charging investments?</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter5_personas_weather">⬅ Chapter 5: Four Micro-Personas & Weather Sensitivity</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter7_commercial_pulse">Chapter 7: Commercial Pulse & Station Hub Intelligence <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter7_commercial_pulse"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 7: Commercial Pulse & Station Hub Intelligence <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter7_commercial_pulse">
+            <a id="chapter7_commercial_pulse" name="chapter7_commercial_pulse"></a>
             <div class="chapter-content">
                 <h1 id="chapter-7-commercial-pulse-station-hub-intelligence-tod-catchments-ev-supercharging-retail-grab-and-go">Chapter 7: Commercial Pulse &amp; Station Hub Intelligence — TOD Catchments, EV Supercharging &amp; Retail Grab-and-Go</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter7_commercial_pulse"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter7_commercial_pulse">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"A station is no longer a mere platform where passengers hurry past each other, but the cardiac valve of an urban ecosystem. With every contraction and expansion of human movement, tens of billions in commercial energy are propelled into motion."</em></p>
 </blockquote>
@@ -1864,7 +2874,7 @@ Under modern Transit-Oriented Development (TOD) frameworks, stations have transf
 <li><strong>Cross-County Catchment Rays (OD Catchment Rays)</strong>: By tracing eTag interchange flows, the system maps the origin living spheres and highway corridors used by shoppers (e.g., Mitsui Outlet Park Linkou draws 44.5% of visitors from Taipei, 32% from Taoyuan, and 14.5% from Hsinchu).</li>
 <li><strong>Average Basket Value &amp; Consumer Demographics</strong>: Pairs vehicle flow attributes with household income profiles to estimate mean transaction sizes (NT$ 5,680) and family retail preferences.</li>
 </ul>
-<p><img alt="Figure 7.1: Flagship Retail Driving Catchment Rays and Cross-County Shopper HUD" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch6_commercial_retail_gravity.webp" />
+<p><img alt="Figure 7.1: Flagship Retail Driving Catchment Rays and Cross-County Shopper HUD" src="images/ch6_commercial_retail_gravity.webp" />
 <em>Figure 7.1: Live Application Interface — Commercial catchment analysis of Mitsui Outlet Park Linkou, displaying 46,500 daily weekend vehicles, 78.5% private auto share, and targeted B2B advertising recommendations.</em></p>
 <hr />
 <h3 id="2-scheme-b-freeway-ev-high-speed-supercharging-site-selection-cpo-roi-engine">2. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Scheme B: Freeway EV High-Speed Supercharging Site Selection &amp; CPO ROI Engine</h3>
@@ -1873,7 +2883,7 @@ Under modern Transit-Oriented Development (TOD) frameworks, stations have transf
 <li><strong>Dynamic ROI Simulation Engine</strong>: Users customize the number of stalls (e.g., 4 dispensers, 8 plugs) and retail electricity tariff (NT$ 9.8~11.8 / kWh); the engine instantly computes equipment utilization, annual revenue, and dynamic payback periods.</li>
 <li><strong>Taipower Feeder Capacity Assessment</strong>: Evaluates 11.4kV extra-high-voltage feeder capacity and grid connection complexity, recommending premier Charge Point Operators (Tesla Supercharger V4, U-POWER, Fortune Electric).</li>
 </ul>
-<p><img alt="Figure 7.2: Freeway EV High-Speed Supercharger Selection &amp; Dynamic CPO ROI Engine" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch6_ev_charging_roi_simulator.webp" />
+<p><img alt="Figure 7.2: Freeway EV High-Speed Supercharger Selection &amp; Dynamic CPO ROI Engine" src="images/ch6_ev_charging_roi_simulator.webp" />
 <em>Figure 7.2: Live Application Interface — EV Supercharger selection at Freeway 1 Linkou Interchange (Wenhua North Road Node), illustrating 118,500 daily gantry vehicles, 2.1-minute off-ramp access, and a 2.5-year capital payback period.</em></p>
 <hr />
 <h3 id="3-fb-grab-and-go-meal-time-slots-fb-radar">3. <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2"><path d="M3 11c0-3.87 4.03-7 9-7s9 3.13 9 7H3z"/><rect x="2" y="15" width="20" height="4" rx="2"/></svg> F&amp;B Grab-and-Go Meal Time Slots (F&amp;B Radar)</h3>
@@ -1956,7 +2966,7 @@ Under modern Transit-Oriented Development (TOD) frameworks, stations have transf
 </tbody>
 </table>
 <hr />
-<h2 id="75-hands-on-operational-walkthrough-exploring-commercial-opportunities">7.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: Exploring Commercial Opportunities</h2>
+<h2 id="75-hands-on-operational-walkthrough-exploring-commercial-opportunities">7.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: Exploring Commercial Opportunities</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -1989,17 +2999,14 @@ Footfall volume does not equal purchasing power. Commuters moving at 1.5 m/s dur
 </blockquote>
 <p>In the next chapter, we synthesize these disparate data foundations into an overarching national strategy: the Door-to-Door full-day travel closed loop!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter6_climate_pulse">⬅ Chapter 6: Islandwide Climate Pulse & Microclimate Livability</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter8_data_fusion_strategy">Chapter 8: National Multi-Source Data Fusion Strategy <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter8_data_fusion_strategy"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 8: National Multi-Source Data Fusion Strategy <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter8_data_fusion_strategy">
+            <a id="chapter8_data_fusion_strategy" name="chapter8_data_fusion_strategy"></a>
             <div class="chapter-content">
                 <h1 id="chapter-8-national-multi-source-data-fusion-strategy-door-to-door-closed-loop-policy-selection-matrix">Chapter 8: National Multi-Source Data Fusion Strategy — Door-to-Door Closed Loop &amp; Policy Selection Matrix</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter8_data_fusion_strategy"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter8_data_fusion_strategy">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"A single data source captures only one fragment of the puzzle: transit ticketing sees order within the faregates, eTag sees speed upon the freeway, and cellular signaling sees wandering on the open streets. Only through rigorous fusion can one behold the complete soul of this island."</em></p>
 </blockquote>
@@ -2137,8 +3144,10 @@ Our system introduces a groundbreaking engineering paradigm: <strong>【Inversel
 </tr>
 </tbody>
 </table>
+<p><img alt="Figure 8.1: Government &amp; Enterprise Decision Matrix for Multi-Source Data Selection" src="images/ch7_door_to_door_fusion.webp" />
+<em>Figure 8.1: Live Application Interface for Act III Data Strategy &amp; Selection Guide. Clearly categorizing four operational scenarios: "Prioritize Transit Ticketing (TICP)", "Prioritize Freeway eTag Flows", "Prioritize Cellular Signaling", and "Strongly Recommend Three-Source Fusion (TOD Door-to-Door Closed Loop)".</em></p>
 <hr />
-<h2 id="85-hands-on-operational-walkthrough">8.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough</h2>
+<h2 id="85-hands-on-operational-walkthrough">8.5 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -2166,17 +3175,14 @@ In public policy, there is no single "magic bullet" dataset. The mark of mature 
 </blockquote>
 <p>Now that we have established the theoretical framework for national multimodal data fusion, we culminate in Chapter 9 by examining its ultimate operational manifestation: real-time scenic tourism intelligence, 4K live CCTVs, and holiday traffic management!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter7_commercial_pulse">⬅ Chapter 7: Commercial Pulse & Station Hub Intelligence</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"><a class="nav-btn next-btn" href="#chapter9_tourism_mobility_cctv">Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a><a class="nav-btn nav-next" href="#chapter9_tourism_mobility_cctv"><svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg> Proceed to Next Chapter: Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a></div>
         </section>
         
         <section class="chapter-section" id="chapter9_tourism_mobility_cctv">
+            <a id="chapter9_tourism_mobility_cctv" name="chapter9_tourism_mobility_cctv"></a>
             <div class="chapter-content">
                 <h1 id="chapter-9-scenic-tourism-live-cctvs-holiday-traffic-dispersal-mountain-coast-pulses-real-time-travel-intelligence">Chapter 9: Scenic Tourism, Live CCTVs &amp; Holiday Traffic Dispersal — Mountain-Coast Pulses &amp; Real-Time Travel Intelligence</h1>
-<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [ 🇬🇧 English ] | <a href="#../chapter9_tourism_mobility_cctv"> 🇹🇼 繁體中文版 </a></p>
+<p><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> <strong>Language Switcher / 語言切換</strong>: [  English ] | <a href="#../chapter9_tourism_mobility_cctv">  繁體中文版 </a></p>
 <blockquote>
 <p><em>"On workdays, national highways serve as the steel arteries of industrial supply chains and commuter tides; on holidays, they become the emotional conduits of twenty-three million souls escaping toward mountains and seas. When high-speed rail terminates and off-ramp traffic overflows, how do we harness live visual streams and climatological data to master the nation's tourism pulse?"</em></p>
 </blockquote>
@@ -2223,9 +3229,9 @@ In public policy, there is no single "magic bullet" dataset. The mark of mature 
     B1 & B2 & B3 --> D
     C1 & C2 & C3 --> D
 
-    D --> E1["<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>️ GIS Interactive CCTV Layer & Instant Preview"]
+    D --> E1["<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg> GIS Interactive CCTV Layer & Instant Preview"]
     D --> E2["<svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Climate Comfort vs. Highway Congestion Matrix"]
-    D --> E3["🎥 Immersive 4K/360° Real-Time Audio/Video Stream"]</code></pre>
+    D --> E3[" Immersive 4K/360° Real-Time Audio/Video Stream"]</code></pre>
 <h3 id="data-alignment-specifications">Data Alignment Specifications</h3>
 <table>
 <thead>
@@ -2257,11 +3263,11 @@ In public policy, there is no single "magic bullet" dataset. The mark of mature 
 </tr>
 </tbody>
 </table>
-<p><img alt="Figure 9-1: National Tourism Destinations, Live CCTV Feeds, and Mobility Lab Panorama" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch9_tourism_mobility_lab.webp" />
+<p><img alt="Figure 9-1: National Tourism Destinations, Live CCTV Feeds, and Mobility Lab Panorama" src="images/ch9_tourism_mobility_lab.webp" />
 <em>Figure 9-1: Live Application Interface — Tourism Destinations &amp; Live CCTV Dashboard spanning six geographical clusters, CODiS historical travel windows, eTag holiday surge multipliers, and TaiwanTrip bus connections.</em></p>
 <hr />
 <h2 id="93-in-depth-mobility-profiles-across-six-scenic-clusters">9.3 In-Depth Mobility Profiles across Six Scenic Clusters</h2>
-<p><img alt="Figure 9-2: Immersive 4K / 360° Live Streaming Window" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch9_tourism_live_cctv_modal.webp" />
+<p><img alt="Figure 9-2: Immersive 4K / 360° Live Streaming Window" src="images/ch9_tourism_live_cctv_modal.webp" />
 <em>Figure 9-2: Live Application Interface — Immersive 4K / 360° Live Streaming Window (Matsu Nangan Iron Fort demo), featuring an ad-free stream paired with real-time weather and highway transit sidebars.</em></p>
 <h3 id="1-chiayi-alishan-alpine-sea-of-clouds-corridor-11-live-feeds">1. Chiayi Alishan Alpine Sea of Clouds Corridor (11 Live Feeds)</h3>
 <ul>
@@ -2306,7 +3312,7 @@ In public policy, there is no single "magic bullet" dataset. The mark of mature 
 <li><strong>Transit Recommendation</strong>: Island public buses paired with TaiwanTrip Kinmen/Penghu routes, avoiding rental scooter exhaustion under extreme sun.</li>
 </ul>
 <hr />
-<h2 id="94-hands-on-operational-walkthrough-cctv-tourism-hub">9.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>️ Hands-on Operational Walkthrough: CCTV &amp; Tourism Hub</h2>
+<h2 id="94-hands-on-operational-walkthrough-cctv-tourism-hub">9.4 <svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Hands-on Operational Walkthrough: CCTV &amp; Tourism Hub</h2>
 <div class="portal-callout">
     <div class="portal-badge"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Official Live Web Application Portal (Click to Open)</div>
     <div class="portal-content">
@@ -2321,17 +3327,17 @@ In public policy, there is no single "magic bullet" dataset. The mark of mature 
 
 <h3 id="operational-steps">Operational Steps:</h3>
 <ol>
-<li>Click the link above or click <strong>【📷 Scenic CCTV (74)】</strong> on the top navigation bar.</li>
+<li>Click the link above or click <strong>【 Scenic CCTV (74)】</strong> on the top navigation bar.</li>
 <li><strong>Filter by Region &amp; Visual Mode</strong>:<br />
    Click the cluster buttons (e.g., <strong>"Chiayi Alishan"</strong>, <strong>"Yilan &amp; Northeast Coast"</strong>, or <strong>"Offshore Islands"</strong>) to filter the 74 destinations.<br />
    Toggle between <strong>"360° Panoramic"</strong>, <strong>"Pan-Tilt-Zoom (PTZ)"</strong>, and <strong>"Fixed Lens"</strong>.</li>
 <li><strong>Open the Immersive Live Stream</strong>:<br />
-   Click on the <strong>"🎥 Watch Live Stream"</strong> button on any card.<br />
+   Click on the <strong>" Watch Live Stream"</strong> button on any card.<br />
    The modal window streams an ad-free 4K YouTube Live feed, accompanied by local CODiS weather metrics, eTag holiday surge multipliers, and TaiwanTrip bus connections.</li>
 <li><strong>Switch to GIS Map CCTV View</strong>:<br />
-   Navigate to <strong>【GIS Map】<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>【Dynamic FlowMap】</strong> and toggle the <strong>"📷 74 Scenic CCTVs"</strong> button on the control bar. Golden camera pins will appear across Taiwan, allowing you to preview scenic feeds directly on the map alongside dynamic traffic flows!</li>
+   Navigate to <strong>【GIS Map】<svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>【Dynamic FlowMap】</strong> and toggle the <strong>" 74 Scenic CCTVs"</strong> button on the control bar. Golden camera pins will appear across Taiwan, allowing you to preview scenic feeds directly on the map alongside dynamic traffic flows!</li>
 </ol>
-<p><img alt="Figure 9-3: GIS Dynamic Corridors with Integrated 74 Scenic CCTV Pins" src="/home/toby/projects/Github/taiwan-mobility-pulse/docs/images/ch9_flowmap_cctv_layer.webp" />
+<p><img alt="Figure 9-3: GIS Dynamic Corridors with Integrated 74 Scenic CCTV Pins" src="images/ch9_flowmap_cctv_layer.webp" />
 <em>Figure 9-3: Live Application Interface — FlowMap featuring the golden CCTV layer activated, displaying 74 live camera pins across Taiwan alongside dynamic transit particles.</em></p>
 <hr />
 <h2 id="95-public-policy-smart-travel-insights">9.5 <svg class="inline-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Public Policy &amp; Smart Travel Insights</h2>
@@ -2344,11 +3350,7 @@ Traditional holiday traffic management relied on static roadside variable messag
 <p>Over 9 macro chapters, we have journeyed from the foundational data philosophy of rigid ticketing baselines and zero-drift highway sensors, through 111 dynamic corridors, off-ramp catchment halos, micro-personas, 30-year climate trends, and TOD commercial hubs, culminating in live 4K scenic video streams.</p>
 <p>Taiwan's mobility pulse is neither a static map nor cold numbers in an audit report. It is the living, synchronized rhythm of 23 million people interacting with their island's mountains, coasts, cities, and weather. May this interactive monograph serve as an illuminating benchmark for intelligent transportation engineering, urban spatial science, and national data governance!</p>
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev"><a class="nav-btn prev-btn" href="#chapter8_data_fusion_strategy">⬅ Chapter 8: National Multi-Source Data Fusion Strategy</a></div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Back to Table of Contents</a></div>
-                <div class="nav-next"></div>
-            </div>
+            <div class="chapter-nav"><a class="nav-btn nav-prev" href="#README"><svg class="inline-svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> Back to Master Table of Contents</a></div>
         </section>
         
 </body>

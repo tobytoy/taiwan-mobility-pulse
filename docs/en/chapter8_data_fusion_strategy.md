@@ -101,6 +101,9 @@ In practice, public agencies and enterprise buyers frequently struggle with data
 | **TOD Commercial & Retail Planning**| **Ticketing (Anchors) + Cellular (Catchments)** | Anchors station exit counts while mapping surrounding street shopping and walking radii. |
 | **Islandwide Multi-Modal Split** | **TICP (Rail/Transit) + eTag (Highway)** | Purest mutually exclusive combination; streams add together directly with zero double-counting. |
 
+![Figure 8.1: Government & Enterprise Decision Matrix for Multi-Source Data Selection](../images/ch7_door_to_door_fusion.webp)
+*Figure 8.1: Live Application Interface for Act III Data Strategy & Selection Guide. Clearly categorizing four operational scenarios: "Prioritize Transit Ticketing (TICP)", "Prioritize Freeway eTag Flows", "Prioritize Cellular Signaling", and "Strongly Recommend Three-Source Fusion (TOD Door-to-Door Closed Loop)".*
+
 ---
 
 ## 8.5 🛠️ Hands-on Operational Walkthrough

@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 Taiwan Mobility Pulse - English Master Book PDF Generator
-Converts markdown chapters in docs/en/ into a beautifully styled single-volume PDF with:
-1. Active clickable external hyperlinks to live web app (https://tobytoy.github.io/taiwan-mobility-pulse/#...)
-2. Active internal clickable anchor jumps between chapters and Table of Contents
-3. Automatic PDF outline/bookmarks from chapter headings
-4. Gorgeous publication-grade typography, CSS diagrams, and portal teleportation cards
-5. Native A4 page layout with headers, footers, and page numbers via WeasyPrint
+Converts markdown chapters in docs/en/ into a publication-grade single-volume PDF with:
+1. Publication-grade dark mode layout, typography & CSS (#0b0f19)
+2. Strict image containment (max-width: 100% !important)
+3. Active clickable external hyperlinks to live web app (https://tobytoy.github.io/taiwan-mobility-pulse/#...)
+4. Active internal clickable anchor jumps between chapters and Table of Contents
+5. Automatic PDF outline/bookmarks from chapter headings
+6. Native A4 page layout with headers, footers, and page numbers via WeasyPrint
 """
 
 import os
@@ -19,12 +20,19 @@ import weasyprint
 import pdfplumber
 import pypdfium2
 
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# Ensure scripts directory is on sys.path to import book_css
+SCRIPTS_DIR = os.path.dirname(os.path.abspath(__file__))
+if SCRIPTS_DIR not in sys.path:
+    sys.path.insert(0, SCRIPTS_DIR)
+from book_css import get_book_css
+
+PROJECT_ROOT = os.path.dirname(SCRIPTS_DIR)
 DOCS_DIR = os.path.join(PROJECT_ROOT, "docs")
 EN_DOCS_DIR = os.path.join(DOCS_DIR, "en")
-OUTPUT_HTML = os.path.join(EN_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.html")
-OUTPUT_PDF = os.path.join(EN_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.pdf")
 PUBLIC_DOCS_DIR = os.path.join(PROJECT_ROOT, "public", "docs")
+PUBLIC_IMAGES_DIR = os.path.join(PUBLIC_DOCS_DIR, "images")
+OUTPUT_HTML = os.path.join(PUBLIC_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.html")
+OUTPUT_PDF = os.path.join(PUBLIC_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.pdf")
 
 CHAPTERS = [
     ("README.md", "Preface & Master Guidebook Navigation", "README"),
@@ -39,14 +47,26 @@ CHAPTERS = [
     ("chapter9_tourism_mobility_cctv.md", "Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal", "chapter9_tourism_mobility_cctv"),
 ]
 
+def sync_images():
+    """Ensure images are copied from docs/images to public/docs/images."""
+    os.makedirs(PUBLIC_IMAGES_DIR, exist_ok=True)
+    src_images_dir = os.path.join(DOCS_DIR, "images")
+    if os.path.exists(src_images_dir):
+        for fname in os.listdir(src_images_dir):
+            src_f = os.path.join(src_images_dir, fname)
+            dst_f = os.path.join(PUBLIC_IMAGES_DIR, fname)
+            if os.path.isfile(src_f):
+                shutil.copy2(src_f, dst_f)
+        print(f"Synced {len(os.listdir(src_images_dir))} images to {PUBLIC_IMAGES_DIR}")
+
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts in English."""
     if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code):
         steps = [
             ("Chapter 1: Data Philosophy & Selection", "Rigid Skeleton vs. Flexible Muscle", "chapter1_data_philosophy"),
-            ("Chapter 2: Data Foundation & Schemas", "Time Horizons, Dictionaries & CODiS Specs", "chapter2_data_dictionary_and_samples"),
-            ("Chapter 3: Intercity & Urban Corridors", "111 Dynamic Corridors & Passenger/Freight Tides", "chapter3_flow_arteries"),
-            ("Chapter 4: Off-Ramp Catchment Halos", "eTag Flow Injection & Parking Pressure Interlocking", "chapter4_etag_halos_heatmap"),
+            ("Chapter 2: National Data Foundation", "Schema Dictionaries & CODiS Climate Standards", "chapter2_data_dictionary_and_samples"),
+            ("Chapter 3: Intercity Arteries & Corridors", "111 Corridors & Passenger/Freight Tides", "chapter3_flow_arteries"),
+            ("Chapter 4: Hotspot Halos & Off-Ramps", "eTag Vehicle Influx & Parking Pressure", "chapter4_etag_halos_heatmap"),
             ("Chapter 5: Four Personas & Weather", "Who Moves? How Rain Reshapes Routes", "chapter5_personas_weather"),
             ("Chapter 6: Islandwide Climate Pulse", "30-Year Trends, Extremes & Seasonal Tides", "chapter6_climate_pulse"),
             ("Chapter 7: Commercial Hub Pulse", "TOD Living Spheres, EV Charging & F&B Retail", "chapter7_commercial_pulse"),
@@ -247,7 +267,7 @@ def render_pipeline_safety_diagram() -> str:
             <div class="pipeline-col-sub">PyArrow Streaming Pipeline</div>
             <ul class="pipeline-list">
                 <li>16MB chunk streaming decompress, zero disk I/O bottlenecks</li>
-                <li>Polars LazyFrame projection & filter pushdown; strictly <1.5GB RAM</li>
+                <li>Polars LazyFrame projection & filter pushdown; strictly &lt;1.5GB RAM</li>
             </ul>
         </div>
     </div>
@@ -537,48 +557,42 @@ def replace_emojis_in_html(html: str) -> str:
         chunk = parts[idx]
         tag_parts = re.split(r'(<[^>]+>)', chunk)
         for t_idx in range(0, len(tag_parts), 2):
-            text_chunk = tag_parts[t_idx]
-            for emo, svg in EMOJI_SVG_MAP.items():
-                if emo in text_chunk:
-                    text_chunk = text_chunk.replace(emo, svg)
-            tag_parts[t_idx] = text_chunk
+            text = tag_parts[t_idx]
+            if text:
+                for emo, svg in EMOJI_SVG_MAP.items():
+                    text = text.replace(emo + '\ufe0f', svg).replace(emo, svg)
+                # Remove any remaining astral unicode emojis to protect Cairo from CBDT glyph bugs
+                text = re.sub(r'[\U00010000-\U0010ffff](?:\ufe0f)?', '', text)
+                tag_parts[t_idx] = text
         parts[idx] = "".join(tag_parts)
     return "".join(parts)
 
 def build_html() -> str:
     print("Building English Master Book HTML...")
+    sync_images()
     body_parts = []
 
     # Cover Page
     cover_html = '''
     <div class="cover-page">
-        <div class="cover-badge">National Big Data & Spatial Intelligence Monograph</div>
+        <div class="cover-badge">National Mobility Big Data & Spatial Intelligence Monograph · Official Guide (v1.3.0)</div>
         <h1 class="cover-title">Taiwan Mobility Pulse</h1>
         <h2 class="cover-subtitle">The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
-        <div class="cover-meta">
-            <p><strong>Primary Data Sources:</strong> MOTC TICP Ticketing (448M Census Records), Freeway Bureau eTag Gantries (5 Vehicle Classes), TDX Parking & CCTV, CWA CODiS (30-Year Climate Data)</p>
-            <p><strong>Methodological Scope:</strong> Multimodal Corridor Extraction, Off-Ramp Halos, 4 Micro-Personas, Climate Disruption & TOD Hubs</p>
-            <p><strong>Edition:</strong> Publication Edition v1.3.0 · Full Scenic CCTV & Climatology Integration</p>
-            <p><strong>Date:</strong> October 2026</p>
+        <p class="cover-desc">
+            Synthesizing 448 million verified ticket tap transactions from MOTC TICP, millions of Freeway Bureau eTag gantry vehicle observations across 5 regulatory classes, TDX 74 scenic 4K/360° live CCTV streams, and CWA CODiS 30-year microclimate observations.<br>
+            Deciphering 111 dynamic flow corridors, islandwide weather disruption tides, and scenic mountain-to-coast tourism pulses.
+        </p>
+        <div class="cover-meta-card">
+            <div class="cover-meta-row"><strong>Official Interactive System:</strong> <a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
+            <div class="cover-meta-row"><strong>Publication Edition:</strong> Version 1.3.0 (Master Monograph · 9 Comprehensive Chapters)</div>
+            <div class="cover-meta-row"><strong>Research & Engineering Team:</strong> Taiwan Mobility Pulse Core Spatial Analytics Lab</div>
+            <div class="cover-meta-row"><strong>Authoritative Data Sources:</strong> MOTC TICP / TDX Platform / Freeway Bureau / CWA / Tourism Administration</div>
+            <div class="cover-meta-row"><strong>Publication Date:</strong> October 2026 (v1.3.0)</div>
         </div>
     </div>
     '''
     body_parts.append(cover_html)
-
-    # Table of Contents
-    toc_html = ['<div class="toc-page" id="toc">', '<h1 class="toc-title">Table of Contents</h1>', '<div class="toc-list">']
-    for idx, (filename, title, anchor) in enumerate(CHAPTERS):
-        prefix = f"Chapter {idx}" if idx > 0 else "Frontmatter"
-        toc_html.append(f'''
-        <a class="toc-item" href="#{anchor}">
-            <span class="toc-badge">{prefix}</span>
-            <span class="toc-name">{title}</span>
-            <span class="toc-dots"></span>
-        </a>
-        ''')
-    toc_html.append('</div></div>')
-    body_parts.append("\n".join(toc_html))
 
     # Chapters
     for idx, (filename, chapter_title, anchor) in enumerate(CHAPTERS):
@@ -590,58 +604,40 @@ def build_html() -> str:
         with open(file_path, "r", encoding="utf-8") as f:
             raw_content = f.read()
 
-        # Fix relative image paths: ../images/ -> ../images/ (relative to docs/en/ is fine, or absolute file://)
-        raw_content = raw_content.replace('](../images/', '](' + os.path.join(DOCS_DIR, 'images') + '/')
-        raw_content = raw_content.replace('](images/', '](' + os.path.join(DOCS_DIR, 'images') + '/')
+        # Normalize relative image paths to 'images/...' so they resolve against public/docs/
+        raw_content = re.sub(r'\]\(\.\./images/', '](images/', raw_content)
+        raw_content = re.sub(r'\]\(images/', '](images/', raw_content)
 
         processed_html = process_markdown(raw_content, anchor)
 
-        nav_prev = ""
-        nav_next = ""
-        if idx > 0:
-            prev_file, prev_title, prev_anchor = CHAPTERS[idx - 1]
-            nav_prev = f'<a class="nav-btn prev-btn" href="#{prev_anchor}">⬅ {prev_title}</a>'
-        if idx < len(CHAPTERS) - 1:
-            next_file, next_title, next_anchor = CHAPTERS[idx + 1]
-            nav_next = f'<a class="nav-btn next-btn" href="#{next_anchor}">{next_title} ➔</a>'
+        # Navigation bar at the bottom of each chapter
+        nav_html = '<div class="chapter-nav">'
+        if anchor != "README":
+            nav_html += '<a class="nav-btn nav-prev" href="#README">📖 Back to Master Table of Contents</a>'
+        if idx + 1 < len(CHAPTERS):
+            next_title = CHAPTERS[idx + 1][1]
+            next_cid = CHAPTERS[idx + 1][2]
+            nav_html += f'<a class="nav-btn nav-next" href="#{next_cid}">👉 Proceed to Next Chapter: {next_title} ➔</a>'
+        nav_html += '</div>'
 
         chapter_html = f'''
         <section class="chapter-section" id="{anchor}">
+            <a id="{anchor}" name="{anchor}"></a>
             <div class="chapter-content">
                 {processed_html}
             </div>
-            <div class="chapter-nav">
-                <div class="nav-prev">{nav_prev}</div>
-                <div class="nav-toc"><a class="nav-btn toc-btn" href="#toc">📑 Back to Table of Contents</a></div>
-                <div class="nav-next">{nav_next}</div>
-            </div>
+            {nav_html}
         </section>
         '''
         body_parts.append(chapter_html)
 
-    # Use the same comprehensive CSS styling as the Chinese master book
-    with open(os.path.join(os.path.dirname(__file__), "build_book_pdf.py"), "r", encoding="utf-8") as f:
-        src_py = f.read()
-    css_match = re.search(r'css = """(.*?)"""', src_py, flags=re.DOTALL)
-    if css_match:
-        css = css_match.group(1)
-    else:
-        css = ""
-
-    # Adjust cover font and language tags
-    css += '''
-    @page {
-        @top-right {
-            content: "Taiwan Mobility Pulse | v1.3.0";
-        }
-    }
-    '''
+    css = get_book_css(lang="en")
 
     full_html = f'''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition)</title>
+    <title>Taiwan Mobility Pulse - Master Guidebook (English Edition v1.3.0)</title>
     <style>{css}</style>
 </head>
 <body>
@@ -651,21 +647,18 @@ def build_html() -> str:
 '''
     full_html = replace_emojis_in_html(full_html)
 
+    os.makedirs(PUBLIC_DOCS_DIR, exist_ok=True)
     with open(OUTPUT_HTML, "w", encoding="utf-8") as f:
         f.write(full_html)
-    os.makedirs(PUBLIC_DOCS_DIR, exist_ok=True)
-    shutil.copy2(OUTPUT_HTML, os.path.join(PUBLIC_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.html"))
-    print(f"English HTML generated at: {OUTPUT_HTML} and {PUBLIC_DOCS_DIR}")
+    print(f"English HTML generated at: {OUTPUT_HTML}")
     return OUTPUT_HTML
 
 def generate_pdf_weasyprint():
     print("Generating English Master PDF with WeasyPrint...")
-    html = weasyprint.HTML(filename=OUTPUT_HTML)
+    html = weasyprint.HTML(filename=OUTPUT_HTML, base_url=PUBLIC_DOCS_DIR)
     html.write_pdf(OUTPUT_PDF)
-    os.makedirs(PUBLIC_DOCS_DIR, exist_ok=True)
-    shutil.copy2(OUTPUT_PDF, os.path.join(PUBLIC_DOCS_DIR, "taiwan_mobility_pulse_guidebook_en.pdf"))
     size_mb = os.path.getsize(OUTPUT_PDF) / (1024 * 1024)
-    print(f"English Master PDF generated at: {OUTPUT_PDF} and copied to {PUBLIC_DOCS_DIR} ({size_mb:.2f} MB)")
+    print(f"English Master PDF generated at: {OUTPUT_PDF} ({size_mb:.2f} MB)")
 
 def verify_pdf():
     print("Verifying English PDF structure and hyperlinks...")
@@ -696,10 +689,10 @@ def verify_pdf():
         print(f"Found {len(external_links)} active external links in English PDF.")
         print(f"Found {len(internal_links)} active internal anchor links in English PDF.")
         print("\nSample External Links:")
-        for page_num, uri in external_links[:8]:
+        for page_num, uri in external_links[:6]:
             print(f"  [Page {page_num}] {uri}")
         print("\nSample Internal Anchor Links:")
-        for page_num, dest in internal_links[:8]:
+        for page_num, dest in internal_links[:6]:
             print(f"  [Page {page_num}] #{dest}")
 
 if __name__ == "__main__":

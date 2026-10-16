@@ -244,3 +244,10 @@ __marimo__/
 # temp files
 TMP/
 
+# Avoid storing compiled large PDF and HTML books in docs/ source folders (hosted under public/docs/)
+docs/*.pdf
+docs/*.html
+docs/en/*.pdf
+docs/en/*.html
+
+

@@ -10,7 +10,7 @@
         background-color: #0b0f19;
         @top-left {
             content: "台灣動態移動脈搏 · Taiwan Mobility Pulse";
-            font-family: 'Noto Sans TC', -apple-system, sans-serif;
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
             font-size: 8pt;
             color: #64748b;
             border-bottom: 0.5pt solid #1e293b;
@@ -18,7 +18,7 @@
         }
         @top-right {
             content: "國家級多源動態移動全書指南 · v1.3.0";
-            font-family: 'Noto Sans TC', -apple-system, sans-serif;
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
             font-size: 8pt;
             color: #64748b;
             border-bottom: 0.5pt solid #1e293b;
@@ -26,7 +26,7 @@
         }
         @bottom-left {
             content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.3.0)";
-            font-family: 'Noto Sans TC', -apple-system, sans-serif;
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
             font-size: 7.5pt;
             color: #64748b;
             border-top: 0.5pt solid #1e293b;
@@ -34,7 +34,7 @@
         }
         @bottom-right {
             content: "第 " counter(page) " 頁 / 共 " counter(pages) " 頁";
-            font-family: 'Noto Sans TC', -apple-system, sans-serif;
+            font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
             font-size: 8pt;
             color: #94a3b8;
             border-top: 0.5pt solid #1e293b;
@@ -90,16 +90,16 @@
         font-size: 9.5pt;
         padding: 6px 18px;
         border-radius: 20px;
-        margin-bottom: 28px;
-        letter-spacing: 1.5px;
+        margin-bottom: 24px;
+        letter-spacing: 1.2px;
     }
 
     .cover-title {
-        font-size: 34pt;
+        font-size: 32pt;
         font-weight: 900;
         color: #f8fafc;
         margin: 0 0 16px 0;
-        letter-spacing: 3px;
+        letter-spacing: 2px;
         line-height: 1.25;
     }
 
@@ -107,7 +107,7 @@
         font-size: 12.5pt;
         font-weight: 500;
         color: #94a3b8;
-        margin: 0 0 36px 0;
+        margin: 0 0 32px 0;
         line-height: 1.5;
         max-width: 680px;
     }
@@ -116,16 +116,16 @@
         width: 140px;
         height: 4px;
         background: linear-gradient(90deg, #38bdf8, #818cf8);
-        margin: 0 auto 36px auto;
+        margin: 0 auto 32px auto;
         border-radius: 2px;
     }
 
     .cover-desc {
-        font-size: 11pt;
+        font-size: 10.5pt;
         color: #cbd5e1;
-        line-height: 1.9;
+        line-height: 1.85;
         max-width: 620px;
-        margin: 0 auto 50px auto;
+        margin: 0 auto 42px auto;
         text-align: center;
     }
 
@@ -133,11 +133,11 @@
         background: rgba(17, 24, 39, 0.85);
         border: 1px solid rgba(71, 85, 105, 0.6);
         border-radius: 12px;
-        padding: 22px 28px;
-        font-size: 9.5pt;
+        padding: 20px 26px;
+        font-size: 9.2pt;
         color: #cbd5e1;
         text-align: left;
-        line-height: 2.1;
+        line-height: 2.0;
         width: 100%;
         max-width: 620px;
         margin: 0 auto;
@@ -230,10 +230,11 @@
         margin: 18pt 0;
     }
 
-    /* Screenshots & Figures */
+    /* Screenshots & Figures - STRICT WIDTH FIT */
     img {
-        max-width: 100%;
-        height: auto;
+        max-width: 100% !important;
+        width: 100% !important;
+        height: auto !important;
         border-radius: 8px;
         box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
         border: 1px solid #1e293b;
@@ -243,12 +244,12 @@
         break-inside: avoid;
     }
 
-    p > em:only-child {
+    p > em:only-child, p.figure-caption, em.caption {
         display: block;
         text-align: center;
         color: #94a3b8;
         font-size: 8.8pt;
-        margin-top: -3pt;
+        margin-top: 4pt;
         margin-bottom: 14pt;
         font-style: normal;
         line-height: 1.45;
@@ -289,7 +290,7 @@
         width: 100%;
         border-collapse: collapse;
         margin: 14pt 0;
-        font-size: 9pt;
+        font-size: 8.8pt;
         page-break-inside: avoid;
         break-inside: avoid;
     }
@@ -390,13 +391,13 @@
     }
 
     .portal-url-label {
-        font-family: 'Noto Sans TC', sans-serif;
+        font-family: 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', -apple-system, sans-serif;
         font-size: 8.5pt;
         color: #64748b;
     }
 
     .portal-url-link {
-        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, 'Noto Sans TC', monospace;
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, monospace;
         font-size: 8pt;
         color: #38bdf8;
         text-decoration: underline;
@@ -607,7 +608,7 @@
 
     /* Code & Pre Blocks */
     pre, code {
-        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, 'Noto Sans TC', monospace;
+        font-family: 'Noto Sans Mono CJK TC', 'Liberation Mono', SFMono-Regular, Consolas, Menlo, Monaco, monospace;
     }
 
     pre {
@@ -1028,6 +1029,84 @@
     .choice-etag    { background: #1a2f18; color: #34d399; border: 1px solid #059669; }
     .choice-telecom { background: #321c45; color: #c084fc; border: 1px solid #8b5cf6; }
     .choice-fusion  { background: #3d230d; color: #fbbf24; border: 1px solid #d97706; }
+
+    /* Pipeline Diagram */
+    .pipeline-diagram {
+        background: #0a0e1a;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        padding: 12pt;
+        margin: 14pt 0;
+        page-break-inside: avoid;
+        break-inside: avoid;
+    }
+
+    .pipeline-head {
+        background: #111827;
+        border: 1px solid #0284c7;
+        border-radius: 6px;
+        padding: 6pt;
+        text-align: center;
+        font-weight: 800;
+        font-size: 9.5pt;
+        color: #38bdf8;
+    }
+
+    .pipeline-connector {
+        text-align: center;
+        color: #64748b;
+        font-size: 7.5pt;
+        font-weight: 700;
+        margin: 6pt 0;
+    }
+
+    .pipeline-columns {
+        display: flex;
+        gap: 8pt;
+    }
+
+    .pipeline-col {
+        flex: 1;
+        background: #101726;
+        border-radius: 6px;
+        padding: 8pt 10pt;
+        border: 1px solid #1e293b;
+    }
+
+    .col-privacy { border-top: 3px solid #34d399; }
+    .col-stream  { border-top: 3px solid #38bdf8; }
+
+    .pipeline-col-title {
+        font-size: 8.8pt;
+        font-weight: 800;
+        color: #f8fafc;
+        margin-bottom: 2pt;
+    }
+
+    .pipeline-col-sub {
+        font-size: 7.2pt;
+        color: #64748b;
+        margin-bottom: 6pt;
+    }
+
+    .pipeline-list {
+        margin: 0;
+        padding-left: 12pt;
+        font-size: 7.8pt;
+        color: #cbd5e1;
+        line-height: 1.45;
+    }
+
+    .pipeline-foot {
+        background: #101726;
+        border: 1px solid #d97706;
+        border-radius: 6px;
+        padding: 6pt;
+        text-align: center;
+        font-size: 8.5pt;
+        font-weight: 700;
+        color: #fbbf24;
+    }
     </style>
 </head>
 <body>

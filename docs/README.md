@@ -6,7 +6,8 @@
 > 「一座城市的呼吸，寫在清晨第一班捷運的刷卡記錄裡；一個國家的脈搏，躍動在午夜奔馳於國道上的重型貨車輪下。」
 
 > 📥 **全書完整版專著**：本書已編纂為出版級電子書（含 9 大巨章、全彩數據結構圖、三向對照表與可點擊互動傳送門）：  
-> 👉 **[開啟中文版專著 (v1.3.0 全新觀光即時影像融合典藏版)](taiwan_mobility_pulse_guidebook.pdf)** | **[🇬🇧 English Master Edition (v1.3.0)](taiwan_mobility_pulse_guidebook_en.pdf)**
+> 👉 **[開啟中文版專著 (v1.3.0 全新觀光即時影像融合典藏版)](../public/docs/taiwan_mobility_pulse_guidebook.pdf)** | **[🇬🇧 English Master Edition (v1.3.0)](../public/docs/taiwan_mobility_pulse_guidebook_en.pdf)**  
+> 🌐 **[進入線上閱讀與另存新檔下載中心 ➔](https://tobytoy.github.io/taiwan-mobility-pulse/#download)**
 
 ---
 
