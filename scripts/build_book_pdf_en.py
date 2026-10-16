@@ -45,6 +45,7 @@ CHAPTERS = [
     ("chapter7_commercial_pulse.md", "Chapter 7: Commercial Pulse & Station Hub Intelligence", "chapter7_commercial_pulse"),
     ("chapter8_data_fusion_strategy.md", "Chapter 8: National Multi-Source Data Fusion Strategy", "chapter8_data_fusion_strategy"),
     ("chapter9_tourism_mobility_cctv.md", "Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal", "chapter9_tourism_mobility_cctv"),
+    ("chapter10_traffic_safety_blackspots.md", "Chapter 10: Nationwide Historical Traffic Safety & Fatal Blackspots Atlas", "chapter10_traffic_safety_blackspots"),
 ]
 
 def sync_images():
@@ -61,7 +62,7 @@ def sync_images():
 
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts in English."""
-    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code):
+    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code or "C10" in code):
         steps = [
             ("Chapter 1: Data Philosophy & Selection", "Rigid Skeleton vs. Flexible Muscle", "chapter1_data_philosophy"),
             ("Chapter 2: National Data Foundation", "Schema Dictionaries & CODiS Climate Standards", "chapter2_data_dictionary_and_samples"),
@@ -72,6 +73,7 @@ def render_mermaid_replacement(code: str) -> str:
             ("Chapter 7: Commercial Hub Pulse", "TOD Living Spheres, EV Charging & F&B Retail", "chapter7_commercial_pulse"),
             ("Chapter 8: Multi-Source Data Fusion", "Door-to-Door Closed Loop & Policy Matrix", "chapter8_data_fusion_strategy"),
             ("Chapter 9: Scenic Tourism & Live CCTV", "74 4K Feeds, Mountain-Coast Pulses & Smart Travel", "chapter9_tourism_mobility_cctv"),
+            ("Chapter 10: Nationwide Traffic Safety Atlas", "1,339 Spatial Blackspots & Vision Zero", "chapter10_traffic_safety_blackspots"),
         ]
         html = ['<div class="flowchart-container">']
         for i, (title, sub, cid) in enumerate(steps, 1):

@@ -54,11 +54,12 @@ CHAPTERS = [
     ("chapter7_commercial_pulse.md", "第七章：商業脈搏與站點商機評估", "chapter7_commercial_pulse"),
     ("chapter8_data_fusion_strategy.md", "第八章：國家級大數據融合戰略", "chapter8_data_fusion_strategy"),
     ("chapter9_tourism_mobility_cctv.md", "第九章：全台觀光名勝、景點即時影像 (CCTV) 與假日疏運大數據", "chapter9_tourism_mobility_cctv"),
+    ("chapter10_traffic_safety_blackspots.md", "第十章：全台歷史道安大數據與 A1 重大事故黑點圖譜", "chapter10_traffic_safety_blackspots"),
 ]
 
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts."""
-    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code):
+    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code or "C10" in code):
         # Chapter overview flowchart
         steps = [
             ("第一章：數據哲學與選型抉擇", "剛性骨架 vs. 彈性肌肉", "chapter1_data_philosophy"),
@@ -70,6 +71,7 @@ def render_mermaid_replacement(code: str) -> str:
             ("第七章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter7_commercial_pulse"),
             ("第八章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter8_data_fusion_strategy"),
             ("第九章：全台觀光名勝、景點即時影像 (CCTV) 與假日疏運大數據", "74 處 4K/360° 串流、山海脈動與即時旅運決策", "chapter9_tourism_mobility_cctv"),
+            ("第十章：全台歷史道安大數據與 A1 重大事故黑點圖譜", "1,339 處空間黑點、碰撞型態解碼與零死亡願景", "chapter10_traffic_safety_blackspots"),
         ]
         html = ['<div class="flowchart-container">']
         for i, (title, sub, cid) in enumerate(steps, 1):

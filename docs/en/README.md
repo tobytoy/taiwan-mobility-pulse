@@ -40,6 +40,7 @@ flowchart TD
     C6 --> C7["&emsp;Chapter 7: Commercial Pulse & Station Hub Intelligence&emsp;<br/>&emsp;(TOD Catchments, EV Supercharging & Retail Grab-and-Go)&emsp;"]
     C7 --> C8["&emsp;Chapter 8: National Multi-Source Data Fusion Strategy&emsp;<br/>&emsp;(Door-to-Door Closed Loop & Policy Selection Matrix)&emsp;"]
     C8 --> C9["&emsp;Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal&emsp;<br/>&emsp;(74 4K/360° Live Feeds, Mountain-Coast Pulses & Smart Travel)&emsp;"]
+    C9 --> C10["&emsp;Chapter 10: Nationwide Historical Traffic Safety & Fatal Blackspots Atlas&emsp;<br/>&emsp;(1,339 Spatial Blackspots, Collision Topology & Vision Zero)&emsp;"]
 ```
 
 ### 📑 Chapter Overviews
@@ -62,6 +63,8 @@ flowchart TD
   * Formulates the "1 + 1 + 1 > 3" Door-to-Door full-day travel closed loop. Details the pioneering inverse calibration algorithm using hard ticketing/eTag anchors to rectify cellular signaling expansion bias, followed by a procurement decision matrix.
 * **[Chapter 9: Scenic Tourism, Live CCTVs & Holiday Traffic Dispersal — Real-Time Travel Intelligence](chapter9_tourism_mobility_cctv.md)**
   * Fuses MOTC Tourism Administration's 74 4K/360° scenic live CCTVs, CWA CODiS climatology, Freeway eTag holiday surge multipliers (+320%), and 92 TaiwanTrip bus routes into a 4D decision framework for real-time crowd inspection, weather comfort, and congestion bypass.
+* **[Chapter 10: Nationwide Historical Traffic Safety Big Data & A1 Fatal Blackspots Atlas — Spatial Conflicts & Vision Zero](chapter10_traffic_safety_blackspots.md)**
+  * Interfaces with MOTC TDX Historical Traffic Database and Event Codebook. Decodes 1,339 nationwide fatal A1 incidents (1,367 deaths, 571 injuries) for 2022, verifying that 69.6% of deaths concentrate in local street networks, led by side impacts (18.3%), angle crossings (11.3%), and precipitation vulnerability (13.2% · 177 cases).
 
 ---
 
@@ -80,6 +83,7 @@ Clicking the hyperlinked portals below opens the live web application in a new b
 | **Ch 7** Commercial Pulse | Top 30 transit hubs, EV supercharging gaps | [👉 Commercial Pulse & Station Intelligence](https://tobytoy.github.io/taiwan-mobility-pulse/#commercial-lab) | Select "Taipei Main Station" or "Banqiao" to view right HUD commercial diagnostics |
 | **Ch 8** Global Fusion | Door-to-Door 5-stage loop, hard anchor calibration | [👉 Multi-Source Fusion & Decision Guide](https://tobytoy.github.io/taiwan-mobility-pulse/#telecom) | Examine the Yonghe ➔ Neihu travel reconstruction and TOD enterprise selection guide |
 | **Ch 9** Tourism & CCTV | 74 4K/360° live scenic feeds, holiday surge | [👉 Tourism Destinations & Live CCTV Dashboard](https://tobytoy.github.io/taiwan-mobility-pulse/#tourism) | Click "Live CCTV" to view mountain sea of clouds, CODiS best seasons & eTag surges |
+| **Ch 10** Traffic Safety | 1,339 A1 fatal blackspots, rain/night risk topology | [👉 Historical Traffic Safety Blackspots Atlas](https://tobytoy.github.io/taiwan-mobility-pulse/#flows) | Toggle "⚠️ 1,339 Safety Blackspots (On)", filter by "🌧️ Rain" & "🚶 Pedestrian", view decoded cards |
 
 ---
 
