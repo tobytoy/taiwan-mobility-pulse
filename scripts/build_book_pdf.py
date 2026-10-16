@@ -33,11 +33,12 @@ CHAPTERS = [
     ("chapter6_climate_pulse.md", "第六章：全島氣候脈動與微氣候宜居圖譜", "chapter6_climate_pulse"),
     ("chapter7_commercial_pulse.md", "第七章：商業脈搏與站點商機評估", "chapter7_commercial_pulse"),
     ("chapter8_data_fusion_strategy.md", "第八章：國家級大數據融合戰略", "chapter8_data_fusion_strategy"),
+    ("chapter9_tourism_mobility_cctv.md", "第九章：全台觀光名勝、景點即時影像 (CCTV) 與假日疏運大數據", "chapter9_tourism_mobility_cctv"),
 ]
 
 def render_mermaid_replacement(code: str) -> str:
     """Renders Mermaid code into clean, publication-grade CSS flowcharts."""
-    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code):
+    if "C1" in code and ("C6" in code or "C7" in code or "C8" in code or "C9" in code):
         # Chapter overview flowchart
         steps = [
             ("第一章：數據哲學與選型抉擇", "剛性骨架 vs. 彈性肌肉", "chapter1_data_philosophy"),
@@ -48,6 +49,7 @@ def render_mermaid_replacement(code: str) -> str:
             ("第六章：全島氣候脈動與微氣候宜居圖譜", "30 年變異、極端排行與四季潮汐", "chapter6_climate_pulse"),
             ("第七章：商業脈搏與站點商機評估", "樞紐生活圈、EV 充電與零售快銷", "chapter7_commercial_pulse"),
             ("第八章：國家級大數據融合戰略", "門到門閉環與政策落地選型", "chapter8_data_fusion_strategy"),
+            ("第九章：全台觀光名勝、景點即時影像 (CCTV) 與假日疏運大數據", "74 處 4K/360° 串流、山海脈動與即時旅運決策", "chapter9_tourism_mobility_cctv"),
         ]
         html = ['<div class="flowchart-container">']
         for i, (title, sub, cid) in enumerate(steps, 1):
@@ -564,20 +566,20 @@ def build_html():
     # Cover Page
     body_parts.append('''
     <div class="cover-page">
-        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.2.1)</div>
+        <div class="cover-badge">國家級交通大數據與微觀人流研究專著 · 官方旗艦指南 (v1.3.0)</div>
         <h1 class="cover-title">台灣動態移動脈搏</h1>
         <h2 class="cover-subtitle">Taiwan Mobility Pulse: The Master Guide to National Multi-Modal Mobility & Spatial Intelligence</h2>
         <div class="cover-divider"></div>
         <p class="cover-desc">
-            融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 空間機能 API、中央氣象署 CODiS 30 年氣候觀測，<br>
-            解構台灣地表上最震撼的 111 條動態走廊、全島微氣候潮汐、輻射光暈與全域閉環數據戰略。
+            融匯交通部 TICP 4.48 億筆真實票證、高速公路局 eTag 門架車流、TDX 觀光署 74 處 4K/360° 即時影像 CCTV、<br>
+            中央氣象署 CODiS 30 年氣候觀測，解構台灣地表上最震撼的 111 條動態走廊、全島微氣候潮汐與觀光山海脈動。
         </p>
         <div class="cover-meta-card">
             <div class="cover-meta-row"><strong>官方線上即時系統：</strong><a href="https://tobytoy.github.io/taiwan-mobility-pulse/">https://tobytoy.github.io/taiwan-mobility-pulse/</a></div>
-            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.2.1 (全景精裝專著版 · 8巨章全域閉環)</div>
+            <div class="cover-meta-row"><strong>全書出版版本：</strong>Version 1.3.0 (全景精裝專著版 · 9巨章全域閉環)</div>
             <div class="cover-meta-row"><strong>研究編製團隊：</strong>Taiwan Mobility Pulse 核心研究組</div>
-            <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署</div>
-            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.2.1)</div>
+            <div class="cover-meta-row"><strong>數據權責機關：</strong>交通部 TICP / 交通部 TDX / 交通部高速公路局 / 交通部中央氣象署 / 交通部觀光署</div>
+            <div class="cover-meta-row"><strong>發行出刊日期：</strong>2026 年 10 月 (v1.3.0)</div>
         </div>
     </div>
     ''')
@@ -627,7 +629,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @top-right {
-            content: "國家級多源動態移動全書指南 · v1.2.1";
+            content: "國家級多源動態移動全書指南 · v1.3.0";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 8pt;
             color: #64748b;
@@ -635,7 +637,7 @@ def build_html():
             padding-bottom: 4px;
         }
         @bottom-left {
-            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.2.1)";
+            content: "https://tobytoy.github.io/taiwan-mobility-pulse/ (v1.3.0)";
             font-family: 'Noto Sans TC', -apple-system, sans-serif;
             font-size: 7.5pt;
             color: #64748b;
